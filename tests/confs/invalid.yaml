@@ -1,0 +1,8 @@
+job:
+  KIND: TrainingJob
+  inputs:
+    KIND: ParquetDataset
+    path: tests/data/MISSING # invalid
+  target:
+    KIND: ParquetDataset
+    path: tests/data/MISSING # invalid

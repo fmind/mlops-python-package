@@ -1,0 +1,9 @@
+job:
+  KIND: InferenceJob
+  inputs:
+    KIND: ParquetDataset
+    path: tests/data/inputs.parquet
+  output:
+    KIND: ParquetDataset
+    path: ${tmp_path:}/output.parquet
+  model_path: tests/models/model.joblib

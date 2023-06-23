@@ -1,0 +1,29 @@
+# https://git-scm.com/docs/gitignore
+
+# Build
+/dist/
+
+# Cache
+.coverage*
+.mypy_cache/
+.pytest_cache/
+
+# Editor
+/.idea/
+/.vscode/
+
+# Environs
+/.venv/
+poetry.lock
+
+# Notebooks
+.ipynb_checkpoints/
+
+# Project
+/docs/*
+/outputs/*
+!**/.gitkeep
+
+# Python
+*.py[cod]
+__pycache__/

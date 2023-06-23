@@ -1,0 +1,87 @@
+# https://python-poetry.org/docs/pyproject/
+
+# PACKAGE
+
+[tool.poetry]
+name = "wines"
+version = "0.1.0"
+description = "TODO"
+repository = "https://github.com/fmind/wines"
+authors = ["Médéric HURIER <github@fmind.dev>"]
+readme = "README.md"
+license = "CC BY"
+packages = [
+    { include = "wines", from = "src" },
+]
+
+# SCRIPTS
+
+[tool.poetry.scripts]
+wines = 'wines.scripts:main'
+
+# DEPENDENCIES
+
+[tool.poetry.dependencies]
+python = ">=3.11,<3.12"
+cloudpathlib = "^0.15.0"
+loguru = "^0.7.0"
+omegaconf = "^2.3.0"
+pandas = "^2.0.2"
+pandera = "^0.15.1"
+pyarrow = "^12.0.0"
+pydantic = "^1.10.8"
+scikit-learn = "^1.2.2"
+
+[tool.poetry.group.dev.dependencies]
+invoke = "^2.1.2"
+ipykernel = "^6.23.1"
+pre-commit = "^3.3.2"
+
+[tool.poetry.group.bumpers.dependencies]
+bump2version = "^1.0.1"
+
+[tool.poetry.group.checkers.dependencies]
+coverage = "^7.2.7"
+mypy = "^1.3.0"
+pylint = "^2.17.4"
+pytest = "^7.3.1"
+pytest-cov = "^4.1.0"
+pytest-xdist = "^3.3.1"
+
+[tool.poetry.group.documenters.dependencies]
+pdoc = "^13.1.1"
+
+[tool.poetry.group.formatters.dependencies]
+black = "^23.3.0"
+isort = "^5.12.0"
+
+# CONFIGURATIONS
+
+[tool.black]
+line-length = 120
+
+[tool.coverage.run]
+branch = true
+
+[tool.isort]
+line_length = 120
+profile = "black"
+
+[tool.mypy]
+check_untyped_defs = true
+ignore_missing_imports = true
+plugins = [ "pandera.mypy", "pydantic.mypy" ]
+
+[tool.pylint.MASTER]
+disable = [
+    'too-few-public-methods',
+    'too-many-arguments',
+]
+max-line-length = 120
+extension-pkg-whitelist = "pydantic"
+
+# SYSTEMS
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

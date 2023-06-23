@@ -1,0 +1,9 @@
+job:
+  KIND: TuningJob
+  inputs:
+    KIND: ParquetDataset
+    path: data/inputs.parquet
+  target:
+    KIND: ParquetDataset
+    path: data/target.parquet
+  output_results: outputs/results.csv
