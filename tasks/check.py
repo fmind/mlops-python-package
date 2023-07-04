@@ -43,9 +43,9 @@ def type(ctx: Context) -> None:
 @task
 def test(ctx: Context) -> None:
     """Check the tests with pytest."""
-    ctx.run("poetry run pytest -n auto tests/")
+    ctx.run("poetry run pytest tests/")
 
 
-@task(pre=[type, code, coverage, format, poetry], default=True)
+@task(pre=[type, code, coverage, format, poetry, test], default=True)
 def all(_: Context) -> None:
     """Run all check tasks."""
