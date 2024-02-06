@@ -1,35 +1,36 @@
 """Test the schemas module."""
+
 # pylint: disable=missing-docstring
 
 # %% IMPORTS
 
-from wines import datasets, schemas
+from bikes import datasets, schemas
 
 # %% SCHEMAS
 
 
-def test_inputs_schema(inputs_dataset: datasets.ParquetDataset):
+def test_inputs_schema(tests_inputs_reader: datasets.ParquetReader):
     # given
-    data = inputs_dataset.read()
-    # when
     schema = schemas.InputsSchema
-    # then
-    assert schema.check(data) is not None, "Data should be valid!"
-
-
-def test_target_schema(target_dataset: datasets.ParquetDataset):
-    # given
-    data = target_dataset.read()
     # when
-    schema = schemas.TargetSchema
+    data = tests_inputs_reader.read()
     # then
-    assert schema.check(data) is not None, "Data should be valid!"
+    assert schema.check(data) is not None, "Inputs data should be valid!"
 
 
-def test_output_schema(output_dataset: datasets.ParquetDataset):
+def test_targets_schema(tests_targets_reader: datasets.ParquetReader):
     # given
-    data = output_dataset.read()
+    schema = schemas.TargetsSchema
     # when
-    schema = schemas.OutputSchema
+    data = tests_targets_reader.read()
     # then
-    assert schema.check(data) is not None, "Data should be valid!"
+    assert schema.check(data) is not None, "Targets data should be valid!"
+
+
+def test_output_schema(tests_outputs_reader: datasets.ParquetReader):
+    # given
+    schema = schemas.OutputsSchema
+    # when
+    data = tests_outputs_reader.read()
+    # then
+    assert schema.check(data) is not None, "Outputs data should be valid!"

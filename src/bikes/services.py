@@ -1,4 +1,4 @@
-"""Configure global services for the program."""
+"""Manage global context during execution."""
 
 # %% IMPORTS
 
@@ -47,17 +47,14 @@ class LoggerService(Service):
 
     def start(self) -> None:
         """Start the logger service."""
-        # index
-        sinks = {
-            "stderr": sys.stderr,
-            "stdout": sys.stdout,
-        }
         # cleanup
         logger.remove()
         # convert
-        config = self.dict()
+        config = self.model_dump()
         # replace
-        # - use either a system stream or a file path for the sink
-        config["sink"] = sinks.get(config["sink"], config["sink"])
+        if config["sink"] == "stderr":
+            config["sink"] = sys.stderr
+        elif config["sink"] == "stdout":
+            config["sink"] = sys.stdout
         # config
         logger.add(**config)

@@ -1,39 +1,39 @@
 """Test the metrics module."""
+
 # pylint: disable=missing-docstring
 
 # %% IMPORTS
 
-import typing as T
-
 import pytest
 
-from wines import metrics, models, schemas
+from bikes import metrics, models, schemas
 
 # %% METRICS
 
 
 @pytest.mark.parametrize(
-    "greater_is_better, metric_name, interval",
+    "name, interval, greater_is_better",
     [
-        (True, "accuracy_score", [0, 1]),
-        (False, "balanced_accuracy_score", [-1, 0]),
+        ("mean_squared_error", [0, float("inf")], True),
+        ("mean_absolute_error", [float("-inf"), 0], False),
     ],
 )
 def test_sklearn_metric(
+    name: str,
+    interval: tuple[int, int],
     greater_is_better: bool,
-    metric_name: str,
-    interval: T.Tuple[int, int],
     default_model: models.Model,
     inputs: schemas.Inputs,
-    target: schemas.Target,
-    output: schemas.Output,
+    targets: schemas.Targets,
+    outputs: schemas.Outputs,
 ):
     # given
     low, high = interval
     # when
-    metric = metrics.SklearnMetric(name=metric_name, greater_is_better=greater_is_better)
-    score = metric.score(target=target, output=output)
-    scorer = metric.scorer(model=default_model, inputs=inputs, target=target)
+    metric = metrics.SklearnMetric(name=name, greater_is_better=greater_is_better)
+    score = metric.score(targets=targets, outputs=outputs)
+    scorer = metric.scorer(model=default_model, inputs=inputs, targets=targets)
     # then
+    assert score == scorer, "Score and scorer should be the same!"
     assert low <= score <= high, "Score is not in the expected interval!"
     assert low <= scorer <= high, "Scorer is not in the expected interval!"

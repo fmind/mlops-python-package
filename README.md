@@ -94,7 +94,7 @@ This section details the requirements, actions, and next steps to kickstart your
 
 ## Prerequisites
 
-- [Python>=3.11](https://www.python.org/downloads/) (to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.11.html))
+- [Python>=3.12](https://www.python.org/downloads/) (to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.12.html))
 - [Poetry>=1.5.1](https://python-poetry.org/) (to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies)
 
 ## Installation
@@ -813,7 +813,7 @@ class InputsSchema(Schema):
     proanthocyanins: papd.Series[float] = pa.Field(gt=0, lt=10)
     color_intensity: papd.Series[float] = pa.Field(gt=0, lt=100)
     hue: papd.Series[float] = pa.Field(gt=0, lt=10)
-    od280_od315_of_diluted_wines: papd.Series[float] = pa.Field(gt=0, lt=10)
+    od280_od315_of_diluted_bikes: papd.Series[float] = pa.Field(gt=0, lt=10)
     proline: papd.Series[float] = pa.Field(gt=0, lt=10000)
 ```
 

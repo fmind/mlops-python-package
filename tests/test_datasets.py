@@ -1,22 +1,29 @@
 """Test the datasets module."""
+
 # pylint: disable=missing-docstring
 
 # %% IMPORTS
 
 import os
 
-from wines import datasets
+from bikes import datasets, schemas
 
 # %% DATASETS
 
 
-def test_parquet_dataset(inputs_path: str, tmp_output_path: str):
+def test_parquet_reader(tests_inputs_path: str):
     # given
-    source = datasets.ParquetDataset(path=inputs_path)
-    dest = datasets.ParquetDataset(path=tmp_output_path)
+    reader = datasets.ParquetReader(path=tests_inputs_path)
     # when
-    data = source.read()
-    dest.write(data)
+    data = reader.read()
     # then
-    assert data.ndim == 2, "Data should be 2-dim dataframe!"
-    assert os.path.exists(tmp_output_path), "Output file should exist!"
+    assert data.ndim == 2, "Data should be a dataframe!"
+
+
+def test_parquet_writer(targets: schemas.Targets, tmp_outputs_path: str):
+    # given
+    writer = datasets.ParquetWriter(path=tmp_outputs_path)
+    # when
+    writer.write(data=targets)
+    # then
+    assert os.path.exists(tmp_outputs_path), "Data should be written!"

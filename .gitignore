@@ -4,6 +4,7 @@
 /dist/
 
 # Cache
+.cache/
 .coverage*
 .mypy_cache/
 .pytest_cache/
@@ -21,7 +22,6 @@ poetry.lock
 
 # Project
 /docs/*
-/outputs/*
 !**/.gitkeep
 
 # Python

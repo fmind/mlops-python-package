@@ -5,4 +5,4 @@ run:
   echo: true
 # project
 project:
-  name: wines
+  name: bikes

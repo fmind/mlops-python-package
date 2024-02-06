@@ -1,4 +1,5 @@
 """Check tasks for pyinvoke."""
+
 # pylint: disable=redefined-builtin
 
 # %% IMPORTS
@@ -35,15 +36,15 @@ def poetry(ctx: Context) -> None:
 
 
 @task
-def type(ctx: Context) -> None:
-    """Check the types with mypy."""
-    ctx.run("poetry run mypy src/ tasks/ tests/")
-
-
-@task
 def test(ctx: Context) -> None:
     """Check the tests with pytest."""
     ctx.run("poetry run pytest -n auto tests/")
+
+
+@task
+def type(ctx: Context) -> None:
+    """Check the types with mypy."""
+    ctx.run("poetry run mypy src/ tasks/ tests/")
 
 
 @task(pre=[type, code, coverage, format, poetry], default=True)

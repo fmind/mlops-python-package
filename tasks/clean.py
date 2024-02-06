@@ -1,4 +1,5 @@
 """Clean tasks for pyinvoke."""
+
 # pylint: disable=redefined-builtin
 
 # %% IMPORTS
@@ -10,16 +11,16 @@ from invoke.context import Context
 
 
 @task
-def dist(ctx: Context) -> None:
-    """Clean the dist folder."""
-    ctx.run("rm -f dist/*")
-
-
-@task
 def coverage(ctx: Context) -> None:
     """Clean coverage files."""
     ctx.run("rm -f .coverage")
     ctx.run("rm -f .coverage*")
+
+
+@task
+def dist(ctx: Context) -> None:
+    """Clean the dist folder."""
+    ctx.run("rm -f dist/*")
 
 
 @task
@@ -60,11 +61,11 @@ def python(ctx: Context) -> None:
     ctx.run("find . -type d -name __pycache__ -delete")
 
 
-@task(pre=[dist, coverage, docs, mypy, pytest, python], default=True)
+@task(pre=[coverage, dist, docs, mypy, pytest, python], default=True)
 def all(_: Context) -> None:
     """Run all clean tasks."""
 
 
-@task(pre=[all, install])
+@task(pre=[all, outputs, install])
 def reset(_: Context) -> None:
     """Reset the project state."""

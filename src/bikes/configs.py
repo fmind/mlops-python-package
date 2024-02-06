@@ -2,14 +2,12 @@
 
 # %% IMPORTS
 
-import typing as T
-
 from cloudpathlib import AnyPath
 from omegaconf import DictConfig, ListConfig, OmegaConf
 
 # %% TYPINGS
 
-Config = T.Union[ListConfig, DictConfig]
+Config = ListConfig | DictConfig
 
 # %% LOADERS
 
@@ -23,7 +21,7 @@ def load_config(path: str) -> Config:
     return config
 
 
-def load_configs(paths: T.List[str]) -> Config:
+def load_configs(paths: list[str]) -> Config:
     """Load configuration files."""
     configs = map(load_config, paths)
     config = OmegaConf.merge(*configs)

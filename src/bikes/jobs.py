@@ -8,7 +8,7 @@ import typing as T
 import pydantic as pdt
 from loguru import logger
 
-from wines import datasets, metrics, models, schemas, searchers, services, splitters
+from bikes import datasets, metrics, models, schemas, searchers, services, splitters
 
 # %% TYPINGS
 
@@ -57,8 +57,7 @@ class TuningJob(Job):
     KIND: T.Literal["TuningJob"] = "TuningJob"
 
     # data
-    inputs: datasets.DatasetKind
-    target: datasets.DatasetKind
+    data: datasets.ReaderKind
     # model
     model: models.ModelKind = models.BaselineSklearnModel()
     # metric
@@ -108,8 +107,7 @@ class TrainingJob(Job):
     KIND: T.Literal["TrainingJob"] = "TrainingJob"
 
     # data
-    inputs: datasets.DatasetKind
-    target: datasets.DatasetKind
+    data: datasets.Reader
     # model
     model: models.ModelKind = models.BaselineSklearnModel()
     # metric
@@ -162,11 +160,11 @@ class InferenceJob(Job):
     KIND: T.Literal["InferenceJob"] = "InferenceJob"
 
     # inputs
-    inputs: datasets.DatasetKind
+    inputs: datasets.Reader
     # model
     model_path: str
-    # output
-    output: datasets.DatasetKind
+    # outputs
+    outputs: datasets.Writer
 
     def run(self) -> Locals:
         """Run the inference job in context."""

@@ -1,4 +1,5 @@
 """Test the configs module."""
+
 # pylint: disable=missing-docstring
 
 # %% IMPORTS
@@ -7,7 +8,7 @@ import os
 
 from omegaconf import OmegaConf
 
-from wines import configs
+from bikes import configs
 
 # %% LOADERS
 

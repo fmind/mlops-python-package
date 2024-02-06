@@ -5,13 +5,14 @@
 import argparse
 
 import pydantic as pdt
+import pydantic_settings as pdts
 
-from wines import configs, jobs
+from bikes import configs, jobs
 
 # %% SETTINGS
 
 
-class Settings(pdt.BaseSettings):
+class Settings(pdts.BaseSettings):
     """Settings for the program."""
 
     job: jobs.JobKind = pdt.Field(..., discriminator="KIND")
@@ -30,6 +31,6 @@ def main() -> None:
     args = parser.parse_args()  # from sys.argv
     config = configs.load_configs(args.configs)
     object_ = configs.to_object(config)  # dict
-    settings = Settings.parse_obj(object_)
+    settings = Settings.model_validate(object_)
     with settings.job as runner:  # context
         runner.run()  # run in the context

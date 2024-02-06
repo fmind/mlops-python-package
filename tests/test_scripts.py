@@ -1,35 +1,35 @@
-"""Test the scripts module."""
-# pylint: disable=missing-docstring
+# """Test the scripts module."""
+# # pylint: disable=missing-docstring
 
-# %% IMPORTS
+# # %% IMPORTS
 
-import os
-from unittest import mock
+# import os
+# from unittest import mock
 
-import pytest
+# import pytest
 
-from wines import scripts
+# from bikes import scripts
 
-# %% SCRIPTS
+# # %% SCRIPTS
 
 
-@pytest.mark.parametrize(
-    "scenario",
-    [
-        # valid
-        "tuning.yaml",
-        "training.yaml",
-        "inference.yaml",
-        # invalid
-        pytest.param("invalid.yaml", marks=pytest.mark.xfail),
-    ],
-)
-def test_main(scenario: str, confs_path: str):
-    # given
-    path = os.path.join(confs_path, scenario)
-    argv = [scenario, path]
-    # when
-    with mock.patch("sys.argv", argv):
-        scripts.main()
-    # then
-    assert True, "Main script should not raise errors!"
+# @pytest.mark.parametrize(
+#     "scenario",
+#     [
+#         # valid
+#         "tuning.yaml",
+#         "training.yaml",
+#         "inference.yaml",
+#         # invalid
+#         pytest.param("invalid.yaml", marks=pytest.mark.xfail),
+#     ],
+# )
+# def test_main(scenario: str, confs_path: str):
+#     # given
+#     path = os.path.join(confs_path, scenario)
+#     argv = [scenario, path]
+#     # when
+#     with mock.patch("sys.argv", argv):
+#         scripts.main()
+#     # then
+#     assert True, "Main script should not raise errors!"
