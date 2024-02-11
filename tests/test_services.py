@@ -18,7 +18,6 @@ def test_logger_service(capsys):
     service.start()
     logger.info("INFO")
     logger.debug("DEBUG")
-    service.stop()  # no effect
     # then
     capture = capsys.readouterr()
     assert capture.err == "", "No output to stderr!"

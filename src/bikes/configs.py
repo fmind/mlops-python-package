@@ -1,19 +1,19 @@
-"""Read, convert, and manage config files."""
+"""Parse and merge config files."""
 
 # %% IMPORTS
 
 from cloudpathlib import AnyPath
 from omegaconf import DictConfig, ListConfig, OmegaConf
 
-# %% TYPINGS
+# %% TYPES
 
 Config = ListConfig | DictConfig
 
 # %% LOADERS
 
 
-def load_config(path: str) -> Config:
-    """Load a configuration file."""
+def parse_config(path: str) -> Config:
+    """Load a config file."""
     any_path = AnyPath(path)
     # pylint: disable=no-member
     text = any_path.read_text()  # type: ignore
@@ -21,9 +21,9 @@ def load_config(path: str) -> Config:
     return config
 
 
-def load_configs(paths: list[str]) -> Config:
-    """Load configuration files."""
-    configs = map(load_config, paths)
+def parse_configs(paths: list[str]) -> Config:
+    """Load and merge config files."""
+    configs = map(parse_config, paths)
     config = OmegaConf.merge(*configs)
     return config
 

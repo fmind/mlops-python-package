@@ -25,11 +25,6 @@ class Model(abc.ABC, pdt.BaseModel):
     # note: use models to adapt AI/ML frameworks
     # e.g., to swap easily one model with another
 
-    class Config:
-        """Default pydantic config."""
-
-        underscore_attrs_are_private = True
-
     KIND: str
 
     # pylint: disable=unused-argument
@@ -63,7 +58,7 @@ class BaselineSklearnModel(Model):
 
     # params
     max_depth: int = 20
-    n_estimators: int = 299
+    n_estimators: int = 200
     random_state: int | None = 42
     # private
     _pipeline: pipeline.Pipeline | None = None
@@ -88,7 +83,9 @@ class BaselineSklearnModel(Model):
 
     def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "BaselineSklearnModel":
         """Fit the baseline sklearn model on the given inputs and targets."""
+        # subcomponents
         categoricals_transformer = preprocessing.OneHotEncoder(sparse_output=False, handle_unknown="ignore")
+        # components
         transformer = compose.ColumnTransformer(
             [
                 ("categoricals", categoricals_transformer, self._categoricals),
@@ -99,6 +96,7 @@ class BaselineSklearnModel(Model):
         regressor = ensemble.RandomForestRegressor(
             max_depth=self.max_depth, n_estimators=self.n_estimators, random_state=self.random_state
         )
+        # pipeline
         self._pipeline = pipeline.Pipeline(
             steps=[
                 ("transformer", transformer),
@@ -111,7 +109,7 @@ class BaselineSklearnModel(Model):
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
         """Generate outputs with the baseline sklearn model for the given inputs."""
         assert self._pipeline is not None, "Model should be fitted first!"
-        prediction = self._pipeline.predict(inputs)  # return an np.ndarray not a dataframe!
+        prediction = self._pipeline.predict(inputs)  # return an np.ndarray, not a dataframe!
         outputs = schemas.Outputs({schemas.OutputsSchema.prediction: prediction}, index=inputs.index)
         return outputs
 

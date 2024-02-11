@@ -21,7 +21,6 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
 - [Tools](#tools)
   - [Automation](#automation-1)
     - [Commit: Pre-Commit](#commit-pre-commit)
-    - [Release: Bump2version](#release-bump2version)
     - [Tasks: PyInvoke](#tasks-pyinvoke)
   - [CLI](#cli)
     - [Parser: Argparse!](#parser-argparse)
@@ -95,7 +94,7 @@ This section details the requirements, actions, and next steps to kickstart your
 ## Prerequisites
 
 - [Python>=3.12](https://www.python.org/downloads/) (to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.12.html))
-- [Poetry>=1.5.1](https://python-poetry.org/) (to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies)
+- [Poetry>=1.7.1](https://python-poetry.org/) (to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies)
 
 ## Installation
 
@@ -134,18 +133,20 @@ You can add or edit config files in the `confs/` folder to change the program be
 job:
   KIND: TrainingJob
   inputs:
-    KIND: ParquetDataset
+    KIND: ParquetReader
     path: data/inputs.parquet
-  target:
-    KIND: ParquetDataset
-    path: data/target.parquet
-  output_model: outputs/model.joblib
+  targets:
+    KIND: ParquetReader
+    path: data/targets.parquet
+  serializer:
+    KIND: JoblibModelSerializer
+    path: models/model.joblib
 ```
 
 This config file instructs the program to start a `TrainingJob` with 3 parameters:
 - `inputs`: dataset that contains the model inputs
-- `target`: dataset that contains the model target
-- `output_model`: output path to the model artifact
+- `targets`: dataset that contains the model target
+- `serializer`: output path to the model artifact
 
 You can find all the parameters of your program in the `src/[package]/jobs.py`.
 
@@ -156,7 +157,6 @@ The project code can be executed with poetry during your development:
 ```bash
 $ poetry run [package] confs/tuning.yaml
 $ poetry run [package] confs/training.yaml
-$ poetry run [package] confs/transition.yaml
 $ poetry run [package] confs/inference.yaml
 ```
 
@@ -166,7 +166,7 @@ In production, you can build, ship, and run the project as a Python package:
 poetry build
 poetry publish # optional
 python -m pip install [package]
-[package] confs/transition.yaml
+[package] confs/inference.yaml
 ```
 
 You can also install and use this package as a library for another AI/ML project:
@@ -187,49 +187,47 @@ You can invoke the actions from the [command-line](https://www.pyinvoke.org/) or
 
 ```bash
 # execute the project DAG
-$ inv dag
+$ inv dags
 # create a code archive
-$ inv package
+$ inv packages
 # list other actions
 $ inv --list
 ```
 
 **Available tasks**:
-- `bump.release (bump)`: Bump a release: major, minor, patch.
-- `bump.version`: Bump to the new version.
-- `check.all (check)`: Run all check tasks.
-- `check.code`: Check the codes with pylint.
-- `check.coverage`: Check the coverage with coverage.
-- `check.format`: Check the formats with isort and black.
-- `check.poetry`: Check poetry config files.
-- `check.test`: Check the tests with pytest.
-- `check.type`: Check the types with mypy.
-- `clean.all (clean)`: Run all clean tasks.
-- `clean.coverage`: Clean coverage files.
-- `clean.dist`: Clean the dist folder.
-- `clean.docs`: Clean the docs folder.
-- `clean.install`: Clean the install.
-- `clean.mypy`: Clean the mypy folder.
-- `clean.outputs`: Clean the outputs folder.
-- `clean.pytest`: Clean the pytest folder.
-- `clean.python`: Clean python files and folders.
-- `clean.reset`: Reset the project state.
-- `dag.all (dag)`: Run all DAG tasks.
-- `dag.job`: Run the project for the given job name.
-- `docker.all (docker)`: Run all docker tasks.
-- `docker.build`: Build the docker image.
-- `docker.run`: Run the docker image.
+- `checks.all (checks)`: Run all check tasks.
+- `checks.code`: Check the codes with pylint.
+- `checks.coverage`: Check the coverage with coverage.
+- `checks.format`: Check the formats with isort and black.
+- `checks.poetry`: Check poetry config files.
+- `checks.test`: Check the tests with pytest.
+- `checks.type`: Check the types with mypy.
+- `cleans.all (cleans)`: Run all clean tasks.
+- `cleans.coverage`: Clean coverage files.
+- `cleans.dist`: Clean the dist folder.
+- `cleans.docs`: Clean the docs folder.
+- `cleans.install`: Clean the install.
+- `cleans.mypy`: Clean the mypy folder.
+- `cleans.outputs`: Clean the outputs folder.
+- `cleans.pytest`: Clean the pytest folder.
+- `cleans.python`: Clean python files and folders.
+- `cleans.reset`: Reset the project state.
+- `containers.all (containers)`: Run all container tasks.
+- `containers.build`: Build the container image.
+- `containers.run`: Run the container image.
+- `dags.all (dags)`: Run all DAG tasks.
+- `dags.job`: Run the project for the given job name.
 - `docs.all (docs)`: Run all docs tasks.
 - `docs.api`: Document the API with pdoc.
 - `docs.serve`: Document the API with pdoc.
-- `format.all (format)`:  Run all format tasks.
-- `format.imports`: Format code imports with isort.
-- `format.sources`: Format code sources with black.
-- `install.all (install)`: Run all install tasks.
-- `install.poetry`: Run poetry install.
-- `install.pre-commit`: Run pre-commit install.
-- `package.all (package)`: Run all package tasks.
-- `package.build`: Build a wheel package.
+- `formats.all (formats)`:  Run all format tasks.
+- `formats.imports`: Format code imports with isort.
+- `formats.sources`: Format code sources with black.
+- `installs.all (installs)`: Run all install tasks.
+- `installs.poetry`: Run poetry install.
+- `installs.pre-commit`: Run pre-commit install.
+- `packages.all (packages)`: Run all package tasks.
+- `packages.build`: Build a wheel package.
 
 # Tools
 
@@ -251,17 +249,6 @@ Pre-defined actions to automate your project development.
   - Add overhead before your commit
 - **Alternatives**:
   - [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks): less convenient to use
-
-### Release: [Bump2version](https://github.com/c4urself/bump2version)
-
-- **Motivations**:
-  - Easily change the package version
-  - Can modify multiple files at once
-  - Suited for [SemVer versioning](https://semver.org/)
-- **Limitations**:
-  - https://xkcd.com/1319/
-- **Alternatives**:
-  - Manual edits: less convenient, risk of forgetting a file
 
 ### Tasks: [PyInvoke](https://www.pyinvoke.org/)
 
@@ -636,17 +623,17 @@ This sections gives some tips and tricks to enrich the develop experience.
 
 **You should decouple the pointer to your data from how to access it.**
 
-In your code, you can refer to your dataset with a tag (e.g., `inputs`, `target`).
+In your code, you can refer to your dataset with a tag (e.g., `inputs`, `targets`).
 
 This tag can then be associated to an reader/writer implementation in a configuration file:
 
 ```yaml
-inputs:
-  KIND: ParquetDataset
-  path: data/inputs.parquet
-target:
-  KIND: ParquetDataset
-  path: data/target.parquet
+  inputs:
+    KIND: ParquetReader
+    path: data/inputs.parquet
+  targets:
+    KIND: ParquetReader
+    path: data/targets.parquet
 ```
 
 In this package, the implementation are described in `src/[package]/datasets.py` and selected by `KIND`.
@@ -681,7 +668,7 @@ This package provides a simple deterministic strategy implemented in `src/[packa
 
 A DAG can express the dependencies between steps while keeping the individual step independent.
 
-This package provides a simple DAG example in `tasks/dag.py`. This approach is based on [PyInvoke](https://www.pyinvoke.org/).
+This package provides a simple DAG example in `tasks/dags.py`. This approach is based on [PyInvoke](https://www.pyinvoke.org/).
 
 In production, we recommend to use a scalable system such as [Airflow](https://airflow.apache.org/), [Dagster](https://dagster.io/), [Prefect](https://www.prefect.io/), [Metaflow](https://metaflow.org/), or [ZenML](https://zenml.io/).
 
@@ -749,7 +736,7 @@ To build a Python package with Poetry, you simply have to type in a terminal:
 # for all poetry project
 poetry build
 # for this project only
-inv package
+inv packages
 ```
 
 ## [Software Engineering](https://en.wikipedia.org/wiki/Software_engineering)
@@ -763,11 +750,11 @@ Python provides the [typing module](https://docs.python.org/3/library/typing.htm
 ```python
 # in src/[package]/models.py
 @abc.abstractmethod
-def fit(self, inputs: schemas.Inputs, target: schemas.Target) -> "Model":
+def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "Model":
     """Fit the model on the given inputs and target."""
 
 @abc.abstractmethod
-def predict(self, inputs: schemas.Inputs) -> schemas.Output:
+def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
     """Generate an output with the model for the given inputs."""
 ```
 
@@ -784,8 +771,8 @@ Pydantic allows to define classes that can validate your configs during the prog
 ```python
 # in src/[package]/splitters.py
 class TrainTestSplitter(Splitter):
-    ratio: float = 0.8
-    shuffle: bool = True
+    shuffle: bool = False  # required (time sensitive)
+    test_size: int | float = 24 * 30 * 2  # 2 months
     random_state: int = 42
 ```
 
@@ -802,19 +789,22 @@ Pandera supports dataframe typing for Pandas and other library like PySpark:
 ```python
 # in src/package/schemas.py
 class InputsSchema(Schema):
-    alcohol: papd.Series[float] = pa.Field(gt=0, lt=100)
-    malic_acid: papd.Series[float] = pa.Field(gt=0, lt=10)
-    ash: papd.Series[float] = pa.Field(gt=0, lt=10)
-    alcalinity_of_ash: papd.Series[float] = pa.Field(gt=0, lt=100)
-    magnesium: papd.Series[float] = pa.Field(gt=0, lt=1000)
-    total_phenols: papd.Series[float] = pa.Field(gt=0, lt=10)
-    flavanoids: papd.Series[float] = pa.Field(gt=0, lt=10)
-    nonflavanoid_phenols: papd.Series[float] = pa.Field(gt=0, lt=10)
-    proanthocyanins: papd.Series[float] = pa.Field(gt=0, lt=10)
-    color_intensity: papd.Series[float] = pa.Field(gt=0, lt=100)
-    hue: papd.Series[float] = pa.Field(gt=0, lt=10)
-    od280_od315_of_diluted_bikes: papd.Series[float] = pa.Field(gt=0, lt=10)
-    proline: papd.Series[float] = pa.Field(gt=0, lt=10000)
+    instant: papd.Index[papd.UInt32] = pa.Field(ge=0, check_name=True)
+    dteday: papd.Series[papd.DateTime] = pa.Field()
+    season: papd.Series[papd.UInt8] = pa.Field(isin=[1, 2, 3, 4])
+    yr: papd.Series[papd.UInt8] = pa.Field(ge=0, le=1)
+    mnth: papd.Series[papd.UInt8] = pa.Field(ge=1, le=12)
+    hr: papd.Series[papd.UInt8] = pa.Field(ge=0, le=23)
+    holiday: papd.Series[papd.Bool] = pa.Field()
+    weekday: papd.Series[papd.UInt8] = pa.Field(ge=0, le=6)
+    workingday: papd.Series[papd.Bool] = pa.Field()
+    weathersit: papd.Series[papd.UInt8] = pa.Field(ge=1, le=4)
+    temp: papd.Series[papd.Float16] = pa.Field(ge=0, le=1)
+    atemp: papd.Series[papd.Float16] = pa.Field(ge=0, le=1)
+    hum: papd.Series[papd.Float16] = pa.Field(ge=0, le=1)
+    windspeed: papd.Series[papd.Float16] = pa.Field(ge=0, le=1)
+    casual: papd.Series[papd.UInt32] = pa.Field(ge=0)
+    registered: papd.Series[papd.UInt32] = pa.Field(ge=0)
 ```
 
 This code snippet defines the fields of the dataframe and some of its constraint.
@@ -828,15 +818,11 @@ The package encourages to type every dataframe used in `src/[package]/schemas.py
 Polymorphism combined with SOLID Principles allows to easily swap your code components.
 
 ```python
-class Dataset(abc.ABC, pdt.BaseModel):
+class Reader(abc.ABC, pdt.BaseModel):
 
     @abc.abstractmethod
     def read(self) -> pd.DataFrame:
         """Read a dataframe from a dataset."""
-
-    @abc.abstractmethod
-    def write(self, data: pd.DataFrame) -> None:
-        """Write a dataframe to a dataset."""
 ```
 
 This code snippet uses the [abc module](https://docs.python.org/3/library/abc.html) to define code interfaces for a dataset with a read/write method.

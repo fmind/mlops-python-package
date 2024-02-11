@@ -3,6 +3,9 @@ job:
   inputs:
     KIND: ParquetReader
     path: data/inputs.parquet
-  outputs:
-    KIND: CSVWriter
-    path: outputs/results.csv
+  targets:
+    KIND: ParquetReader
+    path: data/targets.parquet
+  results:
+    KIND: ParquetWriter
+    path: outputs/results.parquet

@@ -1,0 +1,17 @@
+job:
+  KIND: TuningJob
+  inputs:
+    KIND: ParquetReader
+    path: tests/data/inputs.parquet
+    limit: 1500
+  targets:
+    KIND: ParquetReader
+    path: tests/data/targets.parquet
+    limit: 1500
+  results:
+    KIND: ParquetWriter
+    path: ${tmp_path:}/results.parquet
+  splitter:
+    KIND: TimeSeriesSplitter
+    n_splits: 3
+    test_size: 167 # 1 week

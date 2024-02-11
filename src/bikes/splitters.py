@@ -6,13 +6,14 @@ import abc
 import typing as T
 
 import numpy as np
-import pandas as pd
 import pydantic as pdt
 from sklearn import model_selection
 
+from bikes import schemas
+
 # %% TYPES
 
-Index = np.ndarray
+Index = np.ndarray  # row index
 TrainTest = tuple[Index, Index]
 Splits = T.Iterator[TrainTest]
 
@@ -30,11 +31,11 @@ class Splitter(abc.ABC, pdt.BaseModel):
     KIND: str
 
     @abc.abstractmethod
-    def split(self, data: pd.DataFrame) -> Splits:
+    def split(self, inputs: schemas.Inputs, targets: schemas.Targets, groups: list | None = None) -> Splits:
         """Split a dataframe into subsets."""
 
     @abc.abstractmethod
-    def get_n_splits(self, data: pd.DataFrame) -> int:
+    def get_n_splits(self, inputs: schemas.Inputs, targets: schemas.Targets, groups: list | None = None) -> int:
         """Get the number of splits generated."""
 
 
@@ -47,15 +48,16 @@ class TrainTestSplitter(Splitter):
     test_size: int | float = 24 * 30 * 2  # 2 months
     random_state: int = 42
 
-    def split(self, data: pd.DataFrame) -> Splits:
+    def split(self, inputs: schemas.Inputs, targets: schemas.Targets, groups: list | None = None) -> Splits:
         """Split a dataframe into a train and test subsets."""
+        index = np.arange(len(inputs))  # return integer position
         train_index, test_index = model_selection.train_test_split(
-            data.index, shuffle=self.shuffle, test_size=self.test_size, random_state=self.random_state
+            index, shuffle=self.shuffle, test_size=self.test_size, random_state=self.random_state
         )
         yield train_index, test_index
 
-    def get_n_splits(self, data: pd.DataFrame) -> int:
-        """Get the train and test split."""
+    def get_n_splits(self, inputs: schemas.Inputs, targets: schemas.Targets, groups: list | None = None) -> int:
+        """Get the unique train and test split."""
         return 1
 
 
@@ -68,13 +70,13 @@ class TimeSeriesSplitter(Splitter):
     n_splits: int = 4
     test_size: int | float = 24 * 30 * 2  # 2 months
 
-    def split(self, data: pd.DataFrame) -> Splits:
+    def split(self, inputs: schemas.Inputs, targets: schemas.Targets, groups: list | None = None) -> Splits:
         """Split a dataframe into fixed time series subsets."""
         splitter = model_selection.TimeSeriesSplit(n_splits=self.n_splits, test_size=self.test_size)
-        yield from splitter.split(data)
+        yield from splitter.split(inputs)
 
-    def get_n_splits(self, data: pd.DataFrame) -> int:
-        """Get the time series splits."""
+    def get_n_splits(self, inputs: schemas.Inputs, targets: schemas.Targets, groups: list | None = None) -> int:
+        """Get the number time series splits."""
         return self.n_splits
 
 

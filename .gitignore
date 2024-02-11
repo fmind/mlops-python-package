@@ -22,6 +22,8 @@ poetry.lock
 
 # Project
 /docs/*
+/models/*
+/outputs/*
 !**/.gitkeep
 
 # Python

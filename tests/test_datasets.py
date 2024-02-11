@@ -11,13 +11,15 @@ from bikes import datasets, schemas
 # %% DATASETS
 
 
-def test_parquet_reader(tests_inputs_path: str):
+def test_parquet_reader(inputs_path: str):
     # given
-    reader = datasets.ParquetReader(path=tests_inputs_path)
+    limit = 50
+    reader = datasets.ParquetReader(path=inputs_path, limit=limit)
     # when
     data = reader.read()
     # then
     assert data.ndim == 2, "Data should be a dataframe!"
+    assert len(data) == limit, "Data should have the limit size!"
 
 
 def test_parquet_writer(targets: schemas.Targets, tmp_outputs_path: str):

@@ -13,7 +13,7 @@ from bikes import configs
 # %% LOADERS
 
 
-def test_load_config(tmp_path: str):
+def test_parse_config(tmp_path: str):
     # given
     text = """
     a: 1
@@ -24,7 +24,7 @@ def test_load_config(tmp_path: str):
     with open(path, "w", encoding="utf-8") as writer:
         writer.write(text)
     # when
-    config = configs.load_config(path)
+    config = configs.parse_config(path)
     # then
     assert config == {
         "a": 1,
@@ -33,7 +33,7 @@ def test_load_config(tmp_path: str):
     }, "Config should be loaded correctly!"
 
 
-def test_load_configs(tmp_path: str):
+def test_parse_configs(tmp_path: str):
     # given
     paths = []
     for i in range(3):
@@ -46,7 +46,7 @@ def test_load_configs(tmp_path: str):
             writer.write(text)
         paths.append(path)
     # when
-    config = configs.load_configs(paths)
+    config = configs.parse_configs(paths)
     # then
     assert config == {
         # each file should have its key

@@ -3,6 +3,9 @@ job:
   inputs:
     KIND: ParquetReader
     path: data/inputs.parquet
-  saver:
-    KIND: JoblibSaver
-    path: outputs/model.joblib
+  targets:
+    KIND: ParquetReader
+    path: data/targets.parquet
+  serializer:
+    KIND: JoblibModelSerializer
+    path: models/model.joblib

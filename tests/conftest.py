@@ -5,12 +5,17 @@
 # %% IMPORTS
 
 import os
-import typing as T
 
 import omegaconf
 import pytest
 
-from bikes import datasets, metrics, models, schemas, services, splitters
+from bikes import datasets, metrics, models, schemas, serializers, services, splitters
+
+# %% CONFIGS
+
+LIMIT = 1500
+N_SPLITS = 3
+TEST_SIZE = 24 * 7  # 1 week
 
 # %% FIXTURES
 
@@ -26,56 +31,50 @@ def tests_path() -> str:
 
 
 @pytest.fixture(scope="session")
-def tests_data_path(tests_path: str) -> str:
-    """Return the path of the tests data folder."""
+def data_path(tests_path: str) -> str:
+    """Return the path of the data folder."""
     return os.path.join(tests_path, "data")
 
 
 @pytest.fixture(scope="session")
-def tests_confs_path(tests_path: str) -> str:
-    """Return the path of the tests confs folder."""
+def confs_path(tests_path: str) -> str:
+    """Return the path of the confs folder."""
     return os.path.join(tests_path, "confs")
 
 
 @pytest.fixture(scope="session")
-def tests_inputs_path(tests_data_path: str) -> str:
-    """Return the path of the tests inputs dataset."""
-    return os.path.join(tests_data_path, "inputs.parquet")
+def inputs_path(data_path: str) -> str:
+    """Return the path of the inputs dataset."""
+    return os.path.join(data_path, "inputs.parquet")
 
 
 @pytest.fixture(scope="session")
-def tests_targets_path(tests_data_path: str) -> str:
-    """Return the path of the tests targets dataset."""
-    return os.path.join(tests_data_path, "targets.parquet")
+def targets_path(data_path: str) -> str:
+    """Return the path of the targets dataset."""
+    return os.path.join(data_path, "targets.parquet")
 
 
 @pytest.fixture(scope="session")
-def tests_outputs_path(tests_data_path: str) -> str:
-    """Return the path of the tests_ outputs dataset."""
-    return os.path.join(tests_data_path, "outputs.parquet")
-
-
-@pytest.fixture(scope="session")
-def tests_model_path(tests_models_path: str) -> str:
-    """Return the path of the tests model file."""
-    return os.path.join(tests_models_path, "model.joblib")
+def outputs_path(data_path: str) -> str:
+    """Return the path of the outputs dataset."""
+    return os.path.join(data_path, "outputs.parquet")
 
 
 @pytest.fixture(scope="function")
 def tmp_outputs_path(tmp_path: str) -> str:
-    """Return a path for the tmp outputs dataset."""
+    """Return a tmp path for the outputs dataset."""
     return os.path.join(tmp_path, "outputs.parquet")
 
 
 @pytest.fixture(scope="function")
 def tmp_results_path(tmp_path: str) -> str:
-    """Return a path of the tmp results dataset."""
+    """Return a tmp path of the results dataset."""
     return os.path.join(tmp_path, "results.parquet")
 
 
 @pytest.fixture(scope="function")
 def tmp_model_path(tmp_path: str) -> str:
-    """Return a path of the tmp model object."""
+    """Return a tmp path of the model object."""
     return os.path.join(tmp_path, "model.joblib")
 
 
@@ -83,21 +82,21 @@ def tmp_model_path(tmp_path: str) -> str:
 
 
 @pytest.fixture(scope="session")
-def tests_inputs_reader(tests_inputs_path: str) -> datasets.ParquetReader:
-    """Return a reader for the tests inputs dataset."""
-    return datasets.ParquetReader(path=tests_inputs_path)
+def inputs_reader(inputs_path: str) -> datasets.ParquetReader:
+    """Return a reader for the inputs dataset."""
+    return datasets.ParquetReader(path=inputs_path, limit=LIMIT)
 
 
 @pytest.fixture(scope="session")
-def tests_targets_reader(tests_targets_path: str) -> datasets.ParquetReader:
-    """Return a reader for the tests targets dataset."""
-    return datasets.ParquetReader(path=tests_targets_path)
+def targets_reader(targets_path: str) -> datasets.ParquetReader:
+    """Return a reader for the targets dataset."""
+    return datasets.ParquetReader(path=targets_path, limit=LIMIT)
 
 
 @pytest.fixture(scope="session")
-def tests_outputs_reader(tests_outputs_path: str) -> datasets.ParquetReader:
-    """Return a reader for the tests outputs dataset."""
-    return datasets.ParquetReader(path=tests_outputs_path)
+def outputs_reader(outputs_path: str) -> datasets.ParquetReader:
+    """Return a reader for the outputs dataset."""
+    return datasets.ParquetReader(path=outputs_path, limit=LIMIT)
 
 
 @pytest.fixture(scope="function")
@@ -106,27 +105,33 @@ def tmp_outputs_writer(tmp_outputs_path: str) -> datasets.ParquetWriter:
     return datasets.ParquetWriter(path=tmp_outputs_path)
 
 
+@pytest.fixture(scope="function")
+def tmp_results_writer(tmp_results_path: str) -> datasets.ParquetWriter:
+    """Return a writer for the tmp results dataset."""
+    return datasets.ParquetWriter(path=tmp_results_path)
+
+
 # %% - Dataframes
 
 
 @pytest.fixture(scope="session")
-def inputs(tests_inputs_reader: datasets.ParquetReader) -> schemas.Inputs:
+def inputs(inputs_reader: datasets.ParquetReader) -> schemas.Inputs:
     """Return the inputs data."""
-    data = tests_inputs_reader.read()
+    data = inputs_reader.read()
     return schemas.InputsSchema.check(data)
 
 
 @pytest.fixture(scope="session")
-def targets(tests_targets_reader: datasets.ParquetReader) -> schemas.Targets:
+def targets(targets_reader: datasets.ParquetReader) -> schemas.Targets:
     """Return the targets data."""
-    data = tests_targets_reader.read()
+    data = targets_reader.read()
     return schemas.TargetsSchema.check(data)
 
 
 @pytest.fixture(scope="session")
-def outputs(tests_outputs_reader: datasets.ParquetReader) -> schemas.Outputs:
+def outputs(outputs_reader: datasets.ParquetReader) -> schemas.Outputs:
     """Return the outputs data."""
-    data = tests_outputs_reader.read()
+    data = outputs_reader.read()
     return schemas.OutputsSchema.check(data)
 
 
@@ -136,13 +141,21 @@ def outputs(tests_outputs_reader: datasets.ParquetReader) -> schemas.Outputs:
 @pytest.fixture(scope="session")
 def train_test_splitter() -> splitters.TrainTestSplitter:
     """Return the default train test splitter."""
-    return splitters.TrainTestSplitter()
+    return splitters.TrainTestSplitter(test_size=TEST_SIZE)
 
 
 @pytest.fixture(scope="session")
-def train_test_split(train_test_splitter: splitters.TrainTestSplitter, inputs: schemas.Inputs) -> splitters.TrainTest:
+def time_series_splitter() -> splitters.TimeSeriesSplitter:
+    """Return the default time series splitter."""
+    return splitters.TimeSeriesSplitter(n_splits=N_SPLITS, test_size=TEST_SIZE)
+
+
+@pytest.fixture(scope="session")
+def train_test_split(
+    train_test_splitter: splitters.TrainTestSplitter, inputs: schemas.Inputs, targets: schemas.Targets
+) -> splitters.TrainTest:
     """Return the train and test indexes for the inputs dataframe."""
-    return next(train_test_splitter.split(data=inputs))
+    return next(train_test_splitter.split(inputs=inputs, targets=targets))
 
 
 @pytest.fixture(scope="session")
@@ -151,12 +164,12 @@ def train_test_sets(
 ) -> tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets]:
     """Return the inputs/targets train and test sets from the train and test split."""
     train_index, test_index = train_test_split
-    inputs_train, inputs_test = inputs.loc[train_index], inputs.loc[test_index]
-    targets_train, targets_test = targets.loc[train_index], targets.loc[test_index]
+    inputs_train, inputs_test = inputs.iloc[train_index], inputs.iloc[test_index]
+    targets_train, targets_test = targets.iloc[train_index], targets.iloc[test_index]
     return inputs_train, targets_train, inputs_test, targets_test
 
 
-# # %% - Models
+# %% - Models
 
 
 @pytest.fixture(scope="session")
@@ -167,13 +180,11 @@ def empty_model() -> models.BaselineSklearnModel:
 
 @pytest.fixture(scope="session")
 def default_model(
-    model: models.BaselineSklearnModel, inputs: schemas.Inputs, targets: schemas.Targets
+    empty_model: models.BaselineSklearnModel, inputs: schemas.Inputs, targets: schemas.Targets
 ) -> models.BaselineSklearnModel:
     """Return the default model."""
-    model.fit(inputs=inputs, targets=targets)
-    # outputs = model.predict(inputs=inputs)
-    # outputs.to_parquet("data/outputs.parquet")
-    # outputs.to_parquet("tests/data/outputs.parquet")
+    model = empty_model.fit(inputs=inputs, targets=targets)
+    # model.predict(inputs=inputs).to_parquet("tests/data/outputs.parquet")
     return model
 
 
@@ -197,17 +208,34 @@ def logger_service():
     return service
 
 
-# # %% - Resolvers
+# %% Serializers
 
 
-# @pytest.fixture(scope="function", autouse=True)
-# def tmp_path_resolver(tmp_path: str) -> T.Callable[[], str]:
-#     """Register the tmp_path resolver with Omegaconf."""
+@pytest.fixture(scope="function")
+def model_serializer(tmp_model_path: str) -> serializers.JoblibModelSerializer:
+    """Return the default model serializer."""
+    return serializers.JoblibModelSerializer(path=tmp_model_path)
 
-#     def tmp_path_resolver() -> str:
-#         """Return tmp_path."""
-#         return tmp_path
 
-#     # usage: enable the variable "${tmp_path:}" in the config files
-#     omegaconf.OmegaConf.register_new_resolver("tmp_path", tmp_path_resolver, replace=True)
-#     return tmp_path_resolver
+@pytest.fixture(scope="function")
+def model_deserializer(
+    default_model: models.Model, model_serializer: serializers.JoblibModelSerializer
+) -> serializers.JoblibModelDeserializer:
+    """Return the default model deserializer."""
+    model_serializer.save(model=default_model)  # refresh model
+    return serializers.JoblibModelDeserializer(path=model_serializer.path)
+
+
+# %% - Resolvers
+
+
+@pytest.fixture(scope="function", autouse=True)
+def tmp_path_resolver(tmp_path: str) -> str:
+    """Register tmp_path with Omegaconf."""
+
+    def tmp_path_resolver() -> str:
+        """Return tmp_path."""
+        return tmp_path
+
+    omegaconf.OmegaConf.register_new_resolver("tmp_path", tmp_path_resolver, replace=True)
+    return tmp_path

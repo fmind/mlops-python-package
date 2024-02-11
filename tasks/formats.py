@@ -1,4 +1,5 @@
 """Format tasks for pyinvoke."""
+
 # pylint: disable=redefined-builtin
 
 # %% IMPORTS

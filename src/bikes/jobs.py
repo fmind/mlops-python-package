@@ -8,12 +8,12 @@ import typing as T
 import pydantic as pdt
 from loguru import logger
 
-from bikes import datasets, metrics, models, schemas, searchers, services, splitters
+from bikes import datasets, metrics, models, schemas, searchers, serializers, services, splitters
 
-# %% TYPINGS
+# %% TYPES
 
 # local job variables
-Locals = T.Dict[str, T.Any]
+Locals = dict[str, T.Any]
 
 # %% JOBS
 
@@ -38,9 +38,6 @@ class Job(abc.ABC, pdt.BaseModel):
 
     def __exit__(self, exc_type, exc_value, traceback) -> T.Literal[False]:
         """Exit the context."""
-        # exceptions
-        if exc_type is not None:
-            logger.exception(f'EXCEPTION IN JOB: "{self.KIND}" ({exc_type}): {exc_value}')
         # services
         self.logger_service.stop()
         # return
@@ -56,48 +53,52 @@ class TuningJob(Job):
 
     KIND: T.Literal["TuningJob"] = "TuningJob"
 
-    # data
-    data: datasets.ReaderKind
+    # read
+    inputs: datasets.ReaderKind
+    targets: datasets.ReaderKind
+    # write
+    results: datasets.WriterKind
     # model
     model: models.ModelKind = models.BaselineSklearnModel()
     # metric
     metric: metrics.MetricKind = metrics.SklearnMetric()
+    # splitter
+    splitter: splitters.SplitterKind = splitters.TimeSeriesSplitter()
     # searcher
     searcher: searchers.SearcherKind = searchers.GridCVSearcher(
         param_grid={"max_depth": [3, 5, 7]},
     )
-    # outputs
-    output_results: T.Optional[str] = None
 
     def run(self) -> Locals:
         """Run the tuning job in context."""
-        # data
+        # read
         # - inputs
-        logger.info("Read inputs: %s", self.inputs)
-        inputs = self.inputs.read()
-        inputs = schemas.InputsSchema.check(inputs)
-        logger.info("- Inputs shape: %s", inputs.shape)
-        # - target
-        logger.info("Read target: {}", self.target)
-        target = self.target.read()
-        target = schemas.TargetSchema.check(target)
-        logger.info("- Target shape: {}", target.shape)
+        logger.info("Read inputs: {}", self.inputs)
+        inputs = schemas.InputsSchema.check(self.inputs.read())
+        logger.info("- Inputs shape: {}", inputs.shape)
+        # - targets
+        logger.info("Read targets: {}", self.targets)
+        targets = schemas.TargetsSchema.check(self.targets.read())
+        logger.info("- Targets shape: {}", targets.shape)
+        # - asserts
+        assert len(inputs) == len(targets), "Inputs and targets should have the same length!"
         # model
         logger.info("With model: {}", self.model)
         # metric
         logger.info("With metric: {}", self.metric)
+        # splitter
+        logger.info("With splitter: {}", self.splitter)
         # searcher
         logger.info("Run searcher: {}", self.searcher)
-        results, best_params, best_score = self.searcher.search(
-            model=self.model, metric=self.metric, inputs=inputs, target=target
+        results, best_score, best_params = self.searcher.search(
+            model=self.model, metric=self.metric, cv=self.splitter, inputs=inputs, targets=targets
         )
         logger.info("- Results: {}", len(results))
         logger.info("- Best Score: {}", best_score)
         logger.info("- Best Params: {}", best_params)
-        # outputs
-        if self.output_results is not None:
-            logger.info("Save results to: {}", self.output_results)
-            self.searcher.save(path=self.output_results)
+        # write
+        logger.info("Write results: {}", self.results)
+        self.results.write(results)
         return locals()
 
 
@@ -106,51 +107,62 @@ class TrainingJob(Job):
 
     KIND: T.Literal["TrainingJob"] = "TrainingJob"
 
-    # data
-    data: datasets.Reader
+    # read
+    inputs: datasets.ReaderKind
+    targets: datasets.ReaderKind
+    # write
+    serializer: serializers.ModelSerializerKind
     # model
     model: models.ModelKind = models.BaselineSklearnModel()
-    # metric
-    metric: metrics.MetricKind = metrics.SklearnMetric()
+    # scorers
+    scorers: list[metrics.MetricKind] = [metrics.SklearnMetric()]
     # splitter
     splitter: splitters.SplitterKind = splitters.TrainTestSplitter()
-    # outputs
-    output_model: T.Optional[str] = None
 
     def run(self) -> Locals:
         """Run the training job in context."""
-        # data
+        # read
         # - inputs
         logger.info("Read inputs: {}", self.inputs)
-        inputs = self.inputs.read()
+        inputs = schemas.InputsSchema.check(self.inputs.read())
         logger.info("- Inputs shape: {}", inputs.shape)
-        logger.info("- With splitter: {}", self.splitter)
-        inputs_train, inputs_test = [schemas.InputsSchema.check(split) for split in self.splitter.split(inputs)]
+        # - targets
+        logger.info("Read targets: {}", self.targets)
+        targets = schemas.TargetsSchema.check(self.targets.read())
+        logger.info("- Targets shape: {}", targets.shape)
+        # - asserts
+        assert len(inputs) == len(targets), "Inputs and targets should have the same length!"
+        # split
+        logger.info("With splitter: {}", self.splitter)
+        # - index
+        train_index, test_index = next(self.splitter.split(inputs=inputs, targets=targets))
+        # - inputs
+        inputs_train, inputs_test = inputs.iloc[train_index], inputs.iloc[test_index]
         logger.info("- Inputs train shape: {}", inputs_train.shape)
         logger.info("- Inputs test shape: {}", inputs_test.shape)
-        # - target
-        logger.info("Read target: {}", self.target)
-        target = self.target.read()
-        logger.info("- Target shape: {}", target.shape)
-        logger.info("- With splitter: {}", self.splitter)
-        target_train, target_test = [schemas.TargetSchema.check(split) for split in self.splitter.split(target)]
-        logger.info("- Target train shape: {}", target_train.shape)
-        logger.info("- Target test shape: {}", target_test.shape)
+        # - targets
+        targets_train, targets_test = targets.iloc[train_index], targets.iloc[test_index]
+        logger.info("- Targets train shape: {}", targets_train.shape)
+        logger.info("- Targets test shape: {}", targets_test.shape)
+        # - asserts
+        assert len(inputs_train) == len(targets_train), "Inputs and targets train should have the same length!"
+        assert len(inputs_test) == len(targets_test), "Inputs and targets test should have the same length!"
         # model
         logger.info("Fit model: {}", self.model)
-        self.model.fit(inputs=inputs_train, target=target_train)
-        # output
-        logger.info("Predict output: {}", len(inputs_test))
-        output_test = self.model.predict(inputs=inputs_test)
-        logger.info("- Output test shape: {}", output_test.shape)
-        # metric
-        logger.info("Compute score with metric: {}", self.metric)
-        score = self.metric.score(target=target_test, output=output_test)
-        logger.info("- Metric score: {}", score)
+        self.model.fit(inputs=inputs_train, targets=targets_train)
         # outputs
-        if self.output_model is not None:
-            logger.info("Write model to: {}", self.output_model)
-            self.model.save(path=self.output_model)
+        logger.info("Predict outputs: {}", len(inputs_test))
+        outputs_test = self.model.predict(inputs=inputs_test)
+        logger.info("- Outputs test shape: {}", outputs_test.shape)
+        assert len(inputs_test) == len(outputs_test), "Inputs and outputs test should have the same length!"
+        # metric
+        for i, scorer in enumerate(self.scorers, start=1):
+            logger.info("{}. Run scorer: {}", i, scorer)
+            score = scorer.score(targets=targets_test, outputs=outputs_test)
+            logger.info("- Metric score: {}", score)
+        # write
+        logger.info("Write model: {}", self.serializer)
+        self.serializer.save(model=self.model)
         return locals()
 
 
@@ -160,11 +172,11 @@ class InferenceJob(Job):
     KIND: T.Literal["InferenceJob"] = "InferenceJob"
 
     # inputs
-    inputs: datasets.Reader
-    # model
-    model_path: str
+    inputs: datasets.ReaderKind
     # outputs
-    outputs: datasets.Writer
+    outputs: datasets.WriterKind
+    # model
+    deserializer: serializers.ModelDeserializerKind
 
     def run(self) -> Locals:
         """Run the inference job in context."""
@@ -174,18 +186,18 @@ class InferenceJob(Job):
         inputs = schemas.InputsSchema.check(inputs)
         logger.info("- Inputs shape: {}", inputs.shape)
         # model
-        logger.info("Load model: {}", self.model_path)
-        model = models.Model.load(path=self.model_path)
+        logger.info("With deserializer: {}", self.deserializer)
+        model = self.deserializer.load()
         logger.info("- Model loaded: {}", model)
         # predict
-        logger.info("Predict output: {}", len(inputs))
-        output = model.predict(inputs=inputs)
-        logger.info("- Output shape: {}", output.shape)
-        # output
-        logger.info("Write output: {}", self.output)
-        self.output.write(data=output)
+        logger.info("Predict outputs: {}", len(inputs))
+        outputs = model.predict(inputs=inputs)
+        logger.info("- Outputs shape: {}", outputs.shape)
+        assert len(inputs) == len(outputs), "Inputs and outputs should have the same length!"
+        # outputs
+        logger.info("Write outputs: {}", self.outputs)
+        self.outputs.write(data=outputs)
         return locals()
 
 
-# alias to all job kinds
-JobKind = T.Union[TuningJob, TrainingJob, InferenceJob]
+JobKind = TuningJob | TrainingJob | InferenceJob

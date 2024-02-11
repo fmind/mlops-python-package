@@ -4,23 +4,24 @@
 
 # %% IMPORTS
 
-from bikes import metrics, models, schemas, searchers
+from bikes import metrics, models, schemas, searchers, splitters
 
 # %% SEARCHERS
 
 
 def test_grid_cv_searcher(
-    default_model: models.BaselineSklearnModel,
-    default_metric: metrics.SklearnMetric,
+    default_model: models.Model,
+    default_metric: metrics.Metric,
+    time_series_splitter: splitters.Splitter,
     inputs: schemas.Inputs,
     targets: schemas.Targets,
 ):
     # given
     param_grid = {"max_depth": [3, 5, 7]}
-    # when
     searcher = searchers.GridCVSearcher(param_grid=param_grid)
-    result, best_params, best_score = searcher.search(
-        model=default_model, metric=default_metric, inputs=inputs, targets=targets
+    # when
+    result, best_score, best_params = searcher.search(
+        model=default_model, metric=default_metric, cv=time_series_splitter, inputs=inputs, targets=targets
     )
     # then
     assert set(best_params) == set(param_grid), "Best params should have the same keys as grid!"

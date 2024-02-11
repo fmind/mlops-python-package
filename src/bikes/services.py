@@ -1,4 +1,4 @@
-"""Manage global context during execution."""
+"""Manage global contexts during execution."""
 
 # %% IMPORTS
 
@@ -14,7 +14,7 @@ from loguru import logger
 class Service(abc.ABC, pdt.BaseModel):
     """Base class for a global service."""
 
-    # Note: use services to manage global features
+    # Note: use services to manage global contexts
     # e.g., logger object, mlflow client, spark context, ...
 
     @abc.abstractmethod
@@ -47,14 +47,17 @@ class LoggerService(Service):
 
     def start(self) -> None:
         """Start the logger service."""
+        # sinks
+        sinks = {
+            "stderr": sys.stderr,
+            "stdout": sys.stdout,
+        }
         # cleanup
         logger.remove()
         # convert
         config = self.model_dump()
         # replace
-        if config["sink"] == "stderr":
-            config["sink"] = sys.stderr
-        elif config["sink"] == "stdout":
-            config["sink"] = sys.stdout
+        # - use standard sinks or keep the original
+        config["sink"] = sinks.get(config["sink"], config["sink"])
         # config
         logger.add(**config)

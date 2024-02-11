@@ -1,8 +1,6 @@
 # https://docs.pyinvoke.org/en/latest/index.html
 
-# invoke
 run:
   echo: true
-# project
 project:
   name: bikes

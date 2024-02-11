@@ -20,8 +20,8 @@ repos:
   - repo: local
     hooks:
       - id: invoke-check
-        name: invoke check
+        name: invoke checks
         language: system
         pass_filenames: false
         verbose: true
-        entry: invoke check
+        entry: invoke checks

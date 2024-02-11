@@ -1,4 +1,4 @@
-"""Read/Write datasets from/to external sources."""
+"""Read/Write datasets from/to external sources/destinations."""
 
 # %% IMPORTS
 
@@ -19,6 +19,8 @@ class Reader(abc.ABC, pdt.BaseModel):
 
     KIND: str
 
+    limit: int | None = None
+
     @abc.abstractmethod
     def read(self) -> pd.DataFrame:
         """Read a dataframe from a dataset."""
@@ -33,7 +35,7 @@ class ParquetReader(Reader):
 
     def read(self) -> pd.DataFrame:
         """Read a dataframe from a parquet dataset."""
-        return pd.read_parquet(self.path)
+        return pd.read_parquet(self.path).head(self.limit)
 
 
 ReaderKind = ParquetReader

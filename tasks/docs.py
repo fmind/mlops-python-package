@@ -1,4 +1,5 @@
 """Docs tasks for pyinvoke."""
+
 # pylint: disable=redefined-builtin
 
 # %% IMPORTS
@@ -6,7 +7,7 @@
 from invoke import task
 from invoke.context import Context
 
-from . import clean
+from . import cleans
 
 # %% TASKS
 
@@ -23,6 +24,6 @@ def serve(ctx: Context) -> None:
     ctx.run(f"poetry run pdoc src/{ctx.project.name}")
 
 
-@task(pre=[clean.docs, api], default=True)
+@task(pre=[cleans.docs, api], default=True)
 def all(_: Context) -> None:
     """Run all docs tasks."""

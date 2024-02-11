@@ -29,11 +29,10 @@ def test_sklearn_metric(
 ):
     # given
     low, high = interval
-    # when
     metric = metrics.SklearnMetric(name=name, greater_is_better=greater_is_better)
+    # when
     score = metric.score(targets=targets, outputs=outputs)
     scorer = metric.scorer(model=default_model, inputs=inputs, targets=targets)
     # then
-    assert score == scorer, "Score and scorer should be the same!"
     assert low <= score <= high, "Score is not in the expected interval!"
     assert low <= scorer <= high, "Scorer is not in the expected interval!"

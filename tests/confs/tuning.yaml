@@ -1,8 +1,0 @@
-job:
-  KIND: TuningJob
-  inputs:
-    KIND: ParquetDataset
-    path: tests/data/inputs.parquet
-  target:
-    KIND: ParquetDataset
-    path: tests/data/target.parquet

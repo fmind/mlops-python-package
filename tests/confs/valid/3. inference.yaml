@@ -2,10 +2,11 @@ job:
   KIND: InferenceJob
   inputs:
     KIND: ParquetReader
-    path: data/inputs.parquet
+    path: tests/data/inputs.parquet
+    limit: 1500
   outputs:
     KIND: ParquetWriter
-    path: outputs/predictions.parquet
+    path: ${tmp_path:}/outputs.parquet
   deserializer:
     KIND: JoblibModelDeserializer
-    path: models/model.joblib
+    path: ${tmp_path:}/model.joblib

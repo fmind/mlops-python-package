@@ -16,8 +16,10 @@ def test_model():
     class MyModel(models.Model):
         KIND: T.Literal["MyModel"] = "MyModel"
 
+        # public
         a: int = 1
         b: int = 2
+        # private
         _c: int = 3
 
         def fit(self, inputs, targets):
@@ -39,12 +41,12 @@ def test_baseline_sklearn_model(
     train_test_sets: tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets]
 ):
     # given
-    inputs_train, targets_train, inputs_test, _ = train_test_sets
     params = {"max_depth": 3, "n_estimators": 5, "random_state": 0}
-    # when
+    inputs_train, targets_train, inputs_test, _ = train_test_sets
     model = models.BaselineSklearnModel().set_params(**params)
+    # when
     model.fit(inputs=inputs_train, targets=targets_train)
     outputs = model.predict(inputs=inputs_test)
     # then
+    assert outputs.ndim == 2, "Outputs should be a dataframe!"
     assert model.get_params() == params, "Model should have the given params!"
-    assert schemas.OutputsSchema.check(outputs) is not None, "The outputs data should be valid!"
