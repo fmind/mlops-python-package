@@ -19,7 +19,7 @@ Params = dict[ParamKey, ParamValue]
 # %% MODELS
 
 
-class Model(abc.ABC, pdt.BaseModel):
+class Model(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a model."""
 
     # note: use models to adapt AI/ML frameworks

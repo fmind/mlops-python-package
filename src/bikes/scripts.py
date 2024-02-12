@@ -12,7 +12,7 @@ from bikes import configs, jobs
 # %% SETTINGS
 
 
-class Settings(pdts.BaseSettings):
+class Settings(pdts.BaseSettings, strict=True):
     """Settings for the program."""
 
     job: jobs.JobKind = pdt.Field(..., discriminator="KIND")

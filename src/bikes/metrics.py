@@ -13,7 +13,7 @@ from bikes import models, schemas
 # %% METRICS
 
 
-class Metric(abc.ABC, pdt.BaseModel):
+class Metric(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a metric."""
 
     # note: use metrics to evaluate models

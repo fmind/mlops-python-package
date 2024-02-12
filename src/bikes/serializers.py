@@ -15,7 +15,7 @@ from bikes import models
 # %% - Serializers
 
 
-class ModelSerializer(abc.ABC, pdt.BaseModel):
+class ModelSerializer(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a model serializer."""
 
     # note: use serializer to save model objects
@@ -46,7 +46,7 @@ ModelSerializerKind = JoblibModelSerializer
 # %% - Deserializers
 
 
-class ModelDeserializer(abc.ABC, pdt.BaseModel):
+class ModelDeserializer(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a model deserializer."""
 
     # note: use serializer to load model objects

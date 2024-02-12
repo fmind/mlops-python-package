@@ -23,7 +23,7 @@ CrossValidation = int | splitters.Splits | splitters.Splitter
 # %% SEARCHERS
 
 
-class Searcher(abc.ABC, pdt.BaseModel):
+class Searcher(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a searcher."""
 
     # note: use searcher to tune models

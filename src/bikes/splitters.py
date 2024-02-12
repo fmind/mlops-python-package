@@ -20,7 +20,7 @@ Splits = T.Iterator[TrainTest]
 # %% SPLITTERS
 
 
-class Splitter(abc.ABC, pdt.BaseModel):
+class Splitter(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a splitter."""
 
     # note: use splitters to split datasets

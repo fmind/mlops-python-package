@@ -18,7 +18,7 @@ Locals = dict[str, T.Any]
 # %% JOBS
 
 
-class Job(abc.ABC, pdt.BaseModel):
+class Job(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a job."""
 
     # note: use jobs to provide run contexts

@@ -11,7 +11,7 @@ from loguru import logger
 # %% SERVICES
 
 
-class Service(abc.ABC, pdt.BaseModel):
+class Service(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a global service."""
 
     # Note: use services to manage global contexts

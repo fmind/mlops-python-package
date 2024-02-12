@@ -11,7 +11,7 @@ import pydantic as pdt
 # %% READERS
 
 
-class Reader(abc.ABC, pdt.BaseModel):
+class Reader(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a dataset reader."""
 
     # note: use reader to load data in memory
@@ -43,7 +43,7 @@ ReaderKind = ParquetReader
 # %% WRITERS
 
 
-class Writer(abc.ABC, pdt.BaseModel):
+class Writer(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a dataset writer."""
 
     # note: use writer to save data from memory
