@@ -1,5 +1,3 @@
-"""Test the searchers module."""
-
 # pylint: disable=missing-docstring
 
 # %% IMPORTS

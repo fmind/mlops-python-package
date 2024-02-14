@@ -10,20 +10,33 @@ import pandera.typing as papd
 
 
 class Schema(pa.DataFrameModel):
-    """Base class for a dataframe schema."""
+    """Base class for a dataframe schema.
 
-    # note: use schemas to type your dataframes
-    # e.g., to communicate and validate its fields
+    Use a schema to type your dataframe object.
+    e.g., to communicate and validate its fields.
+    """
 
     class Config:
-        """Default configuration."""
+        """Default configuration.
+
+        Attributes:
+            coerce: convert data type if possible.
+            strict: ensure the data type is correct.
+        """
 
         coerce = True
         strict = True
 
     @classmethod
     def check(cls, data: pd.DataFrame, **kwargs):
-        """Check the data with this schema."""
+        """Check the data with this schema.
+
+        Args:
+            data (pd.DataFrame): dataframe to check.
+
+        Returns:
+            _type_: validated dataframe with schema.
+        """
         return cls.validate(data, **kwargs)
 
 

@@ -13,7 +13,11 @@ from bikes import configs, jobs
 
 
 class Settings(pdts.BaseSettings, strict=True):
-    """Settings for the program."""
+    """Settings for the program.
+
+    Attributes:
+        job: job associated with the settings.
+    """
 
     job: jobs.JobKind = pdt.Field(..., discriminator="KIND")
 
@@ -21,17 +25,24 @@ class Settings(pdts.BaseSettings, strict=True):
 # %% PARSERS
 
 parser = argparse.ArgumentParser(description="Run a job with configs.")
-parser.add_argument("configs", nargs="+", help="Config files for a single job.")
+parser.add_argument("configs", nargs="+", help="Config files for the job.")
 
 # %% SCRIPTS
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Main function of the script."""
-    args = parser.parse_args(argv)  # argv or sys.argv
+    """Main function of the program.
+
+    Args:
+        argv (list[str] | None, optional): program arguments. Defaults to None for sys.argv.
+
+    Returns:
+        int: status code of the program.
+    """
+    args = parser.parse_args(argv)
     config = configs.parse_configs(args.configs)
-    object_ = configs.to_object(config)  # dict
+    object_ = configs.to_object(config)
     settings = Settings.model_validate(object_)
-    with settings.job as runner:  # context
-        runner.run()  # run in the context
-    return 0  # 0 = success
+    with settings.job as runner:
+        runner.run()
+    return 0  # success

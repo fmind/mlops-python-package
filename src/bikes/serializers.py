@@ -16,27 +16,36 @@ from bikes import models
 
 
 class ModelSerializer(abc.ABC, pdt.BaseModel, strict=True):
-    """Base class for a model serializer."""
+    """Base class for a model serializer.
 
-    # note: use serializer to save model objects
-    # e.g., to export the model to a pickle file
+    Use serializer to save the model objects.
+    e.g., to export the model to a pickle file.
+    """
 
     KIND: str
 
     @abc.abstractmethod
     def save(self, model: models.Model) -> None:
-        """Save the model to a given destination."""
+        """Save the model to a given destination.
+
+        Args:
+            model (models.Model): model to save.
+        """
 
 
 class JoblibModelSerializer(ModelSerializer):
-    """Model serializer based on joblib."""
+    """Model serializer based on joblib.
+
+    Attributes:
+        path: output path for the model.
+    """
 
     KIND: T.Literal["JoblibModelSerializer"] = "JoblibModelSerializer"
 
     path: str
 
+    @T.override
     def save(self, model: models.Model) -> None:
-        """Save the model to the given path."""
         jl.dump(model, self.path)
 
 
@@ -47,27 +56,36 @@ ModelSerializerKind = JoblibModelSerializer
 
 
 class ModelDeserializer(abc.ABC, pdt.BaseModel, strict=True):
-    """Base class for a model deserializer."""
+    """Base class for a model deserializer.
 
-    # note: use serializer to load model objects
-    # e.g., to import the model from a pickle file
+    Use deserializer to load the model objects.
+    e.g., to import the model from a pickle file.
+    """
 
     KIND: str
 
     @abc.abstractmethod
     def load(self) -> models.Model:
-        """Load the model from a given source."""
+        """Load the model from a given source.
+
+        Returns:
+            models.Model: loaded model.
+        """
 
 
 class JoblibModelDeserializer(ModelDeserializer):
-    """Model deserializer based on joblib."""
+    """Model deserializer based on joblib.
+
+    Attributes:
+        path: source path for the model.
+    """
 
     KIND: T.Literal["JoblibModelDeserializer"] = "JoblibModelDeserializer"
 
     path: str
 
+    @T.override
     def load(self) -> models.Model:
-        """Load the model from the given path."""
         return jl.load(self.path)
 
 

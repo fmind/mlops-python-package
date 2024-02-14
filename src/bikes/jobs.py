@@ -19,25 +19,42 @@ Locals = dict[str, T.Any]
 
 
 class Job(abc.ABC, pdt.BaseModel, strict=True):
-    """Base class for a job."""
+    """Base class for a job.
 
-    # note: use jobs to provide run contexts
-    # e.g., to define common services like logger
+    use a job to execute runs in  context.
+    e.g., to define common services like logger
+
+    Attributes:
+        logger_service: manage the logging system.
+    """
 
     KIND: str
 
     # services
     logger_service: services.Service = services.LoggerService()
 
-    def __enter__(self) -> "Job":
-        """Enter the context."""
+    def __enter__(self) -> T.Self:
+        """Enter the job context.
+
+        Returns:
+            T.Self: return the current object.
+        """
         # services
         self.logger_service.start()
         # return
         return self
 
     def __exit__(self, exc_type, exc_value, traceback) -> T.Literal[False]:
-        """Exit the context."""
+        """Exit the job context.
+
+        Args:
+            exc_type: ignored.
+            exc_value: ignored.
+            traceback: ignored.
+
+        Returns:
+            T.Literal[False]: always propagate exceptions.
+        """
         # services
         self.logger_service.stop()
         # return
@@ -45,11 +62,25 @@ class Job(abc.ABC, pdt.BaseModel, strict=True):
 
     @abc.abstractmethod
     def run(self) -> Locals:
-        """Run the job in context."""
+        """Run the job in context.
+
+        Returns:
+            Locals: local job variables.
+        """
 
 
 class TuningJob(Job):
-    """Find the best hyperparameters for a model."""
+    """Find the best hyperparameters for a model.
+
+    Attributes:
+        inputs: dataset reader with inputs variables.
+        targets: dataset reader with targets variables.
+        results: dataset writer for searcher results.
+        model: machine learning model to tune.
+        metric: main metric for evaluation.
+        splitter: splitter for datasets.
+        searcher: searcher algorithm.
+    """
 
     KIND: T.Literal["TuningJob"] = "TuningJob"
 
@@ -69,8 +100,8 @@ class TuningJob(Job):
         param_grid={"max_depth": [3, 5, 7]},
     )
 
+    @T.override
     def run(self) -> Locals:
-        """Run the tuning job in context."""
         # read
         # - inputs
         logger.info("Read inputs: {}", self.inputs)
@@ -103,7 +134,16 @@ class TuningJob(Job):
 
 
 class TrainingJob(Job):
-    """Train and register a single AI/ML model"""
+    """Train and register a single AI/ML model
+
+    Attributes:
+        inputs: dataset reader with inputs variables.
+        targets: dataset reader with targets variables.
+        serializer: serializer for the trained model.
+        model: machine learning model to tune.
+        scorers: metrics for the evaluation.
+        splitter: splitter for datasets.
+    """
 
     KIND: T.Literal["TrainingJob"] = "TrainingJob"
 
@@ -119,8 +159,8 @@ class TrainingJob(Job):
     # splitter
     splitter: splitters.SplitterKind = splitters.TrainTestSplitter()
 
+    @T.override
     def run(self) -> Locals:
-        """Run the training job in context."""
         # read
         # - inputs
         logger.info("Read inputs: {}", self.inputs)
@@ -167,7 +207,13 @@ class TrainingJob(Job):
 
 
 class InferenceJob(Job):
-    """Load a model and generate predictions."""
+    """Load a model and generate predictions.
+
+    Attributes:
+        inputs: dataset reader with inputs variables.
+        outputs: dataset writer for the model outputs.
+        deserializer: deserializer for the trained model.
+    """
 
     KIND: T.Literal["InferenceJob"] = "InferenceJob"
 
@@ -178,8 +224,8 @@ class InferenceJob(Job):
     # model
     deserializer: serializers.ModelDeserializerKind
 
+    @T.override
     def run(self) -> Locals:
-        """Run the inference job in context."""
         # inputs
         logger.info("Read inputs: {}", self.inputs)
         inputs = self.inputs.read()

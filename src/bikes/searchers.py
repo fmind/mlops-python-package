@@ -24,10 +24,11 @@ CrossValidation = int | splitters.Splits | splitters.Splitter
 
 
 class Searcher(abc.ABC, pdt.BaseModel, strict=True):
-    """Base class for a searcher."""
+    """Base class for a searcher.
 
-    # note: use searcher to tune models
-    # e.g., to find the best model params
+    note: use searcher to tune models.
+    e.g., to find the best model params.
+    """
 
     KIND: str
 
@@ -40,22 +41,43 @@ class Searcher(abc.ABC, pdt.BaseModel, strict=True):
         inputs: schemas.Inputs,
         targets: schemas.Targets,
     ) -> Results:
-        """Search the best model for the given inputs and targets."""
+        """Search the best model for the given inputs and targets.
+
+        Args:
+            model (models.Model): machine learning model to tune.
+            metric (metrics.Metric): main metric to optimize.
+            cv (CrossValidation): structure for cross-fold.
+            inputs (schemas.Inputs): model inputs for tuning.
+            targets (schemas.Targets): model targets for tuning.
+
+        Returns:
+            Results: all the results of the tuning process.
+        """
 
 
 class GridCVSearcher(Searcher):
-    """Grid searcher with cross-folds."""
+    """Grid searcher with cross-folds.
+
+    Attributes:
+        param_grid: mapping of param key -> values.
+        n_jobs: number of jobs to run in parallel.
+        refit: refit the model after the tuning.
+        verbose: set the search verbosity level.
+        error_score: strategy or value on error.
+        return_train_score: include train scores.
+    """
 
     KIND: T.Literal["GridCVSearcher"] = "GridCVSearcher"
 
     # public
     param_grid: dict[str, list]
     n_jobs: int | None = None
-    refit: bool = True
+    refit: bool = False
     verbose: int = 3
     error_score: str | float = "raise"
     return_train_score: bool = True
 
+    @T.override
     def search(
         self,
         model: models.Model,
@@ -64,7 +86,6 @@ class GridCVSearcher(Searcher):
         inputs: schemas.Inputs,
         targets: schemas.Targets,
     ) -> Results:
-        """Search the best model for the given inputs and targets using a grid search."""
         searcher = model_selection.GridSearchCV(
             estimator=model,
             scoring=metric.scorer,

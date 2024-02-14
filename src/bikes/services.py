@@ -1,9 +1,10 @@
-"""Manage global contexts during execution."""
+"""Manage global context during program execution."""
 
 # %% IMPORTS
 
 import abc
 import sys
+import typing as T
 
 import pydantic as pdt
 from loguru import logger
@@ -12,10 +13,11 @@ from loguru import logger
 
 
 class Service(abc.ABC, pdt.BaseModel, strict=True):
-    """Base class for a global service."""
+    """Base class for a global service.
 
-    # Note: use services to manage global contexts
-    # e.g., logger object, mlflow client, spark context, ...
+    Use services to manage global contexts.
+    e.g., logger object, mlflow client, spark context, ...
+    """
 
     @abc.abstractmethod
     def start(self) -> None:
@@ -23,11 +25,22 @@ class Service(abc.ABC, pdt.BaseModel, strict=True):
 
     def stop(self) -> None:
         """Stop the service."""
-        # do nothing by default
+        # does nothing by default
 
 
 class LoggerService(Service):
-    """Service for logging messages."""
+    """Service for logging messages.
+
+    Attributes:
+        sink: logging output.
+        level: logging level.
+        format: logging format.
+        colorize: colorize output.
+        serialize: convert to JSON.
+        backtrace: enable exception trace.
+        diagnose: enable variable display.
+        catch: catch errors during log handling.
+    """
 
     # reference: https://loguru.readthedocs.io/en/stable/api/logger.html
 
@@ -45,8 +58,8 @@ class LoggerService(Service):
     diagnose: bool = False
     catch: bool = True
 
+    @T.override
     def start(self) -> None:
-        """Start the logger service."""
         # sinks
         sinks = {
             "stderr": sys.stderr,

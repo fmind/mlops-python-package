@@ -1,5 +1,3 @@
-"""Test the configs module."""
-
 # pylint: disable=missing-docstring
 
 # %% IMPORTS

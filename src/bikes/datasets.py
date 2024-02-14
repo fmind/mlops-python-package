@@ -12,10 +12,14 @@ import pydantic as pdt
 
 
 class Reader(abc.ABC, pdt.BaseModel, strict=True):
-    """Base class for a dataset reader."""
+    """Base class for a dataset reader.
 
-    # note: use reader to load data in memory
-    # e.g., to read file, database, cloud storage, ...
+    Use a reader to load a dataset in memory.
+    e.g., to read file, database, cloud storage, ...
+
+    Attributes:
+        limit: maximum number of rows to read from dataset.
+    """
 
     KIND: str
 
@@ -23,18 +27,26 @@ class Reader(abc.ABC, pdt.BaseModel, strict=True):
 
     @abc.abstractmethod
     def read(self) -> pd.DataFrame:
-        """Read a dataframe from a dataset."""
+        """Read a dataframe from a dataset.
+
+        Returns:
+            pd.DataFrame: dataframe representation.
+        """
 
 
 class ParquetReader(Reader):
-    """Read a dataframe from a parquet file."""
+    """Read a dataframe from a parquet file.
+
+    Attributes:
+        path: local or remote path to a dataset.
+    """
 
     KIND: T.Literal["ParquetReader"] = "ParquetReader"
 
     path: str
 
+    @T.override
     def read(self) -> pd.DataFrame:
-        """Read a dataframe from a parquet dataset."""
         return pd.read_parquet(self.path).head(self.limit)
 
 
@@ -44,27 +56,36 @@ ReaderKind = ParquetReader
 
 
 class Writer(abc.ABC, pdt.BaseModel, strict=True):
-    """Base class for a dataset writer."""
+    """Base class for a dataset writer.
 
-    # note: use writer to save data from memory
-    # e.g., to write file, database, cloud storage, ...
+    Use a writer to save a dataset from memory.
+    e.g., to write file, database, cloud storage, ...
+    """
 
     KIND: str
 
     @abc.abstractmethod
     def write(self, data: pd.DataFrame) -> None:
-        """Write a dataframe to a dataset."""
+        """Write a dataframe to a dataset.
+
+        Args:
+            data (pd.DataFrame): dataframe representation.
+        """
 
 
 class ParquetWriter(Writer):
-    """Writer a dataframe to a parquet file."""
+    """Writer a dataframe to a parquet file.
+
+    Attributes:
+        path: local or remote file to a dataset.
+    """
 
     KIND: T.Literal["ParquetWriter"] = "ParquetWriter"
 
     path: str
 
+    @T.override
     def write(self, data: pd.DataFrame) -> None:
-        """Write a dataframe to a parquet dataset."""
         pd.DataFrame.to_parquet(data, self.path)
 
 

@@ -1,5 +1,3 @@
-"""Test the models module."""
-
 # pylint: disable=missing-docstring
 
 # %% IMPORTS

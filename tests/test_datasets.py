@@ -1,5 +1,3 @@
-"""Test the datasets module."""
-
 # pylint: disable=missing-docstring
 
 # %% IMPORTS

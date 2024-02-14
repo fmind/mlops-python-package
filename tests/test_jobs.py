@@ -1,5 +1,3 @@
-"""Test the jobs module."""
-
 # pylint: disable=missing-docstring
 
 # %% IMPORTS
