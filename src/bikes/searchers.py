@@ -13,6 +13,10 @@ from bikes import metrics, models, schemas, splitters
 
 # %% TYPES
 
+# Grid of model params
+# {param name -> param values}
+Grid = dict[str, list[T.Any]]
+
 # results of a model search
 # (results, best score, best params)
 Results = tuple[pd.DataFrame, float, models.Params]
@@ -70,12 +74,12 @@ class GridCVSearcher(Searcher):
     KIND: T.Literal["GridCVSearcher"] = "GridCVSearcher"
 
     # public
-    param_grid: dict[str, list]
+    param_grid: Grid
     n_jobs: int | None = None
     refit: bool = False
     verbose: int = 3
     error_score: str | float = "raise"
-    return_train_score: bool = True
+    return_train_score: bool = False
 
     @T.override
     def search(

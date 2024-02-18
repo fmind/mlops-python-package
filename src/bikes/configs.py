@@ -1,4 +1,4 @@
-"""Parse and merge config files."""
+"""Parse, merge, and convert YAML configs."""
 
 # %% IMPORTS
 
@@ -7,13 +7,12 @@ from omegaconf import DictConfig, ListConfig, OmegaConf
 
 # %% TYPES
 
-# Union of OmegaConf config types
 Config = ListConfig | DictConfig
 
-# %% LOADERS
+# %% PARSERS
 
 
-def parse_config(path: str) -> Config:
+def parse_file(path: str) -> Config:
     """Parse a config file from a path.
 
     Args:
@@ -29,28 +28,41 @@ def parse_config(path: str) -> Config:
     return config
 
 
-def parse_configs(paths: list[str]) -> Config:
-    """Parse and merge config files from paths.
+def parse_string(string: str) -> Config:
+    """Parse the given config string.
 
     Args:
-        paths (list[str]): list of local or remote paths.
+        string (str): configuration string.
 
     Returns:
-        Config: representation of the config file.
+        Config: representation of the config string.
     """
-    configs = map(parse_config, paths)
-    config = OmegaConf.merge(*configs)
-    return config
+    return OmegaConf.create(string)
+
+
+# %% MERGERS
+
+
+def merge_configs(configs: list[Config]) -> Config:
+    """Merge a list of config objects into one.
+
+    Args:
+        configs (list[Config]): list of config objects.
+
+    Returns:
+        Config: representation of the merged config objects.
+    """
+    return OmegaConf.merge(*configs)
 
 
 # %% CONVERTERS
 
 
 def to_object(config: Config) -> object:
-    """Convert a config to a python object.
+    """Convert a config object to a python object.
 
     Args:
-        config (Config): representation of the config file.
+        config (Config): representation of the config.
 
     Returns:
         object: conversion of the config to a python object.

@@ -6,10 +6,11 @@
 
 import os
 
+import mlflow
 import omegaconf
 import pytest
 
-from bikes import datasets, metrics, models, schemas, serializers, services, splitters
+from bikes import datasets, metrics, models, registers, schemas, searchers, services, splitters
 
 # %% CONFIGS
 
@@ -72,10 +73,24 @@ def tmp_results_path(tmp_path: str) -> str:
     return os.path.join(tmp_path, "results.parquet")
 
 
-@pytest.fixture(scope="function")
-def tmp_model_path(tmp_path: str) -> str:
-    """Return a tmp path of the model object."""
-    return os.path.join(tmp_path, "model.joblib")
+# %% - Configs
+
+
+@pytest.fixture(scope="session")
+def extra_config() -> str:
+    """Extra config for scripts."""
+    # use OmegaConf resolver for ${tmp_data_path:}
+    string = """
+    {
+        "job": {
+            "mlflow_service": {
+                "tracking_uri": "sqlite:///${tmp_data_path:}/mlflow.sqlite",
+                "registry_uri": "sqlite:///${tmp_data_path:}/mlflow.sqlite"
+            }
+        }
+    }
+    """
+    return string
 
 
 # %% - Datasets
@@ -169,6 +184,16 @@ def train_test_sets(
     return inputs_train, targets_train, inputs_test, targets_test
 
 
+# %% - Searchers
+
+
+@pytest.fixture(scope="session")
+def default_searcher() -> searchers.GridCVSearcher:
+    """Return the default searcher."""
+    param_grid = {"max_depth": [2, 4], "n_estimators": [10, 15]}
+    return searchers.GridCVSearcher(param_grid=param_grid)
+
+
 # %% - Models
 
 
@@ -208,25 +233,59 @@ def logger_service():
     return service
 
 
-# %% Serializers
+@pytest.fixture(scope="function", autouse=True)
+def mlflow_service(tmp_path: str) -> services.MLflowService:
+    """Return and start the mlflow service."""
+    uri = f"sqlite:///{tmp_path}/mlflow.sqlite"
+    service = services.MLflowService(
+        tracking_uri=uri, registry_uri=uri, experiment_name="Testing", registry_name="Testing"
+    )
+    service.start()  # ready to be used
+    return service
 
 
-@pytest.fixture(scope="function")
-def model_serializer(tmp_model_path: str) -> serializers.JoblibModelSerializer:
-    """Return the default model serializer."""
-    return serializers.JoblibModelSerializer(path=tmp_model_path)
+# %% - Registers
 
 
-@pytest.fixture(scope="function")
-def model_deserializer(
-    default_model: models.Model, model_serializer: serializers.JoblibModelSerializer
-) -> serializers.JoblibModelDeserializer:
-    """Return the default model deserializer."""
-    model_serializer.save(model=default_model)  # refresh model
-    return serializers.JoblibModelDeserializer(path=model_serializer.path)
+@pytest.fixture(scope="session")
+def default_signer() -> registers.InferSigner:
+    """Return the default infer signer."""
+    return registers.InferSigner()
+
+
+@pytest.fixture(scope="session")
+def default_signature(
+    default_signer: registers.InferSigner, inputs: schemas.Inputs, outputs: schemas.Outputs
+) -> registers.Signature:
+    """Return the default signature."""
+    return default_signer.sign(inputs=inputs, outputs=outputs)
+
+
+@pytest.fixture(scope="session")
+def default_saver() -> registers.CustomSaver:
+    """Return the default model saver."""
+    return registers.CustomSaver(path="test")
+
+
+@pytest.fixture(scope="session")
+def default_loader() -> registers.CustomLoader:
+    """Return the default model loader."""
+    return registers.CustomLoader()
 
 
 # %% - Resolvers
+
+
+@pytest.fixture(scope="session", autouse=True)
+def test_data_path_resolver(data_path: str) -> str:
+    """Register test_data with OmegaConf."""
+
+    def test_data_resolver() -> str:
+        """Get data_path."""
+        return data_path
+
+    omegaconf.OmegaConf.register_new_resolver("test_data_path", test_data_resolver, use_cache=True, replace=True)
+    return data_path
 
 
 @pytest.fixture(scope="function", autouse=True)
@@ -239,3 +298,28 @@ def tmp_path_resolver(tmp_path: str) -> str:
 
     omegaconf.OmegaConf.register_new_resolver("tmp_path", tmp_path_resolver, replace=True)
     return tmp_path
+
+
+# %% - Mlflow Registry
+
+
+@pytest.fixture(scope="function")
+def default_alias() -> str:
+    """Return the default model alias."""
+    return "Default"
+
+
+@pytest.fixture(scope="function")
+def default_mlflow_model_version(
+    inputs: schemas.Inputs,
+    default_alias: str,
+    default_model: models.Model,
+    default_saver: registers.CustomSaver,
+    default_signature: registers.Signature,
+    mlflow_service: services.MLflowService,
+) -> registers.Version:
+    """Return an MLflow version for the default model."""
+    with mlflow.start_run(run_name="Default") as run:
+        default_saver.save(model=default_model, signature=default_signature, input_example=inputs)
+        version = mlflow_service.register(run_id=run.info.run_id, path=default_saver.path, alias=default_alias)
+    return version

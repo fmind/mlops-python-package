@@ -1,4 +1,4 @@
-"""Split dataframes into subsets."""
+"""Split dataframes into subsets (e.g., train/valid/test)."""
 
 # %% IMPORTS
 

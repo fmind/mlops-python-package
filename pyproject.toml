@@ -32,11 +32,7 @@ pyarrow = "^15.0.0"
 pydantic = "^2.5.3"
 pydantic-settings = "^2.1.0"
 scikit-learn = "^1.4.0"
-
-[tool.poetry.group.dev.dependencies]
-invoke = "^2.2.0"
-ipykernel = "^6.29.0"
-pre-commit = "^3.6.0"
+mlflow-skinny = "^2.10.2"
 
 [tool.poetry.group.checkers.dependencies]
 coverage = "^7.4.1"
@@ -45,9 +41,12 @@ pylint = "^3.0.3"
 pytest = "^8.0.0"
 pytest-cov = "^4.1.0"
 pytest-xdist = "^3.5.0"
+pandera = { extras = ["mypy"], version = "^0.18.0" }
 
-[tool.poetry.group.notebooks.dependencies]
-nbformat = "^5.9.2"
+[tool.poetry.group.dev.dependencies]
+invoke = "^2.2.0"
+ipykernel = "^6.29.0"
+pre-commit = "^3.6.0"
 
 [tool.poetry.group.documenters.dependencies]
 pdoc = "^13.1.1"
@@ -56,13 +55,22 @@ pdoc = "^13.1.1"
 black = "^24.1.1"
 isort = "^5.13.2"
 
+[tool.poetry.group.mlflow.dependencies]
+sqlalchemy = "^2.0.27"
+alembic = "^1.13.1"
+
+[tool.poetry.group.notebooks.dependencies]
+nbformat = "^5.9.2"
+
 # CONFIGURATIONS
+
 
 [tool.black]
 line-length = 120
 
 [tool.coverage.run]
 branch = true
+source = ["src"]
 
 [tool.isort]
 line_length = 120

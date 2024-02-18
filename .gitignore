@@ -12,13 +12,11 @@
 # Editor
 /.idea/
 /.vscode/
+.ipynb_checkpoints/
 
 # Environs
 /.venv/
 poetry.lock
-
-# Notebooks
-.ipynb_checkpoints/
 
 # Project
 /docs/*

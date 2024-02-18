@@ -18,9 +18,14 @@ class Metric(abc.ABC, pdt.BaseModel, strict=True):
 
     Use metrics to evaluate model performance.
     e.g., accuracy, precision, recall, mae, f1, ...
+
+    Attributes:
+        name: name of the metric.
     """
 
     KIND: str
+
+    name: str
 
     @abc.abstractmethod
     def score(self, targets: schemas.Targets, outputs: schemas.Outputs) -> float:
@@ -69,8 +74,8 @@ class SklearnMetric(Metric):
         sign = 1 if self.greater_is_better else -1
         targets = targets[schemas.TargetsSchema.cnt]
         outputs = outputs[schemas.OutputsSchema.prediction]
-        score = metric(y_pred=outputs, y_true=targets)
-        return score * sign
+        score = metric(y_pred=outputs, y_true=targets) * sign
+        return score
 
 
 MetricKind = SklearnMetric

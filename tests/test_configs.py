@@ -11,7 +11,7 @@ from bikes import configs
 # %% LOADERS
 
 
-def test_parse_config(tmp_path: str):
+def test_parse_file(tmp_path: str):
     # given
     text = """
     a: 1
@@ -22,38 +22,40 @@ def test_parse_config(tmp_path: str):
     with open(path, "w", encoding="utf-8") as writer:
         writer.write(text)
     # when
-    config = configs.parse_config(path)
+    config = configs.parse_file(path)
     # then
     assert config == {
         "a": 1,
         "b": True,
         "c": [3, 4],
-    }, "Config should be loaded correctly!"
+    }, "File config should be loaded correctly!"
 
 
-def test_parse_configs(tmp_path: str):
+def test_parse_string():
     # given
-    paths = []
-    for i in range(3):
-        text = f"""
-        x: {i}
-        {i}: {i}
-        """
-        path = os.path.join(tmp_path, f"{i}.yml")
-        with open(path, "w", encoding="utf-8") as writer:
-            writer.write(text)
-        paths.append(path)
+    text = """{"a": 1, "b": 2, "data": [3, 4]}"""
     # when
-    config = configs.parse_configs(paths)
+    config = configs.parse_string(text)
     # then
     assert config == {
-        # each file should have its key
+        "a": 1,
+        "b": 2,
+        "data": [3, 4],
+    }, "String config should be loaded correctly!"
+
+
+def test_merge_configs():
+    # given
+    confs = [OmegaConf.create({"x": i, i: i}) for i in range(3)]
+    # when
+    config = configs.merge_configs(confs)
+    # then
+    assert config == {
         0: 0,
         1: 1,
         2: 2,
-        # x should be the last value read
         "x": 2,
-    }, "Configs should be loaded correctly!"
+    }, "Configs should be merged correctly!"
 
 
 # %% CONVERTERS

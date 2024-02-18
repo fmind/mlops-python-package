@@ -13,7 +13,6 @@ from invoke.context import Context
 @task
 def coverage(ctx: Context) -> None:
     """Clean coverage files."""
-    ctx.run("rm -f .coverage")
     ctx.run("rm -f .coverage*")
 
 

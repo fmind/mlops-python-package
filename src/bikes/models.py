@@ -1,4 +1,4 @@
-"""Define machine learning models for the project."""
+"""Define trainable machine learning models."""
 
 # %% IMPORTS
 
