@@ -91,14 +91,21 @@ class MLflowService(Service):
     autolog_log_datasets: bool = True
     autolog_silent: bool = False
     # tracking
-    tracking_uri: str = "./models"
+    tracking_uri: str = "./mlruns"
     experiment_name: str = "bikes"
+    experiment_tags: dict[str, T.Any] | None = None
     # registry
-    registry_uri: str = "./models"
+    registry_uri: str = "./mlruns"
     registry_name: str = "bikes"
 
     def start(self):
         """Start the mlflow service."""
+        # uri
+        mlflow.set_tracking_uri(uri=self.tracking_uri)
+        mlflow.set_registry_uri(uri=self.registry_uri)
+        # experiment
+        mlflow.set_experiment(experiment_name=self.experiment_name)
+        # autologging
         mlflow.autolog(
             disable=self.autolog_disable,
             disable_for_unsupported_versions=self.autolog_disable_for_unsupported_versions,
@@ -108,9 +115,6 @@ class MLflowService(Service):
             log_models=self.autolog_log_models,
             silent=self.autolog_silent,
         )
-        mlflow.set_tracking_uri(uri=self.tracking_uri)
-        mlflow.set_registry_uri(uri=self.registry_uri)
-        mlflow.set_experiment(experiment_name=self.experiment_name)
 
     def client(self) -> MlflowClient:
         """Get an instance of MLflow client."""

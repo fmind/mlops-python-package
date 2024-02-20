@@ -3,6 +3,7 @@
 # %% IMPORTS
 
 import argparse
+import json
 
 import pydantic as pdt
 import pydantic_settings as pdts
@@ -44,7 +45,7 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.schema is True:
         schema = Settings.model_json_schema()
-        print(schema)  # print and exit
+        print(json.dumps(schema, indent=2))
         return 0  # success
     files = map(configs.parse_file, args.configs)
     strings = map(configs.parse_string, args.extras)

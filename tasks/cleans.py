@@ -57,7 +57,7 @@ def pytest(ctx: Context) -> None:
 def python(ctx: Context) -> None:
     """Clean python files and folders."""
     ctx.run("find . -type f -name '*.py[co]' -delete")
-    ctx.run("find . -type d -name __pycache__ -delete")
+    ctx.run(r"find . -type d -name __pycache__ -exec rm -r {} \+")
 
 
 @task(pre=[coverage, dist, docs, mypy, pytest, python], default=True)

@@ -47,7 +47,10 @@ class ParquetReader(Reader):
 
     @T.override
     def read(self) -> pd.DataFrame:
-        return pd.read_parquet(self.path).head(self.limit)
+        data = pd.read_parquet(self.path)
+        if self.limit is not None:
+            data = data.head(self.limit)
+        return data
 
 
 ReaderKind = ParquetReader

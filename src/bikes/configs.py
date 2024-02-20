@@ -2,6 +2,8 @@
 
 # %% IMPORTS
 
+import typing as T
+
 from cloudpathlib import AnyPath
 from omegaconf import DictConfig, ListConfig, OmegaConf
 
@@ -43,7 +45,7 @@ def parse_string(string: str) -> Config:
 # %% MERGERS
 
 
-def merge_configs(configs: list[Config]) -> Config:
+def merge_configs(configs: T.Sequence[Config]) -> Config:
     """Merge a list of config objects into one.
 
     Args:

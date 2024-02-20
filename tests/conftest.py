@@ -5,6 +5,7 @@
 # %% IMPORTS
 
 import os
+import typing as T
 
 import mlflow
 import omegaconf
@@ -79,13 +80,13 @@ def tmp_results_path(tmp_path: str) -> str:
 @pytest.fixture(scope="session")
 def extra_config() -> str:
     """Extra config for scripts."""
-    # use OmegaConf resolver for ${tmp_data_path:}
+    # use OmegaConf resolver for ${tmp_path:}
     string = """
     {
         "job": {
             "mlflow_service": {
-                "tracking_uri": "sqlite:///${tmp_data_path:}/mlflow.sqlite",
-                "registry_uri": "sqlite:///${tmp_data_path:}/mlflow.sqlite"
+                "tracking_uri": "${tmp_path:}/experiments/",
+                "registry_uri": "${tmp_path:}/models/",
             }
         }
     }
@@ -181,7 +182,12 @@ def train_test_sets(
     train_index, test_index = train_test_split
     inputs_train, inputs_test = inputs.iloc[train_index], inputs.iloc[test_index]
     targets_train, targets_test = targets.iloc[train_index], targets.iloc[test_index]
-    return inputs_train, targets_train, inputs_test, targets_test
+    return (
+        T.cast(schemas.Inputs, inputs_train),
+        T.cast(schemas.Targets, targets_train),
+        T.cast(schemas.Inputs, inputs_test),
+        T.cast(schemas.Targets, targets_test),
+    )
 
 
 # %% - Searchers
@@ -236,9 +242,13 @@ def logger_service():
 @pytest.fixture(scope="function", autouse=True)
 def mlflow_service(tmp_path: str) -> services.MLflowService:
     """Return and start the mlflow service."""
-    uri = f"sqlite:///{tmp_path}/mlflow.sqlite"
+    tracking_uri = f"{tmp_path}/experiments/"
+    registry_uri = f"{tmp_path}/models/"
     service = services.MLflowService(
-        tracking_uri=uri, registry_uri=uri, experiment_name="Testing", registry_name="Testing"
+        tracking_uri=tracking_uri,
+        registry_uri=registry_uri,
+        experiment_name="Testing",
+        registry_name="Testing",
     )
     service.start()  # ready to be used
     return service

@@ -4,20 +4,23 @@
 
 import os
 
+import pytest
+
 from bikes import datasets, schemas
 
 # %% READERS
 
 
-def test_parquet_reader(inputs_path: str):
+@pytest.mark.parametrize("limit", [None, 50])
+def test_parquet_reader(limit: int | None, inputs_path: str):
     # given
-    limit = 50
     reader = datasets.ParquetReader(path=inputs_path, limit=limit)
     # when
     data = reader.read()
     # then
     assert data.ndim == 2, "Data should be a dataframe!"
-    assert len(data) == limit, "Data should have the limit size!"
+    if limit is not None:
+        assert len(data) == limit, "Data should have the limit size!"
 
 
 # %% WRITERS

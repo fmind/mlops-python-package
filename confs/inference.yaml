@@ -6,6 +6,3 @@ job:
   outputs:
     KIND: ParquetWriter
     path: outputs/predictions.parquet
-  deserializer:
-    KIND: JoblibModelDeserializer
-    path: models/model.joblib

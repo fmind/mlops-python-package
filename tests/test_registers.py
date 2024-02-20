@@ -5,7 +5,6 @@
 # %% IMPORTS
 
 import mlflow
-from sklearn import base
 
 from bikes import models, registers, schemas, services
 

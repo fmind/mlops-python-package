@@ -72,9 +72,9 @@ class SklearnMetric(Metric):
     def score(self, targets: schemas.Targets, outputs: schemas.Outputs) -> float:
         metric = getattr(metrics, self.name)
         sign = 1 if self.greater_is_better else -1
-        targets = targets[schemas.TargetsSchema.cnt]
-        outputs = outputs[schemas.OutputsSchema.prediction]
-        score = metric(y_pred=outputs, y_true=targets) * sign
+        y_true = targets[schemas.TargetsSchema.cnt]
+        y_pred = outputs[schemas.OutputsSchema.prediction]
+        score = metric(y_pred=y_pred, y_true=y_true) * sign
         return score
 
 

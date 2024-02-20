@@ -20,7 +20,7 @@ poetry.lock
 
 # Project
 /docs/*
-/models/*
+/mlruns/*
 /outputs/*
 !**/.gitkeep
 

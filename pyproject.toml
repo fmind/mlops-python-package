@@ -32,7 +32,8 @@ pyarrow = "^15.0.0"
 pydantic = "^2.5.3"
 pydantic-settings = "^2.1.0"
 scikit-learn = "^1.4.0"
-mlflow-skinny = "^2.10.2"
+# mlflow-skinny = "^2.10.2"
+mlflow = "^2.10.2"
 
 [tool.poetry.group.checkers.dependencies]
 coverage = "^7.4.1"
@@ -54,10 +55,6 @@ pdoc = "^13.1.1"
 [tool.poetry.group.formatters.dependencies]
 black = "^24.1.1"
 isort = "^5.13.2"
-
-[tool.poetry.group.mlflow.dependencies]
-sqlalchemy = "^2.0.27"
-alembic = "^1.13.1"
 
 [tool.poetry.group.notebooks.dependencies]
 nbformat = "^5.9.2"
@@ -82,7 +79,7 @@ ignore_missing_imports = true
 plugins = ["pandera.mypy", "pydantic.mypy"]
 
 [tool.pylint.MASTER]
-disable = ['too-few-public-methods', 'too-many-arguments']
+disable = ['too-few-public-methods', 'too-many-arguments', 'too-many-locals']
 max-line-length = 120
 extension-pkg-whitelist = "pydantic"
 
