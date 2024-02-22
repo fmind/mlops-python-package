@@ -1,0 +1,27 @@
+name: Main
+on:
+  push:
+    branches:
+      - main
+      - '*'
+concurrency:
+  group: main
+  cancel-in-progress: true
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: "poetry"
+      - run: pipx install poetry
+      - run: poetry install
+      - run: inv checks
+      - run: inv docs
+      - run: inv packages
+  #     - name: Deploy
+  #       uses: JamesIves/github-pages-deploy-action@v4
+  #       with:
+  #         folder: docs/build/
