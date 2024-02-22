@@ -18,9 +18,9 @@ jobs:
           # cache: "poetry"
       - run: pipx install poetry
       - run: poetry install
-      - run: inv checks
-      - run: inv docs
-      - run: inv packages
+      - run: poetry run inv checks
+      - run: poetry run inv docs
+      - run: poetry run inv packages
   #     - name: Deploy
   #       uses: JamesIves/github-pages-deploy-action@v4
   #       with:
