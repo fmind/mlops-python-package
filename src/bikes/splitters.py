@@ -62,9 +62,9 @@ class TrainTestSplitter(Splitter):
     """Split a dataframe into a train and test subsets.
 
     Attributes:
-        shuffle: shuffle dataset before splitting.
-        test_size: number or ratio for the test dataset.
-        random_state: random state for the splitter object.
+        shuffle (bool): shuffle dataset before splitting.
+        test_size (int | float): number or ratio for the test dataset.
+        random_state (int): random state for the splitter object.
     """
 
     KIND: T.Literal["TrainTestSplitter"] = "TrainTestSplitter"
@@ -90,9 +90,9 @@ class TimeSeriesSplitter(Splitter):
     """Split a dataframe into fixed time series subsets.
 
     Attributes:
-        gap: gap between splits.
-        n_splits: number of split to generate.
-        test_size: number or ratio for the test dataset.
+        gap (int): gap between splits.
+        n_splits (int): number of split to generate.
+        test_size (int | float): number or ratio for the test dataset.
     """
 
     KIND: T.Literal["TimeSeriesSplitter"] = "TimeSeriesSplitter"

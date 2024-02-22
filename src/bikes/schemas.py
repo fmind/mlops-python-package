@@ -20,12 +20,12 @@ class Schema(pa.DataFrameModel):
         """Default configuration.
 
         Attributes:
-            coerce: convert data type if possible.
-            strict: ensure the data type is correct.
+            coerce (bool): convert data type if possible.
+            strict (bool): ensure the data type is correct.
         """
 
-        coerce = True
-        strict = True
+        coerce: bool = True
+        strict: bool = True
 
     @classmethod
     def check(cls, data: pd.DataFrame, **kwargs):
@@ -35,7 +35,7 @@ class Schema(pa.DataFrameModel):
             data (pd.DataFrame): dataframe to check.
 
         Returns:
-            _type_: validated dataframe with schema.
+            pd.DataFrame: validated dataframe with schema.
         """
         return cls.validate(data, **kwargs)
 

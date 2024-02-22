@@ -82,9 +82,9 @@ class BaselineSklearnModel(Model):
     """Simple baseline model built on top of sklearn.
 
     Attributes:
-        max_depth: maximum depth of the random forest.
-        n_estimators: number of estimators in the random forest.
-        random_state: random state of the machine learning pipeline.
+        max_depth (int): maximum depth of the random forest.
+        n_estimators (int): number of estimators in the random forest.
+        random_state (int, optional): random state of the machine learning pipeline.
     """
 
     KIND: T.Literal["BaselineSklearnModel"] = "BaselineSklearnModel"

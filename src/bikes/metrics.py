@@ -20,7 +20,7 @@ class Metric(abc.ABC, pdt.BaseModel, strict=True):
     e.g., accuracy, precision, recall, mae, f1, ...
 
     Attributes:
-        name: name of the metric.
+        name (str): name of the metric.
     """
 
     KIND: str
@@ -59,8 +59,8 @@ class SklearnMetric(Metric):
     """Compute metrics with sklearn.
 
     Attributes:
-        name: name of the sklearn metric.
-        greater_is_better: maximize or minimize.
+        name (str): name of the sklearn metric.
+        greater_is_better (bool): maximize or minimize.
     """
 
     KIND: T.Literal["SklearnMetric"] = "SklearnMetric"

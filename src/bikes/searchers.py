@@ -63,12 +63,12 @@ class GridCVSearcher(Searcher):
     """Grid searcher with cross-folds.
 
     Attributes:
-        param_grid: mapping of param key -> values.
-        n_jobs: number of jobs to run in parallel.
-        refit: refit the model after the tuning.
-        verbose: set the search verbosity level.
-        error_score: strategy or value on error.
-        return_train_score: include train scores.
+        param_grid (Grid): mapping of param key -> values.
+        n_jobs (int, optional): number of jobs to run in parallel.
+        refit (bool): refit the model after the tuning.
+        verbose (int): set the search verbosity level.
+        error_score (str | float): strategy or value on error.
+        return_train_score (bool): include train scores.
     """
 
     KIND: T.Literal["GridCVSearcher"] = "GridCVSearcher"

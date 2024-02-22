@@ -26,12 +26,12 @@ class Job(abc.ABC, pdt.BaseModel, strict=True):
     e.g., to define common services like logger
 
     Attributes:
-        logger_service: manage the logging system.
+        logger_service (services.LoggerService): manage the logging system.
+        mlflow_service (services.MLflowService): manage the mlflow system.
     """
 
     KIND: str
 
-    # services
     logger_service: services.LoggerService = services.LoggerService()
     mlflow_service: services.MLflowService = services.MLflowService()
 
@@ -75,14 +75,14 @@ class TuningJob(Job):
     """Find the best hyperparameters for a model.
 
     Attributes:
-        run_name: name of the MLflow experiment run.
-        inputs: dataset reader with inputs variables.
-        targets: dataset reader with targets variables.
-        results: dataset writer for searcher results.
-        model: machine learning model to tune.
-        metric: main metric for evaluation.
-        splitter: splitter for datasets.
-        searcher: searcher algorithm.
+        run_name (str): name of the MLflow experiment run.
+        inputs (datasets.ReaderKind): dataset reader with inputs variables.
+        targets (datasets.ReaderKind): dataset reader with targets variables.
+        results (datasets.WriterKind): dataset writer for searcher results.
+        model (models.ModelKind): machine learning model to tune.
+        metric (metrics.MetricKind): main metric for evaluation.
+        splitter (splitters.SplitterKind): splitter for datasets.
+        searcher (searchers.SearcherKind): searcher algorithm.
     """
 
     KIND: T.Literal["TuningJob"] = "TuningJob"
@@ -146,15 +146,15 @@ class TrainingJob(Job):
     """Train and register a single AI/ML model
 
     Attributes:
-        run_name: name of the MLflow experiment run.
-        inputs: dataset reader with inputs variables.
-        targets: dataset reader with targets variables.
-        saver: save the trained model in registry.
-        model: machine learning model to tune.
-        signer: signer for the trained model.
-        scorers: metrics for the evaluation.
-        splitter: splitter for datasets.
-        registry_alias: alias of model.
+        run_name (str): name of the MLflow experiment run.
+        inputs (datasets.ReaderKind): dataset reader with inputs variables.
+        targets (datasets.ReaderKind): dataset reader with targets variables.
+        saver (registers.SaverKind): save the trained model in registry.
+        model (models.ModelKind): machine learning model to tune.
+        signer (registers.SignerKind): signer for the trained model.
+        scorers (list[metrics.MetricKind]): metrics for the evaluation.
+        splitter (splitters.SplitterKind): splitter for datasets.
+        registry_alias (str): alias of model.
     """
 
     KIND: T.Literal["TrainingJob"] = "TrainingJob"
@@ -244,10 +244,10 @@ class InferenceJob(Job):
     """Load a model and generate predictions.
 
     Attributes:
-        inputs: dataset reader with inputs variables.
-        outputs: dataset writer for the model outputs.
-        registry_alias: alias of the model to load.
-        loader: load the model from registry.
+        inputs (datasets.ReaderKind): dataset reader with inputs variables.
+        outputs (datasets.WriterKind): dataset writer for the model outputs.
+        registry_alias (str): alias of the model to load.
+        loader (registers.LoaderKind): load the model from registry.
     """
 
     KIND: T.Literal["InferenceJob"] = "InferenceJob"

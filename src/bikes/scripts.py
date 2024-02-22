@@ -17,7 +17,7 @@ class Settings(pdts.BaseSettings, strict=True):
     """Settings for the program.
 
     Attributes:
-        job: job associated with the settings.
+        job (jobs.JobKind): job associated with the settings.
     """
 
     job: jobs.JobKind = pdt.Field(..., discriminator="KIND")

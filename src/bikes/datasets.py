@@ -18,7 +18,7 @@ class Reader(abc.ABC, pdt.BaseModel, strict=True):
     e.g., to read file, database, cloud storage, ...
 
     Attributes:
-        limit: maximum number of rows to read from dataset.
+        limit (int, optional): maximum number of rows to read from dataset.
     """
 
     KIND: str
@@ -38,7 +38,7 @@ class ParquetReader(Reader):
     """Read a dataframe from a parquet file.
 
     Attributes:
-        path: local or remote path to a dataset.
+        path (str): local or remote path to a dataset.
     """
 
     KIND: T.Literal["ParquetReader"] = "ParquetReader"
@@ -80,7 +80,7 @@ class ParquetWriter(Writer):
     """Writer a dataframe to a parquet file.
 
     Attributes:
-        path: local or remote file to a dataset.
+        path (str): local or remote file to a dataset.
     """
 
     KIND: T.Literal["ParquetWriter"] = "ParquetWriter"

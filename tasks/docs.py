@@ -15,13 +15,13 @@ from . import cleans
 @task
 def api(ctx: Context) -> None:
     """Document the API with pdoc."""
-    ctx.run(f"poetry run pdoc -o docs/api src/{ctx.project.name}")
+    ctx.run(f"poetry run pdoc -d google -o docs/api src/{ctx.project.name}")
 
 
 @task
 def serve(ctx: Context) -> None:
     """Document the API with pdoc."""
-    ctx.run(f"poetry run pdoc src/{ctx.project.name}")
+    ctx.run(f"poetry run pdoc -d google src/{ctx.project.name}")
 
 
 @task(pre=[cleans.docs, api], default=True)

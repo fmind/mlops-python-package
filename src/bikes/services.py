@@ -36,14 +36,14 @@ class LoggerService(Service):
     https://loguru.readthedocs.io/en/stable/api/logger.html
 
     Attributes:
-        sink: logging output.
-        level: logging level.
-        format: logging format.
-        colorize: colorize output.
-        serialize: convert to JSON.
-        backtrace: enable exception trace.
-        diagnose: enable variable display.
-        catch: catch errors during log handling.
+        sink (str): logging output.
+        level (str): logging level.
+        format (str): logging format.
+        colorize (bool): colorize output.
+        serialize (bool): convert to JSON.
+        backtrace (bool): enable exception trace.
+        diagnose (bool): enable variable display.
+        catch (bool): catch errors during log handling.
     """
 
     sink: str = "stderr"
@@ -79,7 +79,22 @@ class LoggerService(Service):
 
 
 class MLflowService(Service):
-    """Service for MLflow tracking and registry."""
+    """Service for MLflow tracking and registry.
+
+    Attributes:
+        autolog_disable (bool): disable autologging.
+        autolog_disable_for_unsupported_versions (bool): disable autologging for unsupported versions.
+        autolog_exclusive (bool): If True, enables exclusive autologging.
+        autolog_log_input_examples (bool): If True, logs input examples during autologging.
+        autolog_log_model_signatures (bool): If True, logs model signatures during autologging.
+        autolog_log_models (bool): If True, enables logging of models during autologging.
+        autolog_log_datasets (bool): If True, logs datasets used during autologging.
+        autolog_silent (bool): If True, suppresses all MLflow warnings during autologging.
+        tracking_uri (str): The URI for the MLflow tracking server.
+        experiment_name (str): The name of the experiment to log runs under.
+        registry_uri (str): The URI for the MLflow model registry.
+        registry_name (str): The name of the registry.
+    """
 
     # autolog
     autolog_disable: bool = False
@@ -91,11 +106,10 @@ class MLflowService(Service):
     autolog_log_datasets: bool = True
     autolog_silent: bool = False
     # tracking
-    tracking_uri: str = "./mlruns"
+    tracking_uri: str = "http://localhost:5000"
     experiment_name: str = "bikes"
-    experiment_tags: dict[str, T.Any] | None = None
     # registry
-    registry_uri: str = "./mlruns"
+    registry_uri: str = "http://localhost:5000"
     registry_name: str = "bikes"
 
     def start(self):

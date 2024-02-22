@@ -1,5 +1,4 @@
 # https://docs.docker.com/compose/compose-file/
-# tracking/registry uri: http://localhost:5000
 services:
   mlflow:
     image: ghcr.io/mlflow/mlflow:v2.10.2

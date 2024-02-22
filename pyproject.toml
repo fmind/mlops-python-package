@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "bikes"
-version = "0.1.0"
+version = "0.3.0"
 description = "Predict the number of bikes available."
 repository = "https://github.com/fmind/mlops-python-package"
 authors = ["Médéric HURIER <github@fmind.dev>"]
@@ -32,8 +32,12 @@ pyarrow = "^15.0.0"
 pydantic = "^2.5.3"
 pydantic-settings = "^2.1.0"
 scikit-learn = "^1.4.0"
-# mlflow-skinny = "^2.10.2"
-mlflow = "^2.10.2"
+mlflow-skinny = "^2.10.2"
+
+[tool.poetry.group.dev.dependencies]
+invoke = "^2.2.0"
+ipykernel = "^6.29.0"
+pre-commit = "^3.6.0"
 
 [tool.poetry.group.checkers.dependencies]
 coverage = "^7.4.1"
@@ -43,11 +47,6 @@ pytest = "^8.0.0"
 pytest-cov = "^4.1.0"
 pytest-xdist = "^3.5.0"
 pandera = { extras = ["mypy"], version = "^0.18.0" }
-
-[tool.poetry.group.dev.dependencies]
-invoke = "^2.2.0"
-ipykernel = "^6.29.0"
-pre-commit = "^3.6.0"
 
 [tool.poetry.group.documenters.dependencies]
 pdoc = "^13.1.1"
@@ -60,7 +59,6 @@ isort = "^5.13.2"
 nbformat = "^5.9.2"
 
 # CONFIGURATIONS
-
 
 [tool.black]
 line-length = 120
