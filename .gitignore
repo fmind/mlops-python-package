@@ -16,7 +16,6 @@
 
 # Environs
 /.venv/
-poetry.lock
 
 # Project
 /docs/*
