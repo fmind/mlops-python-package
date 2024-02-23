@@ -18,22 +18,18 @@ jobs:
           python-version: 3.12
           cache: 'poetry'
       - run: poetry install
+      - run: poetry run inv packages
       - run: poetry run inv checks
       - run: poetry run inv docs
-      - run: poetry run inv packages
-      # - uses: JamesIves/github-pages-deploy-action@v4
-      #   with:
-      #     branch: gh-pages
-      #     folder: docs/build/
-      # - run: poetry publish --build
-      #   env:
-      #     POETRY_HTTP_BASIC_GITHUB_USERNAME: ${{ github.actor }}
-      #     POETRY_HTTP_BASIC_GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
-      # - uses: docker/build-push-action@v3
-      #   with:
-      #     push: true
-      #     registry: ghcr.io
-      #     # tags: user/repo:tag
-      #     file: ./docker/Dockerfile
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages
+          folder: docs/build/
+      - uses: docker/build-push-action@v3
+        with:
+          push: true
+          registry: ghcr.io
+          tags: fmind/bikes:latest
+          file: ./docker/Dockerfile
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

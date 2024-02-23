@@ -15,7 +15,7 @@ from . import cleans
 @task
 def api(ctx: Context) -> None:
     """Document the API with pdoc."""
-    ctx.run(f"poetry run pdoc -d google -o docs/api src/{ctx.project.name}")
+    ctx.run(f"poetry run pdoc -d google -o docs/ src/{ctx.project.name}")
 
 
 @task
