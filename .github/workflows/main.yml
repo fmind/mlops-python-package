@@ -23,8 +23,8 @@ jobs:
       - run: poetry run inv docs
       - uses: JamesIves/github-pages-deploy-action@v4
         with:
+          folder: docs/
           branch: gh-pages
-          folder: docs/build/
       - uses: docker/build-push-action@v3
         with:
           push: true
