@@ -4,12 +4,18 @@ on:
     branches:
       - main
       - '*'
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
 concurrency:
   group: main
   cancel-in-progress: true
 jobs:
   main:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
       - uses: actions/checkout@v4
       - run: pipx install poetry
@@ -18,13 +24,21 @@ jobs:
           python-version: 3.12
           cache: 'poetry'
       - run: poetry install
-      - run: poetry run inv docs
-      - run: poetry run inv checks
-      - run: poetry run inv containers
-      - uses: JamesIves/github-pages-deploy-action@v4
+      # - run: poetry run inv docs
+      # - run: poetry run inv checks
+      - run: poetry run inv packages
+      # - uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     folder: docs/
+      #     branch: gh-pages
+      - uses: docker/login-action@v3
         with:
-          folder: docs/
-          branch: gh-pages
-      - run: docker push ghcr.io/fmind/bikes:latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          push: true
+          context: docker/
+          tags: ghcr.io/fmind/mlops-python-package:latest
