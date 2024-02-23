@@ -12,16 +12,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: pipx install poetry
       - uses: actions/setup-python@v5
         with:
           python-version: 3.12
-          # cache: "poetry"
-      - run: pipx install poetry
+          cache: 'poetry'
       - run: poetry install
       - run: poetry run inv checks
       - run: poetry run inv docs
       - run: poetry run inv packages
-  #     - name: Deploy
-  #       uses: JamesIves/github-pages-deploy-action@v4
-  #       with:
-  #         folder: docs/build/
+      # - uses: JamesIves/github-pages-deploy-action@v4
+      #   with:
+      #     branch: gh-pages
+      #     folder: docs/build/
+      # - run: poetry publish --build
+      #   env:
+      #     POETRY_HTTP_BASIC_GITHUB_USERNAME: ${{ github.actor }}
+      #     POETRY_HTTP_BASIC_GITHUB_PASSWORD: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: docker/build-push-action@v3
+      #   with:
+      #     push: true
+      #     registry: ghcr.io
+      #     # tags: user/repo:tag
+      #     file: ./docker/Dockerfile
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
