@@ -12,6 +12,12 @@ from . import packages
 # %% TASKS
 
 
+@task
+def compose(ctx: Context) -> None:
+    """Start docker compose."""
+    ctx.run("docker compose up")
+
+
 @task(pre=[packages.build])
 def build(ctx: Context) -> None:
     """Build the container image."""
@@ -24,6 +30,6 @@ def run(ctx: Context) -> None:
     ctx.run(f"docker run --rm {ctx.project.name}:latest")
 
 
-@task(pre=[build, run], default=True)
+@task(pre=[build], default=True)
 def all(_: Context) -> None:
     """Run all container tasks."""

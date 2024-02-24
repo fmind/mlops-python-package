@@ -1,4 +1,4 @@
-"""Define machine learning models for the project."""
+"""Define trainable machine learning models."""
 
 # %% IMPORTS
 
@@ -19,40 +19,73 @@ Params = dict[ParamKey, ParamValue]
 # %% MODELS
 
 
-class Model(abc.ABC, pdt.BaseModel):
-    """Base class for a model."""
+class Model(abc.ABC, pdt.BaseModel, strict=True):
+    """Base class for a model.
 
-    # note: use models to adapt AI/ML frameworks
-    # e.g., to swap easily one model with another
+    Use a model to adapt AI/ML frameworks.
+    e.g., to swap easily one model with another.
+    """
 
     KIND: str
 
     # pylint: disable=unused-argument
     def get_params(self, deep: bool = True) -> Params:
-        """Get the model params."""
+        """Get the model params.
+
+        Args:
+            deep (bool, optional): ignored. Defaults to True.
+
+        Returns:
+            Params: internal model parameters.
+        """
         params: Params = {}
         for key, value in self.model_dump().items():
             if not key.startswith("_") and not key.isupper():
                 params[key] = value
         return params
 
-    def set_params(self, **params: ParamValue) -> "Model":
-        """Set the model params in place."""
+    def set_params(self, **params: ParamValue) -> T.Self:
+        """Set the model params in place.
+
+        Returns:
+            T.Self: instance of the model.
+        """
         for key, value in params.items():
             setattr(self, key, value)
         return self
 
     @abc.abstractmethod
-    def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "Model":
-        """Fit the model on the given inputs and targets."""
+    def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> T.Self:
+        """Fit the model on the given inputs and targets.
+
+        Args:
+            inputs (schemas.Inputs): model training inputs.
+            targets (schemas.Targets): model training targets.
+
+        Returns:
+            Model: instance of the model.
+        """
 
     @abc.abstractmethod
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
-        """Generate outputs with the model for the given inputs."""
+        """Generate outputs with the model for the given inputs.
+
+        Args:
+            inputs (schemas.Inputs): model prediction inputs.
+
+        Returns:
+            schemas.Outputs: model prediction outputs.
+        """
 
 
 class BaselineSklearnModel(Model):
-    """Simple baseline model built on top of sklearn."""
+    """Simple baseline model built on top of sklearn.
+
+    Attributes:
+        max_depth (int): maximum depth of the random forest.
+        n_estimators (int): number of estimators in the random forest.
+        random_state (int, optional): random state of the machine learning pipeline.
+    """
 
     KIND: T.Literal["BaselineSklearnModel"] = "BaselineSklearnModel"
 
@@ -81,8 +114,8 @@ class BaselineSklearnModel(Model):
         "weathersit",
     ]
 
+    @T.override
     def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "BaselineSklearnModel":
-        """Fit the baseline sklearn model on the given inputs and targets."""
         # subcomponents
         categoricals_transformer = preprocessing.OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         # components
@@ -106,8 +139,8 @@ class BaselineSklearnModel(Model):
         self._pipeline.fit(X=inputs, y=targets[schemas.TargetsSchema.cnt])
         return self
 
+    @T.override
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
-        """Generate outputs with the baseline sklearn model for the given inputs."""
         assert self._pipeline is not None, "Model should be fitted first!"
         prediction = self._pipeline.predict(inputs)  # return an np.ndarray, not a dataframe!
         outputs = schemas.Outputs({schemas.OutputsSchema.prediction: prediction}, index=inputs.index)

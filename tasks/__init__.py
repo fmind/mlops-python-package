@@ -1,6 +1,5 @@
 """Task collections for the project."""
 
-# pylint: disable=redefined-builtin
 # mypy: ignore-errors
 
 # %% IMPORTS

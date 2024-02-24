@@ -1,5 +1,3 @@
-"""Test the schemas module."""
-
 # pylint: disable=missing-docstring
 
 # %% IMPORTS

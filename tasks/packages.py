@@ -9,13 +9,17 @@ from invoke.context import Context
 
 from . import cleans
 
+# %% CONFIGS
+
+BUILD_FORMAT = "wheel"
+
 # %% TASKS
 
 
 @task(pre=[cleans.dist])
 def build(ctx: Context) -> None:
     """Build a wheel package."""
-    ctx.run("poetry build -f wheel")
+    ctx.run(f"poetry build --format={BUILD_FORMAT}")
 
 
 @task(pre=[build], default=True)

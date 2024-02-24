@@ -1,0 +1,15 @@
+on:
+  pull_request:
+    branches:
+      - main
+concurrency:
+  cancel-in-progress: true
+  group: ${{ github.workflow }}-${{ github.ref }}
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: poetry install --with dev,checks,formats
+      - run: poetry run invoke checks

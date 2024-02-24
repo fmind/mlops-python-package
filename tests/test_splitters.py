@@ -1,5 +1,3 @@
-"""Test the splitters module."""
-
 # pylint: disable=missing-docstring
 
 # %% IMPORTS
