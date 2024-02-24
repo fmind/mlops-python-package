@@ -44,5 +44,6 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       - uses: docker/build-push-action@v5
         with:
+          context: .
           push: true
           tags: ghcr.io/fmind/mlops-python-package:latest
