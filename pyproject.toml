@@ -39,7 +39,10 @@ invoke = "^2.2.0"
 ipykernel = "^6.29.0"
 pre-commit = "^3.6.0"
 
-[tool.poetry.group.checkers.dependencies]
+[tool.poetry.group.docs.dependencies]
+pdoc = "^13.1.1"
+
+[tool.poetry.group.checks.dependencies]
 coverage = "^7.4.1"
 mypy = "^1.8.0"
 pylint = "^3.0.3"
@@ -48,10 +51,7 @@ pytest-cov = "^4.1.0"
 pytest-xdist = "^3.5.0"
 pandera = { extras = ["mypy"], version = "^0.18.0" }
 
-[tool.poetry.group.documenters.dependencies]
-pdoc = "^13.1.1"
-
-[tool.poetry.group.formatters.dependencies]
+[tool.poetry.group.formats.dependencies]
 black = "^24.1.1"
 isort = "^5.13.2"
 

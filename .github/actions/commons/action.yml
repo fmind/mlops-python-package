@@ -1,55 +1,22 @@
-name: Commons
-description: Perform common actions before all workflows.
-inputs:
-  aws-region:
-    default: "eu-west-1"
-    description: "AWS Region"
-  aws-role:
-    default: "arn:aws:iam::585305677161:role/BIGDATA-GITHUBACTIONS-DATA-PROCESSING"
-    description: "AWS Role"
-  ca-domain:
-    default: "dataplatform"
-    description: "CodeArtifact Domain"
-  ca-domain-owner:
-    default: "585305677161"
-    description: "CodeArtifact Domain Owner"
-  ca-source:
-    default: "dktunited"
-    description: "CodeArtifact Source"
-  ca-user:
-    default: "aws"
-    description: "CodeArtifact User"
-  poetry-version:
-    default: "1.6.1"
-    description: "Poetry Version"
-  python-version:
-    default: "3.10"
-    description: "Python Version"
-permissions:
-  id-token: write
-runs:
-  using: composite
-  steps:
-    - name: Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ inputs.python-version }}
-    - name: Poetry
-      uses: snok/install-poetry@v1
-      with:
-        version: ${{ inputs.poetry-version }}
-    - name: Nexus
-      shell: bash
-      run: poetry source add --priority=default nexus http://nexus.nexus.svc.cluster.local:8081/repository/pypi/simple/
-    - name: Cleaners
-      uses: dktunited/.github/actions/cleaner@main
-    - name: Credentials
-      uses: aws-actions/configure-aws-credentials@master
-      with:
-        aws-region: ${{ inputs.aws-region }}
-        role-to-assume: ${{ inputs.aws-role }}
-    - name: Docker Builders
-      uses: docker/setup-buildx-action@v3
-    - name: Code Artifact
-      shell: bash
-      run: poetry config http-basic.${{ inputs.ca-source}} ${{ inputs.ca-user }} "$(aws codeartifact get-authorization-token --domain=${{ inputs.ca-domain }} --domain-owner=${{ inputs.ca-domain-owner }} --output text --duration=900 --query=authorizationToken)"
+# name: Commons
+# description: Perform common actions before all workflows.
+# inputs:
+#   poetry-version:
+#     default: "1.6.1"
+#     description: "Poetry Version"
+#   python-version:
+#     default: "3.10"
+#     description: "Python Version"
+# permissions:
+#   id-token: write
+# runs:
+#   using: composite
+#   steps:
+#     - name: Python
+#       uses: actions/setup-python@v4
+#       with:
+#         python-version: ${{ inputs.python-version }}
+#     - name: Poetry
+#       uses: snok/install-poetry@v1
+#       with:
+#         version: ${{ inputs.poetry-version }}
