@@ -3,7 +3,7 @@ description: Setup workflows.
 runs:
   using: composite
   steps:
-    - run: pipx install poetry
+    - run: pipx install invoke poetry
       shell: bash
     - uses: actions/setup-python@v5
       with:
