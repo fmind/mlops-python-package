@@ -1,0 +1,41 @@
+on:
+  push:
+    branches:
+      - '*'
+# on:
+#   release:
+#     types: [published]
+# permissions:
+#   contents: read
+#   packages: write
+concurrency:
+  cancel-in-progress: true
+  group: on-release-published
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - run: pipx install poetry
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.12
+          cache: 'poetry'
+      - run: poetry install --only documenters
+      - run: poetry run inv docs
+      - uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: docs/
+          branch: gh-pages
+      # - run: poetry run inv checks
+      # - run: poetry run inv packages
+      # - uses: docker/login-action@v3
+      #   with:
+      #     registry: ghcr.io
+      #     username: ${{ github.actor }}
+      #     password: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: docker/build-push-action@v5
+      #   with:
+      #     context: .
+      #     push: true
+      #     tags: ghcr.io/fmind/mlops-python-package:latest
