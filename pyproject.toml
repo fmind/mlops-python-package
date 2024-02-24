@@ -36,7 +36,6 @@ mlflow-skinny = "^2.10.2"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
-ipykernel = "^6.29.0"
 pre-commit = "^3.6.0"
 
 [tool.poetry.group.docs.dependencies]
@@ -56,6 +55,7 @@ black = "^24.1.1"
 isort = "^5.13.2"
 
 [tool.poetry.group.notebooks.dependencies]
+ipykernel = "^6.29.0"
 nbformat = "^5.9.2"
 
 # CONFIGURATIONS

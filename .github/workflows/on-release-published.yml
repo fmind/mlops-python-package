@@ -1,7 +1,4 @@
-on:
-  push:
-    branches:
-      - '*'
+on: push
 # on:
 #   release:
 #     types: [published]
@@ -17,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: poetry install --only docs
+      - run: poetry install --only main,docs
       - run: poetry run inv docs
       - uses: JamesIves/github-pages-deploy-action@v4
         with:

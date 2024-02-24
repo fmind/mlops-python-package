@@ -12,5 +12,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: poetry install --only main,checks
+      - run: poetry install --only main,dev,checks
       - run: poetry run inv checks
