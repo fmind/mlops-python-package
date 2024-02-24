@@ -34,4 +34,6 @@ jobs:
         with:
           push: true
           context: .
+          cache-to: type=gha
+          cache-from: type=gha
           tags: ghcr.io/fmind/mlops-python-package:latest
