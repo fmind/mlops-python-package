@@ -13,4 +13,4 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: poetry install --with dev,checks,formats
-      - run: poetry run inv checks
+      - run: poetry run invoke checks
