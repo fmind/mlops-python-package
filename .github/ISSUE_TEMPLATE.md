@@ -1,16 +1,14 @@
-## Expected Behavior
-
-
 ## Actual Behavior
 
+## Expected Behavior
 
-## Steps to Reproduce the Problem
+## Steps to Reproduce
 
 1.
 1.
 1.
 
-## Specifications
+## System Specifications
 
 - Version:
 - Platform:
