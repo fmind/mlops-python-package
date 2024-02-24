@@ -2,9 +2,6 @@ on: push
 # on:
 #   release:
 #     types: [published]
-permissions:
-  contents: read
-  packages: write
 concurrency:
   cancel-in-progress: true
   group: on-release-published
@@ -21,6 +18,8 @@ jobs:
           folder: docs/
           branch: gh-pages
   packages:
+    permissions:
+      packages: write
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

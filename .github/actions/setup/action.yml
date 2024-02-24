@@ -1,5 +1,5 @@
 name: Setup
-description: Setup workflows.
+description: Setup for project workflows
 runs:
   using: composite
   steps:
