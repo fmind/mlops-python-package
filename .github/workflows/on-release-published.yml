@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: .github/actions/setup
+      - uses: ./.github/actions/setup
       - run: poetry install --only docs
       - run: poetry run inv docs
       - uses: JamesIves/github-pages-deploy-action@v4
@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: .github/actions/setup
+      - uses: ./.github/actions/setup
       - run: poetry run inv packages
       - uses: docker/login-action@v3
         with:
