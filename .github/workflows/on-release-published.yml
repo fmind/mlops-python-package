@@ -15,12 +15,8 @@ jobs:
   pages:
     runs-on: ubuntu-latest
     steps:
-      - run: pipx install poetry
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-          cache: 'poetry'
+      - uses: ./.github/actions/setup
       - run: poetry install --only docs
       - run: poetry run inv docs
       - uses: JamesIves/github-pages-deploy-action@v4
@@ -30,12 +26,8 @@ jobs:
   packages:
     runs-on: ubuntu-latest
     steps:
-      - run: pipx install poetry
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-          cache: 'poetry'
+      - uses: ./.github/actions/setup
       - run: poetry run inv packages
       - uses: docker/login-action@v3
         with:

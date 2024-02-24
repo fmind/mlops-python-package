@@ -10,11 +10,7 @@ jobs:
   checks:
     runs-on: ubuntu-latest
     steps:
-      - run: pipx install poetry
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
-        with:
-          python-version: 3.12
-          cache: "poetry"
+      - uses: ./.github/actions/setup
       - run: poetry install --only main,checks
       - run: poetry run inv checks
