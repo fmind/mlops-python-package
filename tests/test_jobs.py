@@ -1,5 +1,3 @@
-# pylint: disable=missing-docstring
-
 # %% IMPORTS
 
 import os
@@ -58,14 +56,20 @@ def test_tuning_job(
     # - search
     assert len(out["results"]) == n_trials, "Results should one row per candidate!"
     assert float("-inf") <= out["best_score"] <= float("+inf"), "Best score should be a float!"
-    assert out["best_params"].keys() == default_searcher.param_grid.keys(), "Best params should have the same keys!"
+    assert (
+        out["best_params"].keys() == default_searcher.param_grid.keys()
+    ), "Best params should have the same keys!"
     # - write
     assert os.path.exists(tmp_results_writer.path), "Results should be saved to the given path!"
     # - mlflow tracking
     mlflow_experiment = mlflow_client.get_experiment_by_name(name=mlflow_service.experiment_name)
-    assert mlflow_experiment.name == mlflow_service.experiment_name, "Mlflow experiment name should be the same!"
+    assert (
+        mlflow_experiment.name == mlflow_service.experiment_name
+    ), "Mlflow experiment name should be the same!"
     mlflow_runs = mlflow_client.search_runs(experiment_ids=mlflow_experiment.experiment_id)
-    assert len(mlflow_runs) == n_trials + 1, "There should be as many Mlflow runs as trials + 1 for parent!"
+    assert (
+        len(mlflow_runs) == n_trials + 1
+    ), "There should be as many Mlflow runs as trials + 1 for parent!"
 
 
 def test_training_job(
@@ -128,7 +132,9 @@ def test_training_job(
     assert out["targets"].ndim == 2, "Target should be a dataframe!"
     # - split
     assert (
-        len(out["train_index"]) + len(out["test_index"]) == len(out["inputs"]) == len(out["targets"])
+        len(out["train_index"]) + len(out["test_index"])
+        == len(out["inputs"])
+        == len(out["targets"])
     ), "Train and test indexes should have the same length as inputs! and targets!"
     assert (
         len(out["inputs_train"]) == len(out["targets_train"]) == len(out["train_index"])
@@ -137,11 +143,17 @@ def test_training_job(
         len(out["inputs_test"]) == len(out["targets_test"]) == len(out["test_index"])
     ), "Inputs and targets test should have the same length as test index!"
     # - outputs
-    assert len(out["outputs_test"]) == len(out["inputs_test"]), "Outputs should have the same length as inputs!"
-    assert out["outputs_test"].shape == out["targets_test"].shape, "Outputs should have the same shape as targets!"
+    assert len(out["outputs_test"]) == len(
+        out["inputs_test"]
+    ), "Outputs should have the same length as inputs!"
+    assert (
+        out["outputs_test"].shape == out["targets_test"].shape
+    ), "Outputs should have the same shape as targets!"
     # - score
     assert out["i"] == len(scorers), "i should have the same length as scorers!"
-    assert float("-inf") <= out["score"] <= float("+inf"), "Score should be between a numeric value!"
+    assert (
+        float("-inf") <= out["score"] <= float("+inf")
+    ), "Score should be between a numeric value!"
     # - signature
     assert out["signature"].inputs is not None, "Signature inputs should not be None!"
     assert out["signature"].outputs is not None, "Signature outputs should not be None!"
@@ -154,12 +166,18 @@ def test_training_job(
     assert out["version"].run_id == out["run"].info.run_id, "Version run id should be the same!"
     # - mlflow tracking
     mlflow_experiment = mlflow_client.get_experiment_by_name(name=mlflow_service.experiment_name)
-    assert mlflow_experiment.name == mlflow_service.experiment_name, "MLflow Experiment name should be the same!"
+    assert (
+        mlflow_experiment.name == mlflow_service.experiment_name
+    ), "MLflow Experiment name should be the same!"
     mlflow_runs = mlflow_client.search_runs(experiment_ids=mlflow_experiment.experiment_id)
     assert len(mlflow_runs) == 1, "There should be a single MLflow run for the training!"
     # - mlflow registry
-    model_version = mlflow_client.get_model_version(name=mlflow_service.registry_name, version=out["version"].version)
-    assert model_version.run_id == out["run"].info.run_id, "MLFlow model version run id should be the same!"
+    model_version = mlflow_client.get_model_version(
+        name=mlflow_service.registry_name, version=out["version"].version
+    )
+    assert (
+        model_version.run_id == out["run"].info.run_id
+    ), "MLFlow model version run id should be the same!"
 
 
 def test_inference_job(
@@ -200,7 +218,11 @@ def test_inference_job(
     assert registry_alias in out["uri"], "URI should contain the registry alias!"
     # - model
     assert out["model"].metadata.signature is not None, "Model should have a valid signature!"
-    assert out["model"].metadata.flavors.get("python_function"), "Model should have a pyfunc flavor!"
-    assert out["model"].metadata.run_id == default_mlflow_model_version.run_id, "Model run id should be the same!"
+    assert out["model"].metadata.flavors.get(
+        "python_function"
+    ), "Model should have a pyfunc flavor!"
+    assert (
+        out["model"].metadata.run_id == default_mlflow_model_version.run_id
+    ), "Model run id should be the same!"
     # - outputs
     assert os.path.exists(tmp_outputs_writer.path), "Outputs should be saved to the given path!"

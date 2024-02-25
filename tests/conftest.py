@@ -1,7 +1,5 @@
 """Configuration for the tests."""
 
-# pylint: disable=redefined-outer-name
-
 # %% IMPORTS
 
 import os
@@ -168,7 +166,9 @@ def time_series_splitter() -> splitters.TimeSeriesSplitter:
 
 @pytest.fixture(scope="session")
 def train_test_split(
-    train_test_splitter: splitters.TrainTestSplitter, inputs: schemas.Inputs, targets: schemas.Targets
+    train_test_splitter: splitters.TrainTestSplitter,
+    inputs: schemas.Inputs,
+    targets: schemas.Targets,
 ) -> splitters.TrainTest:
     """Return the train and test indexes for the inputs dataframe."""
     return next(train_test_splitter.split(inputs=inputs, targets=targets))
@@ -294,7 +294,9 @@ def test_data_path_resolver(data_path: str) -> str:
         """Get data_path."""
         return data_path
 
-    omegaconf.OmegaConf.register_new_resolver("test_data_path", test_data_resolver, use_cache=True, replace=True)
+    omegaconf.OmegaConf.register_new_resolver(
+        "test_data_path", test_data_resolver, use_cache=True, replace=True
+    )
     return data_path
 
 
@@ -331,5 +333,7 @@ def default_mlflow_model_version(
     """Return an MLflow version for the default model."""
     with mlflow.start_run(run_name="Default") as run:
         default_saver.save(model=default_model, signature=default_signature, input_example=inputs)
-        version = mlflow_service.register(run_id=run.info.run_id, path=default_saver.path, alias=default_alias)
+        version = mlflow_service.register(
+            run_id=run.info.run_id, path=default_saver.path, alias=default_alias
+        )
     return version

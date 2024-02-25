@@ -1,4 +1,4 @@
-"""Entry point of the program."""
+"""Command-line interface for the program."""
 
 # %% IMPORTS
 
@@ -17,7 +17,7 @@ class Settings(pdts.BaseSettings, strict=True):
     """Settings for the program.
 
     Attributes:
-        job (jobs.JobKind): job associated with the settings.
+        job (jobs.JobKind): job associated with settings.
     """
 
     job: jobs.JobKind = pdt.Field(..., discriminator="KIND")
@@ -25,7 +25,7 @@ class Settings(pdts.BaseSettings, strict=True):
 
 # %% PARSERS
 
-parser = argparse.ArgumentParser(description="Run a single job from external settings.")
+parser = argparse.ArgumentParser(prog="bikes", description="Run an ML job from configs.")
 parser.add_argument("configs", nargs="+", help="Config files for the job (local or remote).")
 parser.add_argument("-e", "--extras", nargs="+", default=[], help="Config strings for the job.")
 parser.add_argument("-s", "--schema", action="store_true", help="Print settings schema and exit.")

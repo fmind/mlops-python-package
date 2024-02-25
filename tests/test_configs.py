@@ -1,12 +1,9 @@
-# pylint: disable=missing-docstring
-
 # %% IMPORTS
 
 import os
 
-from omegaconf import OmegaConf
-
 from bikes import configs
+from omegaconf import OmegaConf
 
 # %% LOADERS
 

@@ -1,7 +1,5 @@
 """Clean tasks for pyinvoke."""
 
-# pylint: disable=redefined-builtin
-
 # %% IMPORTS
 
 from invoke import task
@@ -9,11 +7,34 @@ from invoke.context import Context
 
 # %% TASKS
 
+# %% - Tools
+
+
+@task
+def mypy(ctx: Context) -> None:
+    """Clean the mypy tool."""
+    ctx.run("rm -rf .mypy_cache/")
+
+
+@task
+def ruff(ctx: Context) -> None:
+    """Clean the ruff tool."""
+    ctx.run("ruff clean")
+
+
+@task
+def pytest(ctx: Context) -> None:
+    """Clean the pytest tool."""
+    ctx.run("rm -rf .pytest_cache/")
+
 
 @task
 def coverage(ctx: Context) -> None:
-    """Clean coverage files."""
+    """Clean coverage tool."""
     ctx.run("rm -f .coverage*")
+
+
+# %% - Folders
 
 
 @task
@@ -29,16 +50,9 @@ def docs(ctx: Context) -> None:
 
 
 @task
-def install(ctx: Context) -> None:
-    """Clean the install."""
-    ctx.run("rm -rf .venv/")
-    ctx.run("rm -f poetry.lock")
-
-
-@task
-def mypy(ctx: Context) -> None:
-    """Clean the mypy folder."""
-    ctx.run("rm -rf .mypy_cache/")
+def cache(ctx: Context) -> None:
+    """Clean the cache folder."""
+    ctx.run("rm -rf .cache/")
 
 
 @task
@@ -47,24 +61,51 @@ def outputs(ctx: Context) -> None:
     ctx.run("rm -rf outputs/*")
 
 
+# %% - Sources
+
+
 @task
-def pytest(ctx: Context) -> None:
-    """Clean the pytest folder."""
-    ctx.run("rm -rf .pytest_cache/")
+def venv(ctx: Context) -> None:
+    """Clean the venv folder."""
+    ctx.run("rm -rf .venv/")
+
+
+@task
+def poetry(ctx: Context) -> None:
+    """Clean poetry lock file."""
+    ctx.run("rm -f poetry.lock")
 
 
 @task
 def python(ctx: Context) -> None:
-    """Clean python files and folders."""
+    """Clean python caches and bytecodes."""
     ctx.run("find . -type f -name '*.py[co]' -delete")
     ctx.run(r"find . -type d -name __pycache__ -exec rm -r {} \+")
 
 
-@task(pre=[coverage, dist, docs, mypy, pytest, python], default=True)
+# %% - Combines
+
+
+@task(pre=[mypy, ruff, pytest, coverage])
+def tools(_: Context) -> None:
+    """Run all tools tasks."""
+
+
+@task(pre=[dist, docs, cache, outputs])
+def folders(_: Context) -> None:
+    """Run all folders tasks."""
+
+
+@task(pre=[venv, poetry, python])
+def sources(_: Context) -> None:
+    """Run all folders tasks."""
+
+
+@task(pre=[tools, folders], default=True)
 def all(_: Context) -> None:
-    """Run all clean tasks."""
+    """Run all tools and folders tasks."""
 
 
-@task(pre=[all, outputs, install])
+@task(pre=[all, sources])
 def reset(_: Context) -> None:
-    """Reset the project state."""
+    """Run all tools, folders, and sources tasks."""

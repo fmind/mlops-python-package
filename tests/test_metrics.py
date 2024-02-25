@@ -1,9 +1,6 @@
-# pylint: disable=missing-docstring
-
 # %% IMPORTS
 
 import pytest
-
 from bikes import metrics, models, schemas
 
 # %% METRICS

@@ -1,11 +1,8 @@
 """Test the registers module."""
 
-# pylint: disable=missing-docstring
-
 # %% IMPORTS
 
 import mlflow
-
 from bikes import models, registers, schemas, services
 
 # %% ADAPTERS
@@ -40,7 +37,9 @@ def test_infer_signer(inputs: schemas.Inputs, outputs: schemas.Outputs):
 # %% SAVERS
 
 
-def test_custom_saver(inputs: schemas.Inputs, default_model: models.Model, default_signature: registers.Signature):
+def test_custom_saver(
+    inputs: schemas.Inputs, default_model: models.Model, default_signature: registers.Signature
+):
     # given
     path = "custom"
     saver = registers.CustomSaver(path=path)
@@ -58,7 +57,9 @@ def test_custom_saver(inputs: schemas.Inputs, default_model: models.Model, defau
 
 
 def test_custom_loader(
-    inputs: schemas.Inputs, mlflow_service: services.MLflowService, default_mlflow_model_version: registers.Version
+    inputs: schemas.Inputs,
+    mlflow_service: services.MLflowService,
+    default_mlflow_model_version: registers.Version,
 ):
     # given
     name = mlflow_service.registry_name
@@ -71,7 +72,11 @@ def test_custom_loader(
     # then
     # # - model
     assert model.metadata.signature is not None, "The model should have a valid signature!"
-    assert model.metadata.run_id == default_mlflow_model_version.run_id, "The model run id should be the same!"
-    assert model.metadata.flavors.get("python_function") is not None, "The model should have a python_function flavor!"
+    assert (
+        model.metadata.run_id == default_mlflow_model_version.run_id
+    ), "The model run id should be the same!"
+    assert (
+        model.metadata.flavors.get("python_function") is not None
+    ), "The model should have a python_function flavor!"
     # - output
     assert schemas.OutputsSchema.check(outputs) is not None, "Outputs should be valid!"

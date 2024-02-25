@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "bikes"
-version = "0.3.0"
+version = "0.4.0"
 description = "Predict the number of bikes available."
 repository = "https://github.com/fmind/mlops-python-package"
 authors = ["Médéric HURIER <github@fmind.dev>"]
@@ -44,15 +44,11 @@ pdoc = "^13.1.1"
 [tool.poetry.group.checks.dependencies]
 coverage = "^7.4.1"
 mypy = "^1.8.0"
-pylint = "^3.0.3"
 pytest = "^8.0.0"
 pytest-cov = "^4.1.0"
 pytest-xdist = "^3.5.0"
 pandera = { extras = ["mypy"], version = "^0.18.0" }
-
-[tool.poetry.group.formats.dependencies]
-black = "^24.1.1"
-isort = "^5.13.2"
+ruff = "^0.2.2"
 
 [tool.poetry.group.notebooks.dependencies]
 ipykernel = "^6.29.0"
@@ -60,26 +56,31 @@ nbformat = "^5.9.2"
 
 # CONFIGURATIONS
 
-[tool.black]
-line-length = 120
-
 [tool.coverage.run]
 branch = true
 source = ["src"]
-
-[tool.isort]
-line_length = 120
-profile = "black"
 
 [tool.mypy]
 check_untyped_defs = true
 ignore_missing_imports = true
 plugins = ["pandera.mypy", "pydantic.mypy"]
 
-[tool.pylint.MASTER]
-disable = ['too-few-public-methods', 'too-many-arguments', 'too-many-locals']
-max-line-length = 120
-extension-pkg-whitelist = "pydantic"
+[tool.ruff]
+fix = true
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.format]
+docstring-code-format = true
+
+[tool.ruff.lint]
+select = ["D"]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["D100", "D103"]
 
 # SYSTEMS
 

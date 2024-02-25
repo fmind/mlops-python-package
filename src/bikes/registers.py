@@ -34,8 +34,9 @@ class CustomAdapter(mlflow.pyfunc.PythonModel):
         """
         self.model = model
 
-    # pylint: disable=arguments-differ, unused-argument
-    def predict(self, context: mlflow.pyfunc.PythonModelContext, inputs: schemas.Inputs) -> schemas.Outputs:
+    def predict(
+        self, context: mlflow.pyfunc.PythonModelContext, inputs: schemas.Inputs
+    ) -> schemas.Outputs:
         """Generate predictions from a custom model.
 
         Args:
@@ -105,7 +106,9 @@ class Saver(abc.ABC, pdt.BaseModel, strict=True):
     path: str = "model"
 
     @abc.abstractmethod
-    def save(self, model: models.Model, signature: Signature, input_example: schemas.Inputs) -> Info:
+    def save(
+        self, model: models.Model, signature: Signature, input_example: schemas.Inputs
+    ) -> Info:
         """Save a model in the model registry.
 
         Args:
@@ -126,11 +129,16 @@ class CustomSaver(Saver):
 
     KIND: T.Literal["CustomSaver"] = "CustomSaver"
 
-    def save(self, model: models.Model, signature: Signature, input_example: schemas.Inputs) -> Info:
+    def save(
+        self, model: models.Model, signature: Signature, input_example: schemas.Inputs
+    ) -> Info:
         """Save a custom model to the MLflow Model Registry."""
         custom = CustomAdapter(model=model)  # adapt model
         return mlflow.pyfunc.log_model(
-            artifact_path=self.path, python_model=custom, signature=signature, input_example=input_example
+            artifact_path=self.path,
+            python_model=custom,
+            signature=signature,
+            input_example=input_example,
         )
 
 

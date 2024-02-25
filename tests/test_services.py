@@ -1,11 +1,8 @@
-# pylint: disable=missing-docstring
-
 # %% IMPORTS
 
 import mlflow
-from loguru import logger
-
 from bikes import services
+from loguru import logger
 
 # %% SERVICES
 
@@ -33,12 +30,18 @@ def test_mlflow_service(mlflow_service: services.MLflowService):
     service.stop()  # no effect
     # then
     # - mlflow
-    assert mlflow_service.tracking_uri == mlflow.get_tracking_uri(), "Tracking URI should be the same!"
-    assert mlflow_service.registry_uri == mlflow.get_registry_uri(), "Registry URI should be the same!"
-    assert mlflow.get_experiment_by_name(mlflow_service.experiment_name), "Experiment should be setup!"
+    assert (
+        mlflow_service.tracking_uri == mlflow.get_tracking_uri()
+    ), "Tracking URI should be the same!"
+    assert (
+        mlflow_service.registry_uri == mlflow.get_registry_uri()
+    ), "Registry URI should be the same!"
+    assert mlflow.get_experiment_by_name(
+        mlflow_service.experiment_name
+    ), "Experiment should be setup!"
     # - client
     assert mlflow_service.tracking_uri == client.tracking_uri, "Tracking URI should be the same!"
-    assert (
-        mlflow_service.registry_uri == client._registry_uri  # pylint: disable=protected-access
-    ), "Tracking URI should be the same!"
-    assert client.get_experiment_by_name(mlflow_service.experiment_name), "Experiment should be setup!"
+    assert mlflow_service.registry_uri == client._registry_uri, "Tracking URI should be the same!"
+    assert client.get_experiment_by_name(
+        mlflow_service.experiment_name
+    ), "Experiment should be setup!"

@@ -1,7 +1,5 @@
 """Package tasks for pyinvoke."""
 
-# pylint: disable=redefined-builtin
-
 # %% IMPORTS
 
 from invoke import task

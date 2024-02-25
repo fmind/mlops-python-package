@@ -39,7 +39,9 @@ class Metric(abc.ABC, pdt.BaseModel, strict=True):
             float: metric result.
         """
 
-    def scorer(self, model: models.Model, inputs: schemas.Inputs, targets: schemas.Targets) -> float:
+    def scorer(
+        self, model: models.Model, inputs: schemas.Inputs, targets: schemas.Targets
+    ) -> float:
         """Score the model outputs against the targets.
 
         Args:
