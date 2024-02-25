@@ -28,7 +28,6 @@ class Model(abc.ABC, pdt.BaseModel, strict=True):
 
     KIND: str
 
-    # pylint: disable=unused-argument
     def get_params(self, deep: bool = True) -> Params:
         """Get the model params.
 
@@ -117,7 +116,9 @@ class BaselineSklearnModel(Model):
     @T.override
     def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "BaselineSklearnModel":
         # subcomponents
-        categoricals_transformer = preprocessing.OneHotEncoder(sparse_output=False, handle_unknown="ignore")
+        categoricals_transformer = preprocessing.OneHotEncoder(
+            sparse_output=False, handle_unknown="ignore"
+        )
         # components
         transformer = compose.ColumnTransformer(
             [
@@ -143,7 +144,9 @@ class BaselineSklearnModel(Model):
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
         assert self._pipeline is not None, "Model should be fitted first!"
         prediction = self._pipeline.predict(inputs)  # return an np.ndarray, not a dataframe!
-        outputs = schemas.Outputs({schemas.OutputsSchema.prediction: prediction}, index=inputs.index)
+        outputs = schemas.Outputs(
+            {schemas.OutputsSchema.prediction: prediction}, index=inputs.index
+        )
         return outputs
 
 

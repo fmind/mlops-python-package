@@ -1,12 +1,9 @@
-# pylint: disable=missing-docstring
-
 # %% IMPORTS
 
 import json
 import os
 
 import pytest
-
 from bikes import scripts
 
 # %% SCRIPTS

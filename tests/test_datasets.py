@@ -1,11 +1,8 @@
-# pylint: disable=missing-docstring
-
 # %% IMPORTS
 
 import os
 
 import pytest
-
 from bikes import datasets, schemas
 
 # %% READERS

@@ -24,7 +24,6 @@ def parse_file(path: str) -> Config:
         Config: representation of the config file.
     """
     any_path = AnyPath(path)
-    # pylint: disable=no-member
     text = any_path.read_text()  # type: ignore
     config = OmegaConf.create(text)
     return config

@@ -134,7 +134,9 @@ class MLflowService(Service):
         """Get an instance of MLflow client."""
         return MlflowClient(tracking_uri=self.tracking_uri, registry_uri=self.registry_uri)
 
-    def register(self, run_id: str, path: str, alias: str) -> mlflow.entities.model_registry.ModelVersion:
+    def register(
+        self, run_id: str, path: str, alias: str
+    ) -> mlflow.entities.model_registry.ModelVersion:
         """Register a model to mlflow registry.
 
         Args:
@@ -148,5 +150,7 @@ class MLflowService(Service):
         client = self.client()
         model_uri = f"runs:/{run_id}/{path}"
         version = mlflow.register_model(model_uri=model_uri, name=self.registry_name)
-        client.set_registered_model_alias(name=self.registry_name, alias=alias, version=version.version)
+        client.set_registered_model_alias(
+            name=self.registry_name, alias=alias, version=version.version
+        )
         return version

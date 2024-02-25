@@ -1,5 +1,3 @@
-# pylint: disable=missing-docstring
-
 # %% IMPORTS
 
 import typing as T
@@ -32,11 +30,14 @@ def test_model():
     params_set_params = model.set_params(b=20).get_params()
     # then
     assert params_init == {"a": 10, "b": 2}, "Model should get the right params at init!"
-    assert params_set_params == {"a": 10, "b": 20}, "Model should set the right params after set_params!"
+    assert params_set_params == {
+        "a": 10,
+        "b": 20,
+    }, "Model should set the right params after set_params!"
 
 
 def test_baseline_sklearn_model(
-    train_test_sets: tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets]
+    train_test_sets: tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets],
 ):
     # given
     params = {"max_depth": 3, "n_estimators": 5, "random_state": 0}

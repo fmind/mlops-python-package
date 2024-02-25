@@ -1,13 +1,15 @@
 """Docker tasks for pyinvoke."""
 
-# pylint: disable=redefined-builtin
-
 # %% IMPORTS
 
 from invoke import task
 from invoke.context import Context
 
 from . import packages
+
+# %% CONFIGS
+
+IMAGE_TAG = "latest"
 
 # %% TASKS
 
@@ -21,13 +23,13 @@ def compose(ctx: Context) -> None:
 @task(pre=[packages.build])
 def build(ctx: Context) -> None:
     """Build the container image."""
-    ctx.run(f"docker build -t {ctx.project.name}:latest .")
+    ctx.run(f"docker build -t {ctx.project.name}:{IMAGE_TAG} .")
 
 
 @task
 def run(ctx: Context) -> None:
     """Run the container image."""
-    ctx.run(f"docker run --rm {ctx.project.name}:latest")
+    ctx.run(f"docker run --rm {ctx.project.name}:{IMAGE_TAG}")
 
 
 @task(pre=[build], default=True)

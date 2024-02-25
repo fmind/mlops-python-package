@@ -33,6 +33,7 @@ class Schema(pa.DataFrameModel):
 
         Args:
             data (pd.DataFrame): dataframe to check.
+            kwargs: additional arguments to validate().
 
         Returns:
             pd.DataFrame: validated dataframe with schema.

@@ -131,7 +131,11 @@ class TuningJob(Job):
             # searcher
             logger.info("Execute searcher: {}", self.searcher)
             results, best_score, best_params = self.searcher.search(
-                model=self.model, metric=self.metric, cv=self.splitter, inputs=inputs, targets=targets
+                model=self.model,
+                metric=self.metric,
+                cv=self.splitter,
+                inputs=inputs,
+                targets=targets,
             )
             logger.info("- # Results: {}", len(results))
             logger.info("- Best Score: {}", best_score)
@@ -143,7 +147,7 @@ class TuningJob(Job):
 
 
 class TrainingJob(Job):
-    """Train and register a single AI/ML model
+    """Train and register a single AI/ML model.
 
     Attributes:
         run_name (str): name of the MLflow experiment run.
@@ -207,8 +211,12 @@ class TrainingJob(Job):
             logger.info("- Targets train shape: {}", targets_train.shape)
             logger.info("- Targets test shape: {}", targets_test.shape)
             # - asserts
-            assert len(inputs_train) == len(targets_train), "Inputs and targets train should have the same length!"
-            assert len(inputs_test) == len(targets_test), "Inputs and targets test should have the same length!"
+            assert len(inputs_train) == len(
+                targets_train
+            ), "Inputs and targets train should have the same length!"
+            assert len(inputs_test) == len(
+                targets_test
+            ), "Inputs and targets test should have the same length!"
             # model
             logger.info("Fit model: {}", self.model)
             self.model.fit(inputs=inputs_train, targets=targets_train)
@@ -216,7 +224,9 @@ class TrainingJob(Job):
             logger.info("Predict outputs: {}", len(inputs_test))
             outputs_test = self.model.predict(inputs=inputs_test)
             logger.info("- Outputs test shape: {}", outputs_test.shape)
-            assert len(inputs_test) == len(outputs_test), "Inputs and outputs test should have the same length!"
+            assert len(inputs_test) == len(
+                outputs_test
+            ), "Inputs and outputs test should have the same length!"
             # scorers
             for i, scorer in enumerate(self.scorers, start=1):
                 logger.info("{}. Run scorer: {}", i, scorer)

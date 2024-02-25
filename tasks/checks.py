@@ -1,7 +1,5 @@
 """Check tasks for pyinvoke."""
 
-# pylint: disable=redefined-builtin
-
 # %% IMPORTS
 
 from invoke import task
@@ -16,9 +14,33 @@ PYTEST_N_PROCESSES = "auto"
 
 
 @task
+def poetry(ctx: Context) -> None:
+    """Check poetry config files."""
+    ctx.run("poetry check --lock")
+
+
+@task
+def format(ctx: Context) -> None:
+    """Check the formats with ruff."""
+    ctx.run("poetry run ruff format --check src/ tasks/ tests/")
+
+
+@task
+def type(ctx: Context) -> None:
+    """Check the types with mypy."""
+    ctx.run("poetry run mypy src/ tasks/ tests/")
+
+
+@task
 def code(ctx: Context) -> None:
-    """Check the codes with pylint."""
-    ctx.run("poetry run pylint src/ tasks/ tests/")
+    """Check the codes with ruff."""
+    ctx.run("poetry run ruff check src/ tasks/ tests/")
+
+
+@task
+def test(ctx: Context) -> None:
+    """Check the tests with pytest."""
+    ctx.run("poetry run pytest --numprocesses={PYTEST_N_PROCESSES} tests/")
 
 
 @task
@@ -30,31 +52,6 @@ def coverage(ctx: Context) -> None:
     )
 
 
-@task
-def format(ctx: Context) -> None:
-    """Check the formats with isort and black."""
-    ctx.run("poetry run isort --check src/ tasks/ tests/")
-    ctx.run("poetry run black --check src/ tasks/ tests/")
-
-
-@task
-def poetry(ctx: Context) -> None:
-    """Check poetry config files."""
-    ctx.run("poetry check")
-
-
-@task
-def test(ctx: Context) -> None:
-    """Check the tests with pytest."""
-    ctx.run("poetry run pytest --numprocesses={PYTEST_N_PROCESSES} tests/")
-
-
-@task
-def type(ctx: Context) -> None:
-    """Check the types with mypy."""
-    ctx.run("poetry run mypy src/ tasks/ tests/")
-
-
-@task(pre=[type, code, coverage, format, poetry], default=True)
+@task(pre=[poetry, format, type, code, coverage], default=True)
 def all(_: Context) -> None:
     """Run all check tasks."""
