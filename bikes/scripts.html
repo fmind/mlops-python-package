@@ -55,14 +55,14 @@
                     <h1 class="modulename">
 <a href="./../bikes.html">bikes</a><wbr>.scripts    </h1>
 
-                        <div class="docstring"><p>Entry point of the program.</p>
+                        <div class="docstring"><p>Command-line interface for the program.</p>
 </div>
 
                         <input id="mod-scripts-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-scripts-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;Entry point of the program.&quot;&quot;&quot;</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;Command-line interface for the program.&quot;&quot;&quot;</span>
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="c1"># %% IMPORTS</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
@@ -81,7 +81,7 @@
 </span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for the program.</span>
 </span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
 </span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a><span class="sd">    Attributes:</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">        job (jobs.JobKind): job associated with the settings.</span>
+</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="sd">        job (jobs.JobKind): job associated with settings.</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
 </span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="n">job</span><span class="p">:</span> <span class="n">jobs</span><span class="o">.</span><span class="n">JobKind</span> <span class="o">=</span> <span class="n">pdt</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;KIND&quot;</span><span class="p">)</span>
@@ -89,7 +89,7 @@
 </span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>
 </span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a><span class="c1"># %% PARSERS</span>
 </span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run a single job from external settings.&quot;</span><span class="p">)</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">prog</span><span class="o">=</span><span class="s2">&quot;bikes&quot;</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Run an ML job from configs.&quot;</span><span class="p">)</span>
 </span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;configs&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Config files for the job (local or remote).&quot;</span><span class="p">)</span>
 </span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-e&quot;</span><span class="p">,</span> <span class="s2">&quot;--extras&quot;</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="p">[],</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Config strings for the job.&quot;</span><span class="p">)</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s2">&quot;-s&quot;</span><span class="p">,</span> <span class="s2">&quot;--schema&quot;</span><span class="p">,</span> <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Print settings schema and exit.&quot;</span><span class="p">)</span>
@@ -138,7 +138,7 @@
 </span><span id="Settings-18"><a href="#Settings-18"><span class="linenos">18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Settings for the program.</span>
 </span><span id="Settings-19"><a href="#Settings-19"><span class="linenos">19</span></a>
 </span><span id="Settings-20"><a href="#Settings-20"><span class="linenos">20</span></a><span class="sd">    Attributes:</span>
-</span><span id="Settings-21"><a href="#Settings-21"><span class="linenos">21</span></a><span class="sd">        job (jobs.JobKind): job associated with the settings.</span>
+</span><span id="Settings-21"><a href="#Settings-21"><span class="linenos">21</span></a><span class="sd">        job (jobs.JobKind): job associated with settings.</span>
 </span><span id="Settings-22"><a href="#Settings-22"><span class="linenos">22</span></a><span class="sd">    &quot;&quot;&quot;</span>
 </span><span id="Settings-23"><a href="#Settings-23"><span class="linenos">23</span></a>
 </span><span id="Settings-24"><a href="#Settings-24"><span class="linenos">24</span></a>    <span class="n">job</span><span class="p">:</span> <span class="n">jobs</span><span class="o">.</span><span class="n">JobKind</span> <span class="o">=</span> <span class="n">pdt</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;KIND&quot;</span><span class="p">)</span>
@@ -150,7 +150,7 @@
 <h6 id="attributes">Attributes:</h6>
 
 <ul>
-<li><strong>job (jobs.JobKind):</strong>  job associated with the settings.</li>
+<li><strong>job (jobs.JobKind):</strong>  job associated with settings.</li>
 </ul>
 </div>
 
