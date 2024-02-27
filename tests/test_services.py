@@ -1,5 +1,7 @@
 # %% IMPORTS
 
+import os
+
 import mlflow
 from bikes import services
 from loguru import logger
@@ -19,6 +21,20 @@ def test_logger_service(capsys):
     assert capture.err == "", "No output to stderr!"
     assert "INFO" in capture.out, "INFO should be logged!"
     assert "DEBUG" not in capture.out, "Debug should not be logged!"
+
+
+def test_carbon_service(tmp_carbon_path: str):
+    # given
+    output_dir = tmp_carbon_path
+    output_file = "emissions-test.csv"
+    output_path = os.path.join(output_dir, output_file)
+    service = services.CarbonService(output_dir=output_dir, output_file=output_file)
+    # when
+    service.start()
+    service.stop()
+    # then
+    assert os.path.exists(output_path), "Output path should be created!"
+    assert os.stat(output_path).st_size > 0, "Output path should not be empty!"
 
 
 def test_mlflow_service(mlflow_service: services.MLflowService):

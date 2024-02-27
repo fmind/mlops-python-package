@@ -33,6 +33,7 @@ class Job(abc.ABC, pdt.BaseModel, strict=True):
     KIND: str
 
     logger_service: services.LoggerService = services.LoggerService()
+    carbon_service: services.CarbonService = services.CarbonService()
     mlflow_service: services.MLflowService = services.MLflowService()
 
     def __enter__(self) -> T.Self:
@@ -41,7 +42,10 @@ class Job(abc.ABC, pdt.BaseModel, strict=True):
         Returns:
             T.Self: return the current object.
         """
-        self.logger_service.start()
+        self.logger_service.start()  # start then log
+        logger.debug("[START] Logger service: {}", self.logger_service)
+        logger.debug("[START] Carbon service: {}", self.carbon_service)
+        self.carbon_service.start()
         logger.debug("[START] MLflow service: {}", self.mlflow_service)
         self.mlflow_service.start()
         return self
@@ -59,6 +63,9 @@ class Job(abc.ABC, pdt.BaseModel, strict=True):
         """
         logger.debug("[STOP] MLflow service: {}", self.mlflow_service)
         self.mlflow_service.stop()
+        logger.debug("[STOP] Carbon service: {}", self.carbon_service)
+        self.carbon_service.stop()
+        logger.debug("[STOP] Logger service: {}", self.carbon_service)
         self.logger_service.stop()
         return False
 

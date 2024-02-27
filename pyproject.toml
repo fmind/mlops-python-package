@@ -33,6 +33,7 @@ pydantic = "^2.5.3"
 pydantic-settings = "^2.1.0"
 scikit-learn = "^1.4.0"
 mlflow-skinny = "^2.10.2"
+codecarbon = "^2.3.4"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
@@ -50,6 +51,11 @@ pytest-xdist = "^3.5.0"
 pandera = { extras = ["mypy"], version = "^0.18.0" }
 ruff = "^0.2.2"
 
+[tool.poetry.group.carbons.dependencies]
+dash = "^2.15.0"
+dash-bootstrap-components = "^1.5.0"
+fire = "^0.5.0"
+
 [tool.poetry.group.notebooks.dependencies]
 ipykernel = "^6.29.0"
 nbformat = "^5.9.2"
@@ -59,11 +65,15 @@ nbformat = "^5.9.2"
 [tool.coverage.run]
 branch = true
 source = ["src"]
+omit = ["__main__.py"]
 
 [tool.mypy]
 check_untyped_defs = true
 ignore_missing_imports = true
 plugins = ["pandera.mypy", "pydantic.mypy"]
+
+[tool.pytest.ini_options]
+addopts = "--numprocesses='auto'"
 
 [tool.ruff]
 fix = true

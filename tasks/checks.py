@@ -8,7 +8,6 @@ from invoke.context import Context
 # %% CONFIGS
 
 COVERAGE_FAIL_UNDER = 80
-PYTEST_N_PROCESSES = "auto"
 
 # %% TASKS
 
@@ -40,16 +39,13 @@ def code(ctx: Context) -> None:
 @task
 def test(ctx: Context) -> None:
     """Check the tests with pytest."""
-    ctx.run("poetry run pytest --numprocesses={PYTEST_N_PROCESSES} tests/")
+    ctx.run("poetry run pytest tests/")
 
 
 @task
 def coverage(ctx: Context) -> None:
     """Check the coverage with coverage."""
-    ctx.run(
-        f"poetry run pytest --numprocesses={PYTEST_N_PROCESSES}"
-        f" --cov=src/ --cov-fail-under={COVERAGE_FAIL_UNDER} tests/"
-    )
+    ctx.run(f"poetry run pytest --cov=src/ --cov-fail-under={COVERAGE_FAIL_UNDER} tests/")
 
 
 @task(pre=[poetry, format, type, code, coverage], default=True)

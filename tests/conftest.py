@@ -8,7 +8,6 @@ import typing as T
 import mlflow
 import omegaconf
 import pytest
-
 from bikes import datasets, metrics, models, registers, schemas, searchers, services, splitters
 
 # %% CONFIGS
@@ -58,6 +57,12 @@ def targets_path(data_path: str) -> str:
 def outputs_path(data_path: str) -> str:
     """Return the path of the outputs dataset."""
     return os.path.join(data_path, "outputs.parquet")
+
+
+@pytest.fixture(scope="function")
+def tmp_carbon_path(tmp_path: str) -> str:
+    """Return a tmp path of the carbon folder."""
+    return os.path.join(tmp_path, "carbons")
 
 
 @pytest.fixture(scope="function")
@@ -232,11 +237,20 @@ def default_metric() -> metrics.SklearnMetric:
 
 
 @pytest.fixture(scope="session", autouse=True)
-def logger_service():
+def logger_service() -> services.LoggerService:
     """Return and start the logger service."""
     service = services.LoggerService(colorize=False, diagnose=True)
     service.start()  # ready to be used
     return service
+
+
+@pytest.fixture(scope="function")
+def carbon_service(tmp_carbon_path: str) -> T.Generator[services.CarbonService, None, None]:
+    """Return and start the carbon service."""
+    service = services.CarbonService(output_dir=tmp_carbon_path)
+    service.start()  # ready to be used
+    yield service
+    service.stop()
 
 
 @pytest.fixture(scope="function", autouse=True)

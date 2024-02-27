@@ -3,9 +3,11 @@
 # %% IMPORTS
 
 import abc
+import os
 import sys
 import typing as T
 
+import codecarbon as cc
 import mlflow
 import pydantic as pdt
 from loguru import logger
@@ -76,6 +78,36 @@ class LoggerService(Service):
         config["sink"] = sinks.get(config["sink"], config["sink"])
         # config
         logger.add(**config)
+
+
+class CarbonService(Service):
+    """Service for tracking carbon emissions."""
+
+    # public
+    # - inputs
+    log_level: str = "ERROR"
+    project_name: str = "bikes"
+    measure_power_secs: int = 5
+    # - outputs
+    output_dir: str = "outputs"
+    output_file: str = "emissions.csv"
+    on_csv_write: str = "append"
+    # - offline
+    country_iso_code: str = "LUX"
+    # private
+    _tracker: cc.OfflineEmissionsTracker | None = None
+
+    def start(self):
+        """Start the carbon service."""
+        os.makedirs(self.output_dir, exist_ok=True)  # create output dir
+        self._tracker = cc.OfflineEmissionsTracker(**self.model_dump())
+        self._tracker.start()
+
+    def stop(self):
+        """Stop the carbon service."""
+        assert self._tracker, "Carbon tracker should be started!"
+        self._tracker.flush()
+        self._tracker.stop()
 
 
 class MLflowService(Service):

@@ -16,6 +16,7 @@ def test_tuning_job(
     default_searcher: searchers.GridCVSearcher,
     time_series_splitter: splitters.TimeSeriesSplitter,
     logger_service: services.LoggerService,
+    carbon_service: services.CarbonService,
     mlflow_service: services.MLflowService,
 ):
     # given
@@ -30,6 +31,7 @@ def test_tuning_job(
         searcher=default_searcher,
         splitter=time_series_splitter,
         logger_service=logger_service,
+        carbon_service=carbon_service,
         mlflow_service=mlflow_service,
     )
     mlflow_client = mlflow_service.client()
@@ -81,6 +83,7 @@ def test_training_job(
     default_signer: registers.Signer,
     train_test_splitter: splitters.TrainTestSplitter,
     logger_service: services.LoggerService,
+    carbon_service: services.CarbonService,
     mlflow_service: services.MLflowService,
 ):
     # given
@@ -98,6 +101,7 @@ def test_training_job(
         splitter=train_test_splitter,
         registry_alias=registry_alias,
         logger_service=logger_service,
+        carbon_service=carbon_service,
         mlflow_service=mlflow_service,
     )
     mlflow_client = mlflow_service.client()
@@ -187,6 +191,7 @@ def test_inference_job(
     default_alias: str,
     default_mlflow_model_version: registers.Version,
     logger_service: services.LoggerService,
+    carbon_service: services.CarbonService,
     mlflow_service: services.MLflowService,
 ):
     # given
@@ -197,6 +202,7 @@ def test_inference_job(
         registry_alias=default_alias,
         loader=default_loader,
         logger_service=logger_service,
+        carbon_service=carbon_service,
         mlflow_service=mlflow_service,
     )
     # when
