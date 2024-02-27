@@ -3,6 +3,7 @@
 import os
 
 import mlflow
+import pytest
 from bikes import services
 from loguru import logger
 
@@ -37,9 +38,11 @@ def test_carbon_service(tmp_carbon_path: str):
     assert os.stat(output_path).st_size > 0, "Output path should not be empty!"
 
 
-def test_mlflow_service(mlflow_service: services.MLflowService):
+@pytest.mark.parametrize("enable_system_metrics", [True, False])
+def test_mlflow_service(enable_system_metrics: bool, mlflow_service: services.MLflowService):
     # given
     service = mlflow_service
+    service.enable_system_metrics = enable_system_metrics
     # when
     service.start()
     client = service.client()

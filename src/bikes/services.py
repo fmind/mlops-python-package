@@ -132,6 +132,7 @@ class MLflowService(Service):
         autolog_log_models (bool): If True, enables logging of models during autologging.
         autolog_log_datasets (bool): If True, logs datasets used during autologging.
         autolog_silent (bool): If True, suppresses all MLflow warnings during autologging.
+        enable_system_metrics (bool): enable system metrics logging.
         tracking_uri (str): The URI for the MLflow tracking server.
         experiment_name (str): The name of the experiment to log runs under.
         registry_uri (str): The URI for the MLflow model registry.
@@ -147,6 +148,8 @@ class MLflowService(Service):
     autolog_log_models: bool = False
     autolog_log_datasets: bool = True
     autolog_silent: bool = False
+    # system
+    enable_system_metrics: bool = True
     # tracking
     tracking_uri: str = "http://localhost:5000"
     experiment_name: str = "bikes"
@@ -171,6 +174,9 @@ class MLflowService(Service):
             log_models=self.autolog_log_models,
             silent=self.autolog_silent,
         )
+        # system metrics
+        if self.enable_system_metrics:
+            mlflow.enable_system_metrics_logging()
 
     def client(self) -> MlflowClient:
         """Get an instance of MLflow client."""
