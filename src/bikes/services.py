@@ -81,7 +81,17 @@ class LoggerService(Service):
 
 
 class CarbonService(Service):
-    """Service for tracking carbon emissions."""
+    """Service for tracking carbon emissions.
+
+    Attributes:
+        log_level (str): Level of logging to output.
+        project_name (str): Name of the project to track.
+        measure_power_secs (int): Interval for measuring in secs.
+        output_dir (str): Directory where the output files are stored.
+        output_file (str): Name of the output CSV file for emissions data.
+        on_csv_write (str): Specifies the action on writing to CSV (append or overwrite).
+        country_iso_code (str): ISO code of the country for tracking carbon emissions offline.
+    """
 
     # public
     # - inputs

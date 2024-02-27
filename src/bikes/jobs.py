@@ -27,6 +27,7 @@ class Job(abc.ABC, pdt.BaseModel, strict=True):
 
     Attributes:
         logger_service (services.LoggerService): manage the logging system.
+        carbon_service (services.CarbonService): manage the carbon system.
         mlflow_service (services.MLflowService): manage the mlflow system.
     """
 
