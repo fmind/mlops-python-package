@@ -1,6 +1,6 @@
 ---
 name: Fix request
-about: Request a fix to help us improve
+about: Request a fix for this project
 title: "[FIX] "
 labels: Fix
 assignees: fmind
