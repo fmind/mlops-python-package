@@ -1,5 +1,3 @@
-Fixes #
-
-## Proposed Changes
+# Proposed Changes
 
 -
