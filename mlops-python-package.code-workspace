@@ -23,6 +23,7 @@
 			"charliermarsh.ruff",
 			"dchanco.vsc-invoke",
 			"ms-python.python",
+			"ms-python.mypy-type-checker",
 			"ms-python.vscode-pylance",
 		]
 	}
