@@ -4,7 +4,6 @@
 
 import typing as T
 
-from cloudpathlib import AnyPath
 from omegaconf import DictConfig, ListConfig, OmegaConf
 
 # %% TYPES
@@ -23,10 +22,7 @@ def parse_file(path: str) -> Config:
     Returns:
         Config: representation of the config file.
     """
-    any_path = AnyPath(path)
-    text = any_path.read_text()  # type: ignore
-    config = OmegaConf.create(text)
-    return config
+    return OmegaConf.load(path)
 
 
 def parse_string(string: str) -> Config:

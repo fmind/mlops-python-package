@@ -4,7 +4,7 @@
 FROM python:3.12
 
 # Install
-COPY dist/*.whl .
+COPY dist/* .
 RUN pip install --no-cache-dir *.whl
 
 # Execute

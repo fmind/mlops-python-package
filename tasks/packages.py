@@ -15,9 +15,9 @@ BUILD_FORMAT = "wheel"
 
 
 @task(pre=[cleans.dist])
-def build(ctx: Context) -> None:
-    """Build a wheel package."""
-    ctx.run(f"poetry build --format={BUILD_FORMAT}")
+def build(ctx: Context, format: str = BUILD_FORMAT) -> None:
+    """Build a python package with the given format."""
+    ctx.run(f"poetry build --format={format}")
 
 
 @task(pre=[build], default=True)

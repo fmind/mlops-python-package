@@ -10,7 +10,7 @@ from invoke.context import Context
 
 @task
 def board(ctx: Context, filepath: str = "outputs/emissions.csv", port: int = 8050) -> None:
-    """Visualize caron emissions data at file path from the carbon board app."""
+    """Visualize carbon emissions data at file path from the carbon board app."""
     ctx.run(f"poetry run carbonboard --filepath={filepath} --port={port}")
 
 

@@ -1,5 +1,5 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
+# https://pre-commit.com
+# https://pre-commit.com/hooks.html
 
 default_language_version:
   python: python3.12
@@ -13,6 +13,7 @@ repos:
       - id: check-merge-conflict
       - id: check-toml
       - id: check-yaml
+      - id: debug-statements
       - id: end-of-file-fixer
       - id: mixed-line-ending
       - id: trailing-whitespace
@@ -25,3 +26,11 @@ repos:
         pass_filenames: false
         verbose: true
         entry: invoke checks
+        stages: [push]
+  # commit
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.16.0
+    hooks:
+      - id: commitizen
+      - id: commitizen-branch
+        stages: [push]

@@ -1,10 +1,4 @@
 ---
-name: Custom request
-about: Ask anything for this project
-title: ''
-labels: ''
-assignees: ''
-
+name: Custom Request
+about: Submit a general request.
 ---
-
-
