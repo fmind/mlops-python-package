@@ -17,13 +17,13 @@ def info(ctx: Context) -> None:
 @task
 def bump(ctx: Context) -> None:
     """Bump the version of the package."""
-    ctx.run("poetry run cz bump")
+    ctx.run("poetry run cz bump", pty=True)
 
 
 @task
 def commit(ctx: Context) -> None:
     """Commit all changes with a message."""
-    ctx.run("poetry run cz commit")
+    ctx.run("poetry run cz commit", pty=True)
 
 
 @task(pre=[commit], default=True)

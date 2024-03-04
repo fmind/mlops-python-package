@@ -32,6 +32,6 @@ def run(ctx: Context, tag: str = IMAGE_TAG) -> None:
     ctx.run(f"docker run --rm {ctx.project.name}:{tag}")
 
 
-@task(pre=[build], default=True)
+@task(pre=[build, run], default=True)
 def all(_: Context) -> None:
     """Run all container tasks."""
