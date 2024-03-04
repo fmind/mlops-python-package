@@ -71,7 +71,6 @@ skips = ["B101"]
 [tool.commitizen]
 name = "cz_conventional_commits"
 tag_format = "v$version"
-version_files = ["src/__version__.py"]
 version_scheme = "pep440"
 version_provider = "poetry"
 update_changelog_on_bump = true
