@@ -83,6 +83,8 @@ class LoggerService(Service):
 class CarbonService(Service):
     """Service for tracking carbon emissions.
 
+    https://mlco2.github.io/codecarbon/parameters.html
+
     Attributes:
         log_level (str): Level of logging to output.
         project_name (str): Name of the project to track.
@@ -97,6 +99,7 @@ class CarbonService(Service):
     # - inputs
     log_level: str = "ERROR"
     project_name: str = "bikes"
+    tracking_mode: str = "machine"
     measure_power_secs: int = 5
     # - outputs
     output_dir: str = "outputs"
@@ -107,13 +110,15 @@ class CarbonService(Service):
     # private
     _tracker: cc.OfflineEmissionsTracker | None = None
 
-    def start(self):
+    @T.override
+    def start(self) -> None:
         """Start the carbon service."""
-        os.makedirs(self.output_dir, exist_ok=True)  # create output dir
-        self._tracker = cc.OfflineEmissionsTracker(**self.model_dump())
+        params = self.model_dump()
+        os.makedirs(self.output_dir, exist_ok=True)
+        self._tracker = cc.OfflineEmissionsTracker(**params)
         self._tracker.start()
 
-    def stop(self):
+    def stop(self) -> None:
         """Stop the carbon service."""
         assert self._tracker, "Carbon tracker should be started!"
         self._tracker.flush()
@@ -151,13 +156,16 @@ class MLflowService(Service):
     # system
     enable_system_metrics: bool = True
     # tracking
-    tracking_uri: str = "http://localhost:5000"
+    # tracking_uri: str = "http://localhost:5000"
+    tracking_uri: str = "./mlruns"
     experiment_name: str = "bikes"
     # registry
-    registry_uri: str = "http://localhost:5000"
+    # registry_uri: str = "http://localhost:5000"
+    registry_uri: str = "./mlruns"
     registry_name: str = "bikes"
 
-    def start(self):
+    @T.override
+    def start(self) -> None:
         """Start the mlflow service."""
         # uri
         mlflow.set_tracking_uri(uri=self.tracking_uri)

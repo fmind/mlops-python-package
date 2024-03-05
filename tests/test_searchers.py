@@ -11,7 +11,7 @@ def test_grid_cv_searcher(
     time_series_splitter: splitters.Splitter,
     inputs: schemas.Inputs,
     targets: schemas.Targets,
-):
+) -> None:
     # given
     param_grid = {"max_depth": [3, 5, 7]}
     searcher = searchers.GridCVSearcher(param_grid=param_grid)

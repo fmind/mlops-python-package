@@ -17,11 +17,11 @@ def test_sklearn_metric(
     name: str,
     interval: tuple[int, int],
     greater_is_better: bool,
-    default_model: models.Model,
     inputs: schemas.Inputs,
     targets: schemas.Targets,
     outputs: schemas.Outputs,
-):
+    default_model: models.Model,
+) -> None:
     # given
     low, high = interval
     metric = metrics.SklearnMetric(name=name, greater_is_better=greater_is_better)

@@ -1,4 +1,4 @@
-"""Parse, merge, and convert YAML configs."""
+"""Parse, merge, and convert config objects."""
 
 # %% IMPORTS
 
@@ -17,7 +17,7 @@ def parse_file(path: str) -> Config:
     """Parse a config file from a path.
 
     Args:
-        path (str): local or remote path.
+        path (str): path to local config.
 
     Returns:
         Config: representation of the config file.
@@ -29,7 +29,7 @@ def parse_string(string: str) -> Config:
     """Parse the given config string.
 
     Args:
-        string (str): configuration string.
+        string (str): content of config string.
 
     Returns:
         Config: representation of the config string.
@@ -41,10 +41,10 @@ def parse_string(string: str) -> Config:
 
 
 def merge_configs(configs: T.Sequence[Config]) -> Config:
-    """Merge a list of config objects into one.
+    """Merge a list of config into a single config.
 
     Args:
-        configs (list[Config]): list of config objects.
+        configs (T.Sequence[Config]): list of configs.
 
     Returns:
         Config: representation of the merged config objects.
@@ -55,13 +55,14 @@ def merge_configs(configs: T.Sequence[Config]) -> Config:
 # %% CONVERTERS
 
 
-def to_object(config: Config) -> object:
+def to_object(config: Config, resolve: bool = True) -> object:
     """Convert a config object to a python object.
 
     Args:
         config (Config): representation of the config.
+        resolve (bool): resolve variables. Defaults to True.
 
     Returns:
         object: conversion of the config to a python object.
     """
-    return OmegaConf.to_container(config, resolve=True)
+    return OmegaConf.to_container(config, resolve=resolve)

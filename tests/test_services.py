@@ -1,6 +1,7 @@
 # %% IMPORTS
 
 import os
+import typing as T
 
 import mlflow
 import pytest
@@ -10,7 +11,7 @@ from loguru import logger
 # %% SERVICES
 
 
-def test_logger_service(capsys):
+def test_logger_service(capsys: T.Any) -> None:
     # given
     service = services.LoggerService(sink="stdout", level="INFO")
     # when
@@ -24,7 +25,7 @@ def test_logger_service(capsys):
     assert "DEBUG" not in capture.out, "Debug should not be logged!"
 
 
-def test_carbon_service(tmp_carbon_path: str):
+def test_carbon_service(tmp_carbon_path: str) -> None:
     # given
     output_dir = tmp_carbon_path
     output_file = "emissions-test.csv"
@@ -39,7 +40,9 @@ def test_carbon_service(tmp_carbon_path: str):
 
 
 @pytest.mark.parametrize("enable_system_metrics", [True, False])
-def test_mlflow_service(enable_system_metrics: bool, mlflow_service: services.MLflowService):
+def test_mlflow_service(
+    enable_system_metrics: bool, mlflow_service: services.MLflowService
+) -> None:
     # given
     service = mlflow_service
     service.enable_system_metrics = enable_system_metrics

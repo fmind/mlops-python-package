@@ -35,7 +35,7 @@ def code(ctx: Context) -> None:
 @task
 def test(ctx: Context) -> None:
     """Check the tests with pytest."""
-    ctx.run("poetry run pytest tests/")
+    ctx.run("poetry run pytest --numprocesses='auto' tests/")
 
 
 @task
@@ -47,7 +47,7 @@ def bandit(ctx: Context) -> None:
 @task
 def coverage(ctx: Context) -> None:
     """Check the coverage with coverage."""
-    ctx.run(f"poetry run pytest --cov=src/ tests/")
+    ctx.run(f"poetry run pytest --numprocesses='auto' --cov=src/ tests/")
 
 
 @task(pre=[poetry, format, type, code, bandit, coverage], default=True)

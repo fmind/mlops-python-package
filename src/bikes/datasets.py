@@ -38,7 +38,7 @@ class ParquetReader(Reader):
     """Read a dataframe from a parquet file.
 
     Attributes:
-        path (str): local or remote path to a dataset.
+        path (str): local path to the dataset.
     """
 
     KIND: T.Literal["ParquetReader"] = "ParquetReader"
@@ -47,6 +47,7 @@ class ParquetReader(Reader):
 
     @T.override
     def read(self) -> pd.DataFrame:
+        # can't limit rows at read time
         data = pd.read_parquet(self.path)
         if self.limit is not None:
             data = data.head(self.limit)
@@ -80,7 +81,7 @@ class ParquetWriter(Writer):
     """Writer a dataframe to a parquet file.
 
     Attributes:
-        path (str): local or remote file to a dataset.
+        path (str): local path to the dataset.
     """
 
     KIND: T.Literal["ParquetWriter"] = "ParquetWriter"

@@ -17,7 +17,7 @@ class Metric(abc.ABC, pdt.BaseModel, strict=True):
     """Base class for a metric.
 
     Use metrics to evaluate model performance.
-    e.g., accuracy, precision, recall, mae, f1, ...
+    e.g., accuracy, precision, recall, MAE, F1, ...
 
     Attributes:
         name (str): name of the metric.
@@ -36,7 +36,7 @@ class Metric(abc.ABC, pdt.BaseModel, strict=True):
             outputs (schemas.Outputs): predicted values.
 
         Returns:
-            float: metric result.
+            float: single result for the metric computation.
         """
 
     def scorer(
@@ -77,7 +77,7 @@ class SklearnMetric(Metric):
         y_true = targets[schemas.TargetsSchema.cnt]
         y_pred = outputs[schemas.OutputsSchema.prediction]
         score = metric(y_pred=y_pred, y_true=y_true) * sign
-        return score
+        return float(score)
 
 
 MetricKind = SklearnMetric

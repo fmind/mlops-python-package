@@ -2,6 +2,7 @@
 
 import json
 import os
+import typing as T
 
 import pytest
 from bikes import scripts
@@ -9,7 +10,7 @@ from bikes import scripts
 # %% SCRIPTS
 
 
-def test_schema(capsys):
+def test_schema(capsys: T.Any) -> None:
     # given
     argv = ["prog", "--schema"]
     # when
@@ -29,7 +30,7 @@ def test_schema(capsys):
         pytest.param("invalid", marks=pytest.mark.xfail),
     ],
 )
-def test_main(scenario: str, confs_path: str, extra_config: str):
+def test_main(scenario: str, confs_path: str, extra_config: str) -> None:
     # given
     root = os.path.join(confs_path, scenario)
     # when

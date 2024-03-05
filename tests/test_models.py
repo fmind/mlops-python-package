@@ -7,9 +7,9 @@ from bikes import models, schemas
 # %% MODELS
 
 
-def test_model():
+def test_model() -> None:
     # given
-    class MyModel(models.Model):
+    class MyModel(models.Model):  # type: ignore
         KIND: T.Literal["MyModel"] = "MyModel"
 
         # public
@@ -18,10 +18,10 @@ def test_model():
         # private
         _c: int = 3
 
-        def fit(self, inputs, targets):
-            pass
+        def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> T.Self:
+            return self
 
-        def predict(self, inputs):
+        def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
             pass
 
     # when
@@ -38,7 +38,7 @@ def test_model():
 
 def test_baseline_sklearn_model(
     train_test_sets: tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets],
-):
+) -> None:
     # given
     params = {"max_depth": 3, "n_estimators": 5, "random_state": 0}
     inputs_train, targets_train, inputs_test, _ = train_test_sets

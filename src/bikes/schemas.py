@@ -2,6 +2,8 @@
 
 # %% IMPORTS
 
+import typing as T
+
 import pandas as pd
 import pandera as pa
 import pandera.typing as papd
@@ -28,8 +30,8 @@ class Schema(pa.DataFrameModel):
         strict: bool = True
 
     @classmethod
-    def check(cls, data: pd.DataFrame, **kwargs):
-        """Check the data with this schema.
+    def check(cls, data: pd.DataFrame, **kwargs: T.Any) -> T.Any:
+        """Check the dataframe with this schema.
 
         Args:
             data (pd.DataFrame): dataframe to check.

@@ -18,7 +18,7 @@ def test_tuning_job(
     logger_service: services.LoggerService,
     carbon_service: services.CarbonService,
     mlflow_service: services.MLflowService,
-):
+) -> None:
     # given
     run_name = "TuningTest"
     job = jobs.TuningJob(
@@ -85,7 +85,7 @@ def test_training_job(
     logger_service: services.LoggerService,
     carbon_service: services.CarbonService,
     mlflow_service: services.MLflowService,
-):
+) -> None:
     # given
     run_name = "TrainingTest"
     scorers = [default_metric]
@@ -193,7 +193,7 @@ def test_inference_job(
     logger_service: services.LoggerService,
     carbon_service: services.CarbonService,
     mlflow_service: services.MLflowService,
-):
+) -> None:
     # given
     registry_alias = "Testing"
     job = jobs.InferenceJob(

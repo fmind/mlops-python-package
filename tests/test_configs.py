@@ -5,10 +5,10 @@ import os
 from bikes import configs
 from omegaconf import OmegaConf
 
-# %% LOADERS
+# %% PARSERS
 
 
-def test_parse_file(tmp_path: str):
+def test_parse_file(tmp_path: str) -> None:
     # given
     text = """
     a: 1
@@ -28,7 +28,7 @@ def test_parse_file(tmp_path: str):
     }, "File config should be loaded correctly!"
 
 
-def test_parse_string():
+def test_parse_string() -> None:
     # given
     text = """{"a": 1, "b": 2, "data": [3, 4]}"""
     # when
@@ -41,7 +41,10 @@ def test_parse_string():
     }, "String config should be loaded correctly!"
 
 
-def test_merge_configs():
+# %% MERGERS
+
+
+def test_merge_configs() -> None:
     # given
     confs = [OmegaConf.create({"x": i, i: i}) for i in range(3)]
     # when
@@ -58,7 +61,7 @@ def test_merge_configs():
 # %% CONVERTERS
 
 
-def test_to_object():
+def test_to_object() -> None:
     # given
     values = {
         "a": 1,
