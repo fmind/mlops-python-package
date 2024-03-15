@@ -8,7 +8,7 @@ from bikes import models, registers, schemas, services
 # %% ADAPTERS
 
 
-def test_custom_adapter(default_model: models.Model, inputs: schemas.Inputs):
+def test_custom_adapter(default_model: models.Model, inputs: schemas.Inputs) -> None:
     # given
     adapter = registers.CustomAdapter(model=default_model)
     # when
@@ -20,7 +20,7 @@ def test_custom_adapter(default_model: models.Model, inputs: schemas.Inputs):
 # %% SIGNERS
 
 
-def test_infer_signer(inputs: schemas.Inputs, outputs: schemas.Outputs):
+def test_infer_signer(inputs: schemas.Inputs, outputs: schemas.Outputs) -> None:
     # given
     signer = registers.InferSigner()
     # when
@@ -39,7 +39,7 @@ def test_infer_signer(inputs: schemas.Inputs, outputs: schemas.Outputs):
 
 def test_custom_saver(
     inputs: schemas.Inputs, default_model: models.Model, default_signature: registers.Signature
-):
+) -> None:
     # given
     path = "custom"
     saver = registers.CustomSaver(path=path)
@@ -60,7 +60,7 @@ def test_custom_loader(
     inputs: schemas.Inputs,
     mlflow_service: services.MLflowService,
     default_mlflow_model_version: registers.Version,
-):
+) -> None:
     # given
     name = mlflow_service.registry_name
     version = default_mlflow_model_version.version

@@ -16,17 +16,17 @@ OUTPUT_DIR = "docs/"
 
 
 @task
-def api(ctx: Context) -> None:
-    """Document the API with pdoc."""
-    ctx.run(
-        f"poetry run pdoc --docformat={DOC_FORMAT} --output-directory={OUTPUT_DIR} src/{ctx.project.name}"
-    )
+def serve(ctx: Context, format: str = DOC_FORMAT, port: int = 8088) -> None:
+    """Serve the API docs with pdoc using the given format and computer port."""
+    ctx.run(f"poetry run pdoc --docformat={format} --port={port} src/{ctx.project.name}")
 
 
 @task
-def serve(ctx: Context) -> None:
-    """Document the API with pdoc."""
-    ctx.run(f"poetry run pdoc --docformat={DOC_FORMAT} src/{ctx.project.name}")
+def api(ctx: Context, format: str = DOC_FORMAT, output_dir: str = OUTPUT_DIR) -> None:
+    """Document the API with pdoc using the given format and output directory."""
+    ctx.run(
+        f"poetry run pdoc --docformat={format} --output-directory={output_dir} src/{ctx.project.name}"
+    )
 
 
 @task(pre=[cleans.docs, api], default=True)

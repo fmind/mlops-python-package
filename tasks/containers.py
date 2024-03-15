@@ -1,4 +1,4 @@
-"""Docker tasks for pyinvoke."""
+"""Container tasks for pyinvoke."""
 
 # %% IMPORTS
 
@@ -16,22 +16,22 @@ IMAGE_TAG = "latest"
 
 @task
 def compose(ctx: Context) -> None:
-    """Start docker compose."""
+    """Start up docker compose."""
     ctx.run("docker compose up")
 
 
 @task(pre=[packages.build])
-def build(ctx: Context) -> None:
-    """Build the container image."""
-    ctx.run(f"docker build -t {ctx.project.name}:{IMAGE_TAG} .")
+def build(ctx: Context, tag: str = IMAGE_TAG) -> None:
+    """Build the container image with the given tag."""
+    ctx.run(f"docker build --tag={ctx.project.name}:{tag} .")
 
 
 @task
-def run(ctx: Context) -> None:
-    """Run the container image."""
-    ctx.run(f"docker run --rm {ctx.project.name}:{IMAGE_TAG}")
+def run(ctx: Context, tag: str = IMAGE_TAG) -> None:
+    """Run the container image with the given tag."""
+    ctx.run(f"docker run --rm {ctx.project.name}:{tag}")
 
 
-@task(pre=[build], default=True)
+@task(pre=[build, run], default=True)
 def all(_: Context) -> None:
     """Run all container tasks."""

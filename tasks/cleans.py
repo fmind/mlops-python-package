@@ -19,7 +19,7 @@ def mypy(ctx: Context) -> None:
 @task
 def ruff(ctx: Context) -> None:
     """Clean the ruff tool."""
-    ctx.run("ruff clean")
+    ctx.run("rm -rf .ruff_cache/")
 
 
 @task

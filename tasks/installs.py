@@ -10,14 +10,15 @@ from invoke.context import Context
 
 @task
 def poetry(ctx: Context) -> None:
-    """Run poetry install."""
+    """Install poetry packages."""
     ctx.run("poetry install")
 
 
 @task
 def pre_commit(ctx: Context) -> None:
     """Run pre-commit install."""
-    ctx.run("poetry run pre-commit install")
+    ctx.run("poetry run pre-commit install --hook-type pre-push")
+    ctx.run("poetry run pre-commit install --hook-type commit-msg")
 
 
 @task(pre=[poetry, pre_commit], default=True)

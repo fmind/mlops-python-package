@@ -9,7 +9,7 @@ from bikes import datasets, schemas
 
 
 @pytest.mark.parametrize("limit", [None, 50])
-def test_parquet_reader(limit: int | None, inputs_path: str):
+def test_parquet_reader(limit: int | None, inputs_path: str) -> None:
     # given
     reader = datasets.ParquetReader(path=inputs_path, limit=limit)
     # when
@@ -23,7 +23,7 @@ def test_parquet_reader(limit: int | None, inputs_path: str):
 # %% WRITERS
 
 
-def test_parquet_writer(targets: schemas.Targets, tmp_outputs_path: str):
+def test_parquet_writer(targets: schemas.Targets, tmp_outputs_path: str) -> None:
     # given
     writer = datasets.ParquetWriter(path=tmp_outputs_path)
     # when

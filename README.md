@@ -1,10 +1,9 @@
 # MLOps Python Package
 
 [![on-release-published.yml](https://github.com/fmind/mlops-python-package/actions/workflows/on-release-published.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/on-release-published.yml)
-[![Release](https://img.shields.io/github/v/release/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/releases)
-
-[![License](https://img.shields.io/github/license/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/blob/main/LICENCE.txt)
 [![Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://fmind.github.io/mlops-python-package/)
+[![License](https://img.shields.io/github/license/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/blob/main/LICENCE.txt)
+[![Release](https://img.shields.io/github/v/release/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/releases)
 
 This repository contains a Python package implementation designed to support MLOps initiatives.
 

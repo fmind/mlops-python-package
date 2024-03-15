@@ -1,8 +1,8 @@
 ---
-name: Fix Request
-about: A bug fix
-title: "[FIX] "
-labels: fix
+name: Feature Request
+about: A new feature.
+title: "[FEAT] "
+labels: feat
 assignees: fmind
 body:
 - type: checkboxes
@@ -15,10 +15,8 @@ body:
       - label: Maybe
 ---
 
-## Bug Description
+## Description
 
-## Expected Behavior
+## Motivation
 
-## Steps to Reproduce
-
-## Additional Context
+## Solutions

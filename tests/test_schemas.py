@@ -5,7 +5,7 @@ from bikes import datasets, schemas
 # %% SCHEMAS
 
 
-def test_inputs_schema(inputs_reader: datasets.Reader):
+def test_inputs_schema(inputs_reader: datasets.Reader) -> None:
     # given
     schema = schemas.InputsSchema
     # when
@@ -14,7 +14,7 @@ def test_inputs_schema(inputs_reader: datasets.Reader):
     assert schema.check(data) is not None, "Inputs data should be valid!"
 
 
-def test_targets_schema(targets_reader: datasets.Reader):
+def test_targets_schema(targets_reader: datasets.Reader) -> None:
     # given
     schema = schemas.TargetsSchema
     # when
@@ -23,7 +23,7 @@ def test_targets_schema(targets_reader: datasets.Reader):
     assert schema.check(data) is not None, "Targets data should be valid!"
 
 
-def test_output_schema(outputs_reader: datasets.Reader):
+def test_output_schema(outputs_reader: datasets.Reader) -> None:
     # given
     schema = schemas.OutputsSchema
     # when

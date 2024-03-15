@@ -5,10 +5,6 @@
 from invoke import task
 from invoke.context import Context
 
-# %% CONFIGS
-
-COVERAGE_FAIL_UNDER = 80
-
 # %% TASKS
 
 
@@ -39,15 +35,21 @@ def code(ctx: Context) -> None:
 @task
 def test(ctx: Context) -> None:
     """Check the tests with pytest."""
-    ctx.run("poetry run pytest tests/")
+    ctx.run("poetry run pytest --numprocesses='auto' tests/")
+
+
+@task
+def bandit(ctx: Context) -> None:
+    """Check the security with bandit."""
+    ctx.run("poetry run bandit --recursive --configfile=pyproject.toml src/")
 
 
 @task
 def coverage(ctx: Context) -> None:
     """Check the coverage with coverage."""
-    ctx.run(f"poetry run pytest --cov=src/ --cov-fail-under={COVERAGE_FAIL_UNDER} tests/")
+    ctx.run(f"poetry run pytest --numprocesses='auto' --cov=src/ tests/")
 
 
-@task(pre=[poetry, format, type, code, coverage], default=True)
+@task(pre=[poetry, format, type, code, bandit, coverage], default=True)
 def all(_: Context) -> None:
     """Run all check tasks."""

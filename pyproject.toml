@@ -1,11 +1,12 @@
 # https://python-poetry.org/docs/pyproject/
 
-# PACKAGE
+# PROJECT
 
 [tool.poetry]
 name = "bikes"
-version = "0.5.0"
+version = "0.6.0"
 description = "Predict the number of bikes available."
+documentation = "https://fmind.github.io/mlops-python-package/"
 repository = "https://github.com/fmind/mlops-python-package"
 authors = ["Médéric HURIER <github@fmind.dev>"]
 readme = "README.md"
@@ -22,47 +23,61 @@ bikes = 'bikes.scripts:main'
 
 [tool.poetry.dependencies]
 python = "^3.12"
-cloudpathlib = "^0.17.0"
 codecarbon = "^2.3.4"
 loguru = "^0.7.2"
-mlflow-skinny = "^2.10.2"
+mlflow-skinny = "^2.11.0"
 omegaconf = "^2.3.0"
-pandas = "^2.2.0"
+pandas = "^2.2.1"
 pandera = "^0.18.0"
-plotly = "^5.18.0"
-psutil = "^5.9.8"
+plotly = "^5.19.0"
 pyarrow = "^15.0.0"
-pydantic = "^2.5.3"
-pydantic-settings = "^2.1.0"
-pynvml = "^11.5.0"
-scikit-learn = "^1.4.0"
+pydantic = "^2.6.3"
+pydantic-settings = "^2.2.1"
+scikit-learn = "^1.4.1"
+mlflow = "^2.11.0"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
-pre-commit = "^3.6.0"
 
 [tool.poetry.group.docs.dependencies]
-pdoc = "^13.1.1"
+pdoc = "^14.4.0"
 
 [tool.poetry.group.checks.dependencies]
-coverage = "^7.4.1"
+bandit = "^1.7.7"
+coverage = "^7.4.3"
 mypy = "^1.8.0"
-pytest = "^8.0.0"
+pytest = "^8.0.2"
 pytest-cov = "^4.1.0"
 pytest-xdist = "^3.5.0"
 pandera = { extras = ["mypy"], version = "^0.18.0" }
-ruff = "^0.2.2"
+ruff = "^0.3.0"
+
+[tool.poetry.group.commits.dependencies]
+commitizen = "^3.16.0"
+pre-commit = "^3.6.2"
 
 [tool.poetry.group.carbons.dependencies]
-dash = "^2.15.0"
+dash = "^2.16.0"
 dash-bootstrap-components = "^1.5.0"
 fire = "^0.5.0"
 
 [tool.poetry.group.notebooks.dependencies]
-ipykernel = "^6.29.0"
+ipykernel = "^6.29.3"
 nbformat = "^5.9.2"
 
 # CONFIGURATIONS
+
+[tool.bandit]
+skips = ["B101"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+version_scheme = "pep440"
+version_provider = "poetry"
+changelog_start_rev = "v1.0.0"
+update_changelog_on_bump = true
+major_version_zero = true
 
 [tool.coverage.run]
 branch = true
@@ -70,12 +85,12 @@ source = ["src"]
 omit = ["__main__.py"]
 
 [tool.mypy]
+pretty = true
+strict = true
+python_version = "3.12"
 check_untyped_defs = true
 ignore_missing_imports = true
 plugins = ["pandera.mypy", "pydantic.mypy"]
-
-[tool.pytest.ini_options]
-addopts = "--numprocesses='auto'"
 
 [tool.ruff]
 fix = true

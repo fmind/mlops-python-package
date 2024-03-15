@@ -5,7 +5,7 @@ from bikes import schemas, splitters
 # %% SPLITTERS
 
 
-def test_train_test_splitter(inputs: schemas.Inputs, targets: schemas.Targets):
+def test_train_test_splitter(inputs: schemas.Inputs, targets: schemas.Targets) -> None:
     # given
     shuffle = True
     test_size = 50
@@ -27,7 +27,7 @@ def test_train_test_splitter(inputs: schemas.Inputs, targets: schemas.Targets):
     assert not inputs.iloc[train_index].empty, "Train index should be a subset of the inputs!"
 
 
-def test_time_series_splitter(inputs: schemas.Inputs, targets: schemas.Targets):
+def test_time_series_splitter(inputs: schemas.Inputs, targets: schemas.Targets) -> None:
     # given
     gap = 0
     n_splits = 3

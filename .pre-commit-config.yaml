@@ -1,5 +1,5 @@
-# See https://pre-commit.com for more information
-# See https://pre-commit.com/hooks.html for more hooks
+# https://pre-commit.com
+# https://pre-commit.com/hooks.html
 
 default_language_version:
   python: python3.12
@@ -13,15 +13,27 @@ repos:
       - id: check-merge-conflict
       - id: check-toml
       - id: check-yaml
+      - id: debug-statements
       - id: end-of-file-fixer
       - id: mixed-line-ending
       - id: trailing-whitespace
-  # project
-  - repo: local
+  - repo: github.com/PyCQA/bandit
+    rev: v1.7.7
     hooks:
-      - id: invoke-check
-        name: invoke checks
-        language: system
-        pass_filenames: false
-        verbose: true
-        entry: invoke checks
+      - id: bandit
+        args: ["--configfile=pyproject.toml"]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.8.0
+    hooks:
+      - id: mypy
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.0
+    hooks:
+      - id: ruff
+      - id: ruff-format
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v3.16.0
+    hooks:
+      - id: commitizen
+      - id: commitizen-branch
+        stages: [push]

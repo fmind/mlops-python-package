@@ -2,6 +2,7 @@
 
 # Build
 /dist/
+/build/
 
 # Cache
 .cache/
@@ -16,7 +17,9 @@
 .ipynb_checkpoints/
 
 # Environs
+.env
 /.venv/
+poetry.lock
 
 # Project
 /docs/*
