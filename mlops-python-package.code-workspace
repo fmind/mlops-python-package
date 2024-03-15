@@ -24,6 +24,7 @@
 			"dchanco.vsc-invoke",
 			"ms-python.mypy-type-checker",
 			"ms-python.python",
+			"ms-python.mypy-type-checker",
 			"ms-python.vscode-pylance",
 		]
 	}
