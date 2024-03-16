@@ -35,9 +35,9 @@ def test_schema(capsys: pc.CaptureFixture[str]) -> None:
         ),
     ],
 )
-def test_main(scenario: str, conf_path: str, extra_config: str) -> None:
+def test_main(scenario: str, confs_path: str, extra_config: str) -> None:
     # given
-    folder = os.path.join(conf_path, scenario)
+    folder = os.path.join(confs_path, scenario)
     confs = list(sorted(os.listdir(folder)))
     # when
     for conf in confs:  # one job per config
