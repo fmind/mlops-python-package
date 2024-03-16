@@ -71,7 +71,7 @@ tag_format = "v$version"
 version_scheme = "pep440"
 version_provider = "poetry"
 changelog_start_rev = "v1.0.0"
-update_changelog_on_bump = true
+update_changelog_on_bump = false
 major_version_zero = true
 
 [tool.coverage.run]
