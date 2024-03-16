@@ -2,8 +2,8 @@
 
 # %% IMPORTS
 
-from invoke import task
 from invoke.context import Context
+from invoke.tasks import task
 
 # %% TASKS
 
@@ -30,7 +30,7 @@ def pytest(ctx: Context) -> None:
 
 @task
 def coverage(ctx: Context) -> None:
-    """Clean coverage tool."""
+    """Clean the coverage tool."""
     ctx.run("rm -f .coverage*")
 
 
@@ -53,6 +53,12 @@ def docs(ctx: Context) -> None:
 def cache(ctx: Context) -> None:
     """Clean the cache folder."""
     ctx.run("rm -rf .cache/")
+
+
+@task
+def mlruns(ctx: Context) -> None:
+    """Clean the mlruns folder."""
+    ctx.run("rm -rf mlruns/*")
 
 
 @task
@@ -91,14 +97,14 @@ def tools(_: Context) -> None:
     """Run all tools tasks."""
 
 
-@task(pre=[dist, docs, cache, outputs])
+@task(pre=[dist, docs, cache, mlruns, outputs])
 def folders(_: Context) -> None:
     """Run all folders tasks."""
 
 
 @task(pre=[venv, poetry, python])
 def sources(_: Context) -> None:
-    """Run all folders tasks."""
+    """Run all sources tasks."""
 
 
 @task(pre=[tools, folders], default=True)

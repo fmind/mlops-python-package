@@ -1,57 +1,36 @@
-"""Command-line interface for the program."""
+"""Scripts for the CLI application."""
 
 # %% IMPORTS
 
 import argparse
 import json
+import sys
 
-import pydantic as pdt
-import pydantic_settings as pdts
-
-from bikes import configs, jobs
-
-# %% SETTINGS
-
-
-class Settings(pdts.BaseSettings, strict=True):
-    """Settings for the program.
-
-    Attributes:
-        job (jobs.JobKind): job associated with settings.
-    """
-
-    job: jobs.JobKind = pdt.Field(..., discriminator="KIND")
-
+from bikes import settings
+from bikes.io import configs
 
 # %% PARSERS
 
-parser = argparse.ArgumentParser(prog="bikes", description="Run an ML job from configs.")
-parser.add_argument("configs", nargs="+", help="Config files for the job (local or remote).")
-parser.add_argument("-e", "--extras", nargs="+", default=[], help="Config strings for the job.")
+parser = argparse.ArgumentParser(description="Run an AI/ML job fron YAML/JSON configs.")
+parser.add_argument("files", nargs="*", help="Config files for the job (local path only).")
+parser.add_argument("-e", "--extras", nargs="*", default=[], help="Config strings for the job.")
 parser.add_argument("-s", "--schema", action="store_true", help="Print settings schema and exit.")
 
 # %% SCRIPTS
 
 
 def main(argv: list[str] | None = None) -> int:
-    """Main function of the program.
-
-    Args:
-        argv (list[str] | None, optional): program arguments. Defaults to None for sys.argv.
-
-    Returns:
-        int: status code of the program.
-    """
+    """Main script for the application."""
     args = parser.parse_args(argv)
-    if args.schema is True:
-        schema = Settings.model_json_schema()
-        print(json.dumps(schema, indent=2))
-        return 0  # success
-    files = map(configs.parse_file, args.configs)
+    if args.schema:
+        schema = settings.MainSettings.model_json_schema()
+        json.dump(schema, sys.stdout, indent=4)
+        return 0
+    files = map(configs.parse_file, args.files)
     strings = map(configs.parse_string, args.extras)
     config = configs.merge_configs([*files, *strings])
-    object_ = configs.to_object(config)  # convert to dict
-    settings = Settings.model_validate(object_)  # to pydantic
-    with settings.job as runner:
-        runner.run()  # execute job
-    return 0  # success
+    object_ = configs.to_object(config)  # python object
+    setting = settings.MainSettings.model_validate(object_)
+    with setting.job as runner:
+        runner.run()
+        return 0

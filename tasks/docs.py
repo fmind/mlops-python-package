@@ -2,8 +2,8 @@
 
 # %% IMPORTS
 
-from invoke import task
 from invoke.context import Context
+from invoke.tasks import task
 
 from . import cleans
 

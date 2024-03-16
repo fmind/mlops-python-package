@@ -19,10 +19,10 @@
 # Environs
 .env
 /.venv/
-poetry.lock
 
 # Project
 /docs/*
+/mlruns/*
 /outputs/*
 !**/.gitkeep
 

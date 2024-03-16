@@ -2,15 +2,15 @@
 
 # %% IMPORTS
 
-from invoke import task
 from invoke.context import Context
+from invoke.tasks import task
 
 # %% TASKS
 
 
 @task
 def code(ctx: Context) -> None:
-    """Format code with ruff."""
+    """Format python code with ruff."""
     ctx.run("poetry run ruff format src/ tasks/ tests/")
 
 

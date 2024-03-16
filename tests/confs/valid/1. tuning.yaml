@@ -2,15 +2,12 @@ job:
   KIND: TuningJob
   inputs:
     KIND: ParquetReader
-    path: ${test_data_path:}/inputs.parquet
+    path: "${tests_path:}/data/inputs.parquet"
     limit: 1500
   targets:
     KIND: ParquetReader
-    path: ${test_data_path:}/targets.parquet
+    path: "${tests_path:}/data/targets.parquet"
     limit: 1500
-  results:
-    KIND: ParquetWriter
-    path: ${tmp_path:}/results.parquet
   splitter:
     KIND: TimeSeriesSplitter
     n_splits: 3

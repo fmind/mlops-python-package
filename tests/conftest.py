@@ -5,10 +5,12 @@
 import os
 import typing as T
 
-import mlflow
 import omegaconf
 import pytest
-from bikes import datasets, metrics, models, registers, schemas, searchers, services, splitters
+from _pytest import logging as pl
+from bikes.core import metrics, models, schemas
+from bikes.io import datasets, registries, services
+from bikes.utils import searchers, signers, splitters
 
 # %% CONFIGS
 
@@ -60,21 +62,9 @@ def outputs_path(data_path: str) -> str:
 
 
 @pytest.fixture(scope="function")
-def tmp_carbon_path(tmp_path: str) -> str:
-    """Return a tmp path of the carbon folder."""
-    return os.path.join(tmp_path, "carbons")
-
-
-@pytest.fixture(scope="function")
 def tmp_outputs_path(tmp_path: str) -> str:
     """Return a tmp path for the outputs dataset."""
     return os.path.join(tmp_path, "outputs.parquet")
-
-
-@pytest.fixture(scope="function")
-def tmp_results_path(tmp_path: str) -> str:
-    """Return a tmp path of the results dataset."""
-    return os.path.join(tmp_path, "results.parquet")
 
 
 # %% - Configs
@@ -83,8 +73,8 @@ def tmp_results_path(tmp_path: str) -> str:
 @pytest.fixture(scope="session")
 def extra_config() -> str:
     """Extra config for scripts."""
-    # use OmegaConf resolver for ${tmp_path:}
-    string = """
+    # use OmegaConf resolver: ${tmp_path:}
+    config = """
     {
         "job": {
             "mlflow_service": {
@@ -94,7 +84,7 @@ def extra_config() -> str:
         }
     }
     """
-    return string
+    return config
 
 
 # %% - Datasets
@@ -103,31 +93,25 @@ def extra_config() -> str:
 @pytest.fixture(scope="session")
 def inputs_reader(inputs_path: str) -> datasets.ParquetReader:
     """Return a reader for the inputs dataset."""
-    return datasets.ParquetReader(path=inputs_path, limit=LIMIT)
+    return datasets.ParquetReader(path=inputs_path)
 
 
 @pytest.fixture(scope="session")
 def targets_reader(targets_path: str) -> datasets.ParquetReader:
     """Return a reader for the targets dataset."""
-    return datasets.ParquetReader(path=targets_path, limit=LIMIT)
+    return datasets.ParquetReader(path=targets_path)
 
 
 @pytest.fixture(scope="session")
 def outputs_reader(outputs_path: str) -> datasets.ParquetReader:
     """Return a reader for the outputs dataset."""
-    return datasets.ParquetReader(path=outputs_path, limit=LIMIT)
+    return datasets.ParquetReader(path=outputs_path)
 
 
 @pytest.fixture(scope="function")
 def tmp_outputs_writer(tmp_outputs_path: str) -> datasets.ParquetWriter:
     """Return a writer for the tmp outputs dataset."""
     return datasets.ParquetWriter(path=tmp_outputs_path)
-
-
-@pytest.fixture(scope="function")
-def tmp_results_writer(tmp_results_path: str) -> datasets.ParquetWriter:
-    """Return a writer for the tmp results dataset."""
-    return datasets.ParquetWriter(path=tmp_results_path)
 
 
 # %% - Dataframes
@@ -169,22 +153,25 @@ def time_series_splitter() -> splitters.TimeSeriesSplitter:
     return splitters.TimeSeriesSplitter(n_splits=N_SPLITS, test_size=TEST_SIZE)
 
 
+# %% - Searchers
+
+
 @pytest.fixture(scope="session")
-def train_test_split(
-    train_test_splitter: splitters.TrainTestSplitter,
-    inputs: schemas.Inputs,
-    targets: schemas.Targets,
-) -> splitters.TrainTest:
-    """Return the train and test indexes for the inputs dataframe."""
-    return next(train_test_splitter.split(inputs=inputs, targets=targets))
+def searcher() -> searchers.Searcher:
+    """Return the default searcher object."""
+    param_grid = {"max_depth": [1, 2], "n_estimators": [3]}
+    return searchers.GridCVSearcher(param_grid=param_grid)
+
+
+# %% - Subsets
 
 
 @pytest.fixture(scope="session")
 def train_test_sets(
-    train_test_split: splitters.TrainTest, inputs: schemas.Inputs, targets: schemas.Targets
+    train_test_splitter: splitters.Splitter, inputs: schemas.Inputs, targets: schemas.Targets
 ) -> tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets]:
-    """Return the inputs/targets train and test sets from the train and test split."""
-    train_index, test_index = train_test_split
+    """Return the inputs and targets train and test sets from the splitter."""
+    train_index, test_index = next(train_test_splitter.split(inputs=inputs, targets=targets))
     inputs_train, inputs_test = inputs.iloc[train_index], inputs.iloc[test_index]
     targets_train, targets_test = targets.iloc[train_index], targets.iloc[test_index]
     return (
@@ -195,32 +182,17 @@ def train_test_sets(
     )
 
 
-# %% - Searchers
-
-
-@pytest.fixture(scope="session")
-def default_searcher() -> searchers.GridCVSearcher:
-    """Return the default searcher."""
-    param_grid = {"max_depth": [2, 4], "n_estimators": [10, 15]}
-    return searchers.GridCVSearcher(param_grid=param_grid)
-
-
 # %% - Models
 
 
 @pytest.fixture(scope="session")
-def empty_model() -> models.BaselineSklearnModel:
-    """Return an empty model for testing."""
-    return models.BaselineSklearnModel()
-
-
-@pytest.fixture(scope="session")
-def default_model(
-    empty_model: models.BaselineSklearnModel, inputs: schemas.Inputs, targets: schemas.Targets
+def model(
+    train_test_sets: tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets],
 ) -> models.BaselineSklearnModel:
-    """Return the default model."""
-    model = empty_model.fit(inputs=inputs, targets=targets)
-    # model.predict(inputs=inputs).to_parquet("tests/data/outputs.parquet")
+    """Return a train model for testing."""
+    model = models.BaselineSklearnModel()
+    inputs_train, targets_train, _, _ = train_test_sets
+    model.fit(inputs=inputs_train, targets=targets_train)
     return model
 
 
@@ -228,126 +200,151 @@ def default_model(
 
 
 @pytest.fixture(scope="session")
-def default_metric() -> metrics.SklearnMetric:
+def metric() -> metrics.SklearnMetric:
     """Return the default metric."""
     return metrics.SklearnMetric()
+
+
+# %% - Signers
+
+
+@pytest.fixture(scope="session")
+def signer() -> signers.Signer:
+    """Return a model signer."""
+    return signers.InferSigner()
 
 
 # %% - Services
 
 
 @pytest.fixture(scope="session", autouse=True)
-def logger_service() -> services.LoggerService:
+def logger_service() -> T.Generator[services.LoggerService, None, None]:
     """Return and start the logger service."""
     service = services.LoggerService(colorize=False, diagnose=True)
-    service.start()  # ready to be used
-    return service
-
-
-@pytest.fixture(scope="function")
-def carbon_service(tmp_carbon_path: str) -> T.Generator[services.CarbonService, None, None]:
-    """Return and start the carbon service."""
-    service = services.CarbonService(output_dir=tmp_carbon_path)
-    service.start()  # ready to be used
+    service.start()
     yield service
     service.stop()
 
 
-@pytest.fixture(scope="function", autouse=True)
-def mlflow_service(tmp_path: str) -> services.MLflowService:
-    """Return and start the mlflow service."""
-    tracking_uri = f"{tmp_path}/experiments/"
-    registry_uri = f"{tmp_path}/models/"
-    service = services.MLflowService(
-        tracking_uri=tracking_uri,
-        registry_uri=registry_uri,
-        experiment_name="Testing",
-        registry_name="Testing",
+@pytest.fixture
+def logger_caplog(
+    caplog: pl.LogCaptureFixture, logger_service: services.LoggerService
+) -> T.Generator[pl.LogCaptureFixture, None, None]:
+    """Extend pytest caplog fixture with the logger service (loguru)."""
+    # https://loguru.readthedocs.io/en/stable/resources/migration.html#replacing-caplog-fixture-from-pytest-library
+    logger = logger_service.logger()
+    handler_id = logger.add(
+        caplog.handler,
+        level=0,
+        format="{message}",
+        filter=lambda record: record["level"].no >= caplog.handler.level,
+        enqueue=False,  # Set to 'True' if your test is spawning child processes.
     )
-    service.start()  # ready to be used
-    return service
+    yield caplog
+    logger.remove(handler_id)
 
 
-# %% - Registers
-
-
-@pytest.fixture(scope="session")
-def default_signer() -> registers.InferSigner:
-    """Return the default infer signer."""
-    return registers.InferSigner()
-
-
-@pytest.fixture(scope="session")
-def default_signature(
-    default_signer: registers.InferSigner, inputs: schemas.Inputs, outputs: schemas.Outputs
-) -> registers.Signature:
-    """Return the default signature."""
-    return default_signer.sign(inputs=inputs, outputs=outputs)
-
-
-@pytest.fixture(scope="session")
-def default_saver() -> registers.CustomSaver:
-    """Return the default model saver."""
-    return registers.CustomSaver(path="test")
-
-
-@pytest.fixture(scope="session")
-def default_loader() -> registers.CustomLoader:
-    """Return the default model loader."""
-    return registers.CustomLoader()
+@pytest.fixture(scope="function", autouse=True)
+def mlflow_service(tmp_path: str) -> T.Generator[services.MlflowService, None, None]:
+    """Return and start the mlflow service."""
+    service = services.MlflowService(
+        tracking_uri=f"{tmp_path}/tracking/",
+        registry_uri=f"{tmp_path}/registry/",
+        experiment_name="Experiment-Testing",
+        registry_name="Registry-Testing",
+    )
+    service.start()
+    yield service
+    service.stop()
 
 
 # %% - Resolvers
 
 
 @pytest.fixture(scope="session", autouse=True)
-def test_data_path_resolver(data_path: str) -> str:
-    """Register test_data with OmegaConf."""
+def tests_path_resolver(tests_path: str) -> str:
+    """Register the tests path resolver with OmegaConf."""
 
-    def test_data_resolver() -> str:
-        """Get data_path."""
-        return data_path
+    def resolver() -> str:
+        """Get tests path."""
+        return tests_path
 
-    omegaconf.OmegaConf.register_new_resolver(
-        "test_data_path", test_data_resolver, use_cache=True, replace=True
-    )
-    return data_path
+    omegaconf.OmegaConf.register_new_resolver("tests_path", resolver, use_cache=True, replace=False)
+    return tests_path
 
 
 @pytest.fixture(scope="function", autouse=True)
 def tmp_path_resolver(tmp_path: str) -> str:
-    """Register tmp_path with Omegaconf."""
+    """Register the tmp path resolver with OmegaConf."""
 
-    def tmp_path_resolver() -> str:
-        """Return tmp_path."""
+    def resolver() -> str:
+        """Get tmp data path."""
         return tmp_path
 
-    omegaconf.OmegaConf.register_new_resolver("tmp_path", tmp_path_resolver, replace=True)
+    omegaconf.OmegaConf.register_new_resolver("tmp_path", resolver, use_cache=False, replace=True)
     return tmp_path
 
 
-# %% - Mlflow Registry
+# %% - Signatures
+
+
+@pytest.fixture(scope="session")
+def signature(
+    signer: signers.Signer, inputs: schemas.Inputs, outputs: schemas.Outputs
+) -> signers.Signature:
+    """Return the signature for the testing model."""
+    return signer.sign(inputs=inputs, outputs=outputs)
+
+
+# %% - Registries
+
+
+@pytest.fixture(scope="session")
+def saver() -> registries.CustomSaver:
+    """Return the default model saver."""
+    return registries.CustomSaver(path="custom-model")
+
+
+@pytest.fixture(scope="session")
+def loader() -> registries.CustomLoader:
+    """Return the default model loader."""
+    return registries.CustomLoader()
+
+
+@pytest.fixture(scope="session")
+def register() -> registries.MlflowRegister:
+    """Return the default model register."""
+    tags = {"context": "test", "role": "fixture"}
+    return registries.MlflowRegister(tags=tags)
 
 
 @pytest.fixture(scope="function")
-def default_alias() -> str:
-    """Return the default model alias."""
-    return "Default"
-
-
-@pytest.fixture(scope="function")
-def default_mlflow_model_version(
+def model_version(
+    model: models.Model,
     inputs: schemas.Inputs,
-    default_alias: str,
-    default_model: models.Model,
-    default_saver: registers.CustomSaver,
-    default_signature: registers.Signature,
-    mlflow_service: services.MLflowService,
-) -> registers.Version:
-    """Return an MLflow version for the default model."""
-    with mlflow.start_run(run_name="Default") as run:
-        default_saver.save(model=default_model, signature=default_signature, input_example=inputs)
-        version = mlflow_service.register(
-            run_id=run.info.run_id, path=default_saver.path, alias=default_alias
-        )
+    signature: signers.Signature,
+    saver: registries.Saver,
+    register: registries.Register,
+    mlflow_service: services.MlflowService,
+) -> registries.Version:
+    """Save and register the default model version."""
+    run_config = mlflow_service.RunConfig(name="Custom-Run")
+    with mlflow_service.run_context(run_config=run_config):
+        info = saver.save(model=model, signature=signature, input_example=inputs)
+        version = register.register(name=mlflow_service.registry_name, model_uri=info.model_uri)
     return version
+
+
+@pytest.fixture(scope="function")
+def model_alias(
+    model_version: registries.Version,
+    mlflow_service: services.MlflowService,
+) -> registries.Alias:
+    """Promote the default model version with an alias."""
+    alias = "Promotion"
+    client = mlflow_service.client()
+    client.set_registered_model_alias(
+        name=mlflow_service.registry_name, alias=alias, version=model_version.version
+    )
+    model_alias = client.get_model_version_by_alias(name=mlflow_service.registry_name, alias=alias)
+    return model_alias
