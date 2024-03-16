@@ -18,7 +18,7 @@ def doctor(ctx: Context) -> None:
 def serve(
     ctx: Context, host: str = "127.0.0.1", port: str = "5000", backend_uri: str = "./mlruns"
 ) -> None:
-    """"""
+    """Start mlflow server with the given host, port, and backend uri."""
     ctx.run(
         f"poetry run mlflow server --host={host} --port={port} --backend-store-uri={backend_uri}"
     )

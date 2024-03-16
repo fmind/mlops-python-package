@@ -9,7 +9,7 @@ from bikes.utils import searchers, splitters
 
 
 def test_tuning_job(
-    mlflow_service: services.MLflowService,
+    mlflow_service: services.MlflowService,
     logger_service: services.LoggerService,
     inputs_reader: datasets.Reader,
     targets_reader: datasets.Reader,
@@ -19,18 +19,16 @@ def test_tuning_job(
     searcher: searchers.Searcher,
 ) -> None:
     # given
-    run_name = "TuningTest"
-    run_description = "Tuning job."
-    run_tags = {"context": "tuning"}
+    run_config = services.MlflowService.RunConfig(
+        name="TuningTest", tags={"context": "tuning"}, description="Tuning job."
+    )
     splitter = time_series_splitter
     client = mlflow_service.client()
     # when
     job = jobs.TuningJob(
         mlflow_service=mlflow_service,
         logger_service=logger_service,
-        run_name=run_name,
-        run_description=run_description,
-        run_tags=run_tags,
+        run_config=run_config,
         inputs=inputs_reader,
         targets=targets_reader,
         model=model,
@@ -55,9 +53,12 @@ def test_tuning_job(
         "best_score",
     }
     # - run
-    assert out["run"].info.run_name == run_name, "Run name should be the same!"
-    assert run_description in out["run"].data.tags.values(), "Run desc. should be tags!"
-    assert out["run"].data.tags.items() > run_tags.items(), "Run tags should be a subset of tags!"
+    assert run_config.tags is not None, "Run config tags should be set!"
+    assert out["run"].info.run_name == run_config.name, "Run name should be the same!"
+    assert run_config.description in out["run"].data.tags.values(), "Run desc. should be tags!"
+    assert (
+        out["run"].data.tags.items() > run_config.tags.items()
+    ), "Run tags should be a subset of tags!"
     # - data
     assert out["inputs"].ndim == out["inputs_"].ndim == 2, "Inputs should be a dataframe!"
     assert out["targets"].ndim == out["inputs_"].ndim == 2, "Targets should be a dataframe!"
@@ -75,6 +76,6 @@ def test_tuning_job(
     experiment = client.get_experiment_by_name(name=mlflow_service.experiment_name)
     assert (
         experiment.name == mlflow_service.experiment_name
-    ), "MLflow experiment name should be the same!"
+    ), "Mlflow experiment name should be the same!"
     runs = client.search_runs(experiment_ids=experiment.experiment_id)
-    assert len(runs) == len(out["results"]) + 1, "MLflow should have 1 run per result + parent!"
+    assert len(runs) == len(out["results"]) + 1, "Mlflow should have 1 run per result + parent!"

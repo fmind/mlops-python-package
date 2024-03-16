@@ -245,9 +245,9 @@ def logger_caplog(
 
 
 @pytest.fixture(scope="function", autouse=True)
-def mlflow_service(tmp_path: str) -> T.Generator[services.MLflowService, None, None]:
+def mlflow_service(tmp_path: str) -> T.Generator[services.MlflowService, None, None]:
     """Return and start the mlflow service."""
-    service = services.MLflowService(
+    service = services.MlflowService(
         tracking_uri=f"{tmp_path}/tracking/",
         registry_uri=f"{tmp_path}/registry/",
         experiment_name="Experiment-Testing",
@@ -312,10 +312,10 @@ def loader() -> registries.CustomLoader:
 
 
 @pytest.fixture(scope="session")
-def register() -> registries.MLflowRegister:
+def register() -> registries.MlflowRegister:
     """Return the default model register."""
-    tags = {"registry": "mlflow"}
-    return registries.MLflowRegister(tags=tags)
+    tags = {"context": "test", "role": "fixture"}
+    return registries.MlflowRegister(tags=tags)
 
 
 @pytest.fixture(scope="function")
@@ -325,10 +325,11 @@ def model_version(
     signature: signers.Signature,
     saver: registries.Saver,
     register: registries.Register,
-    mlflow_service: services.MLflowService,
+    mlflow_service: services.MlflowService,
 ) -> registries.Version:
     """Save and register the default model version."""
-    with mlflow_service.run(name="Custom-Run"):
+    run_config = mlflow_service.RunConfig(name="Custom-Run")
+    with mlflow_service.run_context(run_config=run_config):
         info = saver.save(model=model, signature=signature, input_example=inputs)
         version = register.register(name=mlflow_service.registry_name, model_uri=info.model_uri)
     return version
@@ -337,9 +338,9 @@ def model_version(
 @pytest.fixture(scope="function")
 def model_alias(
     model_version: registries.Version,
-    mlflow_service: services.MLflowService,
+    mlflow_service: services.MlflowService,
 ) -> registries.Alias:
-    """Promote the default model version to an alias."""
+    """Promote the default model version with an alias."""
     alias = "Promotion"
     client = mlflow_service.client()
     client.set_registered_model_alias(

@@ -81,12 +81,12 @@ class LoggerService(Service):
         return loguru.logger
 
 
-class MLflowService(Service):
-    """Service for MLflow tracking and registry.
+class MlflowService(Service):
+    """Service for Mlflow tracking and registry.
 
     Parameters:
-        tracking_uri (str): the URI for the MLflow tracking server.
-        registry_uri (str): the URI for the MLflow model registry.
+        tracking_uri (str): the URI for the Mlflow tracking server.
+        registry_uri (str): the URI for the Mlflow model registry.
         experiment_name (str): the name of tracking experiment.
         registry_name (str): the name of model registry.
         autolog_disable (bool): disable autologging.
@@ -96,8 +96,23 @@ class MLflowService(Service):
         autolog_log_model_signatures (bool): If True, logs model signatures during autologging.
         autolog_log_models (bool): If True, enables logging of models during autologging.
         autolog_log_datasets (bool): If True, logs datasets used during autologging.
-        autolog_silent (bool): If True, suppresses all MLflow warnings during autologging.
+        autolog_silent (bool): If True, suppresses all Mlflow warnings during autologging.
     """
+
+    class RunConfig(pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
+        """Run configuration for Mlflow tracking.
+
+        Parameters:
+            name (str): name of the run.
+            description (str | None): description of the run.
+            tags (dict[str, T.Any] | None): tags for the run.
+            log_system_metrics (bool | None): enable system metrics logging.
+        """
+
+        name: str
+        description: str | None = None
+        tags: dict[str, T.Any] | None = None
+        log_system_metrics: bool | None = None
 
     # server uri
     tracking_uri: str = "./mlruns"
@@ -135,31 +150,25 @@ class MLflowService(Service):
         )
 
     @ctx.contextmanager
-    def run(
-        self,
-        name: str,
-        description: str | None = None,
-        tags: dict[str, T.Any] | None = None,
-        log_system_metrics: bool | None = None,
-    ) -> T.Generator[mlflow.ActiveRun, None, None]:
-        """Yield an active MLflow run and exit it afterwards.
+    def run_context(self, run_config: RunConfig) -> T.Generator[mlflow.ActiveRun, None, None]:
+        """Yield an active Mlflow run and exit it afterwards.
 
         Args:
-            name (str): name of the run.
-            description (str | None, optional): description of the run. Defaults to None.
-            tags (dict[str, T.Any] | None, optional): dict of tags of the run. Defaults to None.
-            log_system_metrics (bool | None, optional): enable system metrics logging. Defaults to None.
+            run (str): run parameters.
 
         Yields:
             T.Generator[mlflow.ActiveRun, None, None]: active run context. Will be closed as the end of context.
         """
         with mlflow.start_run(
-            run_name=name, description=description, tags=tags, log_system_metrics=log_system_metrics
+            run_name=run_config.name,
+            tags=run_config.tags,
+            description=run_config.description,
+            log_system_metrics=run_config.log_system_metrics,
         ) as run:
             yield run
 
     def client(self) -> mt.MlflowClient:
-        """Return a new MLflow client.
+        """Return a new Mlflow client.
 
         Returns:
             MlflowClient: the mlflow client.

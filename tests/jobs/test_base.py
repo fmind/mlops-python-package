@@ -7,7 +7,7 @@ from bikes.jobs import base
 
 
 def test_job(
-    logger_service: services.LoggerService, mlflow_service: services.MLflowService
+    logger_service: services.LoggerService, mlflow_service: services.MlflowService
 ) -> None:
     # given
     class MyJob(base.Job):
@@ -24,6 +24,6 @@ def test_job(
     # then
     # - inputs
     assert hasattr(job, "logger_service"), "Job should have an Logger service!"
-    assert hasattr(job, "mlflow_service"), "Job should have an MLflow service!"
+    assert hasattr(job, "mlflow_service"), "Job should have an Mlflow service!"
     # - outputs
-    assert set(out) == {"self", "a", "b"}, "Run should return the local variables!"
+    assert set(out) == {"self", "a", "b"}, "Run should return local variables!"

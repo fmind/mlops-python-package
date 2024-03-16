@@ -10,7 +10,7 @@ from invoke.tasks import task
 
 @task
 def code(ctx: Context) -> None:
-    """Format code with ruff."""
+    """Format python code with ruff."""
     ctx.run("poetry run ruff format src/ tasks/ tests/")
 
 

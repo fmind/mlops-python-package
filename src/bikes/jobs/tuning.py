@@ -7,7 +7,7 @@ import typing as T
 import pydantic as pdt
 
 from bikes.core import metrics, models, schemas
-from bikes.io import datasets
+from bikes.io import datasets, services
 from bikes.jobs import base
 from bikes.utils import searchers, splitters
 
@@ -18,9 +18,7 @@ class TuningJob(base.Job):
     """Find the best hyperparameters for a model.
 
     Parameters:
-        run_name (str): name of the run.
-        run_description (str, optional): description of the run.
-        run_tags: (dict[str, T.Any], optional): tags for the run.
+        run_config (services.MlflowService.RunConfig): mlflow run config.
         inputs (datasets.ReaderKind): reader for the inputs data.
         targets (datasets.ReaderKind): reader for the targets data.
         model (models.ModelKind): machine learning model to tune.
@@ -32,9 +30,7 @@ class TuningJob(base.Job):
     KIND: T.Literal["TuningJob"] = "TuningJob"
 
     # Run
-    run_name: str = "Tuning"
-    run_description: str | None = None
-    run_tags: dict[str, T.Any] | None = None
+    run_config: services.MlflowService.RunConfig = services.MlflowService.RunConfig(name="Tuning")
     # Data
     inputs: datasets.ReaderKind = pdt.Field(..., discriminator="KIND")
     targets: datasets.ReaderKind = pdt.Field(..., discriminator="KIND")
@@ -64,9 +60,7 @@ class TuningJob(base.Job):
         logger = self.logger_service.logger()
         logger.info("With logger: {}", logger)
         # - mlflow
-        with self.mlflow_service.run(
-            name=self.run_name, description=self.run_description, tags=self.run_tags
-        ) as run:
+        with self.mlflow_service.run_context(run_config=self.run_config) as run:
             logger.info("With mlflow run id: {}", run.info.run_id)
             # data
             # - inputs

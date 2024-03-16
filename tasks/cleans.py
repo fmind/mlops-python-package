@@ -30,7 +30,7 @@ def pytest(ctx: Context) -> None:
 
 @task
 def coverage(ctx: Context) -> None:
-    """Clean coverage tool."""
+    """Clean the coverage tool."""
     ctx.run("rm -f .coverage*")
 
 
@@ -104,7 +104,7 @@ def folders(_: Context) -> None:
 
 @task(pre=[venv, poetry, python])
 def sources(_: Context) -> None:
-    """Run all folders tasks."""
+    """Run all sources tasks."""
 
 
 @task(pre=[tools, folders], default=True)

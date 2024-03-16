@@ -60,17 +60,17 @@ class Searcher(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid")
             metric (metrics.Metric): main metric to optimize.
             inputs (schemas.Inputs): model inputs for tuning.
             targets (schemas.Targets): model targets for tuning.
-            cv (CrossValidation): structure for cross-folds strategy.
+            cv (CrossValidation): choice for cross-fold validation.
 
         Returns:
-            Results: all the results of the searcher process.
+            Results: all the results of the searcher execution process.
         """
 
 
 class GridCVSearcher(Searcher):
     """Grid searcher with cross-fold validation.
 
-    Metric should return higher values for better models.
+    Convention: metric returns higher values for better models.
 
     Parameters:
         n_jobs (int, optional): number of jobs to run in parallel.

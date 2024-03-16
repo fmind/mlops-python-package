@@ -16,10 +16,10 @@ def test_schema(capsys: pc.CaptureFixture[str]) -> None:
     args = ["prog", "--schema"]
     # when
     scripts.main(args)
-    capture = capsys.readouterr()
+    captured = capsys.readouterr()
     # then
-    assert capture.err == "", "Captured error should be empty!"
-    assert json.loads(capture.out), "Captured output should be a JSON!"
+    assert captured.err == "", "Captured error should be empty!"
+    assert json.loads(captured.out), "Captured output should be a JSON!"
 
 
 @pytest.mark.parametrize(
@@ -45,4 +45,4 @@ def test_main(scenario: str, confs_path: str, extra_config: str) -> None:
         argv = [config, "-e", extra_config]
         status = scripts.main(argv=argv)
         # then
-        assert status == 0, f"Job should succeed with status 0! Config: {config}"
+        assert status == 0, f"Job should succeed for config: {config}"

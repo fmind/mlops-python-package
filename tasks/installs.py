@@ -16,7 +16,7 @@ def poetry(ctx: Context) -> None:
 
 @task
 def pre_commit(ctx: Context) -> None:
-    """Run pre-commit install."""
+    """Install pre-commit hooks on git."""
     ctx.run("poetry run pre-commit install --hook-type pre-push")
     ctx.run("poetry run pre-commit install --hook-type commit-msg")
 

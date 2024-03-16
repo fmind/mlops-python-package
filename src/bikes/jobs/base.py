@@ -26,13 +26,13 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
     Parameters:
         logger_service (services.LoggerService): manage the logging system.
-        mlflow_service (services.MLflowService): manage the mlflow system.
+        mlflow_service (services.MlflowService): manage the mlflow system.
     """
 
     KIND: str
 
     logger_service: services.LoggerService = services.LoggerService()
-    mlflow_service: services.MLflowService = services.MLflowService()
+    mlflow_service: services.MlflowService = services.MlflowService()
 
     def __enter__(self) -> T.Self:
         """Enter the job context.
@@ -43,7 +43,7 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
         self.logger_service.start()
         logger = self.logger_service.logger()
         logger.debug("[START] Logger service: {}", self.logger_service)
-        logger.debug("[START] MLflow service: {}", self.mlflow_service)
+        logger.debug("[START] Mlflow service: {}", self.mlflow_service)
         self.mlflow_service.start()
         return self
 
@@ -64,7 +64,7 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
             T.Literal[False]: always propagate exceptions.
         """
         logger = self.logger_service.logger()
-        logger.debug("[STOP] MLflow service: {}", self.mlflow_service)
+        logger.debug("[STOP] Mlflow service: {}", self.mlflow_service)
         self.mlflow_service.stop()
         logger.debug("[STOP] Logger service: {}", self.logger_service)
         self.logger_service.stop()

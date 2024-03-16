@@ -67,7 +67,7 @@ class TrainTestSplitter(Splitter):
     """Split a dataframe into a train and test set.
 
     Parameters:
-        shuffle (bool): shuffle dataset before splitting it.
+        shuffle (bool): shuffle the dataset. Default is False.
         test_size (int | float): number/ratio for the test set.
         random_state (int): random state for the splitter object.
     """

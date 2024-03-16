@@ -57,7 +57,7 @@ class Saver(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
     e.g., to switch between serialization flavors.
 
     Parameters:
-        path (str): model path inside the MLflow store.
+        path (str): model path inside the Mlflow store.
     """
 
     KIND: str
@@ -81,7 +81,7 @@ class Saver(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
 
 class CustomSaver(Saver):
-    """Saver for project models using the MLflow PyFunc module.
+    """Saver for project models using the Mlflow PyFunc module.
 
     https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html
     """
@@ -89,7 +89,7 @@ class CustomSaver(Saver):
     KIND: T.Literal["CustomSaver"] = "CustomSaver"
 
     class Adapter(mlflow.pyfunc.PythonModel):  # type: ignore[misc]
-        """Adapt a custom model to the MLflow PyFunc flavor for saving operations.
+        """Adapt a custom model to the Mlflow PyFunc flavor for saving operations.
 
         https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html?#mlflow.pyfunc.PythonModel
         """
@@ -134,12 +134,12 @@ class CustomSaver(Saver):
 
 
 class BuiltinSaver(Saver):
-    """Saver for built-in models using an MLflow flavor module.
+    """Saver for built-in models using an Mlflow flavor module.
 
     https://mlflow.org/docs/latest/models.html#built-in-model-flavors
 
     Parameters:
-        flavor (str): MLflow flavor module to use for the serialization.
+        flavor (str): Mlflow flavor module to use for the serialization.
     """
 
     KIND: T.Literal["BuiltinSaver"] = "BuiltinSaver"
@@ -201,7 +201,7 @@ class Loader(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
 
 class CustomLoader(Loader):
-    """Loader for custom models using the MLflow PyFunc module.
+    """Loader for custom models using the Mlflow PyFunc module.
 
     https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html
     """
@@ -233,9 +233,9 @@ class CustomLoader(Loader):
 
 
 class BuiltinLoader(Loader):
-    """Loader for built-in models using the MLflow PyFunc module.
+    """Loader for built-in models using the Mlflow PyFunc module.
 
-    Note: use MLflow PyFunc instead of flavors to use standard API.
+    Note: use Mlflow PyFunc instead of flavors to use standard API.
 
     https://mlflow.org/docs/latest/models.html#built-in-model-flavors
     """
@@ -298,17 +298,17 @@ class Register(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid")
         """
 
 
-class MLflowRegister(Register):
-    """Register for models in the MLflow Model Registry.
+class MlflowRegister(Register):
+    """Register for models in the Mlflow Model Registry.
 
     https://mlflow.org/docs/latest/model-registry.html
     """
 
-    KIND: T.Literal["MLflowRegister"] = "MLflowRegister"
+    KIND: T.Literal["MlflowRegister"] = "MlflowRegister"
 
     @T.override
     def register(self, name: str, model_uri: str) -> Version:
         return mlflow.register_model(name=name, model_uri=model_uri, tags=self.tags)
 
 
-RegisterKind = MLflowRegister
+RegisterKind = MlflowRegister

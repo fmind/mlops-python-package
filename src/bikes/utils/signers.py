@@ -22,7 +22,7 @@ class Signer(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
     """Base class for generating model signatures.
 
     Allow to switch between model signing strategies.
-    e.g., automatic inference, manual signatures, ...
+    e.g., automatic inference, manual model signature, ...
 
     https://mlflow.org/docs/latest/models.html#model-signature-and-input-example
     """

@@ -34,7 +34,7 @@ def test_custom_pipeline(
     model: models.Model,
     inputs: schemas.Inputs,
     signature: signers.Signature,
-    mlflow_service: services.MLflowService,
+    mlflow_service: services.MlflowService,
 ) -> None:
     # given
     path = "custom"
@@ -42,9 +42,10 @@ def test_custom_pipeline(
     tags = {"registry": "mlflow"}
     saver = registries.CustomSaver(path=path)
     loader = registries.CustomLoader()
-    register = registries.MLflowRegister(tags=tags)
+    register = registries.MlflowRegister(tags=tags)
+    run_config = services.MlflowService.RunConfig(name="Custom-Run")
     # when
-    with mlflow_service.run(name="Custom") as run:
+    with mlflow_service.run_context(run_config=run_config) as run:
         info = saver.save(model=model, signature=signature, input_example=inputs)
         version = register.register(name=name, model_uri=info.model_uri)
     model_uri = registries.uri_for_model_version(name=name, version=version.version)
@@ -81,7 +82,7 @@ def test_builtin_pipeline(
     model: models.Model,
     inputs: schemas.Inputs,
     signature: signers.Signature,
-    mlflow_service: services.MLflowService,
+    mlflow_service: services.MlflowService,
 ) -> None:
     # given
     path = "builtin"
@@ -90,9 +91,10 @@ def test_builtin_pipeline(
     tags = {"registry": "mlflow"}
     saver = registries.BuiltinSaver(path=path, flavor=flavor)
     loader = registries.BuiltinLoader()
-    register = registries.MLflowRegister(tags=tags)
+    register = registries.MlflowRegister(tags=tags)
+    run_config = services.MlflowService.RunConfig(name="Custom-Run")
     # when
-    with mlflow_service.run(name="Custom") as run:
+    with mlflow_service.run_context(run_config=run_config) as run:
         info = saver.save(model=model, signature=signature, input_example=inputs)
         version = register.register(name=name, model_uri=info.model_uri)
     model_uri = registries.uri_for_model_version(name=name, version=version.version)

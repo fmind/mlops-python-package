@@ -53,9 +53,9 @@ def test_baseline_sklearn_model(
     model.fit(inputs=inputs_train, targets=targets_train)
     outputs = model.predict(inputs=inputs_test)
     # then
-    assert outputs.ndim == 2, "Outputs should be a dataframe!"
-    assert model.get_params() == params, "Model should have the given params!"
-    assert model.get_internal_model() is not None, "Internal model should be fitted!"
     assert not_fitted_error.match(
         "Model is not fitted yet!"
     ), "Model should raise an error when not fitted!"
+    assert outputs.ndim == 2, "Outputs should be a dataframe!"
+    assert model.get_params() == params, "Model should have the given params!"
+    assert model.get_internal_model() is not None, "Internal model should be fitted!"

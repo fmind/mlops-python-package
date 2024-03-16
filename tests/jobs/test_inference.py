@@ -8,7 +8,7 @@ from bikes.io import datasets, registries, services
 
 
 def test_inference_job(
-    mlflow_service: services.MLflowService,
+    mlflow_service: services.MlflowService,
     logger_service: services.LoggerService,
     inputs_reader: datasets.Reader,
     tmp_outputs_writer: datasets.Writer,

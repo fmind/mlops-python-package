@@ -24,7 +24,7 @@ from bikes.io import registries, services
 )
 def test_promotion_job(
     version: int | None,
-    mlflow_service: services.MLflowService,
+    mlflow_service: services.MlflowService,
     logger_service: services.LoggerService,
     model_version: registries.Version,
 ) -> None:

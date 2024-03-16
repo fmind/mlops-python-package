@@ -155,7 +155,7 @@ class BaselineSklearnModel(Model):
     @T.override
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
         model = self.get_internal_model()
-        prediction = model.predict(inputs)  # np.ndarray
+        prediction = model.predict(inputs)
         outputs = schemas.Outputs(
             {schemas.OutputsSchema.prediction: prediction}, index=inputs.index
         )
