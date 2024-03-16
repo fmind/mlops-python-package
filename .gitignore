@@ -19,7 +19,6 @@
 # Environs
 .env
 /.venv/
-poetry.lock
 
 # Project
 /docs/*
