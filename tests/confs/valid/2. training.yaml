@@ -2,12 +2,9 @@ job:
   KIND: TrainingJob
   inputs:
     KIND: ParquetReader
-    path: ${test_data_path:}/inputs.parquet
+    path: "${tests_path:}/data/inputs.parquet"
     limit: 1500
   targets:
     KIND: ParquetReader
-    path: ${test_data_path:}/targets.parquet
+    path: "${tests_path:}/data/targets.parquet"
     limit: 1500
-  serializer:
-    KIND: JoblibModelSerializer
-    path: ${tmp_path:}/model.joblib

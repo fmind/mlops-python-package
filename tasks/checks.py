@@ -2,8 +2,8 @@
 
 # %% IMPORTS
 
-from invoke import task
 from invoke.context import Context
+from invoke.tasks import task
 
 # %% TASKS
 
@@ -47,7 +47,7 @@ def bandit(ctx: Context) -> None:
 @task
 def coverage(ctx: Context) -> None:
     """Check the coverage with coverage."""
-    ctx.run(f"poetry run pytest --numprocesses='auto' --cov=src/ tests/")
+    ctx.run("poetry run pytest --numprocesses='auto' --cov=src/ --cov-fail-under=80 tests/")
 
 
 @task(pre=[poetry, format, type, code, bandit, coverage], default=True)

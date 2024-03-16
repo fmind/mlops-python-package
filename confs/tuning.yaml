@@ -6,6 +6,3 @@ job:
   targets:
     KIND: ParquetReader
     path: data/targets.parquet
-  results:
-    KIND: ParquetWriter
-    path: outputs/results.parquet

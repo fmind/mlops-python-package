@@ -2,8 +2,8 @@
 
 # %% IMPORTS
 
-from invoke import call, task
 from invoke.context import Context
+from invoke.tasks import call, task
 
 # %% TASKS
 
@@ -16,9 +16,10 @@ def job(ctx: Context, name: str) -> None:
 
 @task(
     pre=[
-        call(job, name="tuning"),  # type: ignore
-        call(job, name="training"),  # type: ignore
-        call(job, name="inference"),  # type: ignore
+        call(job, name="tuning"),  # type: ignore[arg-type]
+        call(job, name="training"),  # type: ignore[arg-type]
+        call(job, name="promotion"),  # type: ignore[arg-type]
+        call(job, name="inference"),  # type: ignore[arg-type]
     ],
     default=True,
 )

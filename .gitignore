@@ -23,6 +23,7 @@ poetry.lock
 
 # Project
 /docs/*
+/mlruns/*
 /outputs/*
 !**/.gitkeep
 

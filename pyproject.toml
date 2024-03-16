@@ -6,8 +6,8 @@
 name = "bikes"
 version = "0.6.0"
 description = "Predict the number of bikes available."
-documentation = "https://fmind.github.io/mlops-python-package/"
 repository = "https://github.com/fmind/mlops-python-package"
+documentation = "https://fmind.github.io/mlops-python-package/"
 authors = ["Médéric HURIER <github@fmind.dev>"]
 readme = "README.md"
 license = "CC BY"
@@ -23,18 +23,32 @@ bikes = 'bikes.scripts:main'
 
 [tool.poetry.dependencies]
 python = "^3.12"
-codecarbon = "^2.3.4"
 loguru = "^0.7.2"
-mlflow-skinny = "^2.11.0"
+matplotlib = "^3.8.3"
+mlflow = "^2.11.0"
+numpy = "^1.26.4"
 omegaconf = "^2.3.0"
 pandas = "^2.2.1"
-pandera = "^0.18.0"
+pandera = "^0.18.3"
 plotly = "^5.19.0"
-pyarrow = "^15.0.0"
-pydantic = "^2.6.3"
+pyarrow = "^15.0.1"
+pydantic = "^2.6.4"
 pydantic-settings = "^2.2.1"
 scikit-learn = "^1.4.1"
-mlflow = "^2.11.0"
+
+[tool.poetry.group.checks.dependencies]
+bandit = "^1.7.8"
+coverage = "^7.4.3"
+mypy = "^1.9.0"
+pytest = "^8.1.1"
+pytest-cov = "^4.1.0"
+pytest-xdist = "^3.5.0"
+pandera = { extras = ["mypy"], version = "^0.18.3" }
+ruff = "^0.3.2"
+
+[tool.poetry.group.commits.dependencies]
+commitizen = "^3.18.3"
+pre-commit = "^3.6.2"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
@@ -42,33 +56,14 @@ invoke = "^2.2.0"
 [tool.poetry.group.docs.dependencies]
 pdoc = "^14.4.0"
 
-[tool.poetry.group.checks.dependencies]
-bandit = "^1.7.7"
-coverage = "^7.4.3"
-mypy = "^1.8.0"
-pytest = "^8.0.2"
-pytest-cov = "^4.1.0"
-pytest-xdist = "^3.5.0"
-pandera = { extras = ["mypy"], version = "^0.18.0" }
-ruff = "^0.3.0"
-
-[tool.poetry.group.commits.dependencies]
-commitizen = "^3.16.0"
-pre-commit = "^3.6.2"
-
-[tool.poetry.group.carbons.dependencies]
-dash = "^2.16.0"
-dash-bootstrap-components = "^1.5.0"
-fire = "^0.5.0"
-
 [tool.poetry.group.notebooks.dependencies]
 ipykernel = "^6.29.3"
-nbformat = "^5.9.2"
+nbformat = "^5.10.2"
 
 # CONFIGURATIONS
 
 [tool.bandit]
-skips = ["B101"]
+targets = ["src"]
 
 [tool.commitizen]
 name = "cz_conventional_commits"
@@ -92,6 +87,9 @@ check_untyped_defs = true
 ignore_missing_imports = true
 plugins = ["pandera.mypy", "pydantic.mypy"]
 
+[tool.pytest.ini_options]
+addopts = "--verbosity=2"
+
 [tool.ruff]
 fix = true
 line-length = 100
@@ -99,9 +97,6 @@ target-version = "py312"
 
 [tool.ruff.format]
 docstring-code-format = true
-
-[tool.ruff.lint]
-select = ["D"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
