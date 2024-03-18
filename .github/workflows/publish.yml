@@ -41,4 +41,4 @@ jobs:
           cache-from: type=gha
           tags: |
             ${{ env.DOCKER_IMAGE }}:latest
-            ${{ env.DOCKER_IMAGE }}:${{ github.ref }}
+            ${{ env.DOCKER_IMAGE }}:${{ github.ref_name }}
