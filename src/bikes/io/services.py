@@ -121,7 +121,7 @@ class MlflowService(Service):
     experiment_name: str = "bikes"
     # registry
     registry_name: str = "bikes"
-    # autologg
+    # autolog
     autolog_disable: bool = False
     autolog_disable_for_unsupported_versions: bool = False
     autolog_exclusive: bool = False
@@ -138,7 +138,7 @@ class MlflowService(Service):
         mlflow.set_registry_uri(uri=self.registry_uri)
         # experiment
         mlflow.set_experiment(experiment_name=self.experiment_name)
-        # autologging
+        # autolog
         mlflow.autolog(
             disable=self.autolog_disable,
             disable_for_unsupported_versions=self.autolog_disable_for_unsupported_versions,

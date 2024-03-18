@@ -15,13 +15,13 @@ def test_training_job(
     targets_reader: datasets.Reader,
     model: models.Model,
     metric: metrics.Metric,
-    train_test_splitter: splitters.TrainTestSplitter,
+    train_test_splitter: splitters.Splitter,
     saver: registries.Saver,
     signer: signers.Signer,
     register: registries.Register,
 ) -> None:
     # given
-    run_config = services.MlflowService.RunConfig(
+    run_config = mlflow_service.RunConfig(
         name="TrainingTest", tags={"context": "training"}, description="Training job."
     )
     splitter = train_test_splitter

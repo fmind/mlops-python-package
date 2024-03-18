@@ -78,8 +78,8 @@ def extra_config() -> str:
     {
         "job": {
             "mlflow_service": {
-                "tracking_uri": "${tmp_path:}/experiments/",
-                "registry_uri": "${tmp_path:}/models/",
+                "tracking_uri": "${tmp_path:}/tracking/",
+                "registry_uri": "${tmp_path:}/registry/",
             }
         }
     }
