@@ -11,7 +11,7 @@ def test_grid_cv_searcher(
     metric: metrics.Metric,
     inputs: schemas.Inputs,
     targets: schemas.Targets,
-    train_test_splitter: splitters.TrainTestSplitter,
+    train_test_splitter: splitters.Splitter,
 ) -> None:
     # given
     param_grid = {"max_depth": [3, 5, 7]}

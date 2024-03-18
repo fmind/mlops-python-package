@@ -11,6 +11,7 @@ import pandera.typing.common as padt
 
 # %% TYPES
 
+# Generic type for a dataframe container
 TSchema = T.TypeVar("TSchema", bound="pa.DataFrameModel")
 
 # %% SCHEMAS

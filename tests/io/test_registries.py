@@ -43,7 +43,7 @@ def test_custom_pipeline(
     saver = registries.CustomSaver(path=path)
     loader = registries.CustomLoader()
     register = registries.MlflowRegister(tags=tags)
-    run_config = services.MlflowService.RunConfig(name="Custom-Run")
+    run_config = mlflow_service.RunConfig(name="Custom-Run")
     # when
     with mlflow_service.run_context(run_config=run_config) as run:
         info = saver.save(model=model, signature=signature, input_example=inputs)
@@ -92,7 +92,7 @@ def test_builtin_pipeline(
     saver = registries.BuiltinSaver(path=path, flavor=flavor)
     loader = registries.BuiltinLoader()
     register = registries.MlflowRegister(tags=tags)
-    run_config = services.MlflowService.RunConfig(name="Custom-Run")
+    run_config = mlflow_service.RunConfig(name="Builtin-Run")
     # when
     with mlflow_service.run_context(run_config=run_config) as run:
         info = saver.save(model=model, signature=signature, input_example=inputs)
