@@ -92,6 +92,7 @@ addopts = "--verbosity=2"
 
 [tool.ruff]
 fix = true
+indent-width = 4
 line-length = 100
 target-version = "py312"
 

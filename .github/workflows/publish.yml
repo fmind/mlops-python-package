@@ -3,7 +3,7 @@ on:
   release:
     types: [published]
 env:
-  DOCKER_IMAGE: ghcr.io/fmind/mlops-python-package:latest
+  DOCKER_IMAGE: ghcr.io/fmind/mlops-python-package
 concurrency:
   cancel-in-progress: true
   group: publish-workflow
@@ -39,4 +39,6 @@ jobs:
           context: .
           cache-to: type=gha
           cache-from: type=gha
-          tags: ${{ env.DOCKER_IMAGE }}
+          tags: |
+            ${{ env.DOCKER_IMAGE }}:latest
+            ${{ env.DOCKER_IMAGE }}:${{ github.ref }}

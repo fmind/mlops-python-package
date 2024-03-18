@@ -15,11 +15,11 @@ def test_tuning_job(
     targets_reader: datasets.Reader,
     model: models.Model,
     metric: metrics.Metric,
-    time_series_splitter: splitters.TimeSeriesSplitter,
+    time_series_splitter: splitters.Splitter,
     searcher: searchers.Searcher,
 ) -> None:
     # given
-    run_config = services.MlflowService.RunConfig(
+    run_config = mlflow_service.RunConfig(
         name="TuningTest", tags={"context": "tuning"}, description="Tuning job."
     )
     splitter = time_series_splitter
