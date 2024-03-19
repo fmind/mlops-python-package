@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "bikes"
-version = "0.9.0"
+version = "1.0.0"
 description = "Predict the number of bikes available."
 repository = "https://github.com/fmind/mlops-python-package"
 documentation = "https://fmind.github.io/mlops-python-package/"
@@ -71,8 +71,7 @@ tag_format = "v$version"
 version_scheme = "pep440"
 version_provider = "poetry"
 changelog_start_rev = "v1.0.0"
-update_changelog_on_bump = false
-major_version_zero = true
+update_changelog_on_bump = true
 
 [tool.coverage.run]
 branch = true
