@@ -1,13 +1,14 @@
 # MLOps Python Package
 
-[![on-release-published.yml](https://github.com/fmind/mlops-python-package/actions/workflows/on-release-published.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/on-release-published.yml)
+[![check.yml](https://github.com/fmind/mlops-python-package/actions/workflows/check.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/check.yml)
+[![publish.yml](https://github.com/fmind/mlops-python-package/actions/workflows/publish.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/publish.yml)
 [![Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://fmind.github.io/mlops-python-package/)
 [![License](https://img.shields.io/github/license/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/blob/main/LICENCE.txt)
 [![Release](https://img.shields.io/github/v/release/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/releases)
 
-This repository contains a Python package implementation designed to support MLOps initiatives.
+**This repository contains a Python code base with best practices designed to support your MLOps initiatives.**
 
-The package uses several [tools](#tools) and [tips](#tips) to make your MLOps experience as flexible, robust, productive as possible.
+The package leverages several [tools](#tools) and [tips](#tips) to make your MLOps experience as flexible, robust, productive as possible.
 
 You can use this package as part of your MLOps toolkit or platform (e.g., Model Registry, Experiment Tracking, Realtime Inference, ...).
 
@@ -23,18 +24,23 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
   - [Configuration](#configuration)
   - [Execution](#execution)
   - [Automation](#automation)
+  - [Workflows](#workflows)
 - [Tools](#tools)
   - [Automation](#automation-1)
-    - [Commit: Pre-Commit](#commit-pre-commit)
+    - [Commits: Commitizen](#commits-commitizen)
+    - [Git Hooks: Pre-Commit](#git-hooks-pre-commit)
     - [Tasks: PyInvoke](#tasks-pyinvoke)
+  - [CI/CD](#cicd)
+    - [Runner: GitHub Actions](#runner-github-actions)
   - [CLI](#cli)
-    - [Parser: Argparse!](#parser-argparse)
+    - [Parser: Argparse](#parser-argparse)
     - [Logging: Loguru](#logging-loguru)
   - [Code](#code)
     - [Coverage: Coverage](#coverage-coverage)
     - [Editor: VS Code](#editor-vs-code)
-    - [Formatting: Isort + Black](#formatting-isort--black)
-    - [Quality: Pylint](#quality-pylint)
+    - [Formatting: Ruff](#formatting-ruff)
+    - [Quality: Ruff](#quality-ruff)
+    - [Security: Bandit](#security-bandit)
     - [Testing: Pytest](#testing-pytest)
     - [Typing: Mypy](#typing-mypy)
     - [Versioning: Git](#versioning-git)
@@ -48,14 +54,16 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
     - [Format: Parquet](#format-parquet)
     - [Schema: Pandera](#schema-pandera)
   - [Docs](#docs)
-    - [API: pdoc!](#api-pdoc)
+    - [API: pdoc](#api-pdoc)
     - [Format: Google](#format-google)
+    - [Hosting: GitHub Pages](#hosting-github-pages)
   - [Model](#model)
-    - [Evaluation: Scikit-Learn Metrics!](#evaluation-scikit-learn-metrics)
-    - [Format: Joblib!](#format-joblib)
-    - [Interface: Scikit-Learn Base](#interface-scikit-learn-base)
-    - [Storage: Filesystem!](#storage-filesystem)
+    - [Evaluation: Scikit-Learn Metrics](#evaluation-scikit-learn-metrics)
+    - [Format: Mlflow Model](#format-mlflow-model)
+    - [Registry: Mlflow Registry](#registry-mlflow-registry)
+    - [Tracking: Mlflow Tracking](#tracking-mlflow-tracking)
   - [Package](#package)
+    - [Evolution: Changelog](#evolution-changelog)
     - [Format: Wheel](#format-wheel)
     - [Manager: Poetry](#manager-poetry)
     - [Runtime: Docker](#runtime-docker)
@@ -72,6 +80,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
     - [Program Service](#program-service)
     - [Soft Coding](#soft-coding)
     - [SOLID Principles](#solid-principles)
+    - [IO Separation](#io-separation)
   - [Python Powers](#python-powers)
     - [Context Manager](#context-manager)
     - [Python Package](#python-package)
@@ -98,8 +107,8 @@ This section details the requirements, actions, and next steps to kickstart your
 
 ## Prerequisites
 
-- [Python>=3.12](https://www.python.org/downloads/) (to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.12.html))
-- [Poetry>=1.7.1](https://python-poetry.org/) (to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies)
+- [Python>=3.12](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.12.html)
+- [Poetry>=1.8.2](https://python-poetry.org/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
 
 ## Installation
 
@@ -143,17 +152,15 @@ job:
   targets:
     KIND: ParquetReader
     path: data/targets.parquet
-  serializer:
-    KIND: JoblibModelSerializer
-    path: models/model.joblib
 ```
 
-This config file instructs the program to start a `TrainingJob` with 3 parameters:
+This config file instructs the program to start a `TrainingJob` with 2 parameters:
 - `inputs`: dataset that contains the model inputs
 - `targets`: dataset that contains the model target
-- `serializer`: output path to the model artifact
 
-You can find all the parameters of your program in the `src/[package]/jobs.py`.
+You can find all the parameters of your program in the `src/[package]/jobs/*.py` files.
+
+You can also print the full schema supported by this package using `poetry run bikes --schema`.
 
 ## Execution
 
@@ -162,6 +169,7 @@ The project code can be executed with poetry during your development:
 ```bash
 $ poetry run [package] confs/tuning.yaml
 $ poetry run [package] confs/training.yaml
+$ poetry run [package] confs/promotion.yaml
 $ poetry run [package] confs/inference.yaml
 ```
 
@@ -184,6 +192,14 @@ with job as runner:
     runner.run()
 ```
 
+**Additional tips**:
+- You can pass extra configs from the command line using the `--extras` flag
+  - Use it to pass runtime values (e.g., a result from previous job executions)
+- You can pass several config files in the command-line to merge them from left to right
+  - You can define common configurations shared between jobs (e.g., model params)
+- The right job task will be selected automatically thanks to [Pydantic Discriminated Unions](https://docs.pydantic.dev/latest/concepts/unions/#discriminated-unions)
+  - This is a great way to run any job supported by the application (training, tuning, ....
+
 ## Automation
 
 This project includes several automation tasks to easily repeat common actions.
@@ -200,51 +216,84 @@ $ inv --list
 ```
 
 **Available tasks**:
-- `checks.all (checks)`: Run all check tasks.
-- `checks.code`: Check the codes with pylint.
-- `checks.coverage`: Check the coverage with coverage.
-- `checks.format`: Check the formats with isort and black.
-- `checks.poetry`: Check poetry config files.
-- `checks.test`: Check the tests with pytest.
-- `checks.type`: Check the types with mypy.
-- `cleans.all (cleans)`: Run all clean tasks.
-- `cleans.coverage`: Clean coverage files.
-- `cleans.dist`: Clean the dist folder.
-- `cleans.docs`: Clean the docs folder.
-- `cleans.install`: Clean the install.
-- `cleans.mypy`: Clean the mypy folder.
-- `cleans.outputs`: Clean the outputs folder.
-- `cleans.pytest`: Clean the pytest folder.
-- `cleans.python`: Clean python files and folders.
-- `cleans.reset`: Reset the project state.
-- `containers.all (containers)`: Run all container tasks.
-- `containers.build`: Build the container image.
-- `containers.run`: Run the container image.
-- `dags.all (dags)`: Run all DAG tasks.
-- `dags.job`: Run the project for the given job name.
-- `docs.all (docs)`: Run all docs tasks.
-- `docs.api`: Document the API with pdoc.
-- `docs.serve`: Document the API with pdoc.
-- `formats.all (formats)`:  Run all format tasks.
-- `formats.imports`: Format code imports with isort.
-- `formats.sources`: Format code sources with black.
-- `installs.all (installs)`: Run all install tasks.
-- `installs.poetry`: Run poetry install.
-- `installs.pre-commit`: Run pre-commit install.
-- `packages.all (packages)`: Run all package tasks.
-- `packages.build`: Build a wheel package.
+- **checks.all (checks)** - Run all check tasks.
+- **checks.code** - Check the codes with ruff.
+- **checks.coverage** - Check the coverage with coverage.
+- **checks.format** - Check the formats with ruff.
+- **checks.poetry** - Check poetry config files.
+- **checks.security** - Check the security with bandit.
+- **checks.test** - Check the tests with pytest.
+- **checks.type** - Check the types with mypy.
+- **cleans.all (cleans)** - Run all tools and folders tasks.
+- **cleans.cache** - Clean the cache folder.
+- **cleans.coverage** - Clean the coverage tool.
+- **cleans.dist** - Clean the dist folder.
+- **cleans.docs** - Clean the docs folder.
+- **cleans.folders** - Run all folders tasks.
+- **cleans.mlruns** - Clean the mlruns folder.
+- **cleans.mypy** - Clean the mypy tool.
+- **cleans.outputs** - Clean the outputs folder.
+- **cleans.poetry** - Clean poetry lock file.
+- **cleans.pytest** - Clean the pytest tool.
+- **cleans.python** - Clean python caches and bytecodes.
+- **cleans.reset** - Run all tools, folders, and sources tasks.
+- **cleans.ruff** - Clean the ruff tool.
+- **cleans.sources** - Run all sources tasks.
+- **cleans.tools** - Run all tools tasks.
+- **cleans.venv** - Clean the venv folder.
+- **commits.all (commits)** - Run all commit tasks.
+- **commits.bump** - Bump the version of the package.
+- **commits.commit** - Commit all changes with a message.
+- **commits.info** - Print a guide for messages.
+- **containers.all (containers)** - Run all container tasks.
+- **containers.build** - Build the container image with the given tag.
+- **containers.compose** - Start up docker compose.
+- **containers.run** - Run the container image with the given tag.
+- **dags.all (dags)** - Run all DAG tasks.
+- **dags.job** - Run the project for the given job name.
+- **docs.all (docs)** - Run all docs tasks.
+- **docs.api** - Document the API with pdoc using the given format and output directory.
+- **docs.serve** - Serve the API docs with pdoc using the given format and computer port.
+- **formats.all** - (formats) Run all format tasks.
+- **formats.imports** - Format python imports with ruff.
+- **formats.sources** - Format python sources with ruff.
+- **installs.all (installs)** - Run all install tasks.
+- **installs.poetry** - Install poetry packages.
+- **installs.pre-commit** - Install pre-commit hooks on git.
+- **mlflow.all (mlflow)** - Run all mlflow tasks.
+- **mlflow.doctor** - Run mlflow doctor to diagnose issues.
+- **mlflow.serve** - Start mlflow server with the given host, port, and backend uri.
+- **packages.all (packages)** - Run all package tasks.
+- **packages.build** - Build a python package with the given format.
+
+## Workflows
+
+This package supports two GitHub Workflows in `.github/workflows`:
+- `check.yml`: validate the quality of the package on each Pull Request
+- `publish.yml`: build and publish the docs and packages on code release.
+
+You can use and extend these workflows to automate repetitive package management tasks.
 
 # Tools
 
 This sections motivates the use of developer tools to improve your coding experience.
 
-Note: tools with an exclamation mark (!) can be further optimized based on your constraints.
-
 ## Automation
 
 Pre-defined actions to automate your project development.
 
-### Commit: [Pre-Commit](https://pre-commit.com/)
+### Commits: [Commitizen](https://commitizen-tools.github.io/commitizen/)
+
+- **Motivations**:
+  - Format your code commits
+  - Generate a standard changelog
+  - Integrate well with [SemVer](https://semver.org/) and [PEP 440](https://peps.python.org/pep-0440/)
+- **Limitations**:
+  - Learning curve for new users
+- **Alternatives**:
+  - Do It Yourself (DIY)
+
+### Git Hooks: [Pre-Commit](https://pre-commit.com/)
 
 - **Motivations**:
   - Check your code locally before a commit
@@ -266,11 +315,26 @@ Pre-defined actions to automate your project development.
 - **Alternatives**:
   - [Make](https://www.gnu.org/software/make/manual/make.html): most popular, but awful syntax
 
+## CI/CD
+
+Execution of automated workflows on code push and releases.
+
+### Runner: [GitHub Actions](https://github.com/features/actions)
+
+- **Motivations**:
+  - Native on GitHub
+  - Simple workflow syntax
+  - Lots of configs if needed
+- **Limitations**:
+  - SaaS Service
+- **Alternatives**:
+  - [GitLab](https://about.gitlab.com/): can be installed on-premise
+
 ## CLI
 
 Integrations with the Command-Line Interface (CLI) of your system.
 
-### Parser: [Argparse!](https://docs.python.org/3/library/argparse.html)
+### Parser: [Argparse](https://docs.python.org/3/library/argparse.html)
 
 - **Motivations**:
   - Provide CLI arguments
@@ -279,7 +343,7 @@ Integrations with the Command-Line Interface (CLI) of your system.
 - **Limitations**:
   - More verbose for advanced parsing
 - **Alternatives**:
-  - [Typer](https://typer.tiangolo.com/): code typing for the win!
+  - [Typer](https://typer.tiangolo.com/): code typing for the win
   - [Fire](https://github.com/google/python-fire): simple but no typing
   - [Click](https://click.palletsprojects.com/en/latest/): more verbose
 
@@ -307,7 +371,7 @@ Edition, validation, and versioning of your project source code.
 - **Limitations**:
   - None
 - **Alternatives**:
-  - None
+  - None?
 
 ### Editor: [VS Code](https://code.visualstudio.com/)
 
@@ -319,38 +383,50 @@ Edition, validation, and versioning of your project source code.
   - Require some configuration for Python
 - **Alternatives**:
   - [PyCharm](https://www.jetbrains.com/pycharm/): provide a lot, cost a lot
-  - [Vim](https://www.vim.org/): I love it, but theres a VS Code plugin
+  - [Vim](https://www.vim.org/): I love it, but there is a VS Code plugin
   - [Spacemacs](https://www.spacemacs.org/): I love it even more, but not everybody loves LISP
 
-### Formatting: [Isort](https://pycqa.github.io/isort/) + [Black](https://black.readthedocs.io/en/stable/)
+### Formatting: [Ruff](https://docs.astral.sh/ruff/)
 
 - **Motivations**:
-  - Standardize your code format
+  - Super fast compared to others
   - Don't waste time arranging your code
   - Make your code more readable/maintainable
 - **Limitations**:
-  - Can be disabled in some case (e.g., test layout)
+  - Still in version 0.x, but more and more adopted
 - **Alternatives**:
   - [YAPF](https://github.com/google/yapf): more config options that you don't need
+  - [Isort](https://pycqa.github.io/isort/) + [Black](https://black.readthedocs.io/en/stable/): slower and need two tools
 
-### Quality: [Pylint](https://www.pylint.org/)
+### Quality: [Ruff](https://docs.astral.sh/ruff/)
 
 - **Motivations**:
   - Improve your code quality
-  - Help your write better code
-  - [Great integration with VS Code](https://marketplace.visualstudio.com/items?itemName=ms-python.pylint)
+  - Super fast compared to others
+  - [Great integration with VS Code](https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff)
 - **Limitations**:
-  - May return false positives (can be disabled locally)
+  - None
 - **Alternatives**:
-  - [Ruff](https://beta.ruff.rs/docs/): promising alternative, but no integration with VS Code
+  - [PyLint](https://www.pylint.org/): too slow and too complex system
   - [Flake8](https://flake8.pycqa.org/en/latest/): too much plugins, I prefer Pylint in practice
+
+### Security: [Bandit](https://bandit.readthedocs.io/en/latest/)
+
+- **Motivations**:
+  - Detect security issues
+  - Complement linting solutions
+  - Not to heavy to use and enable
+- **Limitations**:
+  - None
+- **Alternatives**:
+  - None
 
 ### Testing: [Pytest](https://docs.pytest.org/en/latest/)
 
 - **Motivations**:
-  - Write tests of pay the price
+  - Write tests or pay the price
   - Super easy to write new test cases
-  - Tons of plugins (xdist, sugar, cov, ...)
+  - Tons of good plugins (xdist, sugar, cov, ...)
 - **Limitations**:
   - Doesn't support parallel execution out of the box
 - **Alternatives**:
@@ -372,7 +448,7 @@ Edition, validation, and versioning of your project source code.
 ### Versioning: [Git](https://git-scm.com/)
 
 - **Motivations**:
-  - If you don't version your code, you are a fool!
+  - If you don't version your code, you are a fool
   - Most popular source code manager (what else?)
   - Provide hooks to perform automation on some events
 - **Limitations**:
@@ -391,7 +467,7 @@ Manage the configs files of your project to change executions.
   - Readable syntax, support comments
   - Allow to use OmegaConf <3
 - **Limitations**:
-  - Not support out of the box by Python
+  - Not supported out of the box by Python
 - **Alternatives**:
   - [JSON](https://www.json.org/json-en.html): no comments, more verbose
   - [TOML](https://toml.io/en/): less suited to config merge/sharing
@@ -404,6 +480,7 @@ Manage the configs files of your project to change executions.
   - Achieve a lot with few lines of code
 - **Limitations**:
   - Do not support remote files (e.g., s3, gcs, ...)
+    - You can combine it with [cloudpathlib](https://cloudpathlib.drivendata.org/stable/)
 - **Alternatives**:
   - [Hydra](https://hydra.cc/docs/intro/): powerful, but gets in your way
   - [DynaConf](https://www.dynaconf.com/): more suited for app development
@@ -426,7 +503,7 @@ Manage the configs files of your project to change executions.
   - Pydantic should be builtin (period)
   - Super charge your Python class
 - **Limitations**:
-  - What will happen with Pydantic 2?
+  - None
 - **Alternatives**:
   - [Dataclass](https://docs.python.org/3/library/dataclasses.html): simpler, but much less powerful
   - [Attrs](https://www.attrs.org/en/stable/): no validation, less intuitive to use
@@ -442,7 +519,7 @@ Define the datasets to provide data inputs and outputs.
   - Lingua franca for Python
   - Most popular options
 - **Limitations**:
-  - Only work on one core, lot of [gotchas](https://www.tutorialspoint.com/python_pandas/python_pandas_caveats_and_gotchas.htm)
+  - Lot of [gotchas](https://www.tutorialspoint.com/python_pandas/python_pandas_caveats_and_gotchas.htm)
 - **Alternatives**:
   - [Polars](https://www.pola.rs/): faster, saner, but less integrations
   - [Pyspark](https://spark.apache.org/docs/latest/api/python/): powerful, popular, distributed, so much overhead
@@ -467,7 +544,7 @@ Define the datasets to provide data inputs and outputs.
   - Communicate data fields
   - Support pandas and [others](https://pandera.readthedocs.io/en/stable/supported_libraries.html)
 - **Limitations**:
-  - Adding types to dataframes adds some overhead
+  - None
 - **Alternatives**:
   - [Great Expectations](https://greatexpectations.io/): powerful, but much more difficult to integrate
 
@@ -475,7 +552,7 @@ Define the datasets to provide data inputs and outputs.
 
 Generate and share the project documentations.
 
-### API: [pdoc!](https://pdoc.dev/)
+### API: [pdoc](https://pdoc.dev/)
 
 - **Motivations**:
   - Share docs with others
@@ -499,11 +576,22 @@ Generate and share the project documentations.
   - [Numpy](https://numpydoc.readthedocs.io/en/latest/format.html): less writeable
   - [Sphinx](https://sphinx-rtd-tutorial.readthedocs.io/en/latest/docstrings.html): baroque style
 
+### Hosting: [GitHub Pages](https://pages.github.com/)
+
+- **Motivations**:
+  - Easy to setup
+  - Free and simple
+  - Integrated with GitHub
+- **Limitations**:
+  - Only support static content
+- **Alternatives**:
+  - [ReadTheDocs](https://about.readthedocs.com/?ref=readthedocs.com): provide more features
+
 ## Model
 
 Toolkit to handle machine learning models.
 
-### Evaluation: [Scikit-Learn Metrics!](https://scikit-learn.org/stable/modules/model_evaluation.html)
+### Evaluation: [Scikit-Learn Metrics](https://scikit-learn.org/stable/modules/model_evaluation.html)
 
 - **Motivations**:
   - Bring common metrics
@@ -514,57 +602,69 @@ Toolkit to handle machine learning models.
 - **Alternatives**:
   - Implement your own: for custom metrics
 
-### Format: [Joblib!](https://joblib.readthedocs.io/en/stable/)
+### Format: [Mlflow Model](https://mlflow.org/docs/latest/models.html)
 
 - **Motivations**:
-  - Serialize ML models
-  - Supported by default for scikit-learn
-  - Suited for large data (e.g., numpy array)
+  - Standard ML format
+  - Store model dependencies
+  - Strong community ecosystem
 - **Limitations**:
-  - Doesn't include model metadata
+  - None
 - **Alternatives**:
-  - [MLflow Model](https://mlflow.org/docs/latest/models.html): great solution, but requires a server
   - [Pickle](https://docs.python.org/3/library/pickle.html): work out of the box, but less suited for big array
   - [ONNX](https://onnx.ai/): great for deep learning, [no guaranteed compatibility for the rest](https://onnxruntime.ai/docs/reference/compatibility.html)
 
-### Interface: [Scikit-Learn Base](https://scikit-learn.org/stable/modules/classes.html#module-sklearn.base)
+### Registry: [Mlflow Registry](https://mlflow.org/docs/latest/model-registry.html)
 
 - **Motivations**:
-  - Normalize model interface
-  - Easy to adopt: only define 4 methods
-  - Most popular format for data scientists
+  - Save and load models
+  - Separate production from consumption
+  - Popular, open source, work on local system
 - **Limitations**:
-  - Doesn't support model saving/loading methods
+  - None
 - **Alternatives**:
-  - Implement your own: unknown for your users
+  - [Neptune.ai](https://neptune.ai/): SaaS solution
+  - [Weights and Biases](https://wandb.ai/site): SaaS solution
 
-### Storage: Filesystem!
+### Tracking: [Mlflow Tracking](https://mlflow.org/docs/latest/tracking.html)
 
 - **Motivations**:
-  - Store ML models on disk
-  - Use it for really small project
-  - Easy to adopt, but doesn't do much
+  - Keep track of metrics and params
+  - Allow to compare model performances
+  - Popular, open source, work on local system
 - **Limitations**:
-  - Should be changed to a better alternative
+  - None
 - **Alternatives**:
-  - [MLflow](https://mlflow.org/): great solution, but requires a server
-  - [MLEM](https://mlem.ai/): good solution if you use DVC
+  - [Neptune.ai](https://neptune.ai/): SaaS solution
+  - [Weights and Biases](https://wandb.ai/site): SaaS solution
 
 ## Package
 
 Define and build modern Python package.
 
+### Evolution: [Changelog](https://en.wikipedia.org/wiki/Changelog)
+
+- **Motivation**:
+  - Communicate changes to user
+  - Can be updated with [Commitizen](https://commitizen-tools.github.io/commitizen/changelog/)
+  - Standardized with [Keep a Changelog](https://keepachangelog.com/)
+- **Limitations**:
+  - None
+- **Alternatives**:
+  - None
+
 ### Format: [Wheel](https://peps.python.org/pep-0427/)
 
 - **Motivations**:
+  - [Has several advantages](https://realpython.com/python-wheels/#advantages-of-python-wheels)
   - Create source code archive
   - Most modern Python format
-  - [Has several advantages](https://realpython.com/python-wheels/#advantages-of-python-wheels)
 - **Limitations**:
   - Doesn't ship with C/C++ dependencies (e.g., CUDA)
     - i.e., use Docker containers for this case
 - **Alternatives**:
   - [Source](https://docs.python.org/3/distutils/sourcedist.html): older format, less powerful
+  - [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html): slow and hard to manage
 
 ### Manager: [Poetry](https://python-poetry.org/)
 
@@ -602,7 +702,6 @@ Select your programming environment.
   - Hundreds of great libs
 - **Limitations**:
   - Slow without C bindings
-  - Need of a [Gilectomy](https://github.com/larryhastings/gilectomy)
 - **Alternatives**:
   - [R](https://www.r-project.org/): specific purpose language
   - [Julia](https://julialang.org/): specific purpose language
@@ -630,7 +729,7 @@ This sections gives some tips and tricks to enrich the develop experience.
 
 In your code, you can refer to your dataset with a tag (e.g., `inputs`, `targets`).
 
-This tag can then be associated to an reader/writer implementation in a configuration file:
+This tag can then be associated to a reader/writer implementation in a configuration file:
 
 ```yaml
   inputs:
@@ -641,7 +740,7 @@ This tag can then be associated to an reader/writer implementation in a configur
     path: data/targets.parquet
 ```
 
-In this package, the implementation are described in `src/[package]/datasets.py` and selected by `KIND`.
+In this package, the implementation are described in `src/[package]/io/datasets.py` and selected by `KIND`.
 
 ### [Hyperparameter Optimization](https://en.wikipedia.org/wiki/Hyperparameter_optimization)
 
@@ -649,7 +748,7 @@ In this package, the implementation are described in `src/[package]/datasets.py`
 
 The simplest projects can use a `sklearn.model_selection.GridSearchCV` to scan the whole search space.
 
-This package provides a simple interface to this hyperparameter search facility in `src/[packager]/searchers.py`.
+This package provides a simple interface to this hyperparameter search facility in `src/[package]/utils/searchers.py`.
 
 For more complex project, we recommend to use more complex strategy (e.g., [Bayesian](https://en.wikipedia.org/wiki/Bayesian_optimization)) and software package (e.g., [Optuna](https://optuna.org/)).
 
@@ -661,9 +760,9 @@ For more complex project, we recommend to use more complex strategy (e.g., [Baye
 - *Validation*: used to find the best hyperparameters
 - *Testing*: used to evaluate the final model performance
 
-The sets should be exclusive, and the testing set should never be used as training inputs.
+The sets should be exclusive, and the testing set should never be used as training inputs!
 
-This package provides a simple deterministic strategy implemented in `src/[package]/splitters.py`.
+This package provides a simple deterministic strategy implemented in `src/[package]/utils/splitters.py`.
 
 ## [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern)
 
@@ -683,7 +782,7 @@ In production, we recommend to use a scalable system such as [Airflow](https://a
 
 There are several approaches such as [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern), [Global Variable](https://en.wikipedia.org/wiki/Global_variable), or [Component](https://github.com/stuartsierra/component).
 
-This package takes inspiration from [Clojure mount](https://github.com/tolitius/mount). It provides an implementation in `src/[package]/services.py`.
+This package takes inspiration from [Clojure mount](https://github.com/tolitius/mount). It provides an implementation in `src/[package]/io/services.py`.
 
 ### [Soft Coding](https://en.wikipedia.org/wiki/Softcoding)
 
@@ -705,9 +804,17 @@ This package seeks to expose as much parameter as possible to the users in confi
 
 In practice, this mean you can implement software contracts with interface and swap the implementation.
 
-For instance, you can implement several jobs in `src/[package]/jobs.py` and swap them in your configuration.
+For instance, you can implement several jobs in `src/[package]/jobs/*.py` and swap them in your configuration.
 
 To learn more about the mechanism select for this package, you can check the documentation for [Pydantic Tagged Unions](https://docs.pydantic.dev/dev-v2/usage/types/unions/#discriminated-unions-aka-tagged-unions).
+
+### [IO Separation](https://en.wikibooks.org/wiki/Haskell/Understanding_monads/IO)
+
+**You should separate the code interacting with the external world from the rest.**
+
+The external is messy and full of risks: missing files, permission issue, out of disk ...
+
+To isolate these risks, you can put all the related code in an `io` package and use interfaces
 
 ## [Python Powers](https://realpython.com/)
 
@@ -725,7 +832,7 @@ with job as runner:  # context
 
 This pattern has the same benefit as [Monad](https://en.wikipedia.org/wiki/Monad_(functional_programming)), a powerful programming pattern.
 
-The package uses `src/[package]/jobs.py` to handle exception and services.
+The package uses `src/[package]/jobs/*.py` to handle exception and services.
 
 ### [Python Package](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
 
@@ -753,7 +860,7 @@ inv packages
 Python provides the [typing module](https://docs.python.org/3/library/typing.html) for adding type hints and [mypy](https://mypy-lang.org/) to checking them.
 
 ```python
-# in src/[package]/models.py
+# in src/[package]/core/models.py
 @abc.abstractmethod
 def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "Model":
     """Fit the model on the given inputs and target."""
@@ -774,7 +881,7 @@ The package aims to type every functions and classes to facilitate the developer
 Pydantic allows to define classes that can validate your configs during the program startup.
 
 ```python
-# in src/[package]/splitters.py
+# in src/[package]/utils/splitters.py
 class TrainTestSplitter(Splitter):
     shuffle: bool = False  # required (time sensitive)
     test_size: int | float = 24 * 30 * 2  # 2 months
@@ -814,7 +921,7 @@ class InputsSchema(Schema):
 
 This code snippet defines the fields of the dataframe and some of its constraint.
 
-The package encourages to type every dataframe used in `src/[package]/schemas.py`.
+The package encourages to type every dataframe used in `src/[package]/core/schemas.py`.
 
 ### [Object Oriented](https://en.wikipedia.org/wiki/Object-oriented_programming)
 

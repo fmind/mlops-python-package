@@ -46,3 +46,13 @@ def test_main(scenario: str, confs_path: str, extra_config: str) -> None:
         status = scripts.main(argv=argv)
         # then
         assert status == 0, f"Job should succeed for config: {config}"
+
+
+def test_main__no_configs() -> None:
+    # given
+    argv: list[str] = []
+    # when
+    with pytest.raises(RuntimeError) as error:
+        scripts.main(argv)
+    # then
+    assert error.match("No configs provided."), "RuntimeError should be raised!"

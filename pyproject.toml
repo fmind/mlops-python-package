@@ -89,6 +89,7 @@ plugins = ["pandera.mypy", "pydantic.mypy"]
 
 [tool.pytest.ini_options]
 addopts = "--verbosity=2"
+pythonpath = ["src"]
 
 [tool.ruff]
 fix = true

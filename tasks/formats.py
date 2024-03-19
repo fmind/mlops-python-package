@@ -9,11 +9,17 @@ from invoke.tasks import task
 
 
 @task
-def code(ctx: Context) -> None:
-    """Format python code with ruff."""
+def imports(ctx: Context) -> None:
+    """Format python imports with ruff."""
+    ctx.run("poetry run ruff check --select I --fix")
+
+
+@task
+def sources(ctx: Context) -> None:
+    """Format python sources with ruff."""
     ctx.run("poetry run ruff format src/ tasks/ tests/")
 
 
-@task(pre=[code], default=True)
+@task(pre=[imports, sources], default=True)
 def all(_: Context) -> None:
     """Run all format tasks."""
