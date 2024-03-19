@@ -103,7 +103,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
 
 # Install
 
-This section details the requirements, actions, and next steps to kickstart your project.
+This section details the requirements, actions, and next steps to kickstart your MLOps project.
 
 ## Prerequisites
 
