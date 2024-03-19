@@ -26,8 +26,10 @@ def main(argv: list[str] | None = None) -> int:
         schema = settings.MainSettings.model_json_schema()
         json.dump(schema, sys.stdout, indent=4)
         return 0
-    files = map(configs.parse_file, args.files)
-    strings = map(configs.parse_string, args.extras)
+    files = [configs.parse_file(file) for file in args.files]
+    strings = [configs.parse_string(string) for string in args.extras]
+    if len(files) == 0 and len(strings) == 0:
+        raise RuntimeError("No configs provided.")
     config = configs.merge_configs([*files, *strings])
     object_ = configs.to_object(config)  # python object
     setting = settings.MainSettings.model_validate(object_)

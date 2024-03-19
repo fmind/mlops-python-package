@@ -39,7 +39,7 @@ def test(ctx: Context) -> None:
 
 
 @task
-def bandit(ctx: Context) -> None:
+def security(ctx: Context) -> None:
     """Check the security with bandit."""
     ctx.run("poetry run bandit --recursive --configfile=pyproject.toml src/")
 
@@ -50,6 +50,6 @@ def coverage(ctx: Context) -> None:
     ctx.run("poetry run pytest --numprocesses='auto' --cov=src/ --cov-fail-under=80 tests/")
 
 
-@task(pre=[poetry, format, type, code, bandit, coverage], default=True)
+@task(pre=[poetry, format, type, code, security, coverage], default=True)
 def all(_: Context) -> None:
     """Run all check tasks."""
