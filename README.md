@@ -12,7 +12,7 @@ The package leverages several [tools](#tools) and [tips](#tips) to make your MLO
 
 You can use this package as part of your MLOps toolkit or platform (e.g., Model Registry, Experiment Tracking, Realtime Inference, ...).
 
-*I'm currently preparing a course and a mentoring offer to help you create and use MLOps package for your projects. Stay tuned :)*
+**NEW: Check the [MLOps Coding Course](https://mlops-coding-course.fmind.dev/) to learn how to create and use this package for your projects: https://github.com/MLOps-Courses/mlops-coding-course.**
 
 # Table of Contents
 
