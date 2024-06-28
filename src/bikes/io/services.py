@@ -112,7 +112,7 @@ class MlflowService(Service):
         name: str
         description: str | None = None
         tags: dict[str, T.Any] | None = None
-        log_system_metrics: bool | None = None
+        log_system_metrics: bool | None = True
 
     # server uri
     tracking_uri: str = "./mlruns"
