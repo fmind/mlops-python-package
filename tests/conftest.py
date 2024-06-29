@@ -244,6 +244,15 @@ def logger_caplog(
     logger.remove(handler_id)
 
 
+@pytest.fixture(scope="session", autouse=True)
+def notification_service() -> T.Generator[services.NotificationService, None, None]:
+    """Return and start the notification service."""
+    service = services.NotificationService()
+    service.start()
+    yield service
+    service.stop()
+
+
 @pytest.fixture(scope="function", autouse=True)
 def mlflow_service(tmp_path: str) -> T.Generator[services.MlflowService, None, None]:
     """Return and start the mlflow service."""

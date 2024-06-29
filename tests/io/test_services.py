@@ -21,6 +21,15 @@ def test_logger_service(
     assert "ERROR" in logger_caplog.messages, "Error message should be logged!"
 
 
+def test_notification_service(notification_service: services.NotificationService) -> None:
+    # given
+    service = notification_service
+    # when
+    result = service.notify(title="hello", message="world")
+    # then
+    assert result is None, "Notification should be sent!"
+
+
 def test_mlflow_service(mlflow_service: services.MlflowService) -> None:
     # given
     service = mlflow_service

@@ -117,4 +117,7 @@ class TrainingJob(base.Job):
                 name=self.mlflow_service.registry_name, model_uri=model_info.model_uri
             )
             logger.debug("- Model version: {}", model_version)
+            self.notification_service.notify(
+                title="Training Job Finished", message=f"Model version: {model_version.version}"
+            )
         return locals()

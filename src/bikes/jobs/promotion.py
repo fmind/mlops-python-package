@@ -49,4 +49,8 @@ class PromotionJob(base.Job):
         client.set_registered_model_alias(name=name, alias=self.alias, version=version)
         model_version = client.get_model_version_by_alias(name=name, alias=self.alias)
         logger.debug("- Model version: {}", model_version)
+        self.notification_service.notify(
+            title="Promotion Job Finished",
+            message=f"Version: {model_version.version} @ {self.alias}",
+        )
         return locals()

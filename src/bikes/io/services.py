@@ -13,6 +13,7 @@ import loguru
 import mlflow
 import mlflow.tracking as mt
 import pydantic as pdt
+from plyer import notification
 
 # %% SERVICES
 
@@ -79,6 +80,42 @@ class LoggerService(Service):
             loguru.Logger: the main logger.
         """
         return loguru.logger
+
+
+class NotificationService(Service):
+    """Service for sending notifications.
+
+    Require libnotify-bin on Linux systems.
+
+    In production, use with Slack, Discord, or emails.
+
+    https://plyer.readthedocs.io/en/latest/api.html#plyer.facades.Notification
+
+    Parameters:
+        app_name (str): name of the application.
+        timeout (int | None): timeout in seconds.
+    """
+
+    app_name: str = "Bikes"
+    timeout: int | None = None
+
+    @T.override
+    def start(self) -> None:
+        pass
+
+    def notify(self, title: str, message: str) -> None:
+        """Send a notification to the system.
+
+        Args:
+            title (str): title of the notification.
+            message (str): message of the notification.
+        """
+        try:
+            notification.notify(
+                title=title, message=message, app_name=self.app_name, timeout=self.timeout
+            )
+        except NotImplementedError:
+            print(f"{title}: {message}")
 
 
 class MlflowService(Service):

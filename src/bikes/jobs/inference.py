@@ -61,4 +61,7 @@ class InferenceJob(base.Job):
         # write
         logger.info("Write outputs: {}", self.outputs)
         self.outputs.write(outputs)
+        self.notification_service.notify(
+            title="Inference Job Finished", message=f"Outputs Shape: {outputs.shape}"
+        )
         return locals()

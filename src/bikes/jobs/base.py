@@ -26,12 +26,14 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
     Parameters:
         logger_service (services.LoggerService): manage the logging system.
+        notification_service (services.NotificationService): manage the notification_system.
         mlflow_service (services.MlflowService): manage the mlflow system.
     """
 
     KIND: str
 
     logger_service: services.LoggerService = services.LoggerService()
+    notification_service: services.NotificationService = services.NotificationService()
     mlflow_service: services.MlflowService = services.MlflowService()
 
     def __enter__(self) -> T.Self:
@@ -43,6 +45,8 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
         self.logger_service.start()
         logger = self.logger_service.logger()
         logger.debug("[START] Logger service: {}", self.logger_service)
+        self.notification_service.start()
+        logger.debug("[START] Notification service: {}", self.notification_service)
         logger.debug("[START] Mlflow service: {}", self.mlflow_service)
         self.mlflow_service.start()
         return self
@@ -66,6 +70,8 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
         logger = self.logger_service.logger()
         logger.debug("[STOP] Mlflow service: {}", self.mlflow_service)
         self.mlflow_service.stop()
+        logger.debug("[STOP] Notification service: {}", self.notification_service)
+        self.notification_service.stop()
         logger.debug("[STOP] Logger service: {}", self.logger_service)
         self.logger_service.stop()
         return False  # re-raise
