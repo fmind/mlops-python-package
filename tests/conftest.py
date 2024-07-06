@@ -46,19 +46,19 @@ def confs_path(tests_path: str) -> str:
 @pytest.fixture(scope="session")
 def inputs_path(data_path: str) -> str:
     """Return the path of the inputs dataset."""
-    return os.path.join(data_path, "inputs.parquet")
+    return os.path.join(data_path, "inputs_sample.parquet")
 
 
 @pytest.fixture(scope="session")
 def targets_path(data_path: str) -> str:
     """Return the path of the targets dataset."""
-    return os.path.join(data_path, "targets.parquet")
+    return os.path.join(data_path, "targets_sample.parquet")
 
 
 @pytest.fixture(scope="session")
 def outputs_path(data_path: str) -> str:
     """Return the path of the outputs dataset."""
-    return os.path.join(data_path, "outputs.parquet")
+    return os.path.join(data_path, "outputs_sample.parquet")
 
 
 @pytest.fixture(scope="function")
@@ -96,19 +96,29 @@ def extra_config() -> str:
 @pytest.fixture(scope="session")
 def inputs_reader(inputs_path: str) -> datasets.ParquetReader:
     """Return a reader for the inputs dataset."""
-    return datasets.ParquetReader(path=inputs_path)
+    return datasets.ParquetReader(path=inputs_path, limit=LIMIT)
 
 
 @pytest.fixture(scope="session")
 def targets_reader(targets_path: str) -> datasets.ParquetReader:
     """Return a reader for the targets dataset."""
-    return datasets.ParquetReader(path=targets_path)
+    return datasets.ParquetReader(path=targets_path, limit=LIMIT)
 
 
 @pytest.fixture(scope="session")
-def outputs_reader(outputs_path: str) -> datasets.ParquetReader:
+def outputs_reader(
+    outputs_path: str, inputs_reader: datasets.ParquetReader, targets_reader: datasets.ParquetReader
+) -> datasets.ParquetReader:
     """Return a reader for the outputs dataset."""
-    return datasets.ParquetReader(path=outputs_path)
+    # generate outputs if it is missing
+    if not os.path.exists(outputs_path):
+        inputs = schemas.InputsSchema.check(inputs_reader.read())
+        targets = schemas.TargetsSchema.check(targets_reader.read())
+        model = models.BaselineSklearnModel().fit(inputs=inputs, targets=targets)
+        outputs = schemas.OutputsSchema.check(model.predict(inputs=inputs))
+        outputs_writer = datasets.ParquetWriter(path=outputs_path)
+        outputs_writer.write(data=outputs)
+    return datasets.ParquetReader(path=outputs_path, limit=LIMIT)
 
 
 @pytest.fixture(scope="function")

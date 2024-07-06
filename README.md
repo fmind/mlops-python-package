@@ -150,10 +150,10 @@ job:
   KIND: TrainingJob
   inputs:
     KIND: ParquetReader
-    path: data/inputs.parquet
+    path: data/inputs_train.parquet
   targets:
     KIND: ParquetReader
-    path: data/targets.parquet
+    path: data/targets_train.parquet
 ```
 
 This config file instructs the program to start a `TrainingJob` with 2 parameters:
@@ -736,10 +736,10 @@ This tag can then be associated to a reader/writer implementation in a configura
 ```yaml
   inputs:
     KIND: ParquetReader
-    path: data/inputs.parquet
+    path: data/inputs_train.parquet
   targets:
     KIND: ParquetReader
-    path: data/targets.parquet
+    path: data/targets_train.parquet
 ```
 
 In this package, the implementation are described in `src/[package]/io/datasets.py` and selected by `KIND`.

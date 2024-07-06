@@ -2,9 +2,9 @@ job:
   KIND: TrainingJob
   inputs:
     KIND: ParquetReader
-    path: "${tests_path:}/data/inputs.parquet"
+    path: "${tests_path:}/data/inputs_sample.parquet"
     limit: 1500
   targets:
     KIND: ParquetReader
-    path: "${tests_path:}/data/targets.parquet"
+    path: "${tests_path:}/data/targets_sample.parquet"
     limit: 1500
