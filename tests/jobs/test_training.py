@@ -1,5 +1,6 @@
 # %% IMPORTS
 
+import _pytest.capture as pc
 from bikes import jobs
 from bikes.core import metrics, models
 from bikes.io import datasets, registries, services
@@ -10,6 +11,7 @@ from bikes.utils import signers, splitters
 
 def test_training_job(
     mlflow_service: services.MlflowService,
+    alerter_service: services.AlerterService,
     logger_service: services.LoggerService,
     inputs_reader: datasets.Reader,
     targets_reader: datasets.Reader,
@@ -19,6 +21,7 @@ def test_training_job(
     saver: registries.Saver,
     signer: signers.Signer,
     register: registries.Register,
+    capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
     run_config = mlflow_service.RunConfig(
@@ -28,8 +31,9 @@ def test_training_job(
     client = mlflow_service.client()
     # when
     job = jobs.TrainingJob(
-        mlflow_service=mlflow_service,
         logger_service=logger_service,
+        alerter_service=alerter_service,
+        mlflow_service=mlflow_service,
         run_config=run_config,
         inputs=inputs_reader,
         targets=targets_reader,
@@ -138,3 +142,5 @@ def test_training_job(
     assert (
         model_version.run_id == out["run"].info.run_id
     ), "MLFlow model version run id should be the same!"
+    # - alerting service
+    assert "Training Job Finished" in capsys.readouterr().out, "Alerting service should be called!"

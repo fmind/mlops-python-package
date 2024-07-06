@@ -1,5 +1,6 @@
 # %% IMPORTS
 
+import _pytest.capture as pc
 from bikes import jobs
 from bikes.core import metrics, models
 from bikes.io import datasets, services
@@ -10,6 +11,7 @@ from bikes.utils import searchers, splitters
 
 def test_tuning_job(
     mlflow_service: services.MlflowService,
+    alerter_service: services.AlerterService,
     logger_service: services.LoggerService,
     inputs_reader: datasets.Reader,
     targets_reader: datasets.Reader,
@@ -17,6 +19,7 @@ def test_tuning_job(
     metric: metrics.Metric,
     time_series_splitter: splitters.Splitter,
     searcher: searchers.Searcher,
+    capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
     run_config = mlflow_service.RunConfig(
@@ -26,8 +29,9 @@ def test_tuning_job(
     client = mlflow_service.client()
     # when
     job = jobs.TuningJob(
-        mlflow_service=mlflow_service,
         logger_service=logger_service,
+        alerter_service=alerter_service,
+        mlflow_service=mlflow_service,
         run_config=run_config,
         inputs=inputs_reader,
         targets=targets_reader,
@@ -79,3 +83,5 @@ def test_tuning_job(
     ), "Mlflow experiment name should be the same!"
     runs = client.search_runs(experiment_ids=experiment.experiment_id)
     assert len(runs) == len(out["results"]) + 1, "Mlflow should have 1 run per result + parent!"
+    # - alerting service
+    assert "Tuning Job Finished" in capsys.readouterr().out, "Alerting service should be called!"

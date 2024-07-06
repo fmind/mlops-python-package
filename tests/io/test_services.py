@@ -1,7 +1,11 @@
 # %% IMPORTS
 
+
+import _pytest.capture as pc
 import _pytest.logging as pl
 import mlflow
+import pytest
+import pytest_mock as pm
 from bikes.io import services
 
 # %% SERVICES
@@ -21,13 +25,29 @@ def test_logger_service(
     assert "ERROR" in logger_caplog.messages, "Error message should be logged!"
 
 
-def test_notification_service(notification_service: services.NotificationService) -> None:
+@pytest.mark.parametrize("enable", [True, False])
+def test_alerter_service(
+    enable: bool, mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]
+) -> None:
+    import plyer
+
     # given
-    service = notification_service
+    service = services.AlerterService(enable=enable)
+    mocker.patch("plyer.notification.notify")
     # when
-    result = service.notify(title="hello", message="world")
+    service.notify(title="test", message="hello")
     # then
-    assert result is None, "Notification should be sent!"
+    if enable:
+        plyer.notification.notify.assert_called_once(), "Notification method should be called!"
+        assert capsys.readouterr().out == "", "Notification should not be printed to stdout!"
+    else:
+        (
+            plyer.notification.notify.assert_not_called(),
+            "Notification method should not be called!",
+        )
+        assert (
+            capsys.readouterr().out == "[Bikes] test: hello\n"
+        ), "Notification should be printed to stdout!"
 
 
 def test_mlflow_service(mlflow_service: services.MlflowService) -> None:

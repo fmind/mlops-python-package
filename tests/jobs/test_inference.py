@@ -1,6 +1,7 @@
 # %% IMPORTS
 
 
+import _pytest.capture as pc
 from bikes import jobs
 from bikes.io import datasets, registries, services
 
@@ -9,19 +10,22 @@ from bikes.io import datasets, registries, services
 
 def test_inference_job(
     mlflow_service: services.MlflowService,
+    alerter_service: services.AlerterService,
     logger_service: services.LoggerService,
     inputs_reader: datasets.Reader,
     tmp_outputs_writer: datasets.Writer,
     model_alias: registries.Version,
     loader: registries.Loader,
+    capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
     assert len(model_alias.aliases) == 1, "Model should have one alias!"
     alias = model_alias.aliases[0]
     # when
     job = jobs.InferenceJob(
-        mlflow_service=mlflow_service,
         logger_service=logger_service,
+        alerter_service=alerter_service,
+        mlflow_service=mlflow_service,
         inputs=inputs_reader,
         outputs=tmp_outputs_writer,
         alias=alias,
@@ -57,3 +61,5 @@ def test_inference_job(
     ), "Model should have a pyfunc flavor!"
     # - outputs
     assert out["outputs"].ndim == 2, "Outputs should be a dataframe!"
+    # - alerting service
+    assert "Inference Job Finished" in capsys.readouterr().out, "Alerting service should be called!"

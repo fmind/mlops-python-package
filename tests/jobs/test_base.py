@@ -25,5 +25,6 @@ def test_job(
     # - inputs
     assert hasattr(job, "logger_service"), "Job should have an Logger service!"
     assert hasattr(job, "mlflow_service"), "Job should have an Mlflow service!"
+    assert hasattr(job, "alerter_service"), "Job should have a alerter service!"
     # - outputs
     assert set(out) == {"self", "a", "b"}, "Run should return local variables!"

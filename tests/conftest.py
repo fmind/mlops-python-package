@@ -77,6 +77,9 @@ def extra_config() -> str:
     config = """
     {
         "job": {
+            "alerter_service": {
+                "enable": false,
+            },
             "mlflow_service": {
                 "tracking_uri": "${tmp_path:}/tracking/",
                 "registry_uri": "${tmp_path:}/registry/",
@@ -245,9 +248,9 @@ def logger_caplog(
 
 
 @pytest.fixture(scope="session", autouse=True)
-def notification_service() -> T.Generator[services.NotificationService, None, None]:
-    """Return and start the notification service."""
-    service = services.NotificationService()
+def alerter_service() -> T.Generator[services.AlerterService, None, None]:
+    """Return and start the alerter service."""
+    service = services.AlerterService(enable=False)
     service.start()
     yield service
     service.stop()
