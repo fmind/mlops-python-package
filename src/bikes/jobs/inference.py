@@ -18,7 +18,7 @@ class InferenceJob(base.Job):
 
     Parameters:
         inputs (datasets.ReaderKind): reader for the inputs data.
-        outputs (datasets.WriterKind ): writer for the outputs data.
+        outputs (datasets.WriterKind): writer for the outputs data.
         alias (str): alias tag for the model. Defaults to "Champion".
         loader (registries.LoaderKind): loader system for the model.
     """
@@ -60,7 +60,7 @@ class InferenceJob(base.Job):
         logger.debug("- Outputs shape: {}", outputs.shape)
         # write
         logger.info("Write outputs: {}", self.outputs)
-        self.outputs.write(outputs)
+        self.outputs.write(data=outputs)
         self.alerter_service.notify(
             title="Inference Job Finished", message=f"Outputs Shape: {outputs.shape}"
         )

@@ -67,6 +67,18 @@ def tmp_outputs_path(tmp_path: str) -> str:
     return os.path.join(tmp_path, "outputs.parquet")
 
 
+@pytest.fixture(scope="function")
+def tmp_model_explanations_path(tmp_path: str) -> str:
+    """Return a tmp path for the model explanations dataset."""
+    return os.path.join(tmp_path, "model_explanations.parquet")
+
+
+@pytest.fixture(scope="function")
+def tmp_samples_explanations_path(tmp_path: str) -> str:
+    """Return a tmp path for the samples explanations dataset."""
+    return os.path.join(tmp_path, "samples_explanations.parquet")
+
+
 # %% - Configs
 
 
@@ -100,6 +112,12 @@ def inputs_reader(inputs_path: str) -> datasets.ParquetReader:
 
 
 @pytest.fixture(scope="session")
+def inputs_samples_reader(inputs_path: str) -> datasets.ParquetReader:
+    """Return a reader for the inputs samples dataset."""
+    return datasets.ParquetReader(path=inputs_path, limit=100)
+
+
+@pytest.fixture(scope="session")
 def targets_reader(targets_path: str) -> datasets.ParquetReader:
     """Return a reader for the targets dataset."""
     return datasets.ParquetReader(path=targets_path, limit=LIMIT)
@@ -127,6 +145,18 @@ def tmp_outputs_writer(tmp_outputs_path: str) -> datasets.ParquetWriter:
     return datasets.ParquetWriter(path=tmp_outputs_path)
 
 
+@pytest.fixture(scope="function")
+def tmp_model_explanations_writer(tmp_model_explanations_path: str) -> datasets.ParquetWriter:
+    """Return a writer for the tmp model explanations dataset."""
+    return datasets.ParquetWriter(path=tmp_model_explanations_path)
+
+
+@pytest.fixture(scope="function")
+def tmp_samples_explanations_writer(tmp_samples_explanations_path: str) -> datasets.ParquetWriter:
+    """Return a writer for the tmp samples explanations dataset."""
+    return datasets.ParquetWriter(path=tmp_samples_explanations_path)
+
+
 # %% - Dataframes
 
 
@@ -134,6 +164,13 @@ def tmp_outputs_writer(tmp_outputs_path: str) -> datasets.ParquetWriter:
 def inputs(inputs_reader: datasets.ParquetReader) -> schemas.Inputs:
     """Return the inputs data."""
     data = inputs_reader.read()
+    return schemas.InputsSchema.check(data)
+
+
+@pytest.fixture(scope="session")
+def inputs_samples(inputs_samples_reader: datasets.ParquetReader) -> schemas.Inputs:
+    """Return the inputs samples data."""
+    data = inputs_samples_reader.read()
     return schemas.InputsSchema.check(data)
 
 

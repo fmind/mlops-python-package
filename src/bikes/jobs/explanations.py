@@ -1,0 +1,78 @@
+"""Define a job for explaining the model structure and decisions."""
+
+# %% IMPORTS
+
+import typing as T
+
+import pydantic as pdt
+
+from bikes.core import schemas
+from bikes.io import datasets, registries
+from bikes.jobs import base
+
+# %% JOBS
+
+
+class ExplanationsJob(base.Job):
+    """Generate explanations for the model and a data sample.
+
+    Parameters:
+        inputs_samples (datasets.ReaderKind): reader for the samples data.
+        model_explanations (datasets.WriterKind): writer for model explanation.
+        samples_explanations (datasets.WriterKind): writer for samples explanation.
+        alias (str): alias tag for the model. Defaults to "Champion".
+        loader (registries.LoaderKind): loader system for the model.
+    """
+
+    KIND: T.Literal["ExplanationsJob"] = "ExplanationsJob"
+
+    # Samples
+    inputs_samples: datasets.ReaderKind = pdt.Field(..., discriminator="KIND")
+    # Explanations
+    model_explanations: datasets.WriterKind = pdt.Field(..., discriminator="KIND")
+    samples_explanations: datasets.WriterKind = pdt.Field(..., discriminator="KIND")
+    # Model
+    alias: str = "Champion"
+    # Loader
+    loader: registries.LoaderKind = pdt.Field(registries.CustomLoader(), discriminator="KIND")
+
+    @T.override
+    def run(self) -> base.Locals:
+        # services
+        logger = self.logger_service.logger()
+        logger.info("With logger: {}", logger)
+        # inputs
+        logger.info("Read samples: {}", self.inputs_samples)
+        inputs_samples = self.inputs_samples.read()  # unchecked!
+        inputs_samples = schemas.InputsSchema.check(inputs_samples)
+        logger.debug("- Inputs samples shape: {}", inputs_samples.shape)
+        # model
+        logger.info("With model: {}", self.mlflow_service.registry_name)
+        model_uri = registries.uri_for_model_alias(
+            name=self.mlflow_service.registry_name, alias=self.alias
+        )
+        logger.debug("- Model URI: {}", model_uri)
+        # loader
+        logger.info("Load model: {}", self.loader)
+        model = self.loader.load(uri=model_uri).model.unwrap_python_model().model
+        logger.debug("- Model: {}", model)
+        # explanations
+        # - model
+        logger.info("Explain model: {}", model)
+        model_explanations = model.explain_model()
+        logger.debug("- Model explanations shape: {}", model_explanations.shape)
+        # - samples
+        logger.info("Explain samples: {}", len(inputs_samples))
+        samples_explanations = model.explain_samples(inputs=inputs_samples)
+        logger.debug("- Samples explanations shape: {}", samples_explanations.shape)
+        # write
+        # - model
+        logger.info("Write model explanations: {}", self.model_explanations)
+        self.model_explanations.write(data=model_explanations)
+        # - samples
+        logger.info("Write samples explanations: {}", self.samples_explanations)
+        self.samples_explanations.write(data=samples_explanations)
+        self.alerter_service.notify(
+            title="Explanations Job Finished", message=f"Features Count: {len(model_explanations)}"
+        )
+        return locals()

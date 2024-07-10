@@ -6,6 +6,7 @@ import abc
 import typing as T
 
 import pydantic as pdt
+import shap
 from sklearn import compose, ensemble, pipeline, preprocessing
 
 from bikes.core import schemas
@@ -76,6 +77,28 @@ class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
         Returns:
             schemas.Outputs: model prediction outputs.
         """
+
+    def explain_model(self) -> schemas.FeatureImportances:
+        """Explain the internal model structure.
+
+        Raises:
+            NotImplementedError: method not implemented.
+
+        Returns:
+            schemas.FeatureImportances: feature importances.
+        """
+        raise NotImplementedError()
+
+    def explain_samples(self, inputs: schemas.Inputs) -> schemas.SHAPValues:
+        """Explain model outputs on input samples.
+
+        Raises:
+            NotImplementedError: method not implemented.
+
+        Returns:
+            schemas.SHAPValues: SHAP values.
+        """
+        raise NotImplementedError()
 
     def get_internal_model(self) -> T.Any:
         """Return the internal model in the object.
@@ -160,6 +183,33 @@ class BaselineSklearnModel(Model):
             {schemas.OutputsSchema.prediction: prediction}, index=inputs.index
         )
         return outputs
+
+    @T.override
+    def explain_model(self) -> schemas.FeatureImportances:
+        model = self.get_internal_model()
+        regressor = model.named_steps["regressor"]
+        transformer = model.named_steps["transformer"]
+        column_names = transformer.get_feature_names_out()
+        feature_importances = schemas.FeatureImportances(
+            data={
+                "feature": column_names,
+                "importance": regressor.feature_importances_,
+            }
+        )
+        return feature_importances
+
+    @T.override
+    def explain_samples(self, inputs: schemas.Inputs) -> schemas.SHAPValues:
+        model = self.get_internal_model()
+        regressor = model.named_steps["regressor"]
+        transformer = model.named_steps["transformer"]
+        transformed = transformer.transform(X=inputs)
+        explainer = shap.TreeExplainer(model=regressor)
+        shap_values = schemas.SHAPValues(
+            data=explainer.shap_values(X=transformed),
+            columns=transformer.get_feature_names_out(),
+        )
+        return shap_values
 
     @T.override
     def get_internal_model(self) -> pipeline.Pipeline:

@@ -90,3 +90,31 @@ class OutputsSchema(Schema):
 
 
 Outputs = papd.DataFrame[OutputsSchema]
+
+
+class SHAPValuesSchema(Schema):
+    """Schema for the project shap values."""
+
+    class Config:
+        """Default configurations this schema.
+
+        Parameters:
+            dtype (str): dataframe default data type.
+            strict (bool): ensure the data type is correct.
+        """
+
+        dtype: str = "float32"
+        strict: bool = False
+
+
+SHAPValues = papd.DataFrame[SHAPValuesSchema]
+
+
+class FeatureImportancesSchema(Schema):
+    """Schema for the project feature importances."""
+
+    feature: papd.Series[padt.String] = pa.Field()
+    importance: papd.Series[padt.Float32] = pa.Field()
+
+
+FeatureImportances = papd.DataFrame[FeatureImportancesSchema]
