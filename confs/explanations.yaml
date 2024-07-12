@@ -4,9 +4,9 @@ job:
     KIND: ParquetReader
     path: data/inputs_test.parquet
     limit: 100
-  model_explanations:
+  models_explanations:
     KIND: ParquetWriter
-    path: outputs/model_explanations.parquet
+    path: outputs/models_explanations.parquet
   samples_explanations:
     KIND: ParquetWriter
     path: outputs/samples_explanations.parquet

@@ -14,7 +14,7 @@ def test_explanations_job(
     alerter_service: services.AlerterService,
     logger_service: services.LoggerService,
     inputs_samples_reader: datasets.Reader,
-    tmp_model_explanations_writer: datasets.Writer,
+    tmp_models_explanations_writer: datasets.Writer,
     tmp_samples_explanations_writer: datasets.Writer,
     model_alias: registries.Version,
     loader: registries.Loader,
@@ -29,7 +29,7 @@ def test_explanations_job(
         alerter_service=alerter_service,
         mlflow_service=mlflow_service,
         inputs_samples=inputs_samples_reader,
-        model_explanations=tmp_model_explanations_writer,
+        models_explanations=tmp_models_explanations_writer,
         samples_explanations=tmp_samples_explanations_writer,
         alias=alias,
         loader=loader,
@@ -44,7 +44,7 @@ def test_explanations_job(
         "inputs_samples",
         "model_uri",
         "model",
-        "model_explanations",
+        "models_explanations",
         "samples_explanations",
     }
     # - inputs
@@ -57,7 +57,7 @@ def test_explanations_job(
     # - model
     assert isinstance(out["model"], models.Model), "Model should be an instance of a project Model!"
     # - model explanations
-    assert len(out["model_explanations"].index) >= len(
+    assert len(out["models_explanations"].index) >= len(
         out["inputs_samples"].columns
     ), "Model explanations should have at least as many columns as inputs samples!"
     # - samples explanations

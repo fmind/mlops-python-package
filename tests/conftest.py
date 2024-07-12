@@ -68,9 +68,9 @@ def tmp_outputs_path(tmp_path: str) -> str:
 
 
 @pytest.fixture(scope="function")
-def tmp_model_explanations_path(tmp_path: str) -> str:
+def tmp_models_explanations_path(tmp_path: str) -> str:
     """Return a tmp path for the model explanations dataset."""
-    return os.path.join(tmp_path, "model_explanations.parquet")
+    return os.path.join(tmp_path, "models_explanations.parquet")
 
 
 @pytest.fixture(scope="function")
@@ -146,9 +146,9 @@ def tmp_outputs_writer(tmp_outputs_path: str) -> datasets.ParquetWriter:
 
 
 @pytest.fixture(scope="function")
-def tmp_model_explanations_writer(tmp_model_explanations_path: str) -> datasets.ParquetWriter:
+def tmp_models_explanations_writer(tmp_models_explanations_path: str) -> datasets.ParquetWriter:
     """Return a writer for the tmp model explanations dataset."""
-    return datasets.ParquetWriter(path=tmp_model_explanations_path)
+    return datasets.ParquetWriter(path=tmp_models_explanations_path)
 
 
 @pytest.fixture(scope="function")

@@ -184,7 +184,7 @@ class MlflowService(Service):
             exclusive=self.autolog_exclusive,
             log_input_examples=self.autolog_log_input_examples,
             log_model_signatures=self.autolog_log_model_signatures,
-            log_models=self.autolog_log_models,
+            log_datasets=self.autolog_log_datasets,
             silent=self.autolog_silent,
         )
 
