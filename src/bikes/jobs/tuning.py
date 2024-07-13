@@ -60,9 +60,8 @@ class TuningJob(base.Job):
         # - logger
         logger = self.logger_service.logger()
         logger.info("With logger: {}", logger)
-        # - mlflow
         with self.mlflow_service.run_context(run_config=self.run_config) as run:
-            logger.info("With mlflow run id: {}", run.info.run_id)
+            logger.info("With run context: {}", run)
             # data
             # - inputs
             logger.info("Read inputs: {}", self.inputs)
@@ -103,8 +102,8 @@ class TuningJob(base.Job):
             logger.debug("- Results: {}", results.shape)
             logger.debug("- Best Score: {}", best_score)
             logger.debug("- Best Params: {}", best_params)
-            # alerter
-            self.alerter_service.notify(
+            # notify
+            self.alerts_service.notify(
                 title="Tuning Job Finished", message=f"Best score: {best_score}"
             )
         return locals()

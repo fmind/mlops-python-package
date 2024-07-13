@@ -89,7 +89,7 @@ def extra_config() -> str:
     config = """
     {
         "job": {
-            "alerter_service": {
+            "alerts_service": {
                 "enable": false,
             },
             "mlflow_service": {
@@ -295,9 +295,9 @@ def logger_caplog(
 
 
 @pytest.fixture(scope="session", autouse=True)
-def alerter_service() -> T.Generator[services.AlerterService, None, None]:
+def alerts_service() -> T.Generator[services.AlertsService, None, None]:
     """Return and start the alerter service."""
-    service = services.AlerterService(enable=False)
+    service = services.AlertsService(enable=False)
     service.start()
     yield service
     service.stop()

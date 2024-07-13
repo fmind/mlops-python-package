@@ -64,7 +64,7 @@ class TrainingJob(base.Job):
         client = self.mlflow_service.client()
         logger.info("With client: {}", client)
         with self.mlflow_service.run_context(run_config=self.run_config) as run:
-            logger.info("With mlflow run id: {}", run.info.run_id)
+            logger.info("With run context: {}", run)
             # data
             # - inputs
             logger.info("Read inputs: {}", self.inputs)
@@ -130,8 +130,8 @@ class TrainingJob(base.Job):
                 name=self.mlflow_service.registry_name, model_uri=model_info.model_uri
             )
             logger.debug("- Model version: {}", model_version)
-            # alerter
-            self.alerter_service.notify(
+            # notify
+            self.alerts_service.notify(
                 title="Training Job Finished", message=f"Model version: {model_version.version}"
             )
         return locals()

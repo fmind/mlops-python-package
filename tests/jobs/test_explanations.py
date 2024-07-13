@@ -11,7 +11,7 @@ from bikes.io import datasets, registries, services
 
 def test_explanations_job(
     mlflow_service: services.MlflowService,
-    alerter_service: services.AlerterService,
+    alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
     inputs_samples_reader: datasets.Reader,
     tmp_models_explanations_writer: datasets.Writer,
@@ -26,7 +26,7 @@ def test_explanations_job(
     # when
     job = jobs.ExplanationsJob(
         logger_service=logger_service,
-        alerter_service=alerter_service,
+        alerts_service=alerts_service,
         mlflow_service=mlflow_service,
         inputs_samples=inputs_samples_reader,
         models_explanations=tmp_models_explanations_writer,

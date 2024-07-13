@@ -72,8 +72,8 @@ class ExplanationsJob(base.Job):
         # - samples
         logger.info("Write samples explanations: {}", self.samples_explanations)
         self.samples_explanations.write(data=samples_explanations)
-        # alerter
-        self.alerter_service.notify(
+        # notify
+        self.alerts_service.notify(
             title="Explanations Job Finished", message=f"Features Count: {len(models_explanations)}"
         )
         return locals()

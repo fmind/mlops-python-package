@@ -113,7 +113,7 @@ class CustomSaver(Saver):
             Args:
                 context (mlflow.pyfunc.PythonModelContext): mlflow context.
                 model_input (schemas.Inputs): inputs for the mlflow model.
-                params(dict[str, T.Any] | None): additional parameters.
+                params (dict[str, T.Any] | None): additional parameters.
 
             Returns:
                 schemas.Outputs: validated outputs of the project model.

@@ -26,13 +26,13 @@ def test_logger_service(
 
 
 @pytest.mark.parametrize("enable", [True, False])
-def test_alerter_service(
+def test_alerts_service(
     enable: bool, mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]
 ) -> None:
     import plyer
 
     # given
-    service = services.AlerterService(enable=enable)
+    service = services.AlertsService(enable=enable)
     mocker.patch("plyer.notification.notify")
     # when
     service.notify(title="test", message="hello")

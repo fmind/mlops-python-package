@@ -26,7 +26,7 @@ from bikes.io import registries, services
 def test_promotion_job(
     version: int | None,
     mlflow_service: services.MlflowService,
-    alerter_service: services.AlerterService,
+    alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
     model_version: registries.Version,
     capsys: pc.CaptureFixture[str],
@@ -36,7 +36,7 @@ def test_promotion_job(
     # when
     job = jobs.PromotionJob(
         logger_service=logger_service,
-        alerter_service=alerter_service,
+        alerts_service=alerts_service,
         mlflow_service=mlflow_service,
         version=version,
         alias=alias,

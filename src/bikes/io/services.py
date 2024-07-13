@@ -82,7 +82,7 @@ class LoggerService(Service):
         return loguru.logger
 
 
-class AlerterService(Service):
+class AlertsService(Service):
     """Service for sending notifications.
 
     Require libnotify-bin on Linux systems.

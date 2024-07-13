@@ -11,7 +11,7 @@ from bikes.utils import signers, splitters
 
 def test_training_job(
     mlflow_service: services.MlflowService,
-    alerter_service: services.AlerterService,
+    alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
     inputs_reader: datasets.ParquetReader,
     targets_reader: datasets.ParquetReader,
@@ -32,7 +32,7 @@ def test_training_job(
     # when
     job = jobs.TrainingJob(
         logger_service=logger_service,
-        alerter_service=alerter_service,
+        alerts_service=alerts_service,
         mlflow_service=mlflow_service,
         run_config=run_config,
         inputs=inputs_reader,

@@ -51,7 +51,7 @@ class Schema(pa.DataFrameModel):
 class InputsSchema(Schema):
     """Schema for the project inputs."""
 
-    instant: papd.Index[padt.UInt32] = pa.Field(ge=0, check_name=True)
+    instant: papd.Index[padt.UInt32] = pa.Field(ge=0)
     dteday: papd.Series[padt.DateTime] = pa.Field()
     season: papd.Series[padt.UInt8] = pa.Field(isin=[1, 2, 3, 4])
     yr: papd.Series[padt.UInt8] = pa.Field(ge=0, le=1)
@@ -75,7 +75,7 @@ Inputs = papd.DataFrame[InputsSchema]
 class TargetsSchema(Schema):
     """Schema for the project target."""
 
-    instant: papd.Index[padt.UInt32] = pa.Field(ge=0, check_name=True)
+    instant: papd.Index[padt.UInt32] = pa.Field(ge=0)
     cnt: papd.Series[padt.UInt32] = pa.Field(ge=0)
 
 
@@ -85,7 +85,7 @@ Targets = papd.DataFrame[TargetsSchema]
 class OutputsSchema(Schema):
     """Schema for the project output."""
 
-    instant: papd.Index[padt.UInt32] = pa.Field(ge=0, check_name=True)
+    instant: papd.Index[padt.UInt32] = pa.Field(ge=0)
     prediction: papd.Series[padt.UInt32] = pa.Field(ge=0)
 
 

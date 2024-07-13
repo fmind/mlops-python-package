@@ -10,7 +10,7 @@ from bikes.io import datasets, registries, services
 
 def test_inference_job(
     mlflow_service: services.MlflowService,
-    alerter_service: services.AlerterService,
+    alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
     inputs_reader: datasets.Reader,
     tmp_outputs_writer: datasets.Writer,
@@ -24,7 +24,7 @@ def test_inference_job(
     # when
     job = jobs.InferenceJob(
         logger_service=logger_service,
-        alerter_service=alerter_service,
+        alerts_service=alerts_service,
         mlflow_service=mlflow_service,
         inputs=inputs_reader,
         outputs=tmp_outputs_writer,
