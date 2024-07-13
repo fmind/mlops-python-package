@@ -71,14 +71,17 @@ class TrainingJob(base.Job):
             inputs_ = self.inputs.read()  # unchecked!
             inputs = schemas.InputsSchema.check(inputs_)
             logger.debug("- Inputs shape: {}", inputs.shape)
-            inputs_lineage = self.inputs.lineage(data=inputs, name="inputs")
-            mlflow.log_input(dataset=inputs_lineage, context=self.run_config.name)
-            logger.debug("- Inputs lineage: {}", inputs_lineage)
             # - targets
             logger.info("Read targets: {}", self.targets)
             targets_ = self.targets.read()  # unchecked!
             targets = schemas.TargetsSchema.check(targets_)
             logger.debug("- Targets shape: {}", targets.shape)
+            # lineage
+            # - inputs
+            inputs_lineage = self.inputs.lineage(data=inputs, name="inputs")
+            mlflow.log_input(dataset=inputs_lineage, context=self.run_config.name)
+            logger.debug("- Inputs lineage: {}", inputs_lineage)
+            # - targets
             targets_lineage = self.targets.lineage(
                 data=targets, name="targets", targets=schemas.TargetsSchema.cnt
             )

@@ -18,7 +18,7 @@ class ExplanationsJob(base.Job):
 
     Parameters:
         inputs_samples (datasets.ReaderKind): reader for the samples data.
-        models_explanations (datasets.WriterKind): writer for model explanation.
+        models_explanations (datasets.WriterKind): writer for models explanation.
         samples_explanations (datasets.WriterKind): writer for samples explanation.
         alias (str): alias tag for the model. Defaults to "Champion".
         loader (registries.LoaderKind): loader system for the model.
@@ -57,21 +57,22 @@ class ExplanationsJob(base.Job):
         model = self.loader.load(uri=model_uri).model.unwrap_python_model().model
         logger.debug("- Model: {}", model)
         # explanations
-        # - model
+        # - models
         logger.info("Explain model: {}", model)
         models_explanations = model.explain_model()
-        logger.debug("- Model explanations shape: {}", models_explanations.shape)
+        logger.debug("- Models explanations shape: {}", models_explanations.shape)
         # - samples
         logger.info("Explain samples: {}", len(inputs_samples))
         samples_explanations = model.explain_samples(inputs=inputs_samples)
         logger.debug("- Samples explanations shape: {}", samples_explanations.shape)
         # write
         # - model
-        logger.info("Write model explanations: {}", self.models_explanations)
+        logger.info("Write models explanations: {}", self.models_explanations)
         self.models_explanations.write(data=models_explanations)
         # - samples
         logger.info("Write samples explanations: {}", self.samples_explanations)
         self.samples_explanations.write(data=samples_explanations)
+        # alerter
         self.alerter_service.notify(
             title="Explanations Job Finished", message=f"Features Count: {len(models_explanations)}"
         )
