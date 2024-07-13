@@ -389,7 +389,7 @@ def model_version(
     """Save and register the default model version."""
     run_config = mlflow_service.RunConfig(name="Custom-Run")
     with mlflow_service.run_context(run_config=run_config):
-        info = saver.save(model=model, signature=signature)
+        info = saver.save(model=model, signature=signature, input_example=inputs)
         version = register.register(name=mlflow_service.registry_name, model_uri=info.model_uri)
     return version
 

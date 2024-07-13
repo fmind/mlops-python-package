@@ -120,7 +120,9 @@ class TrainingJob(base.Job):
             logger.debug("- Model signature: {}", model_signature.to_dict())
             # saver
             logger.info("Save model: {}", self.saver)
-            model_info = self.saver.save(model=self.model, signature=model_signature)
+            model_info = self.saver.save(
+                model=self.model, signature=model_signature, input_example=inputs
+            )
             logger.debug("- Model URI: {}", model_info.model_uri)
             # register
             logger.info("Register model: {}", self.registry)
