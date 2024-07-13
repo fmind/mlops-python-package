@@ -46,7 +46,7 @@ def test_custom_pipeline(
     run_config = mlflow_service.RunConfig(name="Custom-Run")
     # when
     with mlflow_service.run_context(run_config=run_config) as run:
-        info = saver.save(model=model, signature=signature, input_example=inputs)
+        info = saver.save(model=model, signature=signature)
         version = register.register(name=name, model_uri=info.model_uri)
     model_uri = registries.uri_for_model_version(name=name, version=version.version)
     adapter = loader.load(uri=model_uri)
@@ -95,7 +95,7 @@ def test_builtin_pipeline(
     run_config = mlflow_service.RunConfig(name="Builtin-Run")
     # when
     with mlflow_service.run_context(run_config=run_config) as run:
-        info = saver.save(model=model, signature=signature, input_example=inputs)
+        info = saver.save(model=model, signature=signature)
         version = register.register(name=name, model_uri=info.model_uri)
     model_uri = registries.uri_for_model_version(name=name, version=version.version)
     adapter = loader.load(uri=model_uri)

@@ -65,15 +65,12 @@ class Saver(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
     path: str = "model"
 
     @abc.abstractmethod
-    def save(
-        self, model: models.Model, signature: signers.Signature, input_example: schemas.Inputs
-    ) -> Info:
+    def save(self, model: models.Model, signature: signers.Signature) -> Info:
         """Save a model in the model registry.
 
         Args:
             model (models.Model): project model to save.
             signature (signers.Signature): model signature.
-            input_example (schemas.Inputs): sample of inputs.
 
         Returns:
             Info: model saving information.
@@ -121,15 +118,12 @@ class CustomSaver(Saver):
             return self.model.predict(inputs=model_input)
 
     @T.override
-    def save(
-        self, model: models.Model, signature: signers.Signature, input_example: schemas.Inputs
-    ) -> Info:
+    def save(self, model: models.Model, signature: signers.Signature) -> Info:
         adapter = CustomSaver.Adapter(model=model)
         return mlflow.pyfunc.log_model(
             python_model=adapter,
             signature=signature,
             artifact_path=self.path,
-            input_example=input_example,
         )
 
 
@@ -151,13 +145,10 @@ class BuiltinSaver(Saver):
         self,
         model: models.Model,
         signature: signers.Signature,
-        input_example: schemas.Inputs | None = None,
     ) -> mlflow.entities.model_registry.ModelVersion:
         builtin_model = model.get_internal_model()
         module = getattr(mlflow, self.flavor)
-        return module.log_model(
-            builtin_model, artifact_path=self.path, signature=signature, input_example=input_example
-        )
+        return module.log_model(builtin_model, artifact_path=self.path, signature=signature)
 
 
 SaverKind = CustomSaver | BuiltinSaver

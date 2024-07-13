@@ -69,11 +69,13 @@ class ParquetReader(Reader):
     KIND: T.Literal["ParquetReader"] = "ParquetReader"
 
     path: str
+    engine: T.Literal["auto", "pyarrow", "fastparquet"] = "pyarrow"
+    dtype_backend: str = "pyarrow"
 
     @T.override
     def read(self) -> pd.DataFrame:
         # can't limit rows at read time
-        data = pd.read_parquet(self.path)
+        data = pd.read_parquet(self.path, engine=self.engine, dtype_backend=self.dtype_backend)
         if self.limit is not None:
             data = data.head(self.limit)
         return data
@@ -124,10 +126,11 @@ class ParquetWriter(Writer):
     KIND: T.Literal["ParquetWriter"] = "ParquetWriter"
 
     path: str
+    engine: T.Literal["auto", "pyarrow", "fastparquet"] = "pyarrow"
 
     @T.override
     def write(self, data: pd.DataFrame) -> None:
-        pd.DataFrame.to_parquet(data, self.path)
+        data.to_parquet(path=self.path, engine=self.engine)
 
 
 WriterKind = ParquetWriter

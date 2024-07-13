@@ -20,6 +20,8 @@ def test_parquet_reader(limit: int | None, inputs_path: str) -> None:
     assert data.ndim == 2, "Data should be a dataframe!"
     if limit is not None:
         assert len(data) == limit, "Data should have the limit size!"
+    assert reader.engine == "pyarrow", "Engine should be pyarrow!"
+    assert reader.dtype_backend == "pyarrow", "Dtype backend should be pyarrow!"
     assert lineage.name == "inputs", "Lineage name should be inputs!"
     assert lineage.source.uri == inputs_path, "Lineage source uri should be the inputs path!"
     assert set(lineage.schema.input_names()) == set(
@@ -40,3 +42,4 @@ def test_parquet_writer(targets: schemas.Targets, tmp_outputs_path: str) -> None
     writer.write(data=targets)
     # then
     assert os.path.exists(tmp_outputs_path), "Data should be written!"
+    assert writer.engine == "pyarrow", "Engine should be pyarrow!"
