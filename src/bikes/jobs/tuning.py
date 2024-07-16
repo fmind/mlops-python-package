@@ -61,7 +61,7 @@ class TuningJob(base.Job):
         logger = self.logger_service.logger()
         logger.info("With logger: {}", logger)
         with self.mlflow_service.run_context(run_config=self.run_config) as run:
-            logger.info("With run context: {}", run)
+            logger.info("With run context: {}", run.info)
             # data
             # - inputs
             logger.info("Read inputs: {}", self.inputs)

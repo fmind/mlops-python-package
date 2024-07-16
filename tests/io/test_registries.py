@@ -27,6 +27,23 @@ def test_uri_for_model_version() -> None:
     assert uri == f"models:/{name}/{version}", "The model URI should be valid!"
 
 
+def test_uri_for_model_alias_or_version() -> None:
+    # given
+    name = "testing"
+    alias = "Champion"
+    version = 1
+    # when
+    alias_uri = registries.uri_for_model_alias_or_version(name=name, alias_or_version=alias)
+    version_uri = registries.uri_for_model_alias_or_version(name=name, alias_or_version=version)
+    # then
+    assert alias_uri == registries.uri_for_model_alias(
+        name=name, alias=alias
+    ), "The alias URI should be valid!"
+    assert version_uri == registries.uri_for_model_version(
+        name=name, version=version
+    ), "The version URI should be valid!"
+
+
 # %% SAVERS/LOADERS/REGISTERS
 
 

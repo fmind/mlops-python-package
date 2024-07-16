@@ -14,14 +14,14 @@ from bikes.jobs import base
 
 
 class ExplanationsJob(base.Job):
-    """Generate explanations for the model and a data sample.
+    """Generate explanations from the model and a data sample.
 
     Parameters:
         inputs_samples (datasets.ReaderKind): reader for the samples data.
         models_explanations (datasets.WriterKind): writer for models explanation.
         samples_explanations (datasets.WriterKind): writer for samples explanation.
-        alias (str): alias tag for the model. Defaults to "Champion".
-        loader (registries.LoaderKind): loader system for the model.
+        alias_or_version (str | int): alias or version for the  model.
+        loader (registries.LoaderKind): registry loader for the model.
     """
 
     KIND: T.Literal["ExplanationsJob"] = "ExplanationsJob"
@@ -32,7 +32,7 @@ class ExplanationsJob(base.Job):
     models_explanations: datasets.WriterKind = pdt.Field(..., discriminator="KIND")
     samples_explanations: datasets.WriterKind = pdt.Field(..., discriminator="KIND")
     # Model
-    alias: str = "Champion"
+    alias_or_version: str | int = "Champion"
     # Loader
     loader: registries.LoaderKind = pdt.Field(registries.CustomLoader(), discriminator="KIND")
 
@@ -48,8 +48,8 @@ class ExplanationsJob(base.Job):
         logger.debug("- Inputs samples shape: {}", inputs_samples.shape)
         # model
         logger.info("With model: {}", self.mlflow_service.registry_name)
-        model_uri = registries.uri_for_model_alias(
-            name=self.mlflow_service.registry_name, alias=self.alias
+        model_uri = registries.uri_for_model_alias_or_version(
+            name=self.mlflow_service.registry_name, alias_or_version=self.alias_or_version
         )
         logger.debug("- Model URI: {}", model_uri)
         # loader

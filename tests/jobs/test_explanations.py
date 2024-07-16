@@ -1,7 +1,7 @@
 # %% IMPORTS
 
-
 import _pytest.capture as pc
+import pytest
 from bikes import jobs
 from bikes.core import models
 from bikes.io import datasets, registries, services
@@ -9,7 +9,9 @@ from bikes.io import datasets, registries, services
 # %% JOBS
 
 
+@pytest.mark.parametrize("alias_or_version", [1, "Promotion"])
 def test_explanations_job(
+    alias_or_version: str | int,
     mlflow_service: services.MlflowService,
     alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
@@ -21,8 +23,10 @@ def test_explanations_job(
     capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
-    assert len(model_alias.aliases) == 1, "Model should have one alias!"
-    alias = model_alias.aliases[0]
+    if isinstance(alias_or_version, int):
+        assert alias_or_version == model_alias.version, "Model version should be the same!"
+    else:
+        assert alias_or_version == model_alias.aliases[0], "Model alias should be the same!"
     # when
     job = jobs.ExplanationsJob(
         logger_service=logger_service,
@@ -31,7 +35,7 @@ def test_explanations_job(
         inputs_samples=inputs_samples_reader,
         models_explanations=tmp_models_explanations_writer,
         samples_explanations=tmp_samples_explanations_writer,
-        alias=alias,
+        alias_or_version=alias_or_version,
         loader=loader,
     )
     with job as runner:
@@ -50,7 +54,7 @@ def test_explanations_job(
     # - inputs
     assert out["inputs_samples"].ndim == 2, "Inputs samples should be a dataframe!"
     # - model uri
-    assert alias in out["model_uri"], "Model URI should contain the model alias!"
+    assert str(alias_or_version) in out["model_uri"], "Model URI should contain the model alias!"
     assert (
         mlflow_service.registry_name in out["model_uri"]
     ), "Model URI should contain the registry name!"

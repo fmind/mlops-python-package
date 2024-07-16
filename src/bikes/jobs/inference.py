@@ -19,8 +19,8 @@ class InferenceJob(base.Job):
     Parameters:
         inputs (datasets.ReaderKind): reader for the inputs data.
         outputs (datasets.WriterKind): writer for the outputs data.
-        alias (str): alias tag for the model. Defaults to "Champion".
-        loader (registries.LoaderKind): loader system for the model.
+        alias_or_version (str | int): alias or version for the  model.
+        loader (registries.LoaderKind): registry loader for the model.
     """
 
     KIND: T.Literal["InferenceJob"] = "InferenceJob"
@@ -30,7 +30,7 @@ class InferenceJob(base.Job):
     # Outputs
     outputs: datasets.WriterKind = pdt.Field(..., discriminator="KIND")
     # Model
-    alias: str = "Champion"
+    alias_or_version: str | int = "Champion"
     # Loader
     loader: registries.LoaderKind = pdt.Field(registries.CustomLoader(), discriminator="KIND")
 
@@ -46,8 +46,8 @@ class InferenceJob(base.Job):
         logger.debug("- Inputs shape: {}", inputs.shape)
         # model
         logger.info("With model: {}", self.mlflow_service.registry_name)
-        model_uri = registries.uri_for_model_alias(
-            name=self.mlflow_service.registry_name, alias=self.alias
+        model_uri = registries.uri_for_model_alias_or_version(
+            name=self.mlflow_service.registry_name, alias_or_version=self.alias_or_version
         )
         logger.debug("- Model URI: {}", model_uri)
         # loader
