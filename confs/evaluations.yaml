@@ -1,0 +1,8 @@
+job:
+  KIND: EvaluationsJob
+  inputs:
+    KIND: ParquetReader
+    path: data/inputs_train.parquet
+  targets:
+    KIND: ParquetReader
+    path: data/targets_train.parquet

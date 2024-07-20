@@ -1,0 +1,12 @@
+job:
+  KIND: ExplanationsJob
+  inputs_samples:
+    KIND: ParquetReader
+    path: "${tests_path:}/data/inputs_sample.parquet"
+    limit: 100
+  models_explanations:
+    KIND: ParquetWriter
+    path: "${tmp_path:}/models_explanations.parquet"
+  samples_explanations:
+    KIND: ParquetWriter
+    path: "${tmp_path:}/samples_explanations.parquet"

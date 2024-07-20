@@ -1,0 +1,9 @@
+job:
+  KIND: InferenceJob
+  inputs:
+    KIND: ParquetReader
+    path: "${tests_path:}/data/inputs_sample.parquet"
+    limit: 1500
+  outputs:
+    KIND: ParquetWriter
+    path: "${tmp_path:}/outputs_sample.parquet"
