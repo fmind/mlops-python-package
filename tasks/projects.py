@@ -45,7 +45,7 @@ def run(ctx: Context, job: str) -> None:
     """Run an mlflow project from MLproject file."""
     ctx.run(
         f"mlflow run --experiment-name={ctx.project.name}"
-        f" --run-name={job.upper()} -P conf_file=confs/{job}.yaml ."
+        f" --run-name={job.capitalize()} -P conf_file=confs/{job}.yaml ."
     )
 
 
