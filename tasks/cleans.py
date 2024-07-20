@@ -89,6 +89,21 @@ def python(ctx: Context) -> None:
     ctx.run(r"find . -type d -name __pycache__ -exec rm -r {} \+")
 
 
+# %% PROJECTS
+
+
+@task
+def requirements(ctx: Context) -> None:
+    """Clean the project requirements file."""
+    ctx.run("rm -f requirements.txt")
+
+
+@task
+def environment(ctx: Context) -> None:
+    """Clean the project environment file."""
+    ctx.run("rm -f python_env.yaml")
+
+
 # %% - Combines
 
 
@@ -107,11 +122,16 @@ def sources(_: Context) -> None:
     """Run all sources tasks."""
 
 
+@task(pre=[requirements, environment])
+def projects(_: Context) -> None:
+    """Run all projects tasks."""
+
+
 @task(pre=[tools, folders], default=True)
 def all(_: Context) -> None:
     """Run all tools and folders tasks."""
 
 
-@task(pre=[all, sources])
+@task(pre=[all, sources, projects])
 def reset(_: Context) -> None:
     """Run all tools, folders, and sources tasks."""

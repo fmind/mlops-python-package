@@ -57,6 +57,7 @@ pre-commit = "^3.7.1"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
+pyyaml = "^6.0.1"
 
 [tool.poetry.group.docs.dependencies]
 pdoc = "^14.5.1"
@@ -64,6 +65,9 @@ pdoc = "^14.5.1"
 [tool.poetry.group.notebooks.dependencies]
 ipykernel = "^6.29.4"
 nbformat = "^5.10.4"
+
+[tool.poetry.group.types.dependencies]
+types-pyyaml = "^6.0.12.20240311"
 
 # CONFIGURATIONS
 
