@@ -20,6 +20,7 @@ def job(ctx: Context, name: str) -> None:
         call(job, name="training"),  # type: ignore[arg-type]
         call(job, name="promotion"),  # type: ignore[arg-type]
         call(job, name="inference"),  # type: ignore[arg-type]
+        call(job, name="evaluations"),  # type: ignore[arg-type]
         call(job, name="explanations"),  # type: ignore[arg-type]
     ],
     default=True,

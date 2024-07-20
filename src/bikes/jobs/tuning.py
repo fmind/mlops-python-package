@@ -75,15 +75,17 @@ class TuningJob(base.Job):
             logger.debug("- Targets shape: {}", targets.shape)
             # lineage
             # - inputs
+            logger.info("Log lineage: inputs")
             inputs_lineage = self.inputs.lineage(data=inputs, name="inputs")
             mlflow.log_input(dataset=inputs_lineage, context=self.run_config.name)
-            logger.debug("- Inputs lineage: {}", inputs_lineage)
+            logger.debug("- Inputs lineage: {}", inputs_lineage.to_dict())
             # - targets
+            logger.info("Log lineage: targets")
             targets_lineage = self.targets.lineage(
                 data=targets, name="targets", targets=schemas.TargetsSchema.cnt
             )
             mlflow.log_input(dataset=targets_lineage, context=self.run_config.name)
-            logger.debug("- Targets lineage: {}", targets_lineage)
+            logger.debug("- Targets lineage: {}", targets_lineage.to_dict())
             # model
             logger.info("With model: {}", self.model)
             # metric

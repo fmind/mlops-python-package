@@ -20,7 +20,7 @@ def test_uri_for_model_alias() -> None:
 def test_uri_for_model_version() -> None:
     # given
     name = "testing"
-    version = "1"
+    version = 1
     # when
     uri = registries.uri_for_model_version(name=name, version=version)
     # then
