@@ -1,9 +1,9 @@
 # %% IMPORTS
 
-
 import _pytest.capture as pc
 import _pytest.logging as pl
 import mlflow
+import plyer
 import pytest
 import pytest_mock as pm
 from bikes.io import services
@@ -29,8 +29,6 @@ def test_logger_service(
 def test_alerts_service(
     enable: bool, mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]
 ) -> None:
-    import plyer
-
     # given
     service = services.AlertsService(enable=enable)
     mocker.patch("plyer.notification.notify")

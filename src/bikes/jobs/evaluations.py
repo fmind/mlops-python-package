@@ -54,6 +54,7 @@ class EvaluationsJob(base.Job):
     @T.override
     def run(self) -> base.Locals:
         # services
+        # - logger
         logger = self.logger_service.logger()
         logger.info("With logger: {}", logger)
         # - mlflow

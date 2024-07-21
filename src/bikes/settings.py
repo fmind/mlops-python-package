@@ -1,4 +1,4 @@
-"""Define settings of the application."""
+"""Define settings for the application."""
 
 # %% IMPORTS
 

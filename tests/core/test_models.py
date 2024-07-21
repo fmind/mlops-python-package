@@ -83,7 +83,9 @@ def test_baseline_sklearn_model(
         inputs_test.columns
     ), "SHAP values should have more features than inputs!"
     # - feature importances
-    assert feature_importances["importance"].sum() == 1.0, "Importance values should sum to 1.0!"
+    assert (
+        feature_importances["importance"].sum() == 1.0
+    ), "Feature importances should add up to 1.0!"
     assert len(feature_importances["feature"]) >= len(
         inputs_train.columns
-    ), "Importance features should have more features than inputs!"
+    ), "Feature importances should have more features than inputs!"

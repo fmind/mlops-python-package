@@ -72,6 +72,13 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
   - [Programming](#programming)
     - [Language: Python](#language-python)
     - [Version: Pyenv](#version-pyenv)
+  - [Observability](#observability)
+    - [Reproducibility: Mlflow Project](#reproducibility-mlflow-project)
+    - [Monitoring : Mlflow Evaluate](#monitoring--mlflow-evaluate)
+    - [Alerting: Plyer](#alerting-plyer)
+    - [Lineage: Mlflow Dataset](#lineage-mlflow-dataset)
+    - [Explainability: SHAP](#explainability-shap)
+    - [Infrastructure: Mlflow System Metrics](#infrastructure-mlflow-system-metrics)
 - [Tips](#tips)
   - [AI/ML Practices](#aiml-practices)
     - [Data Catalog](#data-catalog)
@@ -173,6 +180,8 @@ $ poetry run [package] confs/tuning.yaml
 $ poetry run [package] confs/training.yaml
 $ poetry run [package] confs/promotion.yaml
 $ poetry run [package] confs/inference.yaml
+$ poetry run [package] confs/evaluations.yaml
+$ poetry run [package] confs/explanations.yaml
 ```
 
 In production, you can build, ship, and run the project as a Python package:
@@ -210,7 +219,7 @@ You can invoke the actions from the [command-line](https://www.pyinvoke.org/) or
 
 ```bash
 # execute the project DAG
-$ inv dags
+$ inv projects
 # create a code archive
 $ inv packages
 # list other actions
@@ -231,13 +240,16 @@ $ inv --list
 - **cleans.coverage** - Clean the coverage tool.
 - **cleans.dist** - Clean the dist folder.
 - **cleans.docs** - Clean the docs folder.
+- **cleans.environment** - Clean the project environment file.
 - **cleans.folders** - Run all folders tasks.
 - **cleans.mlruns** - Clean the mlruns folder.
 - **cleans.mypy** - Clean the mypy tool.
 - **cleans.outputs** - Clean the outputs folder.
 - **cleans.poetry** - Clean poetry lock file.
 - **cleans.pytest** - Clean the pytest tool.
+- **cleans.projects** - Run all projects tasks.
 - **cleans.python** - Clean python caches and bytecodes.
+- **cleans.requirements** - Clean the project requirements file.
 - **cleans.reset** - Run all tools, folders, and sources tasks.
 - **cleans.ruff** - Clean the ruff tool.
 - **cleans.sources** - Run all sources tasks.
@@ -251,8 +263,6 @@ $ inv --list
 - **containers.build** - Build the container image with the given tag.
 - **containers.compose** - Start up docker compose.
 - **containers.run** - Run the container image with the given tag.
-- **dags.all (dags)** - Run all DAG tasks.
-- **dags.job** - Run the project for the given job name.
 - **docs.all (docs)** - Run all docs tasks.
 - **docs.api** - Document the API with pdoc using the given format and output directory.
 - **docs.serve** - Serve the API docs with pdoc using the given format and computer port.
@@ -267,6 +277,10 @@ $ inv --list
 - **mlflow.serve** - Start mlflow server with the given host, port, and backend uri.
 - **packages.all (packages)** - Run all package tasks.
 - **packages.build** - Build a python package with the given format.
+- **projects.all (projects)** - Run all project tasks.
+- **projects.environment** - Export the project environment file.
+- **projects.requirements** - Export the project requirements file.
+- **projects.run** - Run an mlflow project from MLproject file.
 
 ## Workflows
 
@@ -718,6 +732,82 @@ Select your programming environment.
   - Require some shell configurations
 - **Alternatives**:
   - Manual installation: time consuming
+
+## Observability
+
+### Reproducibility: [Mlflow Project](https://mlflow.org/docs/latest/projects.html)
+
+- **Motivations**:
+  - Share common project formats.
+  - Ensure the project can be reused.
+  - Avoid randomness in project execution.
+- **Limitations**:
+  - Mlflow Project is best suited for small projects.
+- **Alternatives**:
+  - [DVC](https://dvc.org/): both data and models.
+  - [Metaflow](https://metaflow.org/): focus on machine learning.
+  - **[Apache Airflow](https://airflow.apache.org/)**: for large scale projects.
+
+### Monitoring : [Mlflow Evaluate](https://mlflow.org/docs/latest/model-evaluation/index.html)
+
+- **Motivations**:
+  - Compute the model metrics.
+  - Validate model with thresholds.
+  - Perform post-training evaluations.
+- **Limitations**:
+  - Mlflow Evaluate is less feature-rich as alternatives.
+- **Alternatives**:
+  - **[Giskard](https://www.giskard.ai/)**: open-core and super complete.
+  - **[Evidently](https://www.evidentlyai.com/)**: open-source with more metrics.
+  - [Arize AI](https://arize.com/): more feature-rich but less flexible.
+  - [Graphana](https://grafana.com/): you must do everything yourself.
+
+### Alerting: [Plyer](https://github.com/kivy/plyer)
+
+- **Motivations**:
+  - Simple solution.
+  - Send notifications on system.
+  - Cross-system: Mac, Linux, Windows.
+- **Limitations**:
+  - Should not be used for large scale projects.
+- **Alternatives**:
+  - [Slack](https://slack.com/): for chat-oriented solutions.
+  - [Datadog](https://www.datadoghq.com/): for infrastructure oriented solutions.
+
+### Lineage: [Mlflow Dataset](https://mlflow.org/docs/latest/tracking/data-api.html)
+
+- **Motivations**:
+  - Store information in Mlflow.
+  - Track metadata about run datasets.
+  - Keep URI of the dataset source (e.g., website).
+- **Limitations**:
+  - Not as feature-rich as alternative solutions.
+- **Alternatives**:
+  - [Databricks Lineage](https://docs.databricks.com/en/admin/system-tables/lineage.html): limited to Databricks.
+  - [OpenLineage and Marquez](https://marquezproject.github.io/): open-source and flexible.
+
+### Explainability: [SHAP](https://shap.readthedocs.io/en/latest/)
+
+- **Motivations**:
+  - Most popular toolkit.
+  - Support various models (linear, model, ...).
+  - Integration with Mlflow through the [SHAP module](https://mlflow.org/docs/latest/python_api/mlflow.shap.html).
+- **Limitations**:
+  - Super slow on large dataset.
+  - Mlflow SHAP module is not mature enough.
+- **Alternatives**:
+  - [LIME](https://github.com/marcotcr/lime): not maintained anymore.
+
+### Infrastructure: [Mlflow System Metrics](https://mlflow.org/docs/latest/system-metrics/index.html)
+
+- **Motivations**:
+  - Track infrastructure information (RAM, CPU, ...).
+  - Integrated with Mlflow tracking.
+  - Provide hardware insights.
+- **Limitations**:
+  - Not as mature as alternative solutions.
+- **Alternatives**:
+  - [Datadog](https://www.datadoghq.com/): popular and mature solution.
 
 # Tips
 

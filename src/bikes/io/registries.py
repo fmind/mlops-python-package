@@ -48,7 +48,15 @@ def uri_for_model_version(name: str, version: int) -> str:
 
 
 def uri_for_model_alias_or_version(name: str, alias_or_version: str | int) -> str:
-    """Create a model URi from a model name and an alias or version."""
+    """Create a model URi from a model name and an alias or version.
+
+    Args:
+        name (str): name of the mlflow registered model.
+        alias_or_version (str | int): alias or version of the registered model.
+
+    Returns:
+        str: model URI as "models:/name@alias" or "models:/name/version" based on input.
+    """
     if isinstance(alias_or_version, int):
         return uri_for_model_version(name=name, version=alias_or_version)
     else:
