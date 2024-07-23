@@ -1,5 +1,6 @@
 # %% IMPORTS
 
+import _pytest.capture as pc
 import mlflow
 import pytest
 from bikes import jobs
@@ -25,15 +26,18 @@ from bikes.io import registries, services
 def test_promotion_job(
     version: int | None,
     mlflow_service: services.MlflowService,
+    alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
     model_version: registries.Version,
+    capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
     alias = "Testing"
     # when
     job = jobs.PromotionJob(
-        mlflow_service=mlflow_service,
         logger_service=logger_service,
+        alerts_service=alerts_service,
+        mlflow_service=mlflow_service,
         version=version,
         alias=alias,
     )
@@ -64,3 +68,5 @@ def test_promotion_job(
     assert out["model_version"].aliases == [
         alias
     ], "Model version aliases should contain the given alias!"
+    # - alerting service
+    assert "Promotion Job Finished" in capsys.readouterr().out, "Alerting service should be called!"

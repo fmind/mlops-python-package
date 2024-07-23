@@ -46,25 +46,37 @@ def confs_path(tests_path: str) -> str:
 @pytest.fixture(scope="session")
 def inputs_path(data_path: str) -> str:
     """Return the path of the inputs dataset."""
-    return os.path.join(data_path, "inputs.parquet")
+    return os.path.join(data_path, "inputs_sample.parquet")
 
 
 @pytest.fixture(scope="session")
 def targets_path(data_path: str) -> str:
     """Return the path of the targets dataset."""
-    return os.path.join(data_path, "targets.parquet")
+    return os.path.join(data_path, "targets_sample.parquet")
 
 
 @pytest.fixture(scope="session")
 def outputs_path(data_path: str) -> str:
     """Return the path of the outputs dataset."""
-    return os.path.join(data_path, "outputs.parquet")
+    return os.path.join(data_path, "outputs_sample.parquet")
 
 
 @pytest.fixture(scope="function")
 def tmp_outputs_path(tmp_path: str) -> str:
     """Return a tmp path for the outputs dataset."""
     return os.path.join(tmp_path, "outputs.parquet")
+
+
+@pytest.fixture(scope="function")
+def tmp_models_explanations_path(tmp_path: str) -> str:
+    """Return a tmp path for the model explanations dataset."""
+    return os.path.join(tmp_path, "models_explanations.parquet")
+
+
+@pytest.fixture(scope="function")
+def tmp_samples_explanations_path(tmp_path: str) -> str:
+    """Return a tmp path for the samples explanations dataset."""
+    return os.path.join(tmp_path, "samples_explanations.parquet")
 
 
 # %% - Configs
@@ -77,6 +89,9 @@ def extra_config() -> str:
     config = """
     {
         "job": {
+            "alerts_service": {
+                "enable": false,
+            },
             "mlflow_service": {
                 "tracking_uri": "${tmp_path:}/tracking/",
                 "registry_uri": "${tmp_path:}/registry/",
@@ -93,25 +108,53 @@ def extra_config() -> str:
 @pytest.fixture(scope="session")
 def inputs_reader(inputs_path: str) -> datasets.ParquetReader:
     """Return a reader for the inputs dataset."""
-    return datasets.ParquetReader(path=inputs_path)
+    return datasets.ParquetReader(path=inputs_path, limit=LIMIT)
+
+
+@pytest.fixture(scope="session")
+def inputs_samples_reader(inputs_path: str) -> datasets.ParquetReader:
+    """Return a reader for the inputs samples dataset."""
+    return datasets.ParquetReader(path=inputs_path, limit=100)
 
 
 @pytest.fixture(scope="session")
 def targets_reader(targets_path: str) -> datasets.ParquetReader:
     """Return a reader for the targets dataset."""
-    return datasets.ParquetReader(path=targets_path)
+    return datasets.ParquetReader(path=targets_path, limit=LIMIT)
 
 
 @pytest.fixture(scope="session")
-def outputs_reader(outputs_path: str) -> datasets.ParquetReader:
+def outputs_reader(
+    outputs_path: str, inputs_reader: datasets.ParquetReader, targets_reader: datasets.ParquetReader
+) -> datasets.ParquetReader:
     """Return a reader for the outputs dataset."""
-    return datasets.ParquetReader(path=outputs_path)
+    # generate outputs if it is missing
+    if not os.path.exists(outputs_path):
+        inputs = schemas.InputsSchema.check(inputs_reader.read())
+        targets = schemas.TargetsSchema.check(targets_reader.read())
+        model = models.BaselineSklearnModel().fit(inputs=inputs, targets=targets)
+        outputs = schemas.OutputsSchema.check(model.predict(inputs=inputs))
+        outputs_writer = datasets.ParquetWriter(path=outputs_path)
+        outputs_writer.write(data=outputs)
+    return datasets.ParquetReader(path=outputs_path, limit=LIMIT)
 
 
 @pytest.fixture(scope="function")
 def tmp_outputs_writer(tmp_outputs_path: str) -> datasets.ParquetWriter:
     """Return a writer for the tmp outputs dataset."""
     return datasets.ParquetWriter(path=tmp_outputs_path)
+
+
+@pytest.fixture(scope="function")
+def tmp_models_explanations_writer(tmp_models_explanations_path: str) -> datasets.ParquetWriter:
+    """Return a writer for the tmp model explanations dataset."""
+    return datasets.ParquetWriter(path=tmp_models_explanations_path)
+
+
+@pytest.fixture(scope="function")
+def tmp_samples_explanations_writer(tmp_samples_explanations_path: str) -> datasets.ParquetWriter:
+    """Return a writer for the tmp samples explanations dataset."""
+    return datasets.ParquetWriter(path=tmp_samples_explanations_path)
 
 
 # %% - Dataframes
@@ -121,6 +164,13 @@ def tmp_outputs_writer(tmp_outputs_path: str) -> datasets.ParquetWriter:
 def inputs(inputs_reader: datasets.ParquetReader) -> schemas.Inputs:
     """Return the inputs data."""
     data = inputs_reader.read()
+    return schemas.InputsSchema.check(data)
+
+
+@pytest.fixture(scope="session")
+def inputs_samples(inputs_samples_reader: datasets.ParquetReader) -> schemas.Inputs:
+    """Return the inputs samples data."""
+    data = inputs_samples_reader.read()
     return schemas.InputsSchema.check(data)
 
 
@@ -242,6 +292,15 @@ def logger_caplog(
     )
     yield caplog
     logger.remove(handler_id)
+
+
+@pytest.fixture(scope="session", autouse=True)
+def alerts_service() -> T.Generator[services.AlertsService, None, None]:
+    """Return and start the alerter service."""
+    service = services.AlertsService(enable=False)
+    service.start()
+    yield service
+    service.stop()
 
 
 @pytest.fixture(scope="function", autouse=True)

@@ -25,13 +25,15 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
     e.g., to define common services like logger
 
     Parameters:
-        logger_service (services.LoggerService): manage the logging system.
+        logger_service (services.LoggerService): manage the logger system.
+        alerts_service (services.AlertsService): manage the alerts system.
         mlflow_service (services.MlflowService): manage the mlflow system.
     """
 
     KIND: str
 
     logger_service: services.LoggerService = services.LoggerService()
+    alerts_service: services.AlertsService = services.AlertsService()
     mlflow_service: services.MlflowService = services.MlflowService()
 
     def __enter__(self) -> T.Self:
@@ -43,6 +45,8 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
         self.logger_service.start()
         logger = self.logger_service.logger()
         logger.debug("[START] Logger service: {}", self.logger_service)
+        logger.debug("[START] Alerts service: {}", self.alerts_service)
+        self.alerts_service.start()
         logger.debug("[START] Mlflow service: {}", self.mlflow_service)
         self.mlflow_service.start()
         return self
@@ -66,6 +70,8 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
         logger = self.logger_service.logger()
         logger.debug("[STOP] Mlflow service: {}", self.mlflow_service)
         self.mlflow_service.stop()
+        logger.debug("[STOP] Alerts service: {}", self.alerts_service)
+        self.alerts_service.stop()
         logger.debug("[STOP] Logger service: {}", self.logger_service)
         self.logger_service.stop()
         return False  # re-raise

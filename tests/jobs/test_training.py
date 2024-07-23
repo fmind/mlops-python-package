@@ -1,7 +1,8 @@
 # %% IMPORTS
 
+import _pytest.capture as pc
 from bikes import jobs
-from bikes.core import metrics, models
+from bikes.core import metrics, models, schemas
 from bikes.io import datasets, registries, services
 from bikes.utils import signers, splitters
 
@@ -10,15 +11,17 @@ from bikes.utils import signers, splitters
 
 def test_training_job(
     mlflow_service: services.MlflowService,
+    alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
-    inputs_reader: datasets.Reader,
-    targets_reader: datasets.Reader,
+    inputs_reader: datasets.ParquetReader,
+    targets_reader: datasets.ParquetReader,
     model: models.Model,
     metric: metrics.Metric,
     train_test_splitter: splitters.Splitter,
     saver: registries.Saver,
     signer: signers.Signer,
     register: registries.Register,
+    capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
     run_config = mlflow_service.RunConfig(
@@ -28,8 +31,9 @@ def test_training_job(
     client = mlflow_service.client()
     # when
     job = jobs.TrainingJob(
-        mlflow_service=mlflow_service,
         logger_service=logger_service,
+        alerts_service=alerts_service,
+        mlflow_service=mlflow_service,
         run_config=run_config,
         inputs=inputs_reader,
         targets=targets_reader,
@@ -51,8 +55,10 @@ def test_training_job(
         "run",
         "inputs",
         "inputs_",
+        "inputs_lineage",
         "targets",
         "targets_",
+        "targets_lineage",
         "train_index",
         "test_index",
         "inputs_test",
@@ -78,6 +84,18 @@ def test_training_job(
     # - data
     assert out["inputs"].ndim == out["inputs_"].ndim == 2, "Inputs should be a dataframe!"
     assert out["targets"].ndim == out["targets_"].ndim == 2, "Targets should be a dataframe!"
+    # - lineage
+    assert out["inputs_lineage"].name == "inputs", "Inputs lineage name should be inputs!"
+    assert (
+        out["inputs_lineage"].source.uri == inputs_reader.path
+    ), "Inputs lineage source should be the inputs reader path!"
+    assert out["targets_lineage"].name == "targets", "Targets lineage name should be targets!"
+    assert (
+        out["targets_lineage"].source.uri == targets_reader.path
+    ), "Targets lineage source should be the targets reader path!"
+    assert (
+        out["targets_lineage"].targets == schemas.TargetsSchema.cnt
+    ), "Targets lineage target should be cnt!"
     # - splitter
     assert len(out["inputs_train"]) + len(out["inputs_test"]) == len(
         out["inputs"]
@@ -138,3 +156,5 @@ def test_training_job(
     assert (
         model_version.run_id == out["run"].info.run_id
     ), "MLFlow model version run id should be the same!"
+    # - alerting service
+    assert "Training Job Finished" in capsys.readouterr().out, "Alerting service should be called!"

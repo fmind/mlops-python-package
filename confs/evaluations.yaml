@@ -1,5 +1,5 @@
 job:
-  KIND: TrainingJob
+  KIND: EvaluationsJob
   inputs:
     KIND: ParquetReader
     path: data/inputs_train.parquet

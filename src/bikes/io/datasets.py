@@ -5,8 +5,13 @@
 import abc
 import typing as T
 
+import mlflow.data.pandas_dataset as lineage
 import pandas as pd
 import pydantic as pdt
+
+# %% TYPINGS
+
+Lineage: T.TypeAlias = lineage.PandasDataset
 
 # %% READERS
 
@@ -33,6 +38,26 @@ class Reader(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
             pd.DataFrame: dataframe representation.
         """
 
+    @abc.abstractmethod
+    def lineage(
+        self,
+        name: str,
+        data: pd.DataFrame,
+        targets: str | None = None,
+        predictions: str | None = None,
+    ) -> Lineage:
+        """Generate lineage information.
+
+        Args:
+            name (str): dataset name.
+            data (pd.DataFrame): reader dataframe.
+            targets (str | None): name of the target column.
+            predictions (str | None): name of the prediction column.
+
+        Returns:
+            Lineage: lineage information.
+        """
+
 
 class ParquetReader(Reader):
     """Read a dataframe from a parquet file.
@@ -52,6 +77,18 @@ class ParquetReader(Reader):
         if self.limit is not None:
             data = data.head(self.limit)
         return data
+
+    @T.override
+    def lineage(
+        self,
+        name: str,
+        data: pd.DataFrame,
+        targets: str | None = None,
+        predictions: str | None = None,
+    ) -> Lineage:
+        return lineage.from_pandas(
+            df=data, name=name, source=self.path, targets=targets, predictions=predictions
+        )
 
 
 ReaderKind = ParquetReader

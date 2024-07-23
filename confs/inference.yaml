@@ -2,7 +2,7 @@ job:
   KIND: InferenceJob
   inputs:
     KIND: ParquetReader
-    path: data/inputs.parquet
+    path: data/inputs_test.parquet
   outputs:
     KIND: ParquetWriter
-    path: outputs/predictions.parquet
+    path: outputs/predictions_test.parquet

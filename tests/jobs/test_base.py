@@ -7,7 +7,9 @@ from bikes.jobs import base
 
 
 def test_job(
-    logger_service: services.LoggerService, mlflow_service: services.MlflowService
+    logger_service: services.LoggerService,
+    alerts_service: services.AlertsService,
+    mlflow_service: services.MlflowService,
 ) -> None:
     # given
     class MyJob(base.Job):
@@ -17,13 +19,16 @@ def test_job(
             a, b = 1, "test"
             return locals()
 
-    job = MyJob(logger_service=logger_service, mlflow_service=mlflow_service)
+    job = MyJob(
+        logger_service=logger_service, alerts_service=alerts_service, mlflow_service=mlflow_service
+    )
     # when
     with job as runner:
         out = runner.run()
     # then
     # - inputs
     assert hasattr(job, "logger_service"), "Job should have an Logger service!"
+    assert hasattr(job, "alerts_service"), "Job should have a alerter service!"
     assert hasattr(job, "mlflow_service"), "Job should have an Mlflow service!"
     # - outputs
     assert set(out) == {"self", "a", "b"}, "Run should return local variables!"

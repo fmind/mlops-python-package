@@ -13,6 +13,7 @@ import loguru
 import mlflow
 import mlflow.tracking as mt
 import pydantic as pdt
+from plyer import notification
 
 # %% SERVICES
 
@@ -81,6 +82,44 @@ class LoggerService(Service):
         return loguru.logger
 
 
+class AlertsService(Service):
+    """Service for sending notifications.
+
+    Require libnotify-bin on Linux systems.
+
+    In production, use with Slack, Discord, or emails.
+
+    https://plyer.readthedocs.io/en/latest/api.html#plyer.facades.Notification
+
+    Parameters:
+        enable (bool): use notifications or print.
+        app_name (str): name of the application.
+        timeout (int | None): timeout in secs.
+    """
+
+    enable: bool = True
+    app_name: str = "Bikes"
+    timeout: int | None = None
+
+    @T.override
+    def start(self) -> None:
+        pass
+
+    def notify(self, title: str, message: str) -> None:
+        """Send a notification to the system.
+
+        Args:
+            title (str): title of the notification.
+            message (str): message of the notification.
+        """
+        if self.enable:
+            notification.notify(
+                title=title, message=message, app_name=self.app_name, timeout=self.timeout
+            )
+        else:
+            print(f"[{self.app_name}] {title}: {message}")
+
+
 class MlflowService(Service):
     """Service for Mlflow tracking and registry.
 
@@ -112,7 +151,7 @@ class MlflowService(Service):
         name: str
         description: str | None = None
         tags: dict[str, T.Any] | None = None
-        log_system_metrics: bool | None = None
+        log_system_metrics: bool | None = True
 
     # server uri
     tracking_uri: str = "./mlruns"
@@ -145,7 +184,7 @@ class MlflowService(Service):
             exclusive=self.autolog_exclusive,
             log_input_examples=self.autolog_log_input_examples,
             log_model_signatures=self.autolog_log_model_signatures,
-            log_models=self.autolog_log_models,
+            log_datasets=self.autolog_log_datasets,
             silent=self.autolog_silent,
         )
 

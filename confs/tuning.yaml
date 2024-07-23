@@ -2,7 +2,7 @@ job:
   KIND: TuningJob
   inputs:
     KIND: ParquetReader
-    path: data/inputs.parquet
+    path: data/inputs_train.parquet
   targets:
     KIND: ParquetReader
-    path: data/targets.parquet
+    path: data/targets_train.parquet

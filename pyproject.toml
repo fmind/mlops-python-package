@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "bikes"
-version = "1.0.1"
+version = "1.1.0"
 description = "Predict the number of bikes available."
 repository = "https://github.com/fmind/mlops-python-package"
 documentation = "https://fmind.github.io/mlops-python-package/"
@@ -25,16 +25,20 @@ bikes = 'bikes.scripts:main'
 python = "^3.12"
 loguru = "^0.7.2"
 matplotlib = "^3.9.0"
-mlflow = "^2.14.1"
+mlflow = "^2.14.3"
 numpy = "^1.26.4"
 omegaconf = "^2.3.0"
 pandas = "^2.2.2"
 pandera = "^0.20.1"
 plotly = "^5.22.0"
+plyer = "^2.1.0"
+psutil = "^6.0.0"
 pyarrow = "^15.0.2"
 pydantic = "^2.7.4"
 pydantic-settings = "^2.3.4"
-scikit-learn = "^1.5.0"
+pynvml = "^11.5.0"
+scikit-learn = "1.4.2"
+shap = "^0.46.0"
 
 [tool.poetry.group.checks.dependencies]
 bandit = "^1.7.9"
@@ -45,6 +49,7 @@ pytest-cov = "^5.0.0"
 pytest-xdist = "^3.6.1"
 pandera = { extras = ["mypy"], version = "^0.20.1" }
 ruff = "^0.5.0"
+pytest-mock = "^3.14.0"
 
 [tool.poetry.group.commits.dependencies]
 commitizen = "^3.27.0"
@@ -52,6 +57,7 @@ pre-commit = "^3.7.1"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
+pyyaml = "^6.0.1"
 
 [tool.poetry.group.docs.dependencies]
 pdoc = "^14.5.1"
@@ -59,6 +65,9 @@ pdoc = "^14.5.1"
 [tool.poetry.group.notebooks.dependencies]
 ipykernel = "^6.29.4"
 nbformat = "^5.10.4"
+
+[tool.poetry.group.types.dependencies]
+types-pyyaml = "^6.0.12.20240311"
 
 # CONFIGURATIONS
 

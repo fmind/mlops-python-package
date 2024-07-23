@@ -1,7 +1,8 @@
 # %% IMPORTS
 
+import _pytest.capture as pc
 from bikes import jobs
-from bikes.core import metrics, models
+from bikes.core import metrics, models, schemas
 from bikes.io import datasets, services
 from bikes.utils import searchers, splitters
 
@@ -10,13 +11,15 @@ from bikes.utils import searchers, splitters
 
 def test_tuning_job(
     mlflow_service: services.MlflowService,
+    alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
-    inputs_reader: datasets.Reader,
-    targets_reader: datasets.Reader,
+    inputs_reader: datasets.ParquetReader,
+    targets_reader: datasets.ParquetReader,
     model: models.Model,
     metric: metrics.Metric,
     time_series_splitter: splitters.Splitter,
     searcher: searchers.Searcher,
+    capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
     run_config = mlflow_service.RunConfig(
@@ -26,8 +29,9 @@ def test_tuning_job(
     client = mlflow_service.client()
     # when
     job = jobs.TuningJob(
-        mlflow_service=mlflow_service,
         logger_service=logger_service,
+        alerts_service=alerts_service,
+        mlflow_service=mlflow_service,
         run_config=run_config,
         inputs=inputs_reader,
         targets=targets_reader,
@@ -46,8 +50,10 @@ def test_tuning_job(
         "run",
         "inputs",
         "inputs_",
+        "inputs_lineage",
         "targets",
         "targets_",
+        "targets_lineage",
         "results",
         "best_params",
         "best_score",
@@ -62,6 +68,18 @@ def test_tuning_job(
     # - data
     assert out["inputs"].ndim == out["inputs_"].ndim == 2, "Inputs should be a dataframe!"
     assert out["targets"].ndim == out["inputs_"].ndim == 2, "Targets should be a dataframe!"
+    # - lineage
+    assert out["inputs_lineage"].name == "inputs", "Inputs lineage name should be inputs!"
+    assert (
+        out["inputs_lineage"].source.uri == inputs_reader.path
+    ), "Inputs lineage source should be the inputs reader path!"
+    assert out["targets_lineage"].name == "targets", "Targets lineage name should be targets!"
+    assert (
+        out["targets_lineage"].source.uri == targets_reader.path
+    ), "Targets lineage source should be the targets reader path!"
+    assert (
+        out["targets_lineage"].targets == schemas.TargetsSchema.cnt
+    ), "Targets lineage target should be cnt!"
     # - results
     assert out["results"].ndim == 2, "Results should be a dataframe!"
     # - best score
@@ -79,3 +97,5 @@ def test_tuning_job(
     ), "Mlflow experiment name should be the same!"
     runs = client.search_runs(experiment_ids=experiment.experiment_id)
     assert len(runs) == len(out["results"]) + 1, "Mlflow should have 1 run per result + parent!"
+    # - alerting service
+    assert "Tuning Job Finished" in capsys.readouterr().out, "Alerting service should be called!"
