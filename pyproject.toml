@@ -4,7 +4,7 @@
 
 [tool.poetry]
 name = "bikes"
-version = "1.1.0"
+version = "1.1.1"
 description = "Predict the number of bikes available."
 repository = "https://github.com/fmind/mlops-python-package"
 documentation = "https://fmind.github.io/mlops-python-package/"
