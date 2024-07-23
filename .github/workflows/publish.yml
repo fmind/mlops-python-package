@@ -1,7 +1,9 @@
 name: Publish
 on:
   release:
-    types: [published]
+    types:
+      - edited
+      - published
 env:
   DOCKER_IMAGE: ghcr.io/fmind/mlops-python-package
 concurrency:
@@ -26,6 +28,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
+      - run: poetry install --with dev
       - run: poetry run invoke packages
       - uses: docker/login-action@v3
         with:
