@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="generator" content="pdoc 14.4.0"/>
+    <meta name="generator" content="pdoc 14.5.1"/>
     <title>bikes.core.schemas API documentation</title>
 
     <style>/*! * Bootstrap Reboot v5.0.0 (https://getbootstrap.com/) * Copyright 2011-2021 The Bootstrap Authors * Copyright 2011-2021 Twitter, Inc. * Licensed under MIT (https://github.com/twbs/bootstrap/blob/main/LICENSE) * Forked from Normalize.css, licensed MIT (https://github.com/necolas/normalize.css/blob/master/LICENSE.md) */*,::after,::before{box-sizing:border-box}@media (prefers-reduced-motion:no-preference){:root{scroll-behavior:smooth}}body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,"Noto Sans","Liberation Sans",sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji";font-size:1rem;font-weight:400;line-height:1.5;color:#212529;background-color:#fff;-webkit-text-size-adjust:100%;-webkit-tap-highlight-color:transparent}hr{margin:1rem 0;color:inherit;background-color:currentColor;border:0;opacity:.25}hr:not([size]){height:1px}h1,h2,h3,h4,h5,h6{margin-top:0;margin-bottom:.5rem;font-weight:500;line-height:1.2}h1{font-size:calc(1.375rem + 1.5vw)}@media (min-width:1200px){h1{font-size:2.5rem}}h2{font-size:calc(1.325rem + .9vw)}@media (min-width:1200px){h2{font-size:2rem}}h3{font-size:calc(1.3rem + .6vw)}@media (min-width:1200px){h3{font-size:1.75rem}}h4{font-size:calc(1.275rem + .3vw)}@media (min-width:1200px){h4{font-size:1.5rem}}h5{font-size:1.25rem}h6{font-size:1rem}p{margin-top:0;margin-bottom:1rem}abbr[data-bs-original-title],abbr[title]{-webkit-text-decoration:underline dotted;text-decoration:underline dotted;cursor:help;-webkit-text-decoration-skip-ink:none;text-decoration-skip-ink:none}address{margin-bottom:1rem;font-style:normal;line-height:inherit}ol,ul{padding-left:2rem}dl,ol,ul{margin-top:0;margin-bottom:1rem}ol ol,ol ul,ul ol,ul ul{margin-bottom:0}dt{font-weight:700}dd{margin-bottom:.5rem;margin-left:0}blockquote{margin:0 0 1rem}b,strong{font-weight:bolder}small{font-size:.875em}mark{padding:.2em;background-color:#fcf8e3}sub,sup{position:relative;font-size:.75em;line-height:0;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}a{color:#0d6efd;text-decoration:underline}a:hover{color:#0a58ca}a:not([href]):not([class]),a:not([href]):not([class]):hover{color:inherit;text-decoration:none}code,kbd,pre,samp{font-family:SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:1em;direction:ltr;unicode-bidi:bidi-override}pre{display:block;margin-top:0;margin-bottom:1rem;overflow:auto;font-size:.875em}pre code{font-size:inherit;color:inherit;word-break:normal}code{font-size:.875em;color:#d63384;word-wrap:break-word}a>code{color:inherit}kbd{padding:.2rem .4rem;font-size:.875em;color:#fff;background-color:#212529;border-radius:.2rem}kbd kbd{padding:0;font-size:1em;font-weight:700}figure{margin:0 0 1rem}img,svg{vertical-align:middle}table{caption-side:bottom;border-collapse:collapse}caption{padding-top:.5rem;padding-bottom:.5rem;color:#6c757d;text-align:left}th{text-align:inherit;text-align:-webkit-match-parent}tbody,td,tfoot,th,thead,tr{border-color:inherit;border-style:solid;border-width:0}label{display:inline-block}button{border-radius:0}button:focus:not(:focus-visible){outline:0}button,input,optgroup,select,textarea{margin:0;font-family:inherit;font-size:inherit;line-height:inherit}button,select{text-transform:none}[role=button]{cursor:pointer}select{word-wrap:normal}select:disabled{opacity:1}[list]::-webkit-calendar-picker-indicator{display:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]:not(:disabled),[type=reset]:not(:disabled),[type=submit]:not(:disabled),button:not(:disabled){cursor:pointer}::-moz-focus-inner{padding:0;border-style:none}textarea{resize:vertical}fieldset{min-width:0;padding:0;margin:0;border:0}legend{float:left;width:100%;padding:0;margin-bottom:.5rem;font-size:calc(1.275rem + .3vw);line-height:inherit}@media (min-width:1200px){legend{font-size:1.5rem}}legend+*{clear:left}::-webkit-datetime-edit-day-field,::-webkit-datetime-edit-fields-wrapper,::-webkit-datetime-edit-hour-field,::-webkit-datetime-edit-minute,::-webkit-datetime-edit-month-field,::-webkit-datetime-edit-text,::-webkit-datetime-edit-year-field{padding:0}::-webkit-inner-spin-button{height:auto}[type=search]{outline-offset:-2px;-webkit-appearance:textfield}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-color-swatch-wrapper{padding:0}::file-selector-button{font:inherit}::-webkit-file-upload-button{font:inherit;-webkit-appearance:button}output{display:inline-block}iframe{border:0}summary{display:list-item;cursor:pointer}progress{vertical-align:baseline}[hidden]{display:none!important}</style>
@@ -35,21 +35,6 @@
                             <ul class="memberlist">
                         <li>
                                 <a class="function" href="#Schema.__init__">Schema</a>
-                        </li>
-                        <li>
-                                <a class="class" href="#Schema.Config">Schema.Config</a>
-                                        <ul class="memberlist">
-                                    <li>
-                                            <a class="variable" href="#Schema.Config.coerce">coerce</a>
-                                    </li>
-                                    <li>
-                                            <a class="variable" href="#Schema.Config.strict">strict</a>
-                                    </li>
-                                    <li>
-                                            <a class="variable" href="#Schema.Config.name">name</a>
-                                    </li>
-                            </ul>
-
                         </li>
                         <li>
                                 <a class="function" href="#Schema.check">check</a>
@@ -111,9 +96,6 @@
                         <li>
                                 <a class="variable" href="#InputsSchema.registered">registered</a>
                         </li>
-                        <li>
-                                <a class="class" href="#InputsSchema.Config">InputsSchema.Config</a>
-                        </li>
                 </ul>
 
             </li>
@@ -131,9 +113,6 @@
                         </li>
                         <li>
                                 <a class="variable" href="#TargetsSchema.cnt">cnt</a>
-                        </li>
-                        <li>
-                                <a class="class" href="#TargetsSchema.Config">TargetsSchema.Config</a>
                         </li>
                 </ul>
 
@@ -153,14 +132,41 @@
                         <li>
                                 <a class="variable" href="#OutputsSchema.prediction">prediction</a>
                         </li>
-                        <li>
-                                <a class="class" href="#OutputsSchema.Config">OutputsSchema.Config</a>
-                        </li>
                 </ul>
 
             </li>
             <li>
                     <a class="variable" href="#Outputs">Outputs</a>
+            </li>
+            <li>
+                    <a class="class" href="#SHAPValuesSchema">SHAPValuesSchema</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#SHAPValuesSchema.__init__">SHAPValuesSchema</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="variable" href="#SHAPValues">SHAPValues</a>
+            </li>
+            <li>
+                    <a class="class" href="#FeatureImportancesSchema">FeatureImportancesSchema</a>
+                            <ul class="memberlist">
+                        <li>
+                                <a class="function" href="#FeatureImportancesSchema.__init__">FeatureImportancesSchema</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#FeatureImportancesSchema.feature">feature</a>
+                        </li>
+                        <li>
+                                <a class="variable" href="#FeatureImportancesSchema.importance">importance</a>
+                        </li>
+                </ul>
+
+            </li>
+            <li>
+                    <a class="variable" href="#FeatureImportances">FeatureImportances</a>
             </li>
     </ul>
 
@@ -185,98 +191,126 @@
 
                         <label class="view-source-button" for="mod-schemas-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">&quot;&quot;&quot;Define and validate dataframe schemas.&quot;&quot;&quot;</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="c1"># %% IMPORTS</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">T</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">import</span> <span class="nn">pandera</span> <span class="k">as</span> <span class="nn">pa</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">import</span> <span class="nn">pandera.typing</span> <span class="k">as</span> <span class="nn">papd</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">import</span> <span class="nn">pandera.typing.common</span> <span class="k">as</span> <span class="nn">padt</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="c1"># %% TYPES</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="c1"># Generic type for a dataframe container</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="n">TSchema</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TSchema&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;pa.DataFrameModel&quot;</span><span class="p">)</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a><span class="c1"># %% SCHEMAS</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a><span class="k">class</span> <span class="nc">Schema</span><span class="p">(</span><span class="n">pa</span><span class="o">.</span><span class="n">DataFrameModel</span><span class="p">):</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a dataframe schema.</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a><span class="sd">    Use a schema to type your dataframe object.</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a><span class="sd">    e.g., to communicate and validate its fields.</span>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a><span class="sd">    &quot;&quot;&quot;</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Default configurations for all schemas.</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a><span class="sd">        Parameters:</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a><span class="sd">            coerce (bool): convert data type if possible.</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a><span class="sd">            strict (bool): ensure the data type is correct.</span>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos">34</span></a>
-</span><span id="L-35"><a href="#L-35"><span class="linenos">35</span></a>        <span class="n">coerce</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos">36</span></a>        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="L-37"><a href="#L-37"><span class="linenos">37</span></a>
-</span><span id="L-38"><a href="#L-38"><span class="linenos">38</span></a>    <span class="nd">@classmethod</span>
-</span><span id="L-39"><a href="#L-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">TSchema</span><span class="p">],</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">TSchema</span><span class="p">]:</span>
-</span><span id="L-40"><a href="#L-40"><span class="linenos">40</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the dataframe with this schema.</span>
-</span><span id="L-41"><a href="#L-41"><span class="linenos">41</span></a>
-</span><span id="L-42"><a href="#L-42"><span class="linenos">42</span></a><span class="sd">        Args:</span>
-</span><span id="L-43"><a href="#L-43"><span class="linenos">43</span></a><span class="sd">            data (pd.DataFrame): dataframe to check.</span>
-</span><span id="L-44"><a href="#L-44"><span class="linenos">44</span></a>
-</span><span id="L-45"><a href="#L-45"><span class="linenos">45</span></a><span class="sd">        Returns:</span>
-</span><span id="L-46"><a href="#L-46"><span class="linenos">46</span></a><span class="sd">            papd.DataFrame[TSchema]: validated dataframe.</span>
-</span><span id="L-47"><a href="#L-47"><span class="linenos">47</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos">48</span></a>        <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">TSchema</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
-</span><span id="L-49"><a href="#L-49"><span class="linenos">49</span></a>
-</span><span id="L-50"><a href="#L-50"><span class="linenos">50</span></a>
-</span><span id="L-51"><a href="#L-51"><span class="linenos">51</span></a><span class="k">class</span> <span class="nc">InputsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
-</span><span id="L-52"><a href="#L-52"><span class="linenos">52</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project inputs.&quot;&quot;&quot;</span>
-</span><span id="L-53"><a href="#L-53"><span class="linenos">53</span></a>
-</span><span id="L-54"><a href="#L-54"><span class="linenos">54</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_name</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-55"><a href="#L-55"><span class="linenos">55</span></a>    <span class="n">dteday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">DateTime</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
-</span><span id="L-56"><a href="#L-56"><span class="linenos">56</span></a>    <span class="n">season</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">isin</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
-</span><span id="L-57"><a href="#L-57"><span class="linenos">57</span></a>    <span class="n">yr</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="L-58"><a href="#L-58"><span class="linenos">58</span></a>    <span class="n">mnth</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
-</span><span id="L-59"><a href="#L-59"><span class="linenos">59</span></a>    <span class="n">hr</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
-</span><span id="L-60"><a href="#L-60"><span class="linenos">60</span></a>    <span class="n">holiday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
-</span><span id="L-61"><a href="#L-61"><span class="linenos">61</span></a>    <span class="n">weekday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
-</span><span id="L-62"><a href="#L-62"><span class="linenos">62</span></a>    <span class="n">workingday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
-</span><span id="L-63"><a href="#L-63"><span class="linenos">63</span></a>    <span class="n">weathersit</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
-</span><span id="L-64"><a href="#L-64"><span class="linenos">64</span></a>    <span class="n">temp</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float16</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="L-65"><a href="#L-65"><span class="linenos">65</span></a>    <span class="n">atemp</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float16</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="L-66"><a href="#L-66"><span class="linenos">66</span></a>    <span class="n">hum</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float16</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="L-67"><a href="#L-67"><span class="linenos">67</span></a>    <span class="n">windspeed</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float16</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-</span><span id="L-68"><a href="#L-68"><span class="linenos">68</span></a>    <span class="n">casual</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="L-69"><a href="#L-69"><span class="linenos">69</span></a>    <span class="n">registered</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="L-70"><a href="#L-70"><span class="linenos">70</span></a>
-</span><span id="L-71"><a href="#L-71"><span class="linenos">71</span></a>
-</span><span id="L-72"><a href="#L-72"><span class="linenos">72</span></a><span class="n">Inputs</span> <span class="o">=</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">InputsSchema</span><span class="p">]</span>
-</span><span id="L-73"><a href="#L-73"><span class="linenos">73</span></a>
-</span><span id="L-74"><a href="#L-74"><span class="linenos">74</span></a>
-</span><span id="L-75"><a href="#L-75"><span class="linenos">75</span></a><span class="k">class</span> <span class="nc">TargetsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
-</span><span id="L-76"><a href="#L-76"><span class="linenos">76</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project target.&quot;&quot;&quot;</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos">77</span></a>
-</span><span id="L-78"><a href="#L-78"><span class="linenos">78</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_name</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-79"><a href="#L-79"><span class="linenos">79</span></a>    <span class="n">cnt</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="L-80"><a href="#L-80"><span class="linenos">80</span></a>
-</span><span id="L-81"><a href="#L-81"><span class="linenos">81</span></a>
-</span><span id="L-82"><a href="#L-82"><span class="linenos">82</span></a><span class="n">Targets</span> <span class="o">=</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">TargetsSchema</span><span class="p">]</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos">83</span></a>
-</span><span id="L-84"><a href="#L-84"><span class="linenos">84</span></a>
-</span><span id="L-85"><a href="#L-85"><span class="linenos">85</span></a><span class="k">class</span> <span class="nc">OutputsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
-</span><span id="L-86"><a href="#L-86"><span class="linenos">86</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project output.&quot;&quot;&quot;</span>
-</span><span id="L-87"><a href="#L-87"><span class="linenos">87</span></a>
-</span><span id="L-88"><a href="#L-88"><span class="linenos">88</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_name</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-</span><span id="L-89"><a href="#L-89"><span class="linenos">89</span></a>    <span class="n">prediction</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-</span><span id="L-90"><a href="#L-90"><span class="linenos">90</span></a>
-</span><span id="L-91"><a href="#L-91"><span class="linenos">91</span></a>
-</span><span id="L-92"><a href="#L-92"><span class="linenos">92</span></a><span class="n">Outputs</span> <span class="o">=</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">OutputsSchema</span><span class="p">]</span>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;Define and validate dataframe schemas.&quot;&quot;&quot;</span>
+</span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
+</span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="c1"># %% IMPORTS</span>
+</span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">T</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a>
+</span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">import</span> <span class="nn">pandera</span> <span class="k">as</span> <span class="nn">pa</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span> <span class="nn">pandera.typing</span> <span class="k">as</span> <span class="nn">papd</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">import</span> <span class="nn">pandera.typing.common</span> <span class="k">as</span> <span class="nn">padt</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="c1"># %% TYPES</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
+</span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="c1"># Generic type for a dataframe container</span>
+</span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="n">TSchema</span> <span class="o">=</span> <span class="n">T</span><span class="o">.</span><span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TSchema&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;pa.DataFrameModel&quot;</span><span class="p">)</span>
+</span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>
+</span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a><span class="c1"># %% SCHEMAS</span>
+</span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a>
+</span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="k">class</span> <span class="nc">Schema</span><span class="p">(</span><span class="n">pa</span><span class="o">.</span><span class="n">DataFrameModel</span><span class="p">):</span>
+</span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a dataframe schema.</span>
+</span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>
+</span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="sd">    Use a schema to type your dataframe object.</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="sd">    e.g., to communicate and validate its fields.</span>
+</span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a><span class="sd">    &quot;&quot;&quot;</span>
+</span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>
+</span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a>    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+</span><span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Default configurations for all schemas.</span>
+</span><span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a>
+</span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="sd">            coerce (bool): convert data type if possible.</span>
+</span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="sd">            strict (bool): ensure the data type is correct.</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>
+</span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>        <span class="n">coerce</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+</span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>
+</span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>    <span class="nd">@classmethod</span>
+</span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>    <span class="k">def</span> <span class="nf">check</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Type</span><span class="p">[</span><span class="n">TSchema</span><span class="p">],</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">TSchema</span><span class="p">]:</span>
+</span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Check the dataframe with this schema.</span>
+</span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a><span class="sd">        Args:</span>
+</span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a><span class="sd">            data (pd.DataFrame): dataframe to check.</span>
+</span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>
+</span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a><span class="sd">        Returns:</span>
+</span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a><span class="sd">            papd.DataFrame[TSchema]: validated dataframe.</span>
+</span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>        <span class="k">return</span> <span class="n">T</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">TSchema</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">data</span><span class="p">))</span>
+</span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>
+</span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>
+</span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="k">class</span> <span class="nc">InputsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+</span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project inputs.&quot;&quot;&quot;</span>
+</span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>    <span class="n">dteday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">DateTime</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>    <span class="n">season</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">isin</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+</span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>    <span class="n">yr</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>    <span class="n">mnth</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+</span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>    <span class="n">hr</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">23</span><span class="p">)</span>
+</span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>    <span class="n">holiday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>    <span class="n">weekday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="n">workingday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Bool</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>    <span class="n">weathersit</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>    <span class="n">temp</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float16</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>    <span class="n">atemp</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float16</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>    <span class="n">hum</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float16</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>    <span class="n">windspeed</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float16</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>    <span class="n">casual</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>    <span class="n">registered</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>
+</span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="n">Inputs</span> <span class="o">=</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">InputsSchema</span><span class="p">]</span>
+</span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
+</span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="k">class</span> <span class="nc">TargetsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+</span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project target.&quot;&quot;&quot;</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>
+</span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>    <span class="n">cnt</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>
+</span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>
+</span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a><span class="n">Targets</span> <span class="o">=</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">TargetsSchema</span><span class="p">]</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>
+</span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>
+</span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a><span class="k">class</span> <span class="nc">OutputsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+</span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project output.&quot;&quot;&quot;</span>
+</span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="n">prediction</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
+</span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a><span class="n">Outputs</span> <span class="o">=</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">OutputsSchema</span><span class="p">]</span>
+</span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>
+</span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>
+</span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a><span class="k">class</span> <span class="nc">SHAPValuesSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+</span><span id="L-96"><a href="#L-96"><span class="linenos"> 96</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project shap values.&quot;&quot;&quot;</span>
+</span><span id="L-97"><a href="#L-97"><span class="linenos"> 97</span></a>
+</span><span id="L-98"><a href="#L-98"><span class="linenos"> 98</span></a>    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+</span><span id="L-99"><a href="#L-99"><span class="linenos"> 99</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Default configurations this schema.</span>
+</span><span id="L-100"><a href="#L-100"><span class="linenos">100</span></a>
+</span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="sd">        Parameters:</span>
+</span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a><span class="sd">            dtype (str): dataframe default data type.</span>
+</span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a><span class="sd">            strict (bool): ensure the data type is correct.</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>
+</span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>        <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;float32&quot;</span>
+</span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+</span><span id="L-108"><a href="#L-108"><span class="linenos">108</span></a>
+</span><span id="L-109"><a href="#L-109"><span class="linenos">109</span></a>
+</span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a><span class="n">SHAPValues</span> <span class="o">=</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">SHAPValuesSchema</span><span class="p">]</span>
+</span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
+</span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="k">class</span> <span class="nc">FeatureImportancesSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project feature importances.&quot;&quot;&quot;</span>
+</span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
+</span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>    <span class="n">feature</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">String</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a>    <span class="n">importance</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</span><span id="L-118"><a href="#L-118"><span class="linenos">118</span></a>
+</span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a>
+</span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a><span class="n">FeatureImportances</span> <span class="o">=</span> <span class="n">papd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">[</span><span class="n">FeatureImportancesSchema</span><span class="p">]</span>
 </span></pre></div>
 
 
@@ -286,7 +320,7 @@
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">Schema</span><wbr>(<span class="base">pandera.api.pandas.model.DataFrameModel</span>):
+    <span class="name">Schema</span><wbr>(<span class="base">typing.Generic[~TDataFrame, ~TSchema]</span>, <span class="base">pandera.api.base.model.BaseModel</span>):
 
                 <label class="view-source-button" for="Schema-view-source"><span>View Source</span></label>
 
@@ -334,7 +368,7 @@ e.g., to communicate and validate its fields.</p>
                             <div id="Schema.__init__" class="classattr">
                                         <input id="Schema.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-                    <div class="decorator">@docstring_substitution(validate_doc=DataFrameSchema.validate.__doc__)</div>
+                    <div class="decorator">@docstring_substitution(validate_doc=BaseSchema.validate.__doc__)</div>
 
         <span class="name">Schema</span><span class="signature pdoc-code condensed">(<span class="param"><span class="o">*</span><span class="n">args</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span>)</span>
 
@@ -342,16 +376,16 @@ e.g., to communicate and validate its fields.</p>
 
     </div>
     <a class="headerlink" href="#Schema.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Schema.__init__-152"><a href="#Schema.__init__-152"><span class="linenos">152</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">DataFrameSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-</span><span id="Schema.__init__-153"><a href="#Schema.__init__-153"><span class="linenos">153</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
-</span><span id="Schema.__init__-154"><a href="#Schema.__init__-154"><span class="linenos">154</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
-</span><span id="Schema.__init__-155"><a href="#Schema.__init__-155"><span class="linenos">155</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-</span><span id="Schema.__init__-156"><a href="#Schema.__init__-156"><span class="linenos">156</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="Schema.__init__-157"><a href="#Schema.__init__-157"><span class="linenos">157</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Schema.__init__-135"><a href="#Schema.__init__-135"><span class="linenos">135</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">BaseSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</span><span id="Schema.__init__-136"><a href="#Schema.__init__-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
+</span><span id="Schema.__init__-137"><a href="#Schema.__init__-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
+</span><span id="Schema.__init__-138"><a href="#Schema.__init__-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+</span><span id="Schema.__init__-139"><a href="#Schema.__init__-139"><span class="linenos">139</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="Schema.__init__-140"><a href="#Schema.__init__-140"><span class="linenos">140</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Check if all columns in a dataframe have a column in the Schema.</p>
+            <div class="docstring"><p>Validate a DataFrame based on the schema specification.</p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -378,43 +412,6 @@ otherwise creates a copy of the data.
 <li><strong>SchemaError</strong>:  when <code>DataFrame</code> violates built-in or custom
 checks.</li>
 </ul>
-
-<p>:example:</p>
-
-<p>Calling <code>schema.validate</code> returns the dataframe.</p>
-
-<div class="pdoc-code codehilite">
-<pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandera</span> <span class="k">as</span> <span class="nn">pa</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.23</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.76</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;duck&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">]</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_withchecks</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">DataFrameSchema</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="nb">float</span><span class="p">,</span> <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">))),</span>
-<span class="gp">...</span>
-<span class="gp">... </span>    <span class="c1"># check that the &quot;category&quot; column contains a few discrete</span>
-<span class="gp">... </span>    <span class="c1"># values, and the majority of the entries are dogs.</span>
-<span class="gp">... </span>    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="nb">str</span><span class="p">,</span> <span class="p">[</span>
-<span class="gp">... </span>            <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;duck&quot;</span><span class="p">])),</span>
-<span class="gp">... </span>            <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="s2">&quot;dog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="p">]),</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_withchecks</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">df</span><span class="p">)[[</span><span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">]]</span>
-<span class="go">   probability category</span>
-<span class="go">0         0.10      dog</span>
-<span class="go">1         0.40      dog</span>
-<span class="go">2         0.52      cat</span>
-<span class="go">3         0.23     duck</span>
-<span class="go">4         0.80      dog</span>
-<span class="go">5         0.76      dog</span>
-</code></pre>
-</div>
 </div>
 
 
@@ -465,89 +462,26 @@ checks.</li>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
-                                <dd id="Schema.to_schema" class="function">to_schema</dd>
+                                    <div><dt>pandera.api.base.model.BaseModel</dt>
+                                <dd id="Schema.Config" class="variable">Config</dd>
+                <dd id="Schema.to_schema" class="function">to_schema</dd>
                 <dd id="Schema.to_yaml" class="function">to_yaml</dd>
                 <dd id="Schema.validate" class="function">validate</dd>
                 <dd id="Schema.strategy" class="function">strategy</dd>
                 <dd id="Schema.example" class="function">example</dd>
-                <dd id="Schema.get_metadata" class="function">get_metadata</dd>
+
+            </div>
+            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
+                                <dd id="Schema.build_schema_" class="function">build_schema_</dd>
+                <dd id="Schema.to_json_schema" class="function">to_json_schema</dd>
+
+            </div>
+            <div><dt>pandera.api.dataframe.model.DataFrameModel</dt>
+                                <dd id="Schema.get_metadata" class="function">get_metadata</dd>
                 <dd id="Schema.pydantic_validate" class="function">pydantic_validate</dd>
 
             </div>
                                 </dl>
-                            </div>
-                </section>
-                <section id="Schema.Config">
-                            <input id="Schema.Config-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
-<div class="attr class">
-            
-    <span class="def">class</span>
-    <span class="name">Schema.Config</span>:
-
-                <label class="view-source-button" for="Schema.Config-view-source"><span>View Source</span></label>
-
-    </div>
-    <a class="headerlink" href="#Schema.Config"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Schema.Config-28"><a href="#Schema.Config-28"><span class="linenos">28</span></a>    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
-</span><span id="Schema.Config-29"><a href="#Schema.Config-29"><span class="linenos">29</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Default configurations for all schemas.</span>
-</span><span id="Schema.Config-30"><a href="#Schema.Config-30"><span class="linenos">30</span></a>
-</span><span id="Schema.Config-31"><a href="#Schema.Config-31"><span class="linenos">31</span></a><span class="sd">        Parameters:</span>
-</span><span id="Schema.Config-32"><a href="#Schema.Config-32"><span class="linenos">32</span></a><span class="sd">            coerce (bool): convert data type if possible.</span>
-</span><span id="Schema.Config-33"><a href="#Schema.Config-33"><span class="linenos">33</span></a><span class="sd">            strict (bool): ensure the data type is correct.</span>
-</span><span id="Schema.Config-34"><a href="#Schema.Config-34"><span class="linenos">34</span></a><span class="sd">        &quot;&quot;&quot;</span>
-</span><span id="Schema.Config-35"><a href="#Schema.Config-35"><span class="linenos">35</span></a>
-</span><span id="Schema.Config-36"><a href="#Schema.Config-36"><span class="linenos">36</span></a>        <span class="n">coerce</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span><span id="Schema.Config-37"><a href="#Schema.Config-37"><span class="linenos">37</span></a>        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-</span></pre></div>
-
-
-            <div class="docstring"><p>Default configurations for all schemas.</p>
-
-<h6 id="arguments">Arguments:</h6>
-
-<ul>
-<li><strong>coerce (bool):</strong>  convert data type if possible.</li>
-<li><strong>strict (bool):</strong>  ensure the data type is correct.</li>
-</ul>
-</div>
-
-
-                            <div id="Schema.Config.coerce" class="classattr">
-                                <div class="attr variable">
-            <span class="name">coerce</span><span class="annotation">: bool</span>        =
-<span class="default_value">True</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Schema.Config.coerce"></a>
-    
-    
-
-                            </div>
-                            <div id="Schema.Config.strict" class="classattr">
-                                <div class="attr variable">
-            <span class="name">strict</span><span class="annotation">: bool</span>        =
-<span class="default_value">True</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Schema.Config.strict"></a>
-    
-    
-
-                            </div>
-                            <div id="Schema.Config.name" class="classattr">
-                                <div class="attr variable">
-            <span class="name">name</span>        =
-<span class="default_value">&#39;Schema&#39;</span>
-
-        
-    </div>
-    <a class="headerlink" href="#Schema.Config.name"></a>
-    
-    
-
                             </div>
                 </section>
                 <section id="InputsSchema">
@@ -555,7 +489,7 @@ checks.</li>
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">InputsSchema</span><wbr>(<span class="base"><a href="#Schema">Schema</a></span>):
+    <span class="name">InputsSchema</span><wbr>(<span class="base">typing.Generic[~TDataFrame, ~TSchema]</span>, <span class="base">pandera.api.base.model.BaseModel</span>):
 
                 <label class="view-source-button" for="InputsSchema-view-source"><span>View Source</span></label>
 
@@ -564,7 +498,7 @@ checks.</li>
             <div class="pdoc-code codehilite"><pre><span></span><span id="InputsSchema-52"><a href="#InputsSchema-52"><span class="linenos">52</span></a><span class="k">class</span> <span class="nc">InputsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
 </span><span id="InputsSchema-53"><a href="#InputsSchema-53"><span class="linenos">53</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project inputs.&quot;&quot;&quot;</span>
 </span><span id="InputsSchema-54"><a href="#InputsSchema-54"><span class="linenos">54</span></a>
-</span><span id="InputsSchema-55"><a href="#InputsSchema-55"><span class="linenos">55</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_name</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="InputsSchema-55"><a href="#InputsSchema-55"><span class="linenos">55</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="InputsSchema-56"><a href="#InputsSchema-56"><span class="linenos">56</span></a>    <span class="n">dteday</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">DateTime</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
 </span><span id="InputsSchema-57"><a href="#InputsSchema-57"><span class="linenos">57</span></a>    <span class="n">season</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">isin</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
 </span><span id="InputsSchema-58"><a href="#InputsSchema-58"><span class="linenos">58</span></a>    <span class="n">yr</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt8</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
@@ -590,7 +524,7 @@ checks.</li>
                             <div id="InputsSchema.__init__" class="classattr">
                                         <input id="InputsSchema.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-                    <div class="decorator">@docstring_substitution(validate_doc=DataFrameSchema.validate.__doc__)</div>
+                    <div class="decorator">@docstring_substitution(validate_doc=BaseSchema.validate.__doc__)</div>
 
         <span class="name">InputsSchema</span><span class="signature pdoc-code condensed">(<span class="param"><span class="o">*</span><span class="n">args</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span>)</span>
 
@@ -598,16 +532,16 @@ checks.</li>
 
     </div>
     <a class="headerlink" href="#InputsSchema.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="InputsSchema.__init__-152"><a href="#InputsSchema.__init__-152"><span class="linenos">152</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">DataFrameSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-</span><span id="InputsSchema.__init__-153"><a href="#InputsSchema.__init__-153"><span class="linenos">153</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
-</span><span id="InputsSchema.__init__-154"><a href="#InputsSchema.__init__-154"><span class="linenos">154</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
-</span><span id="InputsSchema.__init__-155"><a href="#InputsSchema.__init__-155"><span class="linenos">155</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-</span><span id="InputsSchema.__init__-156"><a href="#InputsSchema.__init__-156"><span class="linenos">156</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="InputsSchema.__init__-157"><a href="#InputsSchema.__init__-157"><span class="linenos">157</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="InputsSchema.__init__-135"><a href="#InputsSchema.__init__-135"><span class="linenos">135</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">BaseSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</span><span id="InputsSchema.__init__-136"><a href="#InputsSchema.__init__-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
+</span><span id="InputsSchema.__init__-137"><a href="#InputsSchema.__init__-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
+</span><span id="InputsSchema.__init__-138"><a href="#InputsSchema.__init__-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+</span><span id="InputsSchema.__init__-139"><a href="#InputsSchema.__init__-139"><span class="linenos">139</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="InputsSchema.__init__-140"><a href="#InputsSchema.__init__-140"><span class="linenos">140</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Check if all columns in a dataframe have a column in the Schema.</p>
+            <div class="docstring"><p>Validate a DataFrame based on the schema specification.</p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -634,43 +568,6 @@ otherwise creates a copy of the data.
 <li><strong>SchemaError</strong>:  when <code>DataFrame</code> violates built-in or custom
 checks.</li>
 </ul>
-
-<p>:example:</p>
-
-<p>Calling <code>schema.validate</code> returns the dataframe.</p>
-
-<div class="pdoc-code codehilite">
-<pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandera</span> <span class="k">as</span> <span class="nn">pa</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.23</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.76</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;duck&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">]</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_withchecks</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">DataFrameSchema</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="nb">float</span><span class="p">,</span> <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">))),</span>
-<span class="gp">...</span>
-<span class="gp">... </span>    <span class="c1"># check that the &quot;category&quot; column contains a few discrete</span>
-<span class="gp">... </span>    <span class="c1"># values, and the majority of the entries are dogs.</span>
-<span class="gp">... </span>    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="nb">str</span><span class="p">,</span> <span class="p">[</span>
-<span class="gp">... </span>            <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;duck&quot;</span><span class="p">])),</span>
-<span class="gp">... </span>            <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="s2">&quot;dog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="p">]),</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_withchecks</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">df</span><span class="p">)[[</span><span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">]]</span>
-<span class="go">   probability category</span>
-<span class="go">0         0.10      dog</span>
-<span class="go">1         0.40      dog</span>
-<span class="go">2         0.52      cat</span>
-<span class="go">3         0.23     duck</span>
-<span class="go">4         0.80      dog</span>
-<span class="go">5         0.76      dog</span>
-</code></pre>
-</div>
 </div>
 
 
@@ -918,68 +815,27 @@ checks.</li>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt><a href="#Schema">Schema</a></dt>
-                                <dd id="InputsSchema.check" class="function"><a href="#Schema.check">check</a></dd>
-
-            </div>
-            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
-                                <dd id="InputsSchema.to_schema" class="function">to_schema</dd>
+                                    <div><dt>pandera.api.base.model.BaseModel</dt>
+                                <dd id="InputsSchema.Config" class="variable">Config</dd>
+                <dd id="InputsSchema.to_schema" class="function">to_schema</dd>
                 <dd id="InputsSchema.to_yaml" class="function">to_yaml</dd>
                 <dd id="InputsSchema.validate" class="function">validate</dd>
                 <dd id="InputsSchema.strategy" class="function">strategy</dd>
                 <dd id="InputsSchema.example" class="function">example</dd>
-                <dd id="InputsSchema.get_metadata" class="function">get_metadata</dd>
+
+            </div>
+            <div><dt><a href="#Schema">Schema</a></dt>
+                                <dd id="InputsSchema.check" class="function"><a href="#Schema.check">check</a></dd>
+
+            </div>
+            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
+                                <dd id="InputsSchema.build_schema_" class="function">build_schema_</dd>
+                <dd id="InputsSchema.to_json_schema" class="function">to_json_schema</dd>
+
+            </div>
+            <div><dt>pandera.api.dataframe.model.DataFrameModel</dt>
+                                <dd id="InputsSchema.get_metadata" class="function">get_metadata</dd>
                 <dd id="InputsSchema.pydantic_validate" class="function">pydantic_validate</dd>
-
-            </div>
-                                </dl>
-                            </div>
-                </section>
-                <section id="InputsSchema.Config">
-                    <div class="attr class">
-            
-    <span class="def">class</span>
-    <span class="name">InputsSchema.Config</span><wbr>(<span class="base">pandera.api.pandas.model_config.BaseConfig</span>):
-
-        
-    </div>
-    <a class="headerlink" href="#InputsSchema.Config"></a>
-    
-            <div class="docstring"><p>Define DataFrameSchema-wide options.</p>
-
-<p><em>new in 0.5.0</em></p>
-</div>
-
-
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>pandera.api.pandas.model.Config</dt>
-                                <dd id="InputsSchema.Config.name" class="variable">name</dd>
-
-            </div>
-            <div><dt>pandera.api.pandas.model_config.BaseConfig</dt>
-                                <dd id="InputsSchema.Config.dtype" class="variable">dtype</dd>
-                <dd id="InputsSchema.Config.title" class="variable">title</dd>
-                <dd id="InputsSchema.Config.description" class="variable">description</dd>
-                <dd id="InputsSchema.Config.coerce" class="variable">coerce</dd>
-                <dd id="InputsSchema.Config.drop_invalid_rows" class="variable">drop_invalid_rows</dd>
-                <dd id="InputsSchema.Config.unique" class="variable">unique</dd>
-                <dd id="InputsSchema.Config.strict" class="variable">strict</dd>
-                <dd id="InputsSchema.Config.ordered" class="variable">ordered</dd>
-                <dd id="InputsSchema.Config.multiindex_name" class="variable">multiindex_name</dd>
-                <dd id="InputsSchema.Config.multiindex_coerce" class="variable">multiindex_coerce</dd>
-                <dd id="InputsSchema.Config.multiindex_unique" class="variable">multiindex_unique</dd>
-                <dd id="InputsSchema.Config.multiindex_strict" class="variable">multiindex_strict</dd>
-                <dd id="InputsSchema.Config.multiindex_ordered" class="variable">multiindex_ordered</dd>
-                <dd id="InputsSchema.Config.unique_column_names" class="variable">unique_column_names</dd>
-                <dd id="InputsSchema.Config.add_missing_columns" class="variable">add_missing_columns</dd>
-                <dd id="InputsSchema.Config.from_format" class="variable">from_format</dd>
-                <dd id="InputsSchema.Config.from_format_kwargs" class="variable">from_format_kwargs</dd>
-                <dd id="InputsSchema.Config.to_format" class="variable">to_format</dd>
-                <dd id="InputsSchema.Config.to_format_buffer" class="variable">to_format_buffer</dd>
-                <dd id="InputsSchema.Config.to_format_kwargs" class="variable">to_format_kwargs</dd>
-                <dd id="InputsSchema.Config.metadata" class="variable">metadata</dd>
 
             </div>
                                 </dl>
@@ -1002,7 +858,7 @@ checks.</li>
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">TargetsSchema</span><wbr>(<span class="base"><a href="#Schema">Schema</a></span>):
+    <span class="name">TargetsSchema</span><wbr>(<span class="base">typing.Generic[~TDataFrame, ~TSchema]</span>, <span class="base">pandera.api.base.model.BaseModel</span>):
 
                 <label class="view-source-button" for="TargetsSchema-view-source"><span>View Source</span></label>
 
@@ -1011,7 +867,7 @@ checks.</li>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TargetsSchema-76"><a href="#TargetsSchema-76"><span class="linenos">76</span></a><span class="k">class</span> <span class="nc">TargetsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
 </span><span id="TargetsSchema-77"><a href="#TargetsSchema-77"><span class="linenos">77</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project target.&quot;&quot;&quot;</span>
 </span><span id="TargetsSchema-78"><a href="#TargetsSchema-78"><span class="linenos">78</span></a>
-</span><span id="TargetsSchema-79"><a href="#TargetsSchema-79"><span class="linenos">79</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_name</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="TargetsSchema-79"><a href="#TargetsSchema-79"><span class="linenos">79</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="TargetsSchema-80"><a href="#TargetsSchema-80"><span class="linenos">80</span></a>    <span class="n">cnt</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span></pre></div>
 
@@ -1023,7 +879,7 @@ checks.</li>
                             <div id="TargetsSchema.__init__" class="classattr">
                                         <input id="TargetsSchema.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-                    <div class="decorator">@docstring_substitution(validate_doc=DataFrameSchema.validate.__doc__)</div>
+                    <div class="decorator">@docstring_substitution(validate_doc=BaseSchema.validate.__doc__)</div>
 
         <span class="name">TargetsSchema</span><span class="signature pdoc-code condensed">(<span class="param"><span class="o">*</span><span class="n">args</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span>)</span>
 
@@ -1031,16 +887,16 @@ checks.</li>
 
     </div>
     <a class="headerlink" href="#TargetsSchema.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="TargetsSchema.__init__-152"><a href="#TargetsSchema.__init__-152"><span class="linenos">152</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">DataFrameSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-</span><span id="TargetsSchema.__init__-153"><a href="#TargetsSchema.__init__-153"><span class="linenos">153</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
-</span><span id="TargetsSchema.__init__-154"><a href="#TargetsSchema.__init__-154"><span class="linenos">154</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
-</span><span id="TargetsSchema.__init__-155"><a href="#TargetsSchema.__init__-155"><span class="linenos">155</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-</span><span id="TargetsSchema.__init__-156"><a href="#TargetsSchema.__init__-156"><span class="linenos">156</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="TargetsSchema.__init__-157"><a href="#TargetsSchema.__init__-157"><span class="linenos">157</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="TargetsSchema.__init__-135"><a href="#TargetsSchema.__init__-135"><span class="linenos">135</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">BaseSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</span><span id="TargetsSchema.__init__-136"><a href="#TargetsSchema.__init__-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
+</span><span id="TargetsSchema.__init__-137"><a href="#TargetsSchema.__init__-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
+</span><span id="TargetsSchema.__init__-138"><a href="#TargetsSchema.__init__-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+</span><span id="TargetsSchema.__init__-139"><a href="#TargetsSchema.__init__-139"><span class="linenos">139</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="TargetsSchema.__init__-140"><a href="#TargetsSchema.__init__-140"><span class="linenos">140</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Check if all columns in a dataframe have a column in the Schema.</p>
+            <div class="docstring"><p>Validate a DataFrame based on the schema specification.</p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -1067,43 +923,6 @@ otherwise creates a copy of the data.
 <li><strong>SchemaError</strong>:  when <code>DataFrame</code> violates built-in or custom
 checks.</li>
 </ul>
-
-<p>:example:</p>
-
-<p>Calling <code>schema.validate</code> returns the dataframe.</p>
-
-<div class="pdoc-code codehilite">
-<pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandera</span> <span class="k">as</span> <span class="nn">pa</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.23</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.76</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;duck&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">]</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_withchecks</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">DataFrameSchema</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="nb">float</span><span class="p">,</span> <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">))),</span>
-<span class="gp">...</span>
-<span class="gp">... </span>    <span class="c1"># check that the &quot;category&quot; column contains a few discrete</span>
-<span class="gp">... </span>    <span class="c1"># values, and the majority of the entries are dogs.</span>
-<span class="gp">... </span>    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="nb">str</span><span class="p">,</span> <span class="p">[</span>
-<span class="gp">... </span>            <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;duck&quot;</span><span class="p">])),</span>
-<span class="gp">... </span>            <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="s2">&quot;dog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="p">]),</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_withchecks</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">df</span><span class="p">)[[</span><span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">]]</span>
-<span class="go">   probability category</span>
-<span class="go">0         0.10      dog</span>
-<span class="go">1         0.40      dog</span>
-<span class="go">2         0.52      cat</span>
-<span class="go">3         0.23     duck</span>
-<span class="go">4         0.80      dog</span>
-<span class="go">5         0.76      dog</span>
-</code></pre>
-</div>
 </div>
 
 
@@ -1141,68 +960,27 @@ checks.</li>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt><a href="#Schema">Schema</a></dt>
-                                <dd id="TargetsSchema.check" class="function"><a href="#Schema.check">check</a></dd>
-
-            </div>
-            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
-                                <dd id="TargetsSchema.to_schema" class="function">to_schema</dd>
+                                    <div><dt>pandera.api.base.model.BaseModel</dt>
+                                <dd id="TargetsSchema.Config" class="variable">Config</dd>
+                <dd id="TargetsSchema.to_schema" class="function">to_schema</dd>
                 <dd id="TargetsSchema.to_yaml" class="function">to_yaml</dd>
                 <dd id="TargetsSchema.validate" class="function">validate</dd>
                 <dd id="TargetsSchema.strategy" class="function">strategy</dd>
                 <dd id="TargetsSchema.example" class="function">example</dd>
-                <dd id="TargetsSchema.get_metadata" class="function">get_metadata</dd>
+
+            </div>
+            <div><dt><a href="#Schema">Schema</a></dt>
+                                <dd id="TargetsSchema.check" class="function"><a href="#Schema.check">check</a></dd>
+
+            </div>
+            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
+                                <dd id="TargetsSchema.build_schema_" class="function">build_schema_</dd>
+                <dd id="TargetsSchema.to_json_schema" class="function">to_json_schema</dd>
+
+            </div>
+            <div><dt>pandera.api.dataframe.model.DataFrameModel</dt>
+                                <dd id="TargetsSchema.get_metadata" class="function">get_metadata</dd>
                 <dd id="TargetsSchema.pydantic_validate" class="function">pydantic_validate</dd>
-
-            </div>
-                                </dl>
-                            </div>
-                </section>
-                <section id="TargetsSchema.Config">
-                    <div class="attr class">
-            
-    <span class="def">class</span>
-    <span class="name">TargetsSchema.Config</span><wbr>(<span class="base">pandera.api.pandas.model_config.BaseConfig</span>):
-
-        
-    </div>
-    <a class="headerlink" href="#TargetsSchema.Config"></a>
-    
-            <div class="docstring"><p>Define DataFrameSchema-wide options.</p>
-
-<p><em>new in 0.5.0</em></p>
-</div>
-
-
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>pandera.api.pandas.model.Config</dt>
-                                <dd id="TargetsSchema.Config.name" class="variable">name</dd>
-
-            </div>
-            <div><dt>pandera.api.pandas.model_config.BaseConfig</dt>
-                                <dd id="TargetsSchema.Config.dtype" class="variable">dtype</dd>
-                <dd id="TargetsSchema.Config.title" class="variable">title</dd>
-                <dd id="TargetsSchema.Config.description" class="variable">description</dd>
-                <dd id="TargetsSchema.Config.coerce" class="variable">coerce</dd>
-                <dd id="TargetsSchema.Config.drop_invalid_rows" class="variable">drop_invalid_rows</dd>
-                <dd id="TargetsSchema.Config.unique" class="variable">unique</dd>
-                <dd id="TargetsSchema.Config.strict" class="variable">strict</dd>
-                <dd id="TargetsSchema.Config.ordered" class="variable">ordered</dd>
-                <dd id="TargetsSchema.Config.multiindex_name" class="variable">multiindex_name</dd>
-                <dd id="TargetsSchema.Config.multiindex_coerce" class="variable">multiindex_coerce</dd>
-                <dd id="TargetsSchema.Config.multiindex_unique" class="variable">multiindex_unique</dd>
-                <dd id="TargetsSchema.Config.multiindex_strict" class="variable">multiindex_strict</dd>
-                <dd id="TargetsSchema.Config.multiindex_ordered" class="variable">multiindex_ordered</dd>
-                <dd id="TargetsSchema.Config.unique_column_names" class="variable">unique_column_names</dd>
-                <dd id="TargetsSchema.Config.add_missing_columns" class="variable">add_missing_columns</dd>
-                <dd id="TargetsSchema.Config.from_format" class="variable">from_format</dd>
-                <dd id="TargetsSchema.Config.from_format_kwargs" class="variable">from_format_kwargs</dd>
-                <dd id="TargetsSchema.Config.to_format" class="variable">to_format</dd>
-                <dd id="TargetsSchema.Config.to_format_buffer" class="variable">to_format_buffer</dd>
-                <dd id="TargetsSchema.Config.to_format_kwargs" class="variable">to_format_kwargs</dd>
-                <dd id="TargetsSchema.Config.metadata" class="variable">metadata</dd>
 
             </div>
                                 </dl>
@@ -1225,7 +1003,7 @@ checks.</li>
 <div class="attr class">
             
     <span class="def">class</span>
-    <span class="name">OutputsSchema</span><wbr>(<span class="base"><a href="#Schema">Schema</a></span>):
+    <span class="name">OutputsSchema</span><wbr>(<span class="base">typing.Generic[~TDataFrame, ~TSchema]</span>, <span class="base">pandera.api.base.model.BaseModel</span>):
 
                 <label class="view-source-button" for="OutputsSchema-view-source"><span>View Source</span></label>
 
@@ -1234,7 +1012,7 @@ checks.</li>
             <div class="pdoc-code codehilite"><pre><span></span><span id="OutputsSchema-86"><a href="#OutputsSchema-86"><span class="linenos">86</span></a><span class="k">class</span> <span class="nc">OutputsSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
 </span><span id="OutputsSchema-87"><a href="#OutputsSchema-87"><span class="linenos">87</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project output.&quot;&quot;&quot;</span>
 </span><span id="OutputsSchema-88"><a href="#OutputsSchema-88"><span class="linenos">88</span></a>
-</span><span id="OutputsSchema-89"><a href="#OutputsSchema-89"><span class="linenos">89</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">check_name</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</span><span id="OutputsSchema-89"><a href="#OutputsSchema-89"><span class="linenos">89</span></a>    <span class="n">instant</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Index</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span><span id="OutputsSchema-90"><a href="#OutputsSchema-90"><span class="linenos">90</span></a>    <span class="n">prediction</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">UInt32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">ge</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 </span></pre></div>
 
@@ -1246,7 +1024,7 @@ checks.</li>
                             <div id="OutputsSchema.__init__" class="classattr">
                                         <input id="OutputsSchema.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 <div class="attr function">
-                    <div class="decorator">@docstring_substitution(validate_doc=DataFrameSchema.validate.__doc__)</div>
+                    <div class="decorator">@docstring_substitution(validate_doc=BaseSchema.validate.__doc__)</div>
 
         <span class="name">OutputsSchema</span><span class="signature pdoc-code condensed">(<span class="param"><span class="o">*</span><span class="n">args</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span>)</span>
 
@@ -1254,16 +1032,16 @@ checks.</li>
 
     </div>
     <a class="headerlink" href="#OutputsSchema.__init__"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="OutputsSchema.__init__-152"><a href="#OutputsSchema.__init__-152"><span class="linenos">152</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">DataFrameSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
-</span><span id="OutputsSchema.__init__-153"><a href="#OutputsSchema.__init__-153"><span class="linenos">153</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
-</span><span id="OutputsSchema.__init__-154"><a href="#OutputsSchema.__init__-154"><span class="linenos">154</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
-</span><span id="OutputsSchema.__init__-155"><a href="#OutputsSchema.__init__-155"><span class="linenos">155</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
-</span><span id="OutputsSchema.__init__-156"><a href="#OutputsSchema.__init__-156"><span class="linenos">156</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-</span><span id="OutputsSchema.__init__-157"><a href="#OutputsSchema.__init__-157"><span class="linenos">157</span></a>        <span class="p">)</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="OutputsSchema.__init__-135"><a href="#OutputsSchema.__init__-135"><span class="linenos">135</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">BaseSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</span><span id="OutputsSchema.__init__-136"><a href="#OutputsSchema.__init__-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
+</span><span id="OutputsSchema.__init__-137"><a href="#OutputsSchema.__init__-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
+</span><span id="OutputsSchema.__init__-138"><a href="#OutputsSchema.__init__-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+</span><span id="OutputsSchema.__init__-139"><a href="#OutputsSchema.__init__-139"><span class="linenos">139</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="OutputsSchema.__init__-140"><a href="#OutputsSchema.__init__-140"><span class="linenos">140</span></a>        <span class="p">)</span>
 </span></pre></div>
 
 
-            <div class="docstring"><p>Check if all columns in a dataframe have a column in the Schema.</p>
+            <div class="docstring"><p>Validate a DataFrame based on the schema specification.</p>
 
 <h6 id="parameters">Parameters</h6>
 
@@ -1290,43 +1068,6 @@ otherwise creates a copy of the data.
 <li><strong>SchemaError</strong>:  when <code>DataFrame</code> violates built-in or custom
 checks.</li>
 </ul>
-
-<p>:example:</p>
-
-<p>Calling <code>schema.validate</code> returns the dataframe.</p>
-
-<div class="pdoc-code codehilite">
-<pre><span></span><code><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandera</span> <span class="k">as</span> <span class="nn">pa</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">,</span> <span class="mf">0.52</span><span class="p">,</span> <span class="mf">0.23</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.76</span><span class="p">],</span>
-<span class="gp">... </span>    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;duck&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;dog&quot;</span><span class="p">]</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_withchecks</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">DataFrameSchema</span><span class="p">({</span>
-<span class="gp">... </span>    <span class="s2">&quot;probability&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="nb">float</span><span class="p">,</span> <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">s</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">))),</span>
-<span class="gp">...</span>
-<span class="gp">... </span>    <span class="c1"># check that the &quot;category&quot; column contains a few discrete</span>
-<span class="gp">... </span>    <span class="c1"># values, and the majority of the entries are dogs.</span>
-<span class="gp">... </span>    <span class="s2">&quot;category&quot;</span><span class="p">:</span> <span class="n">pa</span><span class="o">.</span><span class="n">Column</span><span class="p">(</span>
-<span class="gp">... </span>        <span class="nb">str</span><span class="p">,</span> <span class="p">[</span>
-<span class="gp">... </span>            <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">s</span><span class="o">.</span><span class="n">isin</span><span class="p">([</span><span class="s2">&quot;dog&quot;</span><span class="p">,</span> <span class="s2">&quot;cat&quot;</span><span class="p">,</span> <span class="s2">&quot;duck&quot;</span><span class="p">])),</span>
-<span class="gp">... </span>            <span class="n">pa</span><span class="o">.</span><span class="n">Check</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="p">(</span><span class="n">s</span> <span class="o">==</span> <span class="s2">&quot;dog&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">),</span>
-<span class="gp">... </span>        <span class="p">]),</span>
-<span class="gp">... </span><span class="p">})</span>
-<span class="gp">&gt;&gt;&gt;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">schema_withchecks</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">df</span><span class="p">)[[</span><span class="s2">&quot;probability&quot;</span><span class="p">,</span> <span class="s2">&quot;category&quot;</span><span class="p">]]</span>
-<span class="go">   probability category</span>
-<span class="go">0         0.10      dog</span>
-<span class="go">1         0.40      dog</span>
-<span class="go">2         0.52      cat</span>
-<span class="go">3         0.23     duck</span>
-<span class="go">4         0.80      dog</span>
-<span class="go">5         0.76      dog</span>
-</code></pre>
-</div>
 </div>
 
 
@@ -1364,68 +1105,27 @@ checks.</li>
                             <div class="inherited">
                                 <h5>Inherited Members</h5>
                                 <dl>
-                                    <div><dt><a href="#Schema">Schema</a></dt>
-                                <dd id="OutputsSchema.check" class="function"><a href="#Schema.check">check</a></dd>
-
-            </div>
-            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
-                                <dd id="OutputsSchema.to_schema" class="function">to_schema</dd>
+                                    <div><dt>pandera.api.base.model.BaseModel</dt>
+                                <dd id="OutputsSchema.Config" class="variable">Config</dd>
+                <dd id="OutputsSchema.to_schema" class="function">to_schema</dd>
                 <dd id="OutputsSchema.to_yaml" class="function">to_yaml</dd>
                 <dd id="OutputsSchema.validate" class="function">validate</dd>
                 <dd id="OutputsSchema.strategy" class="function">strategy</dd>
                 <dd id="OutputsSchema.example" class="function">example</dd>
-                <dd id="OutputsSchema.get_metadata" class="function">get_metadata</dd>
+
+            </div>
+            <div><dt><a href="#Schema">Schema</a></dt>
+                                <dd id="OutputsSchema.check" class="function"><a href="#Schema.check">check</a></dd>
+
+            </div>
+            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
+                                <dd id="OutputsSchema.build_schema_" class="function">build_schema_</dd>
+                <dd id="OutputsSchema.to_json_schema" class="function">to_json_schema</dd>
+
+            </div>
+            <div><dt>pandera.api.dataframe.model.DataFrameModel</dt>
+                                <dd id="OutputsSchema.get_metadata" class="function">get_metadata</dd>
                 <dd id="OutputsSchema.pydantic_validate" class="function">pydantic_validate</dd>
-
-            </div>
-                                </dl>
-                            </div>
-                </section>
-                <section id="OutputsSchema.Config">
-                    <div class="attr class">
-            
-    <span class="def">class</span>
-    <span class="name">OutputsSchema.Config</span><wbr>(<span class="base">pandera.api.pandas.model_config.BaseConfig</span>):
-
-        
-    </div>
-    <a class="headerlink" href="#OutputsSchema.Config"></a>
-    
-            <div class="docstring"><p>Define DataFrameSchema-wide options.</p>
-
-<p><em>new in 0.5.0</em></p>
-</div>
-
-
-                            <div class="inherited">
-                                <h5>Inherited Members</h5>
-                                <dl>
-                                    <div><dt>pandera.api.pandas.model.Config</dt>
-                                <dd id="OutputsSchema.Config.name" class="variable">name</dd>
-
-            </div>
-            <div><dt>pandera.api.pandas.model_config.BaseConfig</dt>
-                                <dd id="OutputsSchema.Config.dtype" class="variable">dtype</dd>
-                <dd id="OutputsSchema.Config.title" class="variable">title</dd>
-                <dd id="OutputsSchema.Config.description" class="variable">description</dd>
-                <dd id="OutputsSchema.Config.coerce" class="variable">coerce</dd>
-                <dd id="OutputsSchema.Config.drop_invalid_rows" class="variable">drop_invalid_rows</dd>
-                <dd id="OutputsSchema.Config.unique" class="variable">unique</dd>
-                <dd id="OutputsSchema.Config.strict" class="variable">strict</dd>
-                <dd id="OutputsSchema.Config.ordered" class="variable">ordered</dd>
-                <dd id="OutputsSchema.Config.multiindex_name" class="variable">multiindex_name</dd>
-                <dd id="OutputsSchema.Config.multiindex_coerce" class="variable">multiindex_coerce</dd>
-                <dd id="OutputsSchema.Config.multiindex_unique" class="variable">multiindex_unique</dd>
-                <dd id="OutputsSchema.Config.multiindex_strict" class="variable">multiindex_strict</dd>
-                <dd id="OutputsSchema.Config.multiindex_ordered" class="variable">multiindex_ordered</dd>
-                <dd id="OutputsSchema.Config.unique_column_names" class="variable">unique_column_names</dd>
-                <dd id="OutputsSchema.Config.add_missing_columns" class="variable">add_missing_columns</dd>
-                <dd id="OutputsSchema.Config.from_format" class="variable">from_format</dd>
-                <dd id="OutputsSchema.Config.from_format_kwargs" class="variable">from_format_kwargs</dd>
-                <dd id="OutputsSchema.Config.to_format" class="variable">to_format</dd>
-                <dd id="OutputsSchema.Config.to_format_buffer" class="variable">to_format_buffer</dd>
-                <dd id="OutputsSchema.Config.to_format_kwargs" class="variable">to_format_kwargs</dd>
-                <dd id="OutputsSchema.Config.metadata" class="variable">metadata</dd>
 
             </div>
                                 </dl>
@@ -1439,6 +1139,274 @@ checks.</li>
         
     </div>
     <a class="headerlink" href="#Outputs"></a>
+    
+    
+
+                </section>
+                <section id="SHAPValuesSchema">
+                            <input id="SHAPValuesSchema-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">SHAPValuesSchema</span><wbr>(<span class="base">typing.Generic[~TDataFrame, ~TSchema]</span>, <span class="base">pandera.api.base.model.BaseModel</span>):
+
+                <label class="view-source-button" for="SHAPValuesSchema-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#SHAPValuesSchema"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SHAPValuesSchema-96"><a href="#SHAPValuesSchema-96"><span class="linenos"> 96</span></a><span class="k">class</span> <span class="nc">SHAPValuesSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+</span><span id="SHAPValuesSchema-97"><a href="#SHAPValuesSchema-97"><span class="linenos"> 97</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project shap values.&quot;&quot;&quot;</span>
+</span><span id="SHAPValuesSchema-98"><a href="#SHAPValuesSchema-98"><span class="linenos"> 98</span></a>
+</span><span id="SHAPValuesSchema-99"><a href="#SHAPValuesSchema-99"><span class="linenos"> 99</span></a>    <span class="k">class</span> <span class="nc">Config</span><span class="p">:</span>
+</span><span id="SHAPValuesSchema-100"><a href="#SHAPValuesSchema-100"><span class="linenos">100</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Default configurations this schema.</span>
+</span><span id="SHAPValuesSchema-101"><a href="#SHAPValuesSchema-101"><span class="linenos">101</span></a>
+</span><span id="SHAPValuesSchema-102"><a href="#SHAPValuesSchema-102"><span class="linenos">102</span></a><span class="sd">        Parameters:</span>
+</span><span id="SHAPValuesSchema-103"><a href="#SHAPValuesSchema-103"><span class="linenos">103</span></a><span class="sd">            dtype (str): dataframe default data type.</span>
+</span><span id="SHAPValuesSchema-104"><a href="#SHAPValuesSchema-104"><span class="linenos">104</span></a><span class="sd">            strict (bool): ensure the data type is correct.</span>
+</span><span id="SHAPValuesSchema-105"><a href="#SHAPValuesSchema-105"><span class="linenos">105</span></a><span class="sd">        &quot;&quot;&quot;</span>
+</span><span id="SHAPValuesSchema-106"><a href="#SHAPValuesSchema-106"><span class="linenos">106</span></a>
+</span><span id="SHAPValuesSchema-107"><a href="#SHAPValuesSchema-107"><span class="linenos">107</span></a>        <span class="n">dtype</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;float32&quot;</span>
+</span><span id="SHAPValuesSchema-108"><a href="#SHAPValuesSchema-108"><span class="linenos">108</span></a>        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Schema for the project shap values.</p>
+</div>
+
+
+                            <div id="SHAPValuesSchema.__init__" class="classattr">
+                                        <input id="SHAPValuesSchema.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+                    <div class="decorator">@docstring_substitution(validate_doc=BaseSchema.validate.__doc__)</div>
+
+        <span class="name">SHAPValuesSchema</span><span class="signature pdoc-code condensed">(<span class="param"><span class="o">*</span><span class="n">args</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span>)</span>
+
+                <label class="view-source-button" for="SHAPValuesSchema.__init__-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#SHAPValuesSchema.__init__"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="SHAPValuesSchema.__init__-135"><a href="#SHAPValuesSchema.__init__-135"><span class="linenos">135</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">BaseSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</span><span id="SHAPValuesSchema.__init__-136"><a href="#SHAPValuesSchema.__init__-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
+</span><span id="SHAPValuesSchema.__init__-137"><a href="#SHAPValuesSchema.__init__-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
+</span><span id="SHAPValuesSchema.__init__-138"><a href="#SHAPValuesSchema.__init__-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+</span><span id="SHAPValuesSchema.__init__-139"><a href="#SHAPValuesSchema.__init__-139"><span class="linenos">139</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="SHAPValuesSchema.__init__-140"><a href="#SHAPValuesSchema.__init__-140"><span class="linenos">140</span></a>        <span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Validate a DataFrame based on the schema specification.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>pd.DataFrame check_obj</strong>:  the dataframe to be validated.</li>
+<li><strong>head</strong>:  validate the first n rows. Rows overlapping with <code>tail</code> or
+<code>sample</code> are de-duplicated.</li>
+<li><strong>tail</strong>:  validate the last n rows. Rows overlapping with <code>head</code> or
+<code>sample</code> are de-duplicated.</li>
+<li><strong>sample</strong>:  validate a random sample of n rows. Rows overlapping
+with <code>head</code> or <code>tail</code> are de-duplicated.</li>
+<li><strong>random_state</strong>:  random seed for the <code>sample</code> argument.</li>
+<li><strong>lazy</strong>:  if True, lazily evaluates dataframe against all validation
+checks and raises a <code>SchemaErrors</code>. Otherwise, raise
+<code>SchemaError</code> as soon as one occurs.</li>
+<li><strong>inplace</strong>:  if True, applies coercion to the object of validation,
+otherwise creates a copy of the data.
+:returns: validated <code>DataFrame</code></li>
+</ul>
+
+<h6 id="raises">Raises</h6>
+
+<ul>
+<li><strong>SchemaError</strong>:  when <code>DataFrame</code> violates built-in or custom
+checks.</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt>pandera.api.base.model.BaseModel</dt>
+                                <dd id="SHAPValuesSchema.Config" class="variable">Config</dd>
+                <dd id="SHAPValuesSchema.to_schema" class="function">to_schema</dd>
+                <dd id="SHAPValuesSchema.to_yaml" class="function">to_yaml</dd>
+                <dd id="SHAPValuesSchema.validate" class="function">validate</dd>
+                <dd id="SHAPValuesSchema.strategy" class="function">strategy</dd>
+                <dd id="SHAPValuesSchema.example" class="function">example</dd>
+
+            </div>
+            <div><dt><a href="#Schema">Schema</a></dt>
+                                <dd id="SHAPValuesSchema.check" class="function"><a href="#Schema.check">check</a></dd>
+
+            </div>
+            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
+                                <dd id="SHAPValuesSchema.build_schema_" class="function">build_schema_</dd>
+                <dd id="SHAPValuesSchema.to_json_schema" class="function">to_json_schema</dd>
+
+            </div>
+            <div><dt>pandera.api.dataframe.model.DataFrameModel</dt>
+                                <dd id="SHAPValuesSchema.get_metadata" class="function">get_metadata</dd>
+                <dd id="SHAPValuesSchema.pydantic_validate" class="function">pydantic_validate</dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
+                <section id="SHAPValues">
+                    <div class="attr variable">
+            <span class="name">SHAPValues</span>        =
+<span class="default_value">pandera.typing.pandas.DataFrame[<a href="#SHAPValuesSchema">SHAPValuesSchema</a>]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#SHAPValues"></a>
+    
+    
+
+                </section>
+                <section id="FeatureImportancesSchema">
+                            <input id="FeatureImportancesSchema-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr class">
+            
+    <span class="def">class</span>
+    <span class="name">FeatureImportancesSchema</span><wbr>(<span class="base">typing.Generic[~TDataFrame, ~TSchema]</span>, <span class="base">pandera.api.base.model.BaseModel</span>):
+
+                <label class="view-source-button" for="FeatureImportancesSchema-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#FeatureImportancesSchema"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FeatureImportancesSchema-114"><a href="#FeatureImportancesSchema-114"><span class="linenos">114</span></a><span class="k">class</span> <span class="nc">FeatureImportancesSchema</span><span class="p">(</span><span class="n">Schema</span><span class="p">):</span>
+</span><span id="FeatureImportancesSchema-115"><a href="#FeatureImportancesSchema-115"><span class="linenos">115</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Schema for the project feature importances.&quot;&quot;&quot;</span>
+</span><span id="FeatureImportancesSchema-116"><a href="#FeatureImportancesSchema-116"><span class="linenos">116</span></a>
+</span><span id="FeatureImportancesSchema-117"><a href="#FeatureImportancesSchema-117"><span class="linenos">117</span></a>    <span class="n">feature</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">String</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</span><span id="FeatureImportancesSchema-118"><a href="#FeatureImportancesSchema-118"><span class="linenos">118</span></a>    <span class="n">importance</span><span class="p">:</span> <span class="n">papd</span><span class="o">.</span><span class="n">Series</span><span class="p">[</span><span class="n">padt</span><span class="o">.</span><span class="n">Float32</span><span class="p">]</span> <span class="o">=</span> <span class="n">pa</span><span class="o">.</span><span class="n">Field</span><span class="p">()</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Schema for the project feature importances.</p>
+</div>
+
+
+                            <div id="FeatureImportancesSchema.__init__" class="classattr">
+                                        <input id="FeatureImportancesSchema.__init__-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+                    <div class="decorator">@docstring_substitution(validate_doc=BaseSchema.validate.__doc__)</div>
+
+        <span class="name">FeatureImportancesSchema</span><span class="signature pdoc-code condensed">(<span class="param"><span class="o">*</span><span class="n">args</span>, </span><span class="param"><span class="o">**</span><span class="n">kwargs</span></span>)</span>
+
+                <label class="view-source-button" for="FeatureImportancesSchema.__init__-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#FeatureImportancesSchema.__init__"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="FeatureImportancesSchema.__init__-135"><a href="#FeatureImportancesSchema.__init__-135"><span class="linenos">135</span></a>    <span class="nd">@docstring_substitution</span><span class="p">(</span><span class="n">validate_doc</span><span class="o">=</span><span class="n">BaseSchema</span><span class="o">.</span><span class="n">validate</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">)</span>
+</span><span id="FeatureImportancesSchema.__init__-136"><a href="#FeatureImportancesSchema.__init__-136"><span class="linenos">136</span></a>    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">]:</span>  <span class="c1"># type: ignore [misc]</span>
+</span><span id="FeatureImportancesSchema.__init__-137"><a href="#FeatureImportancesSchema.__init__-137"><span class="linenos">137</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;%(validate_doc)s&quot;&quot;&quot;</span>
+</span><span id="FeatureImportancesSchema.__init__-138"><a href="#FeatureImportancesSchema.__init__-138"><span class="linenos">138</span></a>        <span class="k">return</span> <span class="n">cast</span><span class="p">(</span>
+</span><span id="FeatureImportancesSchema.__init__-139"><a href="#FeatureImportancesSchema.__init__-139"><span class="linenos">139</span></a>            <span class="n">DataFrameBase</span><span class="p">[</span><span class="n">TDataFrameModel</span><span class="p">],</span> <span class="bp">cls</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</span><span id="FeatureImportancesSchema.__init__-140"><a href="#FeatureImportancesSchema.__init__-140"><span class="linenos">140</span></a>        <span class="p">)</span>
+</span></pre></div>
+
+
+            <div class="docstring"><p>Validate a DataFrame based on the schema specification.</p>
+
+<h6 id="parameters">Parameters</h6>
+
+<ul>
+<li><strong>pd.DataFrame check_obj</strong>:  the dataframe to be validated.</li>
+<li><strong>head</strong>:  validate the first n rows. Rows overlapping with <code>tail</code> or
+<code>sample</code> are de-duplicated.</li>
+<li><strong>tail</strong>:  validate the last n rows. Rows overlapping with <code>head</code> or
+<code>sample</code> are de-duplicated.</li>
+<li><strong>sample</strong>:  validate a random sample of n rows. Rows overlapping
+with <code>head</code> or <code>tail</code> are de-duplicated.</li>
+<li><strong>random_state</strong>:  random seed for the <code>sample</code> argument.</li>
+<li><strong>lazy</strong>:  if True, lazily evaluates dataframe against all validation
+checks and raises a <code>SchemaErrors</code>. Otherwise, raise
+<code>SchemaError</code> as soon as one occurs.</li>
+<li><strong>inplace</strong>:  if True, applies coercion to the object of validation,
+otherwise creates a copy of the data.
+:returns: validated <code>DataFrame</code></li>
+</ul>
+
+<h6 id="raises">Raises</h6>
+
+<ul>
+<li><strong>SchemaError</strong>:  when <code>DataFrame</code> violates built-in or custom
+checks.</li>
+</ul>
+</div>
+
+
+                            </div>
+                            <div id="FeatureImportancesSchema.feature" class="classattr">
+                                <div class="attr variable">
+            <span class="name">feature</span><span class="annotation">: pandera.typing.pandas.Series[pandera.dtypes.String]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#FeatureImportancesSchema.feature"></a>
+    
+            <div class="docstring"><p>Captures extra information about a field.</p>
+
+<p><em>new in 0.5.0</em></p>
+</div>
+
+
+                            </div>
+                            <div id="FeatureImportancesSchema.importance" class="classattr">
+                                <div class="attr variable">
+            <span class="name">importance</span><span class="annotation">: pandera.typing.pandas.Series[pandera.dtypes.Float32]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#FeatureImportancesSchema.importance"></a>
+    
+            <div class="docstring"><p>Captures extra information about a field.</p>
+
+<p><em>new in 0.5.0</em></p>
+</div>
+
+
+                            </div>
+                            <div class="inherited">
+                                <h5>Inherited Members</h5>
+                                <dl>
+                                    <div><dt>pandera.api.base.model.BaseModel</dt>
+                                <dd id="FeatureImportancesSchema.Config" class="variable">Config</dd>
+                <dd id="FeatureImportancesSchema.to_schema" class="function">to_schema</dd>
+                <dd id="FeatureImportancesSchema.to_yaml" class="function">to_yaml</dd>
+                <dd id="FeatureImportancesSchema.validate" class="function">validate</dd>
+                <dd id="FeatureImportancesSchema.strategy" class="function">strategy</dd>
+                <dd id="FeatureImportancesSchema.example" class="function">example</dd>
+
+            </div>
+            <div><dt><a href="#Schema">Schema</a></dt>
+                                <dd id="FeatureImportancesSchema.check" class="function"><a href="#Schema.check">check</a></dd>
+
+            </div>
+            <div><dt>pandera.api.pandas.model.DataFrameModel</dt>
+                                <dd id="FeatureImportancesSchema.build_schema_" class="function">build_schema_</dd>
+                <dd id="FeatureImportancesSchema.to_json_schema" class="function">to_json_schema</dd>
+
+            </div>
+            <div><dt>pandera.api.dataframe.model.DataFrameModel</dt>
+                                <dd id="FeatureImportancesSchema.get_metadata" class="function">get_metadata</dd>
+                <dd id="FeatureImportancesSchema.pydantic_validate" class="function">pydantic_validate</dd>
+
+            </div>
+                                </dl>
+                            </div>
+                </section>
+                <section id="FeatureImportances">
+                    <div class="attr variable">
+            <span class="name">FeatureImportances</span>        =
+<span class="default_value">pandera.typing.pandas.DataFrame[<a href="#FeatureImportancesSchema">FeatureImportancesSchema</a>]</span>
+
+        
+    </div>
+    <a class="headerlink" href="#FeatureImportances"></a>
     
     
 
