@@ -314,7 +314,7 @@ Pre-defined actions to automate your project development.
 - **Motivations**:
   - Check your code locally before a commit
   - Avoid wasting resources on your CI/CD
-  - Can perform extra (e.g., file cleanup)
+  - Can perform extra actions (e.g., file cleanup)
 - **Limitations**:
   - Add overhead before your commit
 - **Alternatives**:
