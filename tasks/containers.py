@@ -22,13 +22,13 @@ def compose(ctx: Context) -> None:
 
 @task(pre=[packages.build])
 def build(ctx: Context, tag: str = IMAGE_TAG) -> None:
-    """Build the container image with the given tag."""
+    """Build the container image."""
     ctx.run(f"docker build --tag={ctx.project.name}:{tag} .")
 
 
 @task
 def run(ctx: Context, tag: str = IMAGE_TAG) -> None:
-    """Run the container image with the given tag."""
+    """Run the container image."""
     ctx.run(f"docker run --rm {ctx.project.name}:{tag}")
 
 

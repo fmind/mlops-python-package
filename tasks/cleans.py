@@ -134,4 +134,4 @@ def all(_: Context) -> None:
 
 @task(pre=[all, sources, projects])
 def reset(_: Context) -> None:
-    """Run all tools, folders, and sources tasks."""
+    """Run all tools, folders, sources, and projects tasks."""
