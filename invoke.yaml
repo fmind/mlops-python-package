@@ -4,3 +4,5 @@ run:
   echo: true
 project:
   name: bikes
+  package: bikes
+  repository: bikes

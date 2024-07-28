@@ -10,7 +10,7 @@ repository = "https://github.com/fmind/mlops-python-package"
 documentation = "https://fmind.github.io/mlops-python-package/"
 authors = ["Médéric HURIER <github@fmind.dev>"]
 readme = "README.md"
-license = "CC BY"
+license = "MIT"
 keywords = ["mlops", "python", "package"]
 packages = [{ include = "bikes", from = "src" }]
 

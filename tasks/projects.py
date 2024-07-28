@@ -4,9 +4,10 @@
 
 # %% IMPORTS
 
+import json
+
 from invoke.context import Context
 from invoke.tasks import call, task
-from omegaconf import OmegaConf
 
 # %% CONFIGS
 
@@ -37,8 +38,9 @@ def environment(ctx: Context) -> None:
                 dependencies.append(dependency)
     configuration["dependencies"] = dependencies
     with open(ENVIRONMENT, "w") as writer:
-        config = OmegaConf.create(configuration)
-        OmegaConf.save(config, writer)
+        # Safe as YAML is a superset of JSON
+        json.dump(configuration, writer, indent=4)
+        writer.write("\n")  # add new line at the end
 
 
 @task

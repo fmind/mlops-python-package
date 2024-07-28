@@ -2,7 +2,7 @@
 
 services:
   mlflow:
-    image: ghcr.io/mlflow/mlflow:v2.14.1
+    image: ghcr.io/mlflow/mlflow:v2.14.3
     ports:
       - 5000:5000
     environment:
