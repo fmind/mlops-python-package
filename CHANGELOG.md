@@ -1,3 +1,9 @@
+## v2.0.0 (2024-07-28)
+
+### Feat
+
+- **cruft**: adopt cruft and link it to cookiecutter-mlops-package
+
 ## v1.1.3 (2024-07-28)
 
 ### Fix
