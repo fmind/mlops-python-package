@@ -1,3 +1,9 @@
+## v1.1.2 (2024-07-28)
+
+### Fix
+
+- **dependencies**: add setuptools to main dependency for mlflow
+
 ## v1.1.1 (2024-07-23)
 
 ### Fix
