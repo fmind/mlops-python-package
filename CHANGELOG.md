@@ -1,3 +1,9 @@
+## v1.1.3 (2024-07-28)
+
+### Fix
+
+- **mlproject**: fix calling mlflow run by adding project run in front
+
 ## v1.1.2 (2024-07-28)
 
 ### Fix
