@@ -4,9 +4,9 @@
 
 # %% IMPORTS
 
-import yaml
 from invoke.context import Context
 from invoke.tasks import call, task
+from omegaconf import OmegaConf
 
 # %% CONFIGS
 
@@ -37,7 +37,8 @@ def environment(ctx: Context) -> None:
                 dependencies.append(dependency)
     configuration["dependencies"] = dependencies
     with open(ENVIRONMENT, "w") as writer:
-        yaml.dump(configuration, writer)
+        config = OmegaConf.create(configuration)
+        OmegaConf.save(config, writer)
 
 
 @task

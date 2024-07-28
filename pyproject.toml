@@ -37,6 +37,7 @@ pyarrow = "^15.0.2"
 pydantic = "^2.7.4"
 pydantic-settings = "^2.3.4"
 pynvml = "^11.5.0"
+setuptools = "^71.1.0"
 scikit-learn = "1.4.2"
 shap = "^0.46.0"
 
@@ -57,7 +58,6 @@ pre-commit = "^3.7.1"
 
 [tool.poetry.group.dev.dependencies]
 invoke = "^2.2.0"
-pyyaml = "^6.0.1"
 
 [tool.poetry.group.docs.dependencies]
 pdoc = "^14.5.1"
@@ -65,9 +65,6 @@ pdoc = "^14.5.1"
 [tool.poetry.group.notebooks.dependencies]
 ipykernel = "^6.29.4"
 nbformat = "^5.10.4"
-
-[tool.poetry.group.types.dependencies]
-types-pyyaml = "^6.0.12.20240311"
 
 # CONFIGURATIONS
 
