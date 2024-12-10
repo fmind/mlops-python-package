@@ -47,7 +47,8 @@ class InferenceJob(base.Job):
         # model
         logger.info("With model: {}", self.mlflow_service.registry_name)
         model_uri = registries.uri_for_model_alias_or_version(
-            name=self.mlflow_service.registry_name, alias_or_version=self.alias_or_version
+            name=self.mlflow_service.registry_name,
+            alias_or_version=self.alias_or_version,
         )
         logger.debug("- Model URI: {}", model_uri)
         # loader

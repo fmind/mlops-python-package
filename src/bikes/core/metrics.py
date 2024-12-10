@@ -10,13 +10,14 @@ import typing as T
 import mlflow
 import pandas as pd
 import pydantic as pdt
-from sklearn import metrics
+from mlflow.metrics import MetricValue
+from sklearn import metrics as sklearn_metrics
 
 from bikes.core import models, schemas
 
 # %% TYPINGS
 
-MlflowMetric: T.TypeAlias = mlflow.metrics.MetricValue
+MlflowMetric: T.TypeAlias = MetricValue
 MlflowThreshold: T.TypeAlias = mlflow.models.MetricThreshold
 MlflowModelValidationFailedException: T.TypeAlias = (
     mlflow.models.evaluation.validation.ModelValidationFailedException
@@ -117,7 +118,7 @@ class SklearnMetric(Metric):
 
     @T.override
     def score(self, targets: schemas.Targets, outputs: schemas.Outputs) -> float:
-        metric = getattr(metrics, self.name)
+        metric = getattr(sklearn_metrics, self.name)
         sign = 1 if self.greater_is_better else -1
         y_true = targets[schemas.TargetsSchema.cnt]
         y_pred = outputs[schemas.OutputsSchema.prediction]
@@ -126,6 +127,7 @@ class SklearnMetric(Metric):
 
 
 MetricKind = SklearnMetric
+MetricsKind: T.TypeAlias = list[T.Annotated[MetricKind, pdt.Field(discriminator="KIND")]]
 
 # %% THRESHOLDS
 

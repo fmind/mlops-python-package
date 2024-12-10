@@ -1,6 +1,6 @@
 # https://docs.docker.com/engine/reference/builder/
 
-FROM python:3.12
+FROM ghcr.io/astral-sh/uv:python3.12-bookworm
 COPY dist/*.whl .
-RUN pip install *.whl
+RUN uv pip install --system *.whl
 CMD ["bikes", "--help"]

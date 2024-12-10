@@ -1,4 +1,4 @@
-"""Docs tasks for pyinvoke."""
+"""Documentation tasks of the project."""
 
 # %% IMPORTS
 
@@ -18,14 +18,14 @@ OUTPUT_DIR = "docs/"
 @task
 def serve(ctx: Context, format: str = DOC_FORMAT, port: int = 8088) -> None:
     """Serve the API docs with pdoc."""
-    ctx.run(f"poetry run pdoc --docformat={format} --port={port} src/{ctx.project.package}")
+    ctx.run(f"uv run pdoc --docformat={format} --port={port} src/{ctx.project.package}")
 
 
 @task
 def api(ctx: Context, format: str = DOC_FORMAT, output_dir: str = OUTPUT_DIR) -> None:
     """Generate the API docs with pdoc."""
     ctx.run(
-        f"poetry run pdoc --docformat={format} --output-directory={output_dir} src/{ctx.project.package}"
+        f"uv run pdoc --docformat={format} --output-directory={output_dir} src/{ctx.project.package}"
     )
 
 

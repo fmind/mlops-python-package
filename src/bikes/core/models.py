@@ -163,7 +163,9 @@ class BaselineSklearnModel(Model):
             remainder="drop",
         )
         regressor = ensemble.RandomForestRegressor(
-            max_depth=self.max_depth, n_estimators=self.n_estimators, random_state=self.random_state
+            max_depth=self.max_depth,
+            n_estimators=self.n_estimators,
+            random_state=self.random_state,
         )
         # pipeline
         self._pipeline = pipeline.Pipeline(

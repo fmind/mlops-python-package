@@ -1,4 +1,4 @@
-"""Clean tasks for pyinvoke."""
+"""Cleaning tasks of the project."""
 
 # %% IMPORTS
 
@@ -77,9 +77,9 @@ def venv(ctx: Context) -> None:
 
 
 @task
-def poetry(ctx: Context) -> None:
-    """Clean poetry lock file."""
-    ctx.run("rm -f poetry.lock")
+def uv(ctx: Context) -> None:
+    """Clean uv lock file."""
+    ctx.run("rm -f uv.lock")
 
 
 @task
@@ -117,7 +117,7 @@ def folders(_: Context) -> None:
     """Run all folders tasks."""
 
 
-@task(pre=[venv, poetry, python])
+@task(pre=[venv, uv, python])
 def sources(_: Context) -> None:
     """Run all sources tasks."""
 

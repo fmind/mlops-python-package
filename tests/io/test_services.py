@@ -6,6 +6,7 @@ import mlflow
 import plyer
 import pytest
 import pytest_mock as pm
+
 from bikes.io import services
 
 # %% SERVICES
@@ -36,7 +37,10 @@ def test_alerts_service(
     service.notify(title="test", message="hello")
     # then
     if enable:
-        plyer.notification.notify.assert_called_once(), "Notification method should be called!"
+        (
+            plyer.notification.notify.assert_called_once(),
+            "Notification method should be called!",
+        )
         assert capsys.readouterr().out == "", "Notification should not be printed to stdout!"
     else:
         (

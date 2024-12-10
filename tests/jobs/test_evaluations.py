@@ -2,6 +2,7 @@
 
 import _pytest.capture as pc
 import pytest
+
 from bikes import jobs
 from bikes.core import metrics, schemas
 from bikes.io import datasets, registries, services
@@ -43,7 +44,7 @@ def test_evaluations_job(
     inputs_reader: datasets.ParquetReader,
     targets_reader: datasets.ParquetReader,
     model_alias: registries.Version,
-    metric: metrics.Metric,
+    metric: metrics.SklearnMetric,
     capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
@@ -52,7 +53,9 @@ def test_evaluations_job(
     else:
         assert alias_or_version == model_alias.aliases[0], "Model alias should be the same!"
     run_config = mlflow_service.RunConfig(
-        name="EvaluationsTest", tags={"context": "evaluations"}, description="Evaluations job."
+        name="EvaluationsTest",
+        tags={"context": "evaluations"},
+        description="Evaluations job.",
     )
     # when
     job = jobs.EvaluationsJob(
@@ -81,8 +84,11 @@ def test_evaluations_job(
         "targets",
         "targets_",
         "targets_lineage",
-        "dataset",
+        "outputs",
+        "model",
         "model_uri",
+        "dataset",
+        "dataset_",
         "extra_metrics",
         "validation_thresholds",
         "evaluations",
@@ -109,23 +115,30 @@ def test_evaluations_job(
     assert (
         out["targets_lineage"].targets == schemas.TargetsSchema.cnt
     ), "Targets lineage target should be cnt!"
-    # - dataset
-    assert out["dataset"].name == "evaluation", "Dataset name should be evaluation!"
-    assert out["dataset"].predictions is None, "Dataset predictions should be None!"
-    assert (
-        out["dataset"].targets == schemas.TargetsSchema.cnt
-    ), "Dataset targets should be the target column!"
-    assert (
-        inputs_reader.path in out["dataset"].source.uri
-    ), "Dataset source should contain the inputs path!"
-    assert (
-        targets_reader.path in out["dataset"].source.uri
-    ), "Dataset source should contain the targets path!"
+    # - outputs
+    assert out["outputs"].ndim == 2, "Outputs should be a dataframe!"
     # - model uri
     assert str(alias_or_version) in out["model_uri"], "Model URI should contain the model alias!"
     assert (
         mlflow_service.registry_name in out["model_uri"]
     ), "Model URI should contain the registry name!"
+    # - model
+    assert (
+        out["model"].model.metadata.run_id == model_alias.run_id
+    ), "Model run id should be the same!"
+    assert out["model"].model.metadata.signature is not None, "Model should have a signature!"
+    assert out["model"].model.metadata.flavors.get(
+        "python_function"
+    ), "Model should have a pyfunc flavor!"
+    # - dataset
+    assert out["dataset"].name == "evaluation", "Dataset name should be evaluation!"
+    assert (
+        out["dataset"].targets == schemas.TargetsSchema.cnt
+    ), "Dataset targets should be the target column!"
+    assert (
+        out["dataset"].predictions == schemas.OutputsSchema.prediction
+    ), "Dataset predictions should be the prediction column!"
+    assert out["dataset"].source.to_dict().keys() == {"tags"}, "Dataset source should have tags!"
     # - extra metrics
     assert len(out["extra_metrics"]) == len(
         job.metrics
@@ -147,6 +160,7 @@ def test_evaluations_job(
     assert job.metrics[0].name in out["evaluations"].metrics, "Metric should be logged in Mlflow!"
     # - mlflow tracking
     experiment = mlflow_service.client().get_experiment_by_name(name=mlflow_service.experiment_name)
+    assert experiment is not None, "Mlflow Experiment should exist!"
     assert (
         experiment.name == mlflow_service.experiment_name
     ), "Mlflow Experiment name should be the same!"

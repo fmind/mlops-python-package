@@ -87,7 +87,11 @@ class ParquetReader(Reader):
         predictions: str | None = None,
     ) -> Lineage:
         return lineage.from_pandas(
-            df=data, name=name, source=self.path, targets=targets, predictions=predictions
+            df=data,
+            name=name,
+            source=self.path,
+            targets=targets,
+            predictions=predictions,
         )
 
 
