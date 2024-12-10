@@ -19,10 +19,12 @@ def serve(
     ctx: Context,
     host: str = "127.0.0.1",
     port: str = "5000",
-    backend_uri: str = "./mlruns",
+    backend_store_uri: str = "./mlruns",
 ) -> None:
     """Start the mlflow server."""
-    ctx.run(f"uv run mlflow server --host={host} --port={port} --backend-store-uri={backend_uri}")
+    ctx.run(
+        f"uv run mlflow server --host={host} --port={port} --backend-store-uri={backend_store_uri}"
+    )
 
 
 @task(pre=[doctor, serve], default=True)
