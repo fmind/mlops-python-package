@@ -21,7 +21,7 @@ def serve(
     port: str = "5000",
     backend_store_uri: str = "./mlruns",
 ) -> None:
-    """Start the mlflow server."""
+    """Start an mlflow server."""
     ctx.run(
         f"uv run mlflow server --host={host} --port={port} --backend-store-uri={backend_store_uri}"
     )
