@@ -2,7 +2,7 @@ name: Check
 on:
   pull_request:
     branches:
-      - main
+      - '*'
 concurrency:
   cancel-in-progress: true
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -12,5 +12,5 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: poetry install --with checks
-      - run: poetry run invoke checks
+      - run: uv sync --group=checks
+      - run: uv run invoke checks

@@ -49,7 +49,8 @@ class ExplanationsJob(base.Job):
         # model
         logger.info("With model: {}", self.mlflow_service.registry_name)
         model_uri = registries.uri_for_model_alias_or_version(
-            name=self.mlflow_service.registry_name, alias_or_version=self.alias_or_version
+            name=self.mlflow_service.registry_name,
+            alias_or_version=self.alias_or_version,
         )
         logger.debug("- Model URI: {}", model_uri)
         # loader
@@ -61,7 +62,7 @@ class ExplanationsJob(base.Job):
         logger.info("Explain model: {}", model)
         models_explanations = model.explain_model()
         logger.debug("- Models explanations shape: {}", models_explanations.shape)
-        # - samples
+        # # - samples
         logger.info("Explain samples: {}", len(inputs_samples))
         samples_explanations = model.explain_samples(inputs=inputs_samples)
         logger.debug("- Samples explanations shape: {}", samples_explanations.shape)
@@ -74,6 +75,7 @@ class ExplanationsJob(base.Job):
         self.samples_explanations.write(data=samples_explanations)
         # notify
         self.alerts_service.notify(
-            title="Explanations Job Finished", message=f"Features Count: {len(models_explanations)}"
+            title="Explanations Job Finished",
+            message=f"Features Count: {len(models_explanations)}",
         )
         return locals()

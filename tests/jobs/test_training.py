@@ -1,6 +1,7 @@
 # %% IMPORTS
 
 import _pytest.capture as pc
+
 from bikes import jobs
 from bikes.core import metrics, models, schemas
 from bikes.io import datasets, registries, services
@@ -15,12 +16,12 @@ def test_training_job(
     logger_service: services.LoggerService,
     inputs_reader: datasets.ParquetReader,
     targets_reader: datasets.ParquetReader,
-    model: models.Model,
-    metric: metrics.Metric,
-    train_test_splitter: splitters.Splitter,
-    saver: registries.Saver,
-    signer: signers.Signer,
-    register: registries.Register,
+    model: models.BaselineSklearnModel,
+    metric: metrics.SklearnMetric,
+    train_test_splitter: splitters.TrainTestSplitter,
+    saver: registries.CustomSaver,
+    signer: signers.InferSigner,
+    register: registries.MlflowRegister,
     capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
@@ -142,6 +143,7 @@ def test_training_job(
     ), "Model version run id should be the same!"
     # - mlflow tracking
     experiment = client.get_experiment_by_name(name=mlflow_service.experiment_name)
+    assert experiment is not None, "Mlflow Experiment should exist!"
     assert (
         experiment.name == mlflow_service.experiment_name
     ), "Mlflow Experiment name should be the same!"

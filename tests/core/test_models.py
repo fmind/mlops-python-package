@@ -3,6 +3,7 @@
 import typing as T
 
 import pytest
+
 from bikes.core import models, schemas
 
 # %% MODELS
@@ -36,7 +37,10 @@ def test_model(inputs_samples: schemas.Inputs) -> None:
     with pytest.raises(NotImplementedError) as get_internal_model_error:
         model.get_internal_model()
     # then
-    assert params_init == {"a": 10, "b": 2}, "Model should have the given params after init!"
+    assert params_init == {
+        "a": 10,
+        "b": 2,
+    }, "Model should have the given params after init!"
     assert params_set_params == {
         "a": 10,
         "b": 20,

@@ -1,4 +1,4 @@
-"""Task collections for the project."""
+"""Task collections of the project."""
 
 # mypy: ignore-errors
 

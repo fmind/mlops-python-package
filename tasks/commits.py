@@ -1,4 +1,4 @@
-"""Commits tasks for pyinvoke."""
+"""Commit tasks of the project."""
 
 # %% IMPORTS
 
@@ -11,19 +11,19 @@ from invoke.tasks import task
 @task
 def info(ctx: Context) -> None:
     """Print a guide for messages."""
-    ctx.run("poetry run cz info")
+    ctx.run("uv run cz info")
 
 
 @task
 def bump(ctx: Context) -> None:
     """Bump the version of the package."""
-    ctx.run("poetry run cz bump", pty=True)
+    ctx.run("uv run cz bump", pty=True)
 
 
 @task
 def commit(ctx: Context) -> None:
     """Commit all changes with a message."""
-    ctx.run("poetry run cz commit", pty=True)
+    ctx.run("uv run cz commit", pty=True)
 
 
 @task(pre=[commit], default=True)

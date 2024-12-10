@@ -1,4 +1,4 @@
-"""Package tasks for pyinvoke."""
+"""Package tasks of the project."""
 
 # %% IMPORTS
 
@@ -7,17 +7,13 @@ from invoke.tasks import task
 
 from . import cleans
 
-# %% CONFIGS
-
-BUILD_FORMAT = "wheel"
-
 # %% TASKS
 
 
 @task(pre=[cleans.dist])
-def build(ctx: Context, format: str = BUILD_FORMAT) -> None:
+def build(ctx: Context) -> None:
     """Build the python package."""
-    ctx.run(f"poetry build --format={format}")
+    ctx.run("uv build --wheel")
 
 
 @task(pre=[build], default=True)
