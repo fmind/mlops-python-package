@@ -1,7 +1,7 @@
 # %% IMPORTS
 
 import mlflow
-import pandas as pd
+import polars as pl
 import pytest
 
 from bikes.core import metrics, models, schemas
@@ -27,14 +27,14 @@ def test_sklearn_metric(
 ) -> None:
     # given
     low, high = interval
-    data = pd.concat([targets, outputs], axis="columns")
+    data = pl.concat([targets, outputs], how="horizontal")
     metric = metrics.SklearnMetric(name=name, greater_is_better=greater_is_better)
     # when
     score = metric.score(targets=targets, outputs=outputs)
     scorer = metric.scorer(model=model, inputs=inputs, targets=targets)
     mlflow_metric = metric.to_mlflow()
     mlflow_results = mlflow.evaluate(
-        data=data,
+        data=data.to_pandas(use_pyarrow_extension_array=True),
         predictions=schemas.OutputsSchema.prediction,
         targets=schemas.TargetsSchema.cnt,
         extra_metrics=[mlflow_metric],

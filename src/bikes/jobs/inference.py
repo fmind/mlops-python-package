@@ -56,7 +56,7 @@ class InferenceJob(base.Job):
         model = self.loader.load(uri=model_uri)
         logger.debug("- Model: {}", model)
         # outputs
-        logger.info("Predict outputs: {}", len(inputs))
+        logger.info("Predict outputs: {}", inputs.shape)
         outputs = model.predict(inputs=inputs)  # checked
         logger.debug("- Outputs shape: {}", outputs.shape)
         # write

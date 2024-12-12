@@ -181,9 +181,7 @@ class BaselineSklearnModel(Model):
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
         model = self.get_internal_model()
         prediction = model.predict(inputs)
-        outputs = schemas.Outputs(
-            {schemas.OutputsSchema.prediction: prediction}, index=inputs.index
-        )
+        outputs = schemas.Outputs({schemas.OutputsSchema.prediction: prediction})
         return outputs
 
     @T.override
@@ -207,10 +205,9 @@ class BaselineSklearnModel(Model):
         transformer = model.named_steps["transformer"]
         transformed = transformer.transform(X=inputs)
         explainer = shap.TreeExplainer(model=regressor)
-        shap_values = schemas.SHAPValues(
-            data=explainer.shap_values(X=transformed),
-            columns=transformer.get_feature_names_out(),
-        )
+        values = explainer.shap_values(X=transformed)
+        shap_values = schemas.SHAPValues(data=values)
+        shap_values.columns = transformer.get_feature_names_out()
         return shap_values
 
     @T.override

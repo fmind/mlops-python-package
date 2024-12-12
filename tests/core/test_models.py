@@ -78,18 +78,18 @@ def test_baseline_sklearn_model(
     assert model.get_params() == params, "Model should have the given params!"
     assert model.get_internal_model() is not None, "Internal model should be fitted!"
     # - outputs
-    assert outputs.ndim == 2, "Outputs should be a dataframe!"
+    assert outputs.shape, "Outputs should be a dataframe!"
     # - shap values
-    assert len(shap_values.index) == len(
-        inputs_test.index
+    assert (
+        shap_values.height == inputs_test.height
     ), "SHAP values should be the same length as inputs!"
-    assert len(shap_values.columns) >= len(
-        inputs_test.columns
+    assert (
+        shap_values.width >= inputs_test.width
     ), "SHAP values should have more features than inputs!"
     # - feature importances
     assert (
         feature_importances["importance"].sum() == 1.0
     ), "Feature importances should add up to 1.0!"
-    assert len(feature_importances["feature"]) >= len(
-        inputs_train.columns
+    assert (
+        len(feature_importances["feature"]) >= inputs_train.width
     ), "Feature importances should have more features than inputs!"

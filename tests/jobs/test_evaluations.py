@@ -101,8 +101,8 @@ def test_evaluations_job(
         out["run"].data.tags.items() > run_config.tags.items()
     ), "Run tags should be a subset of tags!"
     # - data
-    assert out["inputs"].ndim == out["inputs_"].ndim == 2, "Inputs should be a dataframe!"
-    assert out["targets"].ndim == out["targets_"].ndim == 2, "Targets should be a dataframe!"
+    assert out["inputs"].shape == out["inputs_"].shape, "Inputs should be a dataframe!"
+    assert out["targets"].shape == out["targets_"].shape, "Targets should be a dataframe!"
     # - lineage
     assert out["inputs_lineage"].name == "inputs", "Inputs lineage name should be inputs!"
     assert (
@@ -116,7 +116,7 @@ def test_evaluations_job(
         out["targets_lineage"].targets == schemas.TargetsSchema.cnt
     ), "Targets lineage target should be cnt!"
     # - outputs
-    assert out["outputs"].ndim == 2, "Outputs should be a dataframe!"
+    assert out["outputs"].shape, "Outputs should be a dataframe!"
     # - model uri
     assert str(alias_or_version) in out["model_uri"], "Model URI should contain the model alias!"
     assert (

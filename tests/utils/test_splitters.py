@@ -24,8 +24,8 @@ def test_train_test_splitter(inputs: schemas.Inputs, targets: schemas.Targets) -
     assert (
         len(train_index) == len(targets) - test_size
     ), "Train index should have the remaining size!"
-    assert not inputs.iloc[test_index].empty, "Test index should be a subset of the inputs!"
-    assert not targets.iloc[train_index].empty, "Train index should be a subset of the targets!"
+    assert not inputs[test_index].is_empty(), "Test index should be a subset of the inputs!"
+    assert not targets[train_index].is_empty(), "Train index should be a subset of the targets!"
 
 
 def test_time_series_splitter(inputs: schemas.Inputs, targets: schemas.Targets) -> None:
@@ -47,5 +47,5 @@ def test_time_series_splitter(inputs: schemas.Inputs, targets: schemas.Targets) 
         assert (
             train_index.max() < test_index.min()
         ), "Train index should always be lower than test index!"
-        assert not inputs.iloc[train_index].empty, "Train index should be a subset of the inputs!"
-        assert not inputs.iloc[test_index].empty, "Test index should be a subset of the inputs!"
+        assert not inputs[train_index].is_empty(), "Train index should be a subset of the inputs!"
+        assert not inputs[test_index].is_empty(), "Test index should be a subset of the inputs!"

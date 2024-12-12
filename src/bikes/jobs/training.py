@@ -107,7 +107,7 @@ class TrainingJob(base.Job):
             logger.info("Fit model: {}", self.model)
             self.model.fit(inputs=inputs_train, targets=targets_train)
             # outputs
-            logger.info("Predict outputs: {}", len(inputs_test))
+            logger.info("Predict outputs: {}", inputs_test.shape)
             outputs_test = self.model.predict(inputs=inputs_test)
             logger.debug("- Outputs test shape: {}", outputs_test.shape)
             # metrics

@@ -5,7 +5,7 @@
 import abc
 import typing as T
 
-import pandas as pd
+import polars as pl
 import pydantic as pdt
 from sklearn import model_selection
 
@@ -19,7 +19,7 @@ Grid = dict[models.ParamKey, list[models.ParamValue]]
 
 # Results of a model search
 Results = tuple[
-    T.Annotated[pd.DataFrame, "details"],
+    T.Annotated[pl.DataFrame, "details"],
     T.Annotated[float, "best score"],
     T.Annotated[models.Params, "best params"],
 ]
@@ -109,7 +109,7 @@ class GridCVSearcher(Searcher):
             return_train_score=self.return_train_score,
         )
         searcher.fit(inputs, targets)
-        results = pd.DataFrame(searcher.cv_results_)
+        results = pl.DataFrame(searcher.cv_results_)
         return results, searcher.best_score_, searcher.best_params_
 
 

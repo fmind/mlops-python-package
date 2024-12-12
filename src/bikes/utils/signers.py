@@ -49,7 +49,9 @@ class InferSigner(Signer):
 
     @T.override
     def sign(self, inputs: schemas.Inputs, outputs: schemas.Outputs) -> Signature:
-        return mlflow.models.infer_signature(model_input=inputs, model_output=outputs)
+        model_input = inputs.to_pandas(use_pyarrow_extension_array=True)
+        model_output = outputs.to_pandas(use_pyarrow_extension_array=True)
+        return mlflow.models.infer_signature(model_input=model_input, model_output=model_output)
 
 
 SignerKind = InferSigner

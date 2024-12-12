@@ -148,11 +148,12 @@ class CustomSaver(Saver):
         input_example: schemas.Inputs,
     ) -> Info:
         adapter = CustomSaver.Adapter(model=model)
+        input_example_pandas = input_example.to_pandas(use_pyarrow_extension_array=True)
         return mlflow.pyfunc.log_model(
             python_model=adapter,
             signature=signature,
             artifact_path=self.path,
-            input_example=input_example,
+            input_example=input_example_pandas,
         )
 
 

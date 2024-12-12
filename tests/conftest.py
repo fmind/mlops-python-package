@@ -7,7 +7,7 @@ import typing as T
 
 import omegaconf
 import pytest
-from _pytest import logging as pl
+from _pytest import logging as ptl
 
 from bikes.core import metrics, models, schemas
 from bikes.io import datasets, registries, services
@@ -231,8 +231,8 @@ def train_test_sets(
 ) -> tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets]:
     """Return the inputs and targets train and test sets from the splitter."""
     train_index, test_index = next(train_test_splitter.split(inputs=inputs, targets=targets))
-    inputs_train, inputs_test = inputs.iloc[train_index], inputs.iloc[test_index]
-    targets_train, targets_test = targets.iloc[train_index], targets.iloc[test_index]
+    inputs_train, inputs_test = inputs[train_index], inputs[test_index]
+    targets_train, targets_test = targets[train_index], targets[test_index]
     return (
         T.cast(schemas.Inputs, inputs_train),
         T.cast(schemas.Targets, targets_train),
@@ -287,8 +287,8 @@ def logger_service() -> T.Generator[services.LoggerService, None, None]:
 
 @pytest.fixture
 def logger_caplog(
-    caplog: pl.LogCaptureFixture, logger_service: services.LoggerService
-) -> T.Generator[pl.LogCaptureFixture, None, None]:
+    caplog: ptl.LogCaptureFixture, logger_service: services.LoggerService
+) -> T.Generator[ptl.LogCaptureFixture, None, None]:
     """Extend pytest caplog fixture with the logger service (loguru)."""
     # https://loguru.readthedocs.io/en/stable/resources/migration.html#replacing-caplog-fixture-from-pytest-library
     logger = logger_service.logger()

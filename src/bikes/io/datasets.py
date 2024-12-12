@@ -6,7 +6,7 @@ import abc
 import typing as T
 
 import mlflow.data.pandas_dataset as lineage
-import pandas as pd
+import polars as pl
 import pydantic as pdt
 
 # %% TYPINGS
@@ -31,18 +31,18 @@ class Reader(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
     limit: int | None = None
 
     @abc.abstractmethod
-    def read(self) -> pd.DataFrame:
+    def read(self) -> pl.DataFrame:
         """Read a dataframe from a dataset.
 
         Returns:
-            pd.DataFrame: dataframe representation.
+            pl.DataFrame: dataframe representation.
         """
 
     @abc.abstractmethod
     def lineage(
         self,
         name: str,
-        data: pd.DataFrame,
+        data: pl.DataFrame,
         targets: str | None = None,
         predictions: str | None = None,
     ) -> Lineage:
@@ -50,7 +50,7 @@ class Reader(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
         Args:
             name (str): dataset name.
-            data (pd.DataFrame): reader dataframe.
+            data (pl.DataFrame): reader dataframe.
             targets (str | None): name of the target column.
             predictions (str | None): name of the prediction column.
 
@@ -71,23 +71,24 @@ class ParquetReader(Reader):
     path: str
 
     @T.override
-    def read(self) -> pd.DataFrame:
+    def read(self) -> pl.DataFrame:
         # can't limit rows at read time
-        data = pd.read_parquet(self.path)
+        data = pl.read_parquet(source=self.path)
         if self.limit is not None:
-            data = data.head(self.limit)
+            data = data.head(n=self.limit)
         return data
 
     @T.override
     def lineage(
         self,
         name: str,
-        data: pd.DataFrame,
+        data: pl.DataFrame,
         targets: str | None = None,
         predictions: str | None = None,
     ) -> Lineage:
+        df = data.to_pandas(use_pyarrow_extension_array=True)
         return lineage.from_pandas(
-            df=data,
+            df=df,
             name=name,
             source=self.path,
             targets=targets,
@@ -110,11 +111,11 @@ class Writer(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
     KIND: str
 
     @abc.abstractmethod
-    def write(self, data: pd.DataFrame) -> None:
+    def write(self, data: pl.DataFrame) -> None:
         """Write a dataframe to a dataset.
 
         Args:
-            data (pd.DataFrame): dataframe representation.
+            data (pl.DataFrame): dataframe representation.
         """
 
 
@@ -130,8 +131,8 @@ class ParquetWriter(Writer):
     path: str
 
     @T.override
-    def write(self, data: pd.DataFrame) -> None:
-        pd.DataFrame.to_parquet(data, self.path)
+    def write(self, data: pl.DataFrame) -> None:
+        data.write_parquet(file=self.path)
 
 
 WriterKind = ParquetWriter

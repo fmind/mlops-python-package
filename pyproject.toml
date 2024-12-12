@@ -18,7 +18,7 @@ dependencies = [
     "numpy>=2.0.2",
     "omegaconf>=2.3.0",
     "pandas>=2.2.3",
-    "pandera>=0.21.0",
+    "pandera[polars]>=0.21.0",
     "plotly>=5.24.1",
     "plyer>=2.1.0",
     "psutil>=6.1.0",
@@ -29,6 +29,7 @@ dependencies = [
     "scikit-learn>=1.5.2,<1.6.0",
     "setuptools>=75.6.0",
     "shap>=0.46.0",
+    "polars>=1.17.1",
 ]
 license = { file = "LICENSE.txt" }
 keywords = ["mlops", "python", "package"]

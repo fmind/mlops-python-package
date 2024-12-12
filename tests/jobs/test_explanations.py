@@ -53,7 +53,7 @@ def test_explanations_job(
         "samples_explanations",
     }
     # - inputs
-    assert out["inputs_samples"].ndim == 2, "Inputs samples should be a dataframe!"
+    assert out["inputs_samples"].shape, "Inputs samples should be a dataframe!"
     # - model uri
     assert str(alias_or_version) in out["model_uri"], "Model URI should contain the model alias!"
     assert (
@@ -62,15 +62,15 @@ def test_explanations_job(
     # - model
     assert isinstance(out["model"], models.Model), "Model should be an instance of a project Model!"
     # - model explanations
-    assert len(out["models_explanations"].index) >= len(
-        out["inputs_samples"].columns
+    assert (
+        out["models_explanations"].height >= out["inputs_samples"].width
     ), "Model explanations should have at least as many columns as inputs samples!"
     # - samples explanations
-    assert len(out["samples_explanations"].index) == len(
-        out["inputs_samples"].index
+    assert (
+        out["samples_explanations"].height == out["inputs_samples"].height
     ), "Samples explanations should have the same number of rows as inputs samples!"
-    assert len(out["samples_explanations"].columns) >= len(
-        out["inputs_samples"].columns
+    assert (
+        out["samples_explanations"].width >= out["inputs_samples"].width
     ), "Samples explanations should have at least as many columns as inputs samples!"
     # - alerting service
     assert (

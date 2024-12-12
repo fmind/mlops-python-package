@@ -4,10 +4,9 @@
 
 import typing as T
 
-import pandas as pd
-import pandera as pa
-import pandera.typing as papd
-import pandera.typing.common as padt
+import pandera.polars as pa
+import pandera.typing.polars as pat
+import polars as pl
 
 # %% TYPES
 
@@ -36,60 +35,58 @@ class Schema(pa.DataFrameModel):
         strict: bool = True
 
     @classmethod
-    def check(cls: T.Type[TSchema], data: pd.DataFrame) -> papd.DataFrame[TSchema]:
+    def check(cls: T.Type[TSchema], data: pl.DataFrame) -> pat.DataFrame[TSchema]:
         """Check the dataframe with this schema.
 
         Args:
-            data (pd.DataFrame): dataframe to check.
+            data (pl.DataFrame): dataframe to check.
 
         Returns:
-            papd.DataFrame[TSchema]: validated dataframe.
+            pat.DataFrame[TSchema]: validated dataframe.
         """
-        return T.cast(papd.DataFrame[TSchema], cls.validate(data))
+        return T.cast(pat.DataFrame[TSchema], cls.validate(data))
 
 
 class InputsSchema(Schema):
     """Schema for the project inputs."""
 
-    instant: papd.Index[padt.UInt32] = pa.Field(ge=0)
-    dteday: papd.Series[padt.DateTime] = pa.Field()
-    season: papd.Series[padt.UInt8] = pa.Field(isin=[1, 2, 3, 4])
-    yr: papd.Series[padt.UInt8] = pa.Field(ge=0, le=1)
-    mnth: papd.Series[padt.UInt8] = pa.Field(ge=1, le=12)
-    hr: papd.Series[padt.UInt8] = pa.Field(ge=0, le=23)
-    holiday: papd.Series[padt.Bool] = pa.Field()
-    weekday: papd.Series[padt.UInt8] = pa.Field(ge=0, le=6)
-    workingday: papd.Series[padt.Bool] = pa.Field()
-    weathersit: papd.Series[padt.UInt8] = pa.Field(ge=1, le=4)
-    temp: papd.Series[padt.Float16] = pa.Field(ge=0, le=1)
-    atemp: papd.Series[padt.Float16] = pa.Field(ge=0, le=1)
-    hum: papd.Series[padt.Float16] = pa.Field(ge=0, le=1)
-    windspeed: papd.Series[padt.Float16] = pa.Field(ge=0, le=1)
-    casual: papd.Series[padt.UInt32] = pa.Field(ge=0)
-    registered: papd.Series[padt.UInt32] = pa.Field(ge=0)
+    instant: pl.UInt32 = pa.Field(ge=0)
+    dteday: pl.Datetime = pa.Field()
+    season: pl.UInt8 = pa.Field(isin=[1, 2, 3, 4])
+    yr: pl.UInt8 = pa.Field(ge=0, le=1)
+    mnth: pl.UInt8 = pa.Field(ge=1, le=12)
+    hr: pl.UInt8 = pa.Field(ge=0, le=23)
+    holiday: pl.Boolean = pa.Field()
+    weekday: pl.UInt8 = pa.Field(ge=0, le=6)
+    workingday: pl.Boolean = pa.Field()
+    weathersit: pl.UInt8 = pa.Field(ge=1, le=4)
+    temp: pl.Float32 = pa.Field(ge=0, le=1)
+    atemp: pl.Float32 = pa.Field(ge=0, le=1)
+    hum: pl.Float32 = pa.Field(ge=0, le=1)
+    windspeed: pl.Float32 = pa.Field(ge=0, le=1)
+    casual: pl.UInt32 = pa.Field(ge=0)
+    registered: pl.UInt32 = pa.Field(ge=0)
 
 
-Inputs = papd.DataFrame[InputsSchema]
+Inputs = pat.DataFrame[InputsSchema]
 
 
 class TargetsSchema(Schema):
     """Schema for the project target."""
 
-    instant: papd.Index[padt.UInt32] = pa.Field(ge=0)
-    cnt: papd.Series[padt.UInt32] = pa.Field(ge=0)
+    cnt: pl.UInt32 = pa.Field(ge=0)
 
 
-Targets = papd.DataFrame[TargetsSchema]
+Targets = pat.DataFrame[TargetsSchema]
 
 
 class OutputsSchema(Schema):
     """Schema for the project output."""
 
-    instant: papd.Index[padt.UInt32] = pa.Field(ge=0)
-    prediction: papd.Series[padt.UInt32] = pa.Field(ge=0)
+    prediction: pl.UInt32 = pa.Field(ge=0)
 
 
-Outputs = papd.DataFrame[OutputsSchema]
+Outputs = pat.DataFrame[OutputsSchema]
 
 
 class SHAPValuesSchema(Schema):
@@ -107,14 +104,14 @@ class SHAPValuesSchema(Schema):
         strict: bool = False
 
 
-SHAPValues = papd.DataFrame[SHAPValuesSchema]
+SHAPValues = pat.DataFrame[SHAPValuesSchema]
 
 
 class FeatureImportancesSchema(Schema):
     """Schema for the project feature importances."""
 
-    feature: papd.Series[padt.String] = pa.Field()
-    importance: papd.Series[padt.Float32] = pa.Field()
+    feature: pl.String = pa.Field()
+    importance: pl.Float32 = pa.Field()
 
 
-FeatureImportances = papd.DataFrame[FeatureImportancesSchema]
+FeatureImportances = pat.DataFrame[FeatureImportancesSchema]

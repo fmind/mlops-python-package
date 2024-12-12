@@ -91,7 +91,7 @@ class TrainTestSplitter(Splitter):
         targets: schemas.Targets,
         groups: Index | None = None,
     ) -> TrainTestSplits:
-        index = np.arange(len(inputs))  # return integer position
+        index = list(range(inputs.height))  # return index positions
         train_index, test_index = model_selection.train_test_split(
             index,
             shuffle=self.shuffle,

@@ -19,17 +19,17 @@ def test_parquet_reader(limit: int | None, inputs_path: str) -> None:
     lineage = reader.lineage(name="inputs", data=data)
     # then
     # - data
-    assert data.ndim == 2, "Data should be a dataframe!"
+    assert data.shape, "Data should be a dataframe!"
     if limit is not None:
-        assert len(data) == limit, "Data should have the limit size!"
+        assert data.height == limit, "Data should have the limit size!"
     # - lineage
     assert lineage.name == "inputs", "Lineage name should be inputs!"
     assert lineage.source.uri == inputs_path, "Lineage source uri should be the inputs path!"  # type: ignore[attr-defined]
     assert lineage.schema is not None and set(lineage.schema.input_names()) == set(
         data.columns
     ), "Lineage schema names should be the data columns!"
-    assert lineage.profile["num_rows"] == len(  # type: ignore[index]
-        data
+    assert (
+        lineage.profile["num_rows"] == data.height  # type: ignore[index]
     ), "Lineage profile should contain the data row count!"
 
 

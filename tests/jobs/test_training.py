@@ -83,8 +83,8 @@ def test_training_job(
         out["run"].data.tags.items() > run_config.tags.items()
     ), "Run tags should be a subset of tags!"
     # - data
-    assert out["inputs"].ndim == out["inputs_"].ndim == 2, "Inputs should be a dataframe!"
-    assert out["targets"].ndim == out["targets_"].ndim == 2, "Targets should be a dataframe!"
+    assert out["inputs"].shape == out["inputs_"].shape, "Inputs should be a dataframe!"
+    assert out["targets"].shape == out["targets_"].shape, "Targets should be a dataframe!"
     # - lineage
     assert out["inputs_lineage"].name == "inputs", "Inputs lineage name should be inputs!"
     assert (
@@ -98,24 +98,24 @@ def test_training_job(
         out["targets_lineage"].targets == schemas.TargetsSchema.cnt
     ), "Targets lineage target should be cnt!"
     # - splitter
-    assert len(out["inputs_train"]) + len(out["inputs_test"]) == len(
-        out["inputs"]
+    assert (
+        out["inputs_train"].height + out["inputs_test"].height == out["inputs"].height
     ), "Train and test inputs should have the same length as inputs!"
-    assert len(out["targets_train"]) + len(out["targets_test"]) == len(
-        out["targets"]
+    assert (
+        out["targets_train"].height + out["targets_test"].height == out["targets"].height
     ), "Train and test targets should have the same length as targets!"
     assert (
-        len(out["train_index"]) == len(out["inputs_train"]) == len(out["targets_train"])
+        out["train_index"].height == out["inputs_train"].height == out["targets_train"].height
     ), "Train inputs and targets should have the same length!"
     assert (
-        len(out["test_index"]) == len(out["inputs_test"]) == len(out["targets_test"])
+        out["test_index"].height == out["inputs_test"].height == out["targets_test"].height
     ), "Test inputs and targets should have the same length!"
     # - outputs
     assert (
         out["outputs_test"].shape == out["targets_test"].shape
     ), "Outputs should have the same shape as targets!"
     assert (
-        len(out["test_index"]) == len(out["outputs_test"]) == len(out["inputs_test"])
+        out["test_index"].height == out["outputs_test"].height == out["inputs_test"].height
     ), "Outputs should have the same length as inputs!"
     # - i and score
     assert out["i"] == len(job.metrics), "i should be the number of metrics computed!"

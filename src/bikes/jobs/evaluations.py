@@ -5,7 +5,7 @@
 import typing as T
 
 import mlflow
-import pandas as pd
+import polars as pl
 import pydantic as pdt
 
 from bikes.core import metrics as metrics_
@@ -100,14 +100,15 @@ class EvaluationsJob(base.Job):
             model = self.loader.load(uri=model_uri)
             logger.debug("- Model: {}", model)
             # outputs
-            logger.info("Predict outputs: {}", len(inputs))
+            logger.info("Predict outputs: {}", inputs.shape)
             outputs = model.predict(inputs=inputs)  # checked
             logger.debug("- Outputs shape: {}", outputs.shape)
             # dataset
             logger.info("Create dataset: inputs & targets & outputs")
-            dataset_ = pd.concat([inputs, targets, outputs], axis="columns")
+            dataset_ = pl.concat(items=[inputs, targets, outputs], how="vertical")
+            df = dataset_.to_pandas(use_pyarrow_extension_array=True)
             dataset = mlflow.data.from_pandas(  # type: ignore[attr-defined]
-                df=dataset_,
+                df=df,
                 name="evaluation",
                 targets=schemas.TargetsSchema.cnt,
                 predictions=schemas.OutputsSchema.prediction,

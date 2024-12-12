@@ -63,7 +63,7 @@ class ExplanationsJob(base.Job):
         models_explanations = model.explain_model()
         logger.debug("- Models explanations shape: {}", models_explanations.shape)
         # # - samples
-        logger.info("Explain samples: {}", len(inputs_samples))
+        logger.info("Explain samples: {}", inputs_samples.shape)
         samples_explanations = model.explain_samples(inputs=inputs_samples)
         logger.debug("- Samples explanations shape: {}", samples_explanations.shape)
         # write
@@ -76,6 +76,6 @@ class ExplanationsJob(base.Job):
         # notify
         self.alerts_service.notify(
             title="Explanations Job Finished",
-            message=f"Features Count: {len(models_explanations)}",
+            message=f"Features Count: {models_explanations.height}",
         )
         return locals()
