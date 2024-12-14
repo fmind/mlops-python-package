@@ -199,7 +199,7 @@ class MlflowService(Service):
             run (str): run parameters.
 
         Yields:
-            T.Generator[mlflow.ActiveRun, None, None]: active run context. Will be closed as the end of context.
+            T.Generator[mlflow.ActiveRun, None, None]: active run context. Will be closed at the end of context.
         """
         with mlflow.start_run(
             run_name=run_config.name,
