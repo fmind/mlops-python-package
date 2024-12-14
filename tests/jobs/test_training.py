@@ -16,7 +16,7 @@ def test_training_job(
     logger_service: services.LoggerService,
     inputs_reader: datasets.ParquetReader,
     targets_reader: datasets.ParquetReader,
-    model: models.BaselineSklearnModel,
+    model: models.SklearnModel,
     metric: metrics.SklearnMetric,
     train_test_splitter: splitters.TrainTestSplitter,
     saver: registries.CustomSaver,

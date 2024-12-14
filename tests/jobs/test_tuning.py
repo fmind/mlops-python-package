@@ -16,7 +16,7 @@ def test_tuning_job(
     logger_service: services.LoggerService,
     inputs_reader: datasets.ParquetReader,
     targets_reader: datasets.ParquetReader,
-    model: models.BaselineSklearnModel,
+    model: models.SklearnModel,
     metric: metrics.SklearnMetric,
     time_series_splitter: splitters.TimeSeriesSplitter,
     searcher: searchers.GridCVSearcher,

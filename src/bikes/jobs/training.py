@@ -39,7 +39,7 @@ class TrainingJob(base.Job):
     inputs: datasets.ReaderKind = pdt.Field(..., discriminator="KIND")
     targets: datasets.ReaderKind = pdt.Field(..., discriminator="KIND")
     # Model
-    model: models.ModelKind = pdt.Field(models.BaselineSklearnModel(), discriminator="KIND")
+    model: models.ModelKind = pdt.Field(models.XGBoostModel(), discriminator="KIND")
     # Metrics
     metrics: metrics_.MetricsKind = [metrics_.SklearnMetric()]
     # Splitter

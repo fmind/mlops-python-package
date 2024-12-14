@@ -36,7 +36,7 @@ class TuningJob(base.Job):
     inputs: datasets.ReaderKind = pdt.Field(..., discriminator="KIND")
     targets: datasets.ReaderKind = pdt.Field(..., discriminator="KIND")
     # Model
-    model: models.ModelKind = pdt.Field(models.BaselineSklearnModel(), discriminator="KIND")
+    model: models.ModelKind = pdt.Field(models.XGBoostModel(), discriminator="KIND")
     # Metric
     metric: metrics.MetricKind = pdt.Field(metrics.SklearnMetric(), discriminator="KIND")
     # splitter
