@@ -8,6 +8,7 @@ import abc
 import contextlib as ctx
 import sys
 import typing as T
+import warnings
 
 import loguru
 import mlflow
@@ -113,14 +114,27 @@ class AlertsService(Service):
             message (str): message of the notification.
         """
         if self.enable:
-            notification.notify(
-                title=title,
-                message=message,
-                app_name=self.app_name,
-                timeout=self.timeout,
-            )
+            try:
+                notification.notify(
+                    title=title,
+                    message=message,
+                    app_name=self.app_name,
+                    timeout=self.timeout,
+                )
+            except NotImplementedError:
+                warnings.warn("Notifications are not supported on this system.", RuntimeWarning)
+                self._print(title=title, message=message)
         else:
-            print(f"[{self.app_name}] {title}: {message}")
+            self._print(title=title, message=message)
+
+    def _print(self, title: str, message: str) -> None:
+        """Print a notification to the system.
+
+        Args:
+            title (str): title of the notification.
+            message (str): message of the notification.
+        """
+        print(f"[{self.app_name}] {title}: {message}")
 
 
 class MlflowService(Service):
