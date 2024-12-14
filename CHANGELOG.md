@@ -1,3 +1,23 @@
+## v3.0.0 (2024-12-14)
+
+### Feat
+
+- **mlflow**: bump to 2.19.0
+- **manager**: switch from poetry to uv (#22)
+- **manager**: switch from poetry to uv
+
+### Fix
+
+- **tasks**: merge conflict
+- **tasks**: fix mlflow.serve task attribute
+- **github-actions**: run check on all PR
+
+### Refactor
+
+- **release**: prepare before release
+- **actions**: split check tasks into subtask for easier debugging (#29)
+- **code**: improve abstractions (#28)
+
 ## v2.0.0 (2024-07-28)
 
 ### Feat
