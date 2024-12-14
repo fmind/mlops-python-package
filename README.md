@@ -13,6 +13,7 @@ The package leverages several [tools](#tools) and [tips](#tips) to make your MLO
 You can use this package as part of your MLOps toolkit or platform (e.g., Model Registry, Experiment Tracking, Realtime Inference, ...).
 
 **Related Resources**:
+- **[LLMOps Coding Package (Example)](https://github.com/callmesora/llmops-python-package/)**: Example with best practices and tools to support your LLMOps projects.
 - **[MLOps Coding Course (Learning)](https://github.com/MLOps-Courses/mlops-coding-course)**: Learn how to create, develop, and maintain a state-of-the-art MLOps code base.
 - **[Cookiecutter MLOps Package (Template)](https://github.com/fmind/cookiecutter-mlops-package)**: Start building and deploying Python packages and Docker images for MLOps tasks.
 
@@ -69,7 +70,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
   - [Package](#package)
     - [Evolution: Changelog](#evolution-changelog)
     - [Format: Wheel](#format-wheel)
-    - [Manager: Poetry](#manager-poetry)
+    - [Manager: uv](#manager-uv)
     - [Runtime: Docker](#runtime-docker)
   - [Programming](#programming)
     - [Language: Python](#language-python)
@@ -119,7 +120,7 @@ This section details the requirements, actions, and next steps to kickstart your
 ## Prerequisites
 
 - [Python>=3.12](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.12.html)
-- [Poetry>=1.8.2](https://python-poetry.org/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
+- [uv>=0.5.5](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
 
 ## Installation
 
@@ -130,10 +131,10 @@ $ git clone git@github.com:fmind/mlops-python-package
 # with https
 $ git clone https://github.com/fmind/mlops-python-package
 ```
-2. [Run the project installation with poetry](https://python-poetry.org/docs/)
+2. [Run the project installation with uv](https://docs.astral.sh/uv/)
 ```bash
 $ cd mlops-python-package/
-$ poetry install
+$ uv sync
 ```
 3. Adapt the code base to your desire
 
@@ -171,26 +172,26 @@ This config file instructs the program to start a `TrainingJob` with 2 parameter
 
 You can find all the parameters of your program in the `src/[package]/jobs/*.py` files.
 
-You can also print the full schema supported by this package using `poetry run bikes --schema`.
+You can also print the full schema supported by this package using `uv run bikes --schema`.
 
 ## Execution
 
-The project code can be executed with poetry during your development:
+The project code can be executed with uv during your development:
 
 ```bash
-$ poetry run [package] confs/tuning.yaml
-$ poetry run [package] confs/training.yaml
-$ poetry run [package] confs/promotion.yaml
-$ poetry run [package] confs/inference.yaml
-$ poetry run [package] confs/evaluations.yaml
-$ poetry run [package] confs/explanations.yaml
+$ uv run [package] confs/tuning.yaml
+$ uv run [package] confs/training.yaml
+$ uv run [package] confs/promotion.yaml
+$ uv run [package] confs/inference.yaml
+$ uv run [package] confs/evaluations.yaml
+$ uv run [package] confs/explanations.yaml
 ```
 
 In production, you can build, ship, and run the project as a Python package:
 
 ```bash
-poetry build
-poetry publish # optional
+uv build
+uv publish # optional
 python -m pip install [package]
 [package] confs/inference.yaml
 ```
@@ -211,7 +212,7 @@ with job as runner:
 - You can pass several config files in the command-line to merge them from left to right
   - You can define common configurations shared between jobs (e.g., model params)
 - The right job task will be selected automatically thanks to [Pydantic Discriminated Unions](https://docs.pydantic.dev/latest/concepts/unions/#discriminated-unions)
-  - This is a great way to run any job supported by the application (training, tuning, ....
+  - This is a great way to run any job supported by the application (training, tuning, ...)
 
 ## Automation
 
@@ -233,7 +234,6 @@ $ inv --list
 - **checks.code** - Check the codes with ruff.
 - **checks.coverage** - Check the coverage with coverage.
 - **checks.format** - Check the formats with ruff.
-- **checks.poetry** - Check poetry config files.
 - **checks.security** - Check the security with bandit.
 - **checks.test** - Check the tests with pytest.
 - **checks.type** - Check the types with mypy.
@@ -247,15 +247,15 @@ $ inv --list
 - **cleans.mlruns** - Clean the mlruns folder.
 - **cleans.mypy** - Clean the mypy tool.
 - **cleans.outputs** - Clean the outputs folder.
-- **cleans.poetry** - Clean poetry lock file.
-- **cleans.pytest** - Clean the pytest tool.
 - **cleans.projects** - Run all projects tasks.
+- **cleans.pytest** - Clean the pytest tool.
 - **cleans.python** - Clean python caches and bytecodes.
 - **cleans.requirements** - Clean the project requirements file.
 - **cleans.reset** - Run all tools, folders, and sources tasks.
 - **cleans.ruff** - Clean the ruff tool.
 - **cleans.sources** - Run all sources tasks.
 - **cleans.tools** - Run all tools tasks.
+- **cleans.uv** - Clean uv lock file.
 - **cleans.venv** - Clean the venv folder.
 - **commits.all (commits)** - Run all commit tasks.
 - **commits.bump** - Bump the version of the package.
@@ -272,8 +272,8 @@ $ inv --list
 - **formats.imports** - Format python imports with ruff.
 - **formats.sources** - Format python sources with ruff.
 - **installs.all (installs)** - Run all install tasks.
-- **installs.poetry** - Install poetry packages.
 - **installs.pre-commit** - Install pre-commit hooks on git.
+- **installs.uv** - Install uv packages.
 - **mlflow.all (mlflow)** - Run all mlflow tasks.
 - **mlflow.doctor** - Run mlflow doctor to diagnose issues.
 - **mlflow.serve** - Start mlflow server with the given host, port, and backend uri.
@@ -684,17 +684,18 @@ Define and build modern Python package.
   - [Source](https://docs.python.org/3/distutils/sourcedist.html): older format, less powerful
   - [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html): slow and hard to manage
 
-### Manager: [Poetry](https://python-poetry.org/)
+### Manager: [uv](https://docs.astral.sh/uv/)
 
 - **Motivations**:
   - Define and build Python package
-  - Most popular solution by GitHub stars
+  - Fast and compliant package manager
   - Pack every metadata in a single static file
 - **Limitations**:
   - Cannot add dependencies beyond Python (e.g., CUDA)
     - i.e., use Docker container for this use case
 - **Alternatives**:
   - [Setuptools](https://docs.python.org/3/distutils/setupscript.html): dynamic file is slower and more risky
+  - [Poetry](https://python-poetry.org/): previous solution of this package
   - Pdm, Hatch, PipEnv: https://xkcd.com/1987/
 
 ### Runtime: [Docker](https://www.docker.com/resources/what-container/)
@@ -937,10 +938,10 @@ Using Python package for your AI/ML project has the following benefits:
 - Install Python package as a library (e.g., like pandas)
 - Expose script entry points to run a CLI or a GUI
 
-To build a Python package with Poetry, you simply have to type in a terminal:
+To build a Python package with uv, you simply have to type in a terminal:
 ```bash
-# for all poetry project
-poetry build
+# for all uv project
+uv build
 # for this project only
 inv packages
 ```
@@ -1044,7 +1045,7 @@ Semantic Versioning (SemVer) provides a simple schema to communicate code change
 - *Minor* (Y): minor release with new features (i.e., provide new capabilities)
 - *Patch* (Z): patch release to fix bugs (i.e., correct wrong behavior)
 
-Poetry and this package leverage Semantic Versioning to let developers control the speed of adoption for new releases.
+Uv and this package leverage Semantic Versioning to let developers control the speed of adoption for new releases.
 
 ## [Testing Tricks](https://en.wikipedia.org/wiki/Software_testing)
 

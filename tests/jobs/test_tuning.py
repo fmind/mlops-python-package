@@ -1,6 +1,7 @@
 # %% IMPORTS
 
 import _pytest.capture as pc
+
 from bikes import jobs
 from bikes.core import metrics, models, schemas
 from bikes.io import datasets, services
@@ -15,10 +16,10 @@ def test_tuning_job(
     logger_service: services.LoggerService,
     inputs_reader: datasets.ParquetReader,
     targets_reader: datasets.ParquetReader,
-    model: models.Model,
-    metric: metrics.Metric,
-    time_series_splitter: splitters.Splitter,
-    searcher: searchers.Searcher,
+    model: models.BaselineSklearnModel,
+    metric: metrics.SklearnMetric,
+    time_series_splitter: splitters.TimeSeriesSplitter,
+    searcher: searchers.GridCVSearcher,
     capsys: pc.CaptureFixture[str],
 ) -> None:
     # given
@@ -92,6 +93,7 @@ def test_tuning_job(
     ), "Best params should have the same keys!"
     # - mlflow tracking
     experiment = client.get_experiment_by_name(name=mlflow_service.experiment_name)
+    assert experiment is not None, "Mlflow experiment should exist!"
     assert (
         experiment.name == mlflow_service.experiment_name
     ), "Mlflow experiment name should be the same!"

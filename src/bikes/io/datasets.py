@@ -69,11 +69,12 @@ class ParquetReader(Reader):
     KIND: T.Literal["ParquetReader"] = "ParquetReader"
 
     path: str
+    backend: T.Literal["pyarrow", "numpy_nullable"] = "pyarrow"
 
     @T.override
     def read(self) -> pd.DataFrame:
         # can't limit rows at read time
-        data = pd.read_parquet(self.path)
+        data = pd.read_parquet(self.path, dtype_backend="pyarrow")
         if self.limit is not None:
             data = data.head(self.limit)
         return data
@@ -87,7 +88,11 @@ class ParquetReader(Reader):
         predictions: str | None = None,
     ) -> Lineage:
         return lineage.from_pandas(
-            df=data, name=name, source=self.path, targets=targets, predictions=predictions
+            df=data,
+            name=name,
+            source=self.path,
+            targets=targets,
+            predictions=predictions,
         )
 
 

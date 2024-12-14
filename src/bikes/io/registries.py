@@ -7,6 +7,7 @@ import typing as T
 
 import mlflow
 import pydantic as pdt
+from mlflow.pyfunc import PyFuncModel, PythonModel, PythonModelContext
 
 from bikes.core import models, schemas
 from bikes.utils import signers
@@ -82,7 +83,10 @@ class Saver(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
     @abc.abstractmethod
     def save(
-        self, model: models.Model, signature: signers.Signature, input_example: schemas.Inputs
+        self,
+        model: models.Model,
+        signature: signers.Signature,
+        input_example: schemas.Inputs,
     ) -> Info:
         """Save a model in the model registry.
 
@@ -104,7 +108,7 @@ class CustomSaver(Saver):
 
     KIND: T.Literal["CustomSaver"] = "CustomSaver"
 
-    class Adapter(mlflow.pyfunc.PythonModel):  # type: ignore[misc]
+    class Adapter(PythonModel):  # type: ignore[misc]
         """Adapt a custom model to the Mlflow PyFunc flavor for saving operations.
 
         https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html?#mlflow.pyfunc.PythonModel
@@ -120,14 +124,14 @@ class CustomSaver(Saver):
 
         def predict(
             self,
-            context: mlflow.pyfunc.PythonModelContext,
+            context: PythonModelContext,
             model_input: schemas.Inputs,
             params: dict[str, T.Any] | None = None,
         ) -> schemas.Outputs:
             """Generate predictions with a custom model for the given inputs.
 
             Args:
-                context (mlflow.pyfunc.PythonModelContext): mlflow context.
+                context (mlflow.PythonModelContext): mlflow context.
                 model_input (schemas.Inputs): inputs for the mlflow model.
                 params (dict[str, T.Any] | None): additional parameters.
 
@@ -138,7 +142,10 @@ class CustomSaver(Saver):
 
     @T.override
     def save(
-        self, model: models.Model, signature: signers.Signature, input_example: schemas.Inputs
+        self,
+        model: models.Model,
+        signature: signers.Signature,
+        input_example: schemas.Inputs,
     ) -> Info:
         adapter = CustomSaver.Adapter(model=model)
         return mlflow.pyfunc.log_model(
@@ -167,12 +174,15 @@ class BuiltinSaver(Saver):
         self,
         model: models.Model,
         signature: signers.Signature,
-        input_example: schemas.Inputs | None = None,
-    ) -> mlflow.entities.model_registry.ModelVersion:
+        input_example: schemas.Inputs,
+    ) -> Info:
         builtin_model = model.get_internal_model()
         module = getattr(mlflow, self.flavor)
         return module.log_model(
-            builtin_model, artifact_path=self.path, signature=signature, input_example=input_example
+            builtin_model,
+            artifact_path=self.path,
+            signature=signature,
+            input_example=input_example,
         )
 
 
@@ -227,11 +237,11 @@ class CustomLoader(Loader):
     class Adapter(Loader.Adapter):
         """Adapt a custom model for the project inference."""
 
-        def __init__(self, model: mlflow.pyfunc.PyFuncModel) -> None:
+        def __init__(self, model: PyFuncModel) -> None:
             """Initialize the adapter from an mlflow pyfunc model.
 
             Args:
-                model (mlflow.pyfunc.PyFuncModel): mlflow pyfunc model.
+                model (PyFuncModel): mlflow pyfunc model.
             """
             self.model = model
 
@@ -261,11 +271,11 @@ class BuiltinLoader(Loader):
     class Adapter(Loader.Adapter):
         """Adapt a builtin model for the project inference."""
 
-        def __init__(self, model: mlflow.pyfunc.PyFuncModel) -> None:
+        def __init__(self, model: PyFuncModel) -> None:
             """Initialize the adapter from an mlflow pyfunc model.
 
             Args:
-                model (mlflow.pyfunc.PyFuncModel): mlflow pyfunc model.
+                model (PyFuncModel): mlflow pyfunc model.
             """
             self.model = model
 

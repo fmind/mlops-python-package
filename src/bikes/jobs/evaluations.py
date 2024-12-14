@@ -25,7 +25,7 @@ class EvaluationsJob(base.Job):
         targets (datasets.ReaderKind): reader for the targets data.
         model_type (str): model type (e.g. "regressor", "classifier").
         alias_or_version (str | int): alias or version for the  model.
-        metrics (metrics_.MetricKind): metrics for the reporting.
+        metrics (metrics_.MetricsKind): metric list to compute.
         evaluators (list[str]): list of evaluators to use.
         thresholds (dict[str, metrics_.Threshold] | None): metric thresholds.
     """
@@ -42,8 +42,10 @@ class EvaluationsJob(base.Job):
     # Model
     model_type: str = "regressor"
     alias_or_version: str | int = "Champion"
+    # Loader
+    loader: registries.LoaderKind = pdt.Field(registries.CustomLoader(), discriminator="KIND")
     # Metrics
-    metrics: list[metrics_.MetricKind] = pdt.Field([metrics_.SklearnMetric()], discriminator="KIND")
+    metrics: metrics_.MetricsKind = [metrics_.SklearnMetric()]
     # Evaluators
     evaluators: list[str] = ["default"]
     # Thresholds
@@ -86,21 +88,31 @@ class EvaluationsJob(base.Job):
             )
             mlflow.log_input(dataset=targets_lineage, context=self.run_config.name)
             logger.debug("- Targets lineage: {}", targets_lineage.to_dict())
-            # dataset
-            logger.info("Create dataset: inputs & targets")
-            dataset = mlflow.data.from_pandas(
-                df=pd.concat([inputs, targets], axis="columns"),
-                name="evaluation",
-                source=f"{inputs_lineage.source.uri} & {targets_lineage.source.uri}",
-                targets=schemas.TargetsSchema.cnt,
-            )
-            logger.debug("- Dataset: {}", dataset.to_dict())
             # model
             logger.info("With model: {}", self.mlflow_service.registry_name)
             model_uri = registries.uri_for_model_alias_or_version(
-                name=self.mlflow_service.registry_name, alias_or_version=self.alias_or_version
+                name=self.mlflow_service.registry_name,
+                alias_or_version=self.alias_or_version,
             )
             logger.debug("- Model URI: {}", model_uri)
+            # loader
+            logger.info("Load model: {}", self.loader)
+            model = self.loader.load(uri=model_uri)
+            logger.debug("- Model: {}", model)
+            # outputs
+            logger.info("Predict outputs: {}", len(inputs))
+            outputs = model.predict(inputs=inputs)  # checked
+            logger.debug("- Outputs shape: {}", outputs.shape)
+            # dataset
+            logger.info("Create dataset: inputs & targets & outputs")
+            dataset_ = pd.concat([inputs, targets, outputs], axis="columns")
+            dataset = mlflow.data.from_pandas(  # type: ignore[attr-defined]
+                df=dataset_,
+                name="evaluation",
+                targets=schemas.TargetsSchema.cnt,
+                predictions=schemas.OutputsSchema.prediction,
+            )
+            logger.debug("- Dataset: {}", dataset.to_dict())
             # metrics
             logger.debug("Convert metrics: {}", self.metrics)
             extra_metrics = [metric.to_mlflow() for metric in self.metrics]
@@ -115,7 +127,6 @@ class EvaluationsJob(base.Job):
             logger.info("Compute evaluations: {}", self.model_type)
             evaluations = mlflow.evaluate(
                 data=dataset,
-                model=model_uri,
                 model_type=self.model_type,
                 evaluators=self.evaluators,
                 extra_metrics=extra_metrics,

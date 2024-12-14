@@ -34,7 +34,10 @@ class Splitter(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid")
 
     @abc.abstractmethod
     def split(
-        self, inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None = None
+        self,
+        inputs: schemas.Inputs,
+        targets: schemas.Targets,
+        groups: Index | None = None,
     ) -> TrainTestSplits:
         """Split a dataframe into subsets.
 
@@ -49,7 +52,10 @@ class Splitter(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid")
 
     @abc.abstractmethod
     def get_n_splits(
-        self, inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None = None
+        self,
+        inputs: schemas.Inputs,
+        targets: schemas.Targets,
+        groups: Index | None = None,
     ) -> int:
         """Get the number of splits generated.
 
@@ -80,17 +86,26 @@ class TrainTestSplitter(Splitter):
 
     @T.override
     def split(
-        self, inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None = None
+        self,
+        inputs: schemas.Inputs,
+        targets: schemas.Targets,
+        groups: Index | None = None,
     ) -> TrainTestSplits:
         index = np.arange(len(inputs))  # return integer position
         train_index, test_index = model_selection.train_test_split(
-            index, shuffle=self.shuffle, test_size=self.test_size, random_state=self.random_state
+            index,
+            shuffle=self.shuffle,
+            test_size=self.test_size,
+            random_state=self.random_state,
         )
         yield train_index, test_index
 
     @T.override
     def get_n_splits(
-        self, inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None = None
+        self,
+        inputs: schemas.Inputs,
+        targets: schemas.Targets,
+        groups: Index | None = None,
     ) -> int:
         return 1
 
@@ -112,14 +127,22 @@ class TimeSeriesSplitter(Splitter):
 
     @T.override
     def split(
-        self, inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None = None
+        self,
+        inputs: schemas.Inputs,
+        targets: schemas.Targets,
+        groups: Index | None = None,
     ) -> TrainTestSplits:
-        splitter = model_selection.TimeSeriesSplit(n_splits=self.n_splits, test_size=self.test_size)
+        splitter = model_selection.TimeSeriesSplit(
+            n_splits=self.n_splits, test_size=self.test_size, gap=self.gap
+        )
         yield from splitter.split(inputs)
 
     @T.override
     def get_n_splits(
-        self, inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None = None
+        self,
+        inputs: schemas.Inputs,
+        targets: schemas.Targets,
+        groups: Index | None = None,
     ) -> int:
         return self.n_splits
 

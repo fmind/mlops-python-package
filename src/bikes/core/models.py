@@ -81,9 +81,6 @@ class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
     def explain_model(self) -> schemas.FeatureImportances:
         """Explain the internal model structure.
 
-        Raises:
-            NotImplementedError: method not implemented.
-
         Returns:
             schemas.FeatureImportances: feature importances.
         """
@@ -91,9 +88,6 @@ class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
 
     def explain_samples(self, inputs: schemas.Inputs) -> schemas.SHAPValues:
         """Explain model outputs on input samples.
-
-        Raises:
-            NotImplementedError: method not implemented.
 
         Returns:
             schemas.SHAPValues: SHAP values.
@@ -141,7 +135,7 @@ class BaselineSklearnModel(Model):
         "hum",
         "windspeed",
         "casual",
-        # "registered", # too correlated with target
+        "registered",  # too correlated with target
     ]
     _categoricals: list[str] = [
         "season",
@@ -163,7 +157,9 @@ class BaselineSklearnModel(Model):
             remainder="drop",
         )
         regressor = ensemble.RandomForestRegressor(
-            max_depth=self.max_depth, n_estimators=self.n_estimators, random_state=self.random_state
+            max_depth=self.max_depth,
+            n_estimators=self.n_estimators,
+            random_state=self.random_state,
         )
         # pipeline
         self._pipeline = pipeline.Pipeline(
@@ -189,10 +185,10 @@ class BaselineSklearnModel(Model):
         model = self.get_internal_model()
         regressor = model.named_steps["regressor"]
         transformer = model.named_steps["transformer"]
-        column_names = transformer.get_feature_names_out()
+        feature = transformer.get_feature_names_out()
         feature_importances = schemas.FeatureImportances(
             data={
-                "feature": column_names,
+                "feature": feature,
                 "importance": regressor.feature_importances_,
             }
         )

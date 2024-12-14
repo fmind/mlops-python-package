@@ -8,6 +8,7 @@ import typing as T
 import omegaconf
 import pytest
 from _pytest import logging as pl
+
 from bikes.core import metrics, models, schemas
 from bikes.io import datasets, registries, services
 from bikes.utils import searchers, signers, splitters
@@ -125,7 +126,9 @@ def targets_reader(targets_path: str) -> datasets.ParquetReader:
 
 @pytest.fixture(scope="session")
 def outputs_reader(
-    outputs_path: str, inputs_reader: datasets.ParquetReader, targets_reader: datasets.ParquetReader
+    outputs_path: str,
+    inputs_reader: datasets.ParquetReader,
+    targets_reader: datasets.ParquetReader,
 ) -> datasets.ParquetReader:
     """Return a reader for the outputs dataset."""
     # generate outputs if it is missing
@@ -146,13 +149,17 @@ def tmp_outputs_writer(tmp_outputs_path: str) -> datasets.ParquetWriter:
 
 
 @pytest.fixture(scope="function")
-def tmp_models_explanations_writer(tmp_models_explanations_path: str) -> datasets.ParquetWriter:
+def tmp_models_explanations_writer(
+    tmp_models_explanations_path: str,
+) -> datasets.ParquetWriter:
     """Return a writer for the tmp model explanations dataset."""
     return datasets.ParquetWriter(path=tmp_models_explanations_path)
 
 
 @pytest.fixture(scope="function")
-def tmp_samples_explanations_writer(tmp_samples_explanations_path: str) -> datasets.ParquetWriter:
+def tmp_samples_explanations_writer(
+    tmp_samples_explanations_path: str,
+) -> datasets.ParquetWriter:
     """Return a writer for the tmp samples explanations dataset."""
     return datasets.ParquetWriter(path=tmp_samples_explanations_path)
 
@@ -207,7 +214,7 @@ def time_series_splitter() -> splitters.TimeSeriesSplitter:
 
 
 @pytest.fixture(scope="session")
-def searcher() -> searchers.Searcher:
+def searcher() -> searchers.GridCVSearcher:
     """Return the default searcher object."""
     param_grid = {"max_depth": [1, 2], "n_estimators": [3]}
     return searchers.GridCVSearcher(param_grid=param_grid)
@@ -218,7 +225,9 @@ def searcher() -> searchers.Searcher:
 
 @pytest.fixture(scope="session")
 def train_test_sets(
-    train_test_splitter: splitters.Splitter, inputs: schemas.Inputs, targets: schemas.Targets
+    train_test_splitter: splitters.TrainTestSplitter,
+    inputs: schemas.Inputs,
+    targets: schemas.Targets,
 ) -> tuple[schemas.Inputs, schemas.Targets, schemas.Inputs, schemas.Targets]:
     """Return the inputs and targets train and test sets from the splitter."""
     train_index, test_index = next(train_test_splitter.split(inputs=inputs, targets=targets))
@@ -259,7 +268,7 @@ def metric() -> metrics.SklearnMetric:
 
 
 @pytest.fixture(scope="session")
-def signer() -> signers.Signer:
+def signer() -> signers.InferSigner:
     """Return a model signer."""
     return signers.InferSigner()
 

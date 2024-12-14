@@ -24,7 +24,7 @@ class TrainingJob(base.Job):
         inputs (datasets.ReaderKind): reader for the inputs data.
         targets (datasets.ReaderKind): reader for the targets data.
         model (models.ModelKind): machine learning model to train.
-        metrics (metrics_.MetricKind): metrics for the reporting.
+        metrics (metrics_.MetricsKind): metric list to compute.
         splitter (splitters.SplitterKind): data sets splitter.
         saver (registries.SaverKind): model saver.
         signer (signers.SignerKind): model signer.
@@ -41,7 +41,7 @@ class TrainingJob(base.Job):
     # Model
     model: models.ModelKind = pdt.Field(models.BaselineSklearnModel(), discriminator="KIND")
     # Metrics
-    metrics: list[metrics_.MetricKind] = pdt.Field([metrics_.SklearnMetric()], discriminator="KIND")
+    metrics: metrics_.MetricsKind = [metrics_.SklearnMetric()]
     # Splitter
     splitter: splitters.SplitterKind = pdt.Field(
         splitters.TrainTestSplitter(), discriminator="KIND"
@@ -134,6 +134,7 @@ class TrainingJob(base.Job):
             logger.debug("- Model version: {}", model_version)
             # notify
             self.alerts_service.notify(
-                title="Training Job Finished", message=f"Model version: {model_version.version}"
+                title="Training Job Finished",
+                message=f"Model version: {model_version.version}",
             )
         return locals()
