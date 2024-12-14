@@ -13,4 +13,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
       - run: uv sync --group=checks
-      - run: uv run invoke checks
+      - run: uv run invoke checks.format
+      - run: uv run invoke checks.type
+      - run: uv run invoke checks.code
+      - run: uv run invoke checks.security
+      - run: uv run invoke checks.coverage
