@@ -98,7 +98,7 @@ class AlertsService(Service):
     """
 
     enable: bool = True
-    app_name: str = "Bikes"
+    app_name: str = "model_name"
     timeout: int | None = None
 
     @T.override
@@ -157,9 +157,9 @@ class MlflowService(Service):
     tracking_uri: str = "./mlruns"
     registry_uri: str = "./mlruns"
     # experiment
-    experiment_name: str = "bikes"
+    experiment_name: str = "model_name"
     # registry
-    registry_name: str = "bikes"
+    registry_name: str = "model_name"
     # autolog
     autolog_disable: bool = False
     autolog_disable_for_unsupported_versions: bool = False

@@ -3,8 +3,8 @@
 import os
 
 import pytest
-from bikes.core import schemas
-from bikes.io import datasets
+from model_name.core import schemas
+from model_name.io import datasets
 
 # %% READERS
 

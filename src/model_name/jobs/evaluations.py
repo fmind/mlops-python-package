@@ -8,10 +8,10 @@ import mlflow
 import pandas as pd
 import pydantic as pdt
 
-from bikes.core import metrics as metrics_
-from bikes.core import schemas
-from bikes.io import datasets, registries, services
-from bikes.jobs import base
+from model_name.core import metrics as metrics_
+from model_name.core import schemas
+from model_name.io import datasets, registries, services
+from model_name.jobs import base
 
 # %% JOBS
 
@@ -43,7 +43,7 @@ class EvaluationsJob(base.Job):
     model_type: str = "regressor"
     alias_or_version: str | int = "Champion"
     # Metrics
-    metrics: list[metrics_.MetricKind] = pdt.Field([metrics_.SklearnMetric()], discriminator="KIND")
+    metrics: metrics_.MetricKind = pdt.Field([metrics_.SklearnMetric()], discriminator="KIND")
     # Evaluators
     evaluators: list[str] = ["default"]
     # Thresholds

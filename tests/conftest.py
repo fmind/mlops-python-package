@@ -8,9 +8,9 @@ import typing as T
 import omegaconf
 import pytest
 from _pytest import logging as pl
-from bikes.core import metrics, models, schemas
-from bikes.io import datasets, registries, services
-from bikes.utils import searchers, signers, splitters
+from model_name.core import metrics, models, schemas
+from model_name.io import datasets, registries, services
+from model_name.utils import searchers, signers, splitters
 
 # %% CONFIGS
 

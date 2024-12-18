@@ -3,6 +3,6 @@
 run:
   echo: true
 project:
-  name: bikes
-  package: bikes
-  repository: bikes
+  name: model_name
+  package: model_name
+  repository: model_name

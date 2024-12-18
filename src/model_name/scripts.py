@@ -2,12 +2,6 @@
 
 # ruff: noqa: E402
 
-# %% WARNINGS
-
-import warnings
-
-# disable annoying mlflow warnings
-warnings.filterwarnings(action="ignore", category=UserWarning)
 
 # %% IMPORTS
 
@@ -15,8 +9,15 @@ import argparse
 import json
 import sys
 
-from bikes import settings
-from bikes.io import configs
+from model_name import settings
+from model_name.io import configs
+
+# %% WARNINGS
+
+import warnings
+
+# disable annoying mlflow warnings
+warnings.filterwarnings(action="ignore", category=UserWarning)
 
 # %% PARSERS
 

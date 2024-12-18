@@ -7,11 +7,11 @@ import typing as T
 import mlflow
 import pydantic as pdt
 
-from bikes.core import metrics as metrics_
-from bikes.core import models, schemas
-from bikes.io import datasets, registries, services
-from bikes.jobs import base
-from bikes.utils import signers, splitters
+from model_name.core import metrics as metrics_
+from model_name.core import models, schemas
+from model_name.io import datasets, registries, services
+from model_name.jobs import base
+from model_name.utils import signers, splitters
 
 # %% JOBS
 
@@ -41,7 +41,7 @@ class TrainingJob(base.Job):
     # Model
     model: models.ModelKind = pdt.Field(models.BaselineSklearnModel(), discriminator="KIND")
     # Metrics
-    metrics: list[metrics_.MetricKind] = pdt.Field([metrics_.SklearnMetric()], discriminator="KIND")
+    metrics: metrics_.MetricKind = pdt.Field([metrics_.SklearnMetric()], discriminator="KIND")
     # Splitter
     splitter: splitters.SplitterKind = pdt.Field(
         splitters.TrainTestSplitter(), discriminator="KIND"

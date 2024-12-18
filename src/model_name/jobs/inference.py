@@ -6,9 +6,9 @@ import typing as T
 
 import pydantic as pdt
 
-from bikes.core import schemas
-from bikes.io import datasets, registries
-from bikes.jobs import base
+from model_name.core import schemas
+from model_name.io import datasets, registries
+from model_name.jobs import base
 
 # %% JOBS
 

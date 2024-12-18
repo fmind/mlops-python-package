@@ -3,8 +3,8 @@
 import _pytest.capture as pc
 import mlflow
 import pytest
-from bikes import jobs
-from bikes.io import registries, services
+from model_name import jobs
+from model_name.io import registries, services
 
 # %% JOBS
 

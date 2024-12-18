@@ -9,7 +9,7 @@ import mlflow
 import pydantic as pdt
 from mlflow.models import signature as ms
 
-from bikes.core import schemas
+from model_name.core import schemas
 
 # %% TYPES
 

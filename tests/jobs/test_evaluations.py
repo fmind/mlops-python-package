@@ -2,9 +2,9 @@
 
 import _pytest.capture as pc
 import pytest
-from bikes import jobs
-from bikes.core import metrics, schemas
-from bikes.io import datasets, registries, services
+from model_name import jobs
+from model_name.core import metrics, schemas
+from model_name.io import datasets, registries, services
 
 # %% JOBS
 

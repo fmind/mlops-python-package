@@ -5,7 +5,7 @@ on:
       - edited
       - published
 env:
-  DOCKER_IMAGE: ghcr.io/fmind/mlops-python-package
+  DOCKER_IMAGE: ghcr.io/lgcorzo/mlops-python-package
 concurrency:
   cancel-in-progress: true
   group: publish-workflow

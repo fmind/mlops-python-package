@@ -6,7 +6,7 @@ import mlflow
 import plyer
 import pytest
 import pytest_mock as pm
-from bikes.io import services
+from model_name.io import services
 
 # %% SERVICES
 
@@ -44,7 +44,7 @@ def test_alerts_service(
             "Notification method should not be called!",
         )
         assert (
-            capsys.readouterr().out == "[Bikes] test: hello\n"
+            capsys.readouterr().out == "[model_name] test: hello\n"
         ), "Notification should be printed to stdout!"
 
 

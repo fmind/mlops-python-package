@@ -3,7 +3,7 @@
 import typing as T
 
 import pytest
-from bikes.core import models, schemas
+from model_name.core import models, schemas
 
 # %% MODELS
 

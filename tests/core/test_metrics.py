@@ -3,7 +3,7 @@
 import mlflow
 import pandas as pd
 import pytest
-from bikes.core import metrics, models, schemas
+from model_name.core import metrics, models, schemas
 
 # %% METRICS
 

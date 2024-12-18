@@ -3,4 +3,4 @@
 FROM python:3.12
 COPY dist/*.whl .
 RUN pip install *.whl
-CMD ["bikes", "--help"]
+CMD ["model_name", "--help"]

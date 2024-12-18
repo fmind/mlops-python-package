@@ -1,10 +1,10 @@
 # %% IMPORTS
 
 import _pytest.capture as pc
-from bikes import jobs
-from bikes.core import metrics, models, schemas
-from bikes.io import datasets, services
-from bikes.utils import searchers, splitters
+from model_name import jobs
+from model_name.core import metrics, models, schemas
+from model_name.io import datasets, services
+from model_name.utils import searchers, splitters
 
 # %% JOBS
 

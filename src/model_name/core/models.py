@@ -9,7 +9,7 @@ import pydantic as pdt
 import shap
 from sklearn import compose, ensemble, pipeline, preprocessing
 
-from bikes.core import schemas
+from model_name.core import schemas
 
 # %% TYPES
 

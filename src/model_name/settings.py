@@ -5,7 +5,7 @@
 import pydantic as pdt
 import pydantic_settings as pdts
 
-from bikes import jobs
+from model_name import jobs
 
 # %% SETTINGS
 

@@ -10,7 +10,7 @@ import numpy.typing as npt
 import pydantic as pdt
 from sklearn import model_selection
 
-from bikes.core import schemas
+from model_name.core import schemas
 
 # %% TYPES
 

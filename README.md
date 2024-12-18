@@ -1,10 +1,11 @@
 # MLOps Python Package
+the original repository is fmind https://github.com/fmind/mlops-python-package
 
-[![check.yml](https://github.com/fmind/mlops-python-package/actions/workflows/check.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/check.yml)
-[![publish.yml](https://github.com/fmind/mlops-python-package/actions/workflows/publish.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/publish.yml)
-[![Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://fmind.github.io/mlops-python-package/)
-[![License](https://img.shields.io/github/license/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/blob/main/LICENCE.txt)
-[![Release](https://img.shields.io/github/v/release/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/releases)
+[![check.yml](https://github.com/lgcorzo/mlops-python-package/actions/workflows/check.yml/badge.svg)](https://github.com/lgcorzo/mlops-python-package/actions/workflows/check.yml)
+[![publish.yml](https://github.com/lgcorzo/mlops-python-package/actions/workflows/publish.yml/badge.svg)](https://github.com/lgcorzo/mlops-python-package/actions/workflows/publish.yml)
+[![Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://lgcorzo.github.io/mlops-python-package/)
+[![License](https://img.shields.io/github/license/lgcorzo/mlops-python-package)](https://github.com/lgcorzo/mlops-python-package/blob/main/LICENCE.txt)
+[![Release](https://img.shields.io/github/v/release/lgcorzo/mlops-python-package)](https://github.com/lgcorzo/mlops-python-package/releases)
 
 **This repository contains a Python code base with best practices designed to support your MLOps initiatives.**
 
@@ -14,7 +15,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
 
 **Related Resources**:
 - **[MLOps Coding Course (Learning)](https://github.com/MLOps-Courses/mlops-coding-course)**: Learn how to create, develop, and maintain a state-of-the-art MLOps code base.
-- **[Cookiecutter MLOps Package (Template)](https://github.com/fmind/cookiecutter-mlops-package)**: Start building and deploying Python packages and Docker images for MLOps tasks.
+- **[Cookiecutter MLOps Package (Template)](https://github.com/lgcorzo/cookiecutter-mlops-package)**: Start building and deploying Python packages and Docker images for MLOps tasks.
 
 # Table of Contents
 
@@ -47,7 +48,13 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
     - [Security: Bandit](#security-bandit)
     - [Testing: Pytest](#testing-pytest)
     - [Typing: Mypy](#typing-mypy)
-    - [Versioning: Git](#versioning-git)
+    - [Code Versioning: Git](#code-versioning-git)
+    - [Data Versioning: DVC](#data-versioning-dvc)
+      - [**Motivations**](#motivations)
+      - [**Features**](#features)
+      - [**Limitations**](#limitations)
+      - [**Alternatives**](#alternatives)
+      - [**Additional Resources**](#additional-resources)
   - [Configs](#configs)
     - [Format: YAML](#format-yaml)
     - [Parser: OmegaConf](#parser-omegaconf)
@@ -126,9 +133,9 @@ This section details the requirements, actions, and next steps to kickstart your
 1. [Clone this GitHub repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) on your computer
 ```bash
 # with ssh (recommended)
-$ git clone git@github.com:fmind/mlops-python-package
+$ git clone git@github.com:lgcorzo/mlops-python-package
 # with https
-$ git clone https://github.com/fmind/mlops-python-package
+$ git clone https://github.com/lgcorzo/mlops-python-package
 ```
 2. [Run the project installation with poetry](https://python-poetry.org/docs/)
 ```bash
@@ -171,7 +178,7 @@ This config file instructs the program to start a `TrainingJob` with 2 parameter
 
 You can find all the parameters of your program in the `src/[package]/jobs/*.py` files.
 
-You can also print the full schema supported by this package using `poetry run bikes --schema`.
+You can also print the full schema supported by this package using `poetry run model_name --schema`.
 
 ## Execution
 
@@ -184,6 +191,29 @@ $ poetry run [package] confs/promotion.yaml
 $ poetry run [package] confs/inference.yaml
 $ poetry run [package] confs/evaluations.yaml
 $ poetry run [package] confs/explanations.yaml
+```
+debug in vscode  is possible th the following configuration:
+```json
+{
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "Poetry evaluations Debug",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/model_name/__main__.py", // Adjust the entry point path
+            "args": [
+                "confs/evaluations.yaml"
+            ], // Arguments passed to your script
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}", // Set the working directory to the project root
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/src"
+            } // Ensure module discovery
+        }
+    ]
+}
 ```
 
 In production, you can build, ship, and run the project as a Python package:
@@ -463,7 +493,7 @@ Edition, validation, and versioning of your project source code.
   - [PyType](https://google.github.io/pytype/): check big code base by Google
   - [Pyre](https://pyre-check.org/): check big code base by Facebook
 
-### Versioning: [Git](https://git-scm.com/)
+### Code Versioning: [Git](https://git-scm.com/)
 
 - **Motivations**:
   - If you don't version your code, you are a fool
@@ -473,6 +503,39 @@ Edition, validation, and versioning of your project source code.
   - Git can be hard: https://xkcd.com/1597/
 - **Alternatives**:
   - [Mercurial](https://www.mercurial-scm.org/): loved it back then, but git is the only real option
+
+### Data Versioning: [DVC](https://dvc.org/)
+
+
+#### **Motivations**
+- **Version Control for Data:** Just as versioning code is essential, versioning data ensures reproducibility, collaboration, and traceability in machine learning workflows.
+- **Integration with Git:** DVC works seamlessly with Git, enabling you to track datasets and models alongside code.
+- **Automation and Pipelines:** DVC provides tools for creating pipelines, automating data processing, and ensuring consistent workflows across teams.
+- **Scalability:** Handles large datasets without burdening Git by storing data in external storage solutions.
+
+#### **Features**
+- **Data and Model Tracking:** Tracks datasets, models, and experiments without including large files in Git repositories.
+- **External Storage Support:** Supports various storage backends, including AWS S3, Google Cloud Storage, Azure, SSH, and local file systems.
+- **Reproducible Pipelines:** Allows users to define and execute machine learning workflows with dependencies and outputs tracked automatically.
+- **Experiment Management:** Simplifies running and tracking multiple experiments, making comparisons straightforward.
+
+#### **Limitations**
+- **Learning Curve:** Requires understanding of Git and DVC-specific concepts to fully leverage its capabilities.
+- **Complexity for Small Projects:** Overhead may not be justified for simple projects or teams unfamiliar with Git.
+- **Storage Configuration:** Initial setup for remote storage can be tedious for non-technical users.
+- **Dependency on Git:** Full functionality depends on having a properly configured Git repository.
+
+#### **Alternatives**
+- **[Git LFS](https://git-lfs.com/):** Focuses on large file versioning but lacks pipeline and experiment management capabilities.
+- **[Pachyderm](https://www.pachyderm.com/):** Offers data versioning and pipeline management but is more suited for large-scale, enterprise environments.
+- **[LakeFS](https://lakefs.io/):** A Git-like version control system specifically for data lakes.
+- **[Quilt](https://quiltdata.com/):** Simplifies dataset sharing and versioning with a user-friendly UI.
+
+#### **Additional Resources**
+- **[Getting Started with DVC](https://dvc.org/doc/start):** Official tutorial for beginners.
+- **[DVC Pipelines Guide](https://dvc.org/doc/user-guide/pipelines):** Learn to create reproducible pipelines.
+- **[Remote Storage Setup](https://dvc.org/doc/user-guide/setup-remote):** Detailed instructions on configuring remote storage.
+- **[DVC vs Git LFS](https://dvc.org/doc/user-guide/dvc-vs-git-lfs):** A comparison of DVC and Git LFS.
 
 ## Configs
 

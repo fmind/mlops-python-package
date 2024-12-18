@@ -1,7 +1,7 @@
 # %% IMPORTS
 
-from bikes.io import services
-from bikes.jobs import base
+from model_name.io import services
+from model_name.jobs import base
 
 # %% JOBS
 

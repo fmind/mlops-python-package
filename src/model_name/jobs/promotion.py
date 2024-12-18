@@ -4,7 +4,7 @@
 
 import typing as T
 
-from bikes.jobs import base
+from model_name.jobs import base
 
 # %% JOBS
 

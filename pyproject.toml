@@ -3,21 +3,21 @@
 # PROJECT
 
 [tool.poetry]
-name = "bikes"
+name = "model_name"
 version = "2.0.0"
-description = "Predict the number of bikes available."
-repository = "https://github.com/fmind/mlops-python-package"
-documentation = "https://fmind.github.io/mlops-python-package/"
-authors = ["Médéric HURIER <github@fmind.dev>"]
+description = "Predict the number of model_name available."
+repository = "https://github.com/lgcorzo/mlops-python-package"
+documentation = "https://lgcorzo.github.io/mlops-python-package/"
+authors = []
 readme = "README.md"
 license = "MIT"
 keywords = ["mlops", "python", "package"]
-packages = [{ include = "bikes", from = "src" }]
+packages = [{ include = "model_name", from = "src" }]
 
 # SCRIPTS
 
 [tool.poetry.scripts]
-bikes = 'bikes.scripts:main'
+model_name = 'model_name.scripts:main'
 
 # DEPENDENCIES
 
@@ -40,6 +40,7 @@ pynvml = "^11.5.0"
 setuptools = "^71.1.0"
 scikit-learn = "1.4.2"
 shap = "^0.46.0"
+dvc = "^3.58.0"
 
 [tool.poetry.group.checks.dependencies]
 bandit = "^1.7.9"

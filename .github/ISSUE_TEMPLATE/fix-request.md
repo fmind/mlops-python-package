@@ -3,7 +3,7 @@ name: Fix Request
 about: A bug fix
 title: "[FIX] "
 labels: fix
-assignees: fmind
+assignees: lgcorzo
 ---
 
 ## Bug Description

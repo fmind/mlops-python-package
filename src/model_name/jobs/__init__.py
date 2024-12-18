@@ -2,12 +2,12 @@
 
 # %% IMPORTS
 
-from bikes.jobs.evaluations import EvaluationsJob
-from bikes.jobs.explanations import ExplanationsJob
-from bikes.jobs.inference import InferenceJob
-from bikes.jobs.promotion import PromotionJob
-from bikes.jobs.training import TrainingJob
-from bikes.jobs.tuning import TuningJob
+from model_name.jobs.evaluations import EvaluationsJob
+from model_name.jobs.explanations import ExplanationsJob
+from model_name.jobs.inference import InferenceJob
+from model_name.jobs.promotion import PromotionJob
+from model_name.jobs.training import TrainingJob
+from model_name.jobs.tuning import TuningJob
 
 # %% TYPES
 

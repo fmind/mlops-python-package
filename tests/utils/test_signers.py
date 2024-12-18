@@ -1,7 +1,7 @@
 # %% IMPORTS
 
-from bikes.core import schemas
-from bikes.utils import signers
+from model_name.core import schemas
+from model_name.utils import signers
 
 # %% SIGNERS
 

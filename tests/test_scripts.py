@@ -6,7 +6,7 @@ import os
 import pydantic as pdt
 import pytest
 from _pytest import capture as pc
-from bikes import scripts
+from model_name import scripts
 
 # %% SCRIPTS
 

@@ -1,8 +1,8 @@
 # %% IMPORTS
 
-from bikes.core import models, schemas
-from bikes.io import registries, services
-from bikes.utils import signers
+from model_name.core import models, schemas
+from model_name.io import registries, services
+from model_name.utils import signers
 
 # %% HELPERS
 

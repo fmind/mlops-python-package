@@ -7,10 +7,10 @@ import typing as T
 import mlflow
 import pydantic as pdt
 
-from bikes.core import metrics, models, schemas
-from bikes.io import datasets, services
-from bikes.jobs import base
-from bikes.utils import searchers, splitters
+from model_name.core import metrics, models, schemas
+from model_name.io import datasets, services
+from model_name.jobs import base
+from model_name.utils import searchers, splitters
 
 # %% JOBS
 

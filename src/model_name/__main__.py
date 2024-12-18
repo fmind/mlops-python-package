@@ -2,7 +2,7 @@
 
 # %% IMPORTS
 
-from bikes import scripts
+from model_name import scripts
 
 # %% MAIN
 
