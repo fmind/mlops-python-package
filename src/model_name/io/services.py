@@ -8,12 +8,14 @@ import abc
 import contextlib as ctx
 import sys
 import typing as T
-
+from typing import ClassVar
 import loguru
 import mlflow
 import mlflow.tracking as mt
 import pydantic as pdt
 from plyer import notification
+
+from model_name.io.osvariables import Env
 
 # %% SERVICES
 
@@ -154,12 +156,11 @@ class MlflowService(Service):
         log_system_metrics: bool | None = True
 
     # server uri
-    tracking_uri: str = "./mlruns"
-    registry_uri: str = "./mlruns"
-    # experiment
-    experiment_name: str = "model_name"
-    # registry
-    registry_name: str = "model_name"
+    env: ClassVar[Env] = Env()
+    tracking_uri: str = env.mlflow_tracking_uri
+    registry_uri: str = env.mlflow_registry_uri
+    experiment_name: str = env.mlflow_experiment_name
+    registry_name: str = env.mlflow_registered_model_name
     # autolog
     autolog_disable: bool = False
     autolog_disable_for_unsupported_versions: bool = False
