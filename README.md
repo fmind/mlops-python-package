@@ -185,12 +185,12 @@ You can also print the full schema supported by this package using `poetry run m
 The project code can be executed with poetry during your development:
 
 ```bash
-$ poetry run [package] confs/tuning.yaml
-$ poetry run [package] confs/training.yaml
-$ poetry run [package] confs/promotion.yaml
-$ poetry run [package] confs/inference.yaml
-$ poetry run [package] confs/evaluations.yaml
-$ poetry run [package] confs/explanations.yaml
+$ poetry run model_name confs/tuning.yaml
+$ poetry run model_name confs/training.yaml
+$ poetry run model_name confs/promotion.yaml
+$ poetry run model_name confs/inference.yaml
+$ poetry run model_name confs/evaluations.yaml
+$ poetry run model_name confs/explanations.yaml
 ```
 debug in vscode  is possible th the following configuration:
 ```json
