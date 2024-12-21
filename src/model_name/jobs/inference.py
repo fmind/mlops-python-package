@@ -9,6 +9,7 @@ import pydantic as pdt
 from model_name.core import schemas
 from model_name.io import datasets, registries
 from model_name.jobs import base
+import pandas as pd
 
 # %% JOBS
 
@@ -60,7 +61,7 @@ class InferenceJob(base.Job):
         logger.debug("- Outputs shape: {}", outputs.shape)
         # write
         logger.info("Write outputs: {}", self.outputs)
-        self.outputs.write(data=outputs)
+        self.outputs.write(data=pd.DataFrame(outputs))
         # notify
         self.alerts_service.notify(
             title="Inference Job Finished", message=f"Outputs Shape: {outputs.shape}"

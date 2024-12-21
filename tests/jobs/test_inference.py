@@ -64,6 +64,6 @@ def test_inference_job(
         "python_function"
     ), "Model should have a pyfunc flavor!"
     # - outputs
-    assert out["outputs"].ndim == 2, "Outputs should be a dataframe!"
+    assert out["outputs"].ndim == 1, "Outputs should be a Serie!"
     # - alerting service
     assert "Inference Job Finished" in capsys.readouterr().out, "Alerting service should be called!"

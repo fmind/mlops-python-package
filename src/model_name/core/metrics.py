@@ -126,6 +126,7 @@ class SklearnMetric(Metric):
 
 
 MetricKind = SklearnMetric
+MetricsKind: T.TypeAlias = list[T.Annotated[MetricKind, pdt.Field(discriminator="KIND")]]
 
 # %% THRESHOLDS
 

@@ -10,6 +10,7 @@ import pydantic as pdt
 
 from model_name.core import models, schemas
 from model_name.utils import signers
+import pandas as pd
 
 # %% TYPES
 
@@ -134,7 +135,8 @@ class CustomSaver(Saver):
             Returns:
                 schemas.Outputs: validated outputs of the project model.
             """
-            return self.model.predict(inputs=model_input)
+            output = self.model.predict(inputs=model_input)
+            return T.cast(schemas.Outputs, output.prediction)
 
     @T.override
     def save(

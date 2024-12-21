@@ -41,7 +41,7 @@ class TrainingJob(base.Job):
     # Model
     model: models.ModelKind = pdt.Field(models.BaselineSklearnModel(), discriminator="KIND")
     # Metrics
-    metrics: metrics_.MetricKind = pdt.Field([metrics_.SklearnMetric()], discriminator="KIND")
+    metrics: metrics_.MetricsKind = [metrics_.SklearnMetric()]
     # Splitter
     splitter: splitters.SplitterKind = pdt.Field(
         splitters.TrainTestSplitter(), discriminator="KIND"

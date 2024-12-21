@@ -179,9 +179,9 @@ class BaselineSklearnModel(Model):
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
         model = self.get_internal_model()
         prediction = model.predict(inputs)
-        # outputs = schemas.Outputs(
-        #    {schemas.OutputsSchema.prediction: prediction}, index=inputs.index)
-        return prediction
+        outputs = schemas.Outputs(
+            {schemas.OutputsSchema.prediction: prediction}, index=inputs.index)
+        return outputs
 
     @T.override
     def explain_model(self) -> schemas.FeatureImportances:
