@@ -180,7 +180,8 @@ class BaselineSklearnModel(Model):
         model = self.get_internal_model()
         prediction = model.predict(inputs)
         outputs = schemas.Outputs(
-            {schemas.OutputsSchema.prediction: prediction}, index=inputs.index)
+            {schemas.OutputsSchema.prediction: prediction}, index=inputs.index
+        )
         return outputs
 
     @T.override
