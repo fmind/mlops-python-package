@@ -38,7 +38,7 @@
         "markdown==3.6",
         "markupsafe==2.1.5",
         "matplotlib==3.9.1",
-        "mlflow==2.14.3",
+        "mlflow[extras]==2.14.3",
         "multimethod==1.10",
         "mypy-extensions==1.0.0",
         "numba==0.60.0",
