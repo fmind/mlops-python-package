@@ -17,6 +17,8 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
 - **[MLOps Coding Course (Learning)](https://github.com/MLOps-Courses/mlops-coding-course)**: Learn how to create, develop, and maintain a state-of-the-art MLOps code base.
 - **[Cookiecutter MLOps Package (Template)](https://github.com/fmind/cookiecutter-mlops-package)**: Start building and deploying Python packages and Docker images for MLOps tasks.
 
+![](images/mlopsmindmap.png)
+
 # Table of Contents
 
 - [MLOps Python Package](#mlops-python-package)
