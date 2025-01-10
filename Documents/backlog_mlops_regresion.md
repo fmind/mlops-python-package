@@ -7,7 +7,7 @@
 
 1. **Core**  
    The foundational components of the system that ensure efficient functionality across various modules:  
-   - **Metrics**: Provide standardized measurements for model performance, accuracy, and evaluation. Useful for tracking improvement and identifying bottlenecks.  
+   - **[Metrics](Metrics_storie.md)**: Provide standardized measurements for model performance, accuracy, and evaluation. Useful for tracking improvement and identifying bottlenecks.  
    - **Models**: Define the structure of machine learning models, including architectures and checkpoints, to standardize training and deployment.  
    - **Schemas**: Define structured data formats for input, output, and intermediate processes, ensuring consistency and validation throughout the pipeline.  
 
