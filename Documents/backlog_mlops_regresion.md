@@ -16,10 +16,9 @@
 
 - **[US: Metrics](Metrics_storie.md)**: Provide standardized measurements for model performance, accuracy, and evaluation. Useful for tracking improvement and identifying bottlenecks.
 - **[US: Models](Models_storie.md)**: Define the structure of machine learning models, including architectures and checkpoints, to standardize training and deployment.
-- **US: Schemas**: Define structured data formats for input, output, and intermediate processes, ensuring consistency and validation throughout the pipeline.
- **FE: Input Outputs**
+- **[US: Schemas](Schemas_stories.md)**: Define structured data formats for input, output, and intermediate processes, ensuring consistency and validation throughout the pipeline.
+- **US: Input Outputs**
  Handle configuration, data ingestion, and external environment variables for seamless integration:
-
 - **US: Configs**: Store and manage configuration files to customize and control the behavior of different modules.
 - **US: Datasets**: Handle loading, preprocessing, and managing data sets for training, evaluation, and inference.
 - **US: OSVariables**: Provide environment variables and system-level configurations for portability across various environments.
