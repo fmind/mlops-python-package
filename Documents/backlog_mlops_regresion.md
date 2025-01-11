@@ -15,7 +15,7 @@
    The foundational components of the system that ensure efficient functionality across various modules:
 
 - **[US: Metrics](Metrics_storie.md)**: Provide standardized measurements for model performance, accuracy, and evaluation. Useful for tracking improvement and identifying bottlenecks.
-- **US: Models**: Define the structure of machine learning models, including architectures and checkpoints, to standardize training and deployment.
+- **[US: Models](Models_storie.md)**: Define the structure of machine learning models, including architectures and checkpoints, to standardize training and deployment.
 - **US: Schemas**: Define structured data formats for input, output, and intermediate processes, ensuring consistency and validation throughout the pipeline.
  **FE: Input Outputs**
  Handle configuration, data ingestion, and external environment variables for seamless integration:
