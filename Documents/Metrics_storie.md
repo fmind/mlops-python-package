@@ -1,12 +1,12 @@
-# US [Metrics](./backlog_mlops_regresion.md) : Provide standardized measurements for model performance, accuracy, and evaluation. 
+# US [Metrics](./backlog_mlops_regresion.md) : Provide standardized measurements for model performance, accuracy, and evaluation
 
 Provide standardized measurements for model performance, accuracy, and evaluation. Useful for tracking improvement and identifying bottlenecks.
 
-
-- [US Metrics : Provide standardized measurements for model performance, accuracy, and evaluation.](#us-metrics--provide-standardized-measurements-for-model-performance-accuracy-and-evaluation)
-  - [**DevOps Task: Implementing the `Metric` Base Class for Model Evaluation**](#devops-task-implementing-the-metric-base-class-for-model-evaluation)
-  - [**DevOps Task: Implementing the `SklearnMetric` Class for Scikit-Learn Metrics**](#devops-task-implementing-the-sklearnmetric-class-for-scikit-learn-metrics)
-  - [**DevOps Task: Implementing the `Threshold` Class for Metric Monitoring**](#devops-task-implementing-the-threshold-class-for-metric-monitoring)
+- [**DevOps Task: Implementing the `Metric` Base Class for Model Evaluation**](#devops-task-implementing-the-metric-base-class-for-model-evaluation)
+- [**DevOps Task: Implementing the `SklearnMetric` Class for Scikit-Learn Metrics**](#devops-task-implementing-the-sklearnmetric-class-for-scikit-learn-metrics)
+- [**DevOps Task: Implementing the `Threshold` Class for Metric Monitoring**](#devops-task-implementing-the-threshold-class-for-metric-monitoring)
+- [Code location](#code-location)
+- [Test location](#test-location)
 
 ------------
 
@@ -36,7 +36,6 @@ model_name.core.metrics.SklearnMetric --|> model_name.core.metrics.Metric
 @enduml
 
 ```
-
 
 ## **DevOps Task: Implementing the `Metric` Base Class for Model Evaluation**
 
@@ -100,19 +99,18 @@ Develop a reusable and extensible base class, `Metric`, that defines a blueprint
      - Verify compatibility with the existing codebase (`models` and `schemas` modules).  
      - Add the class to the project's deployment pipeline.  
 
-
 **Deliverables:**  
+
 - A well-documented `Metric` class, implemented as per the provided code template.  
 - Unit and integration tests for the class.  
 - Deployment-ready code integrated with `mlflow`.
 
 ------
+
 ## **DevOps Task: Implementing the `SklearnMetric` Class for Scikit-Learn Metrics**
 
 **Objective:**  
 Develop the `SklearnMetric` class, which extends the `Metric` base class to compute machine learning evaluation metrics using scikit-learn's built-in functions. This class will ensure efficient and standardized integration of scikit-learn metrics into the project workflow.
-
-
 
 1. **Extend the `Metric` Base Class**  
    - **Objective:** Implement a specialized subclass of the `Metric` base class for metrics available in scikit-learn.  
@@ -167,13 +165,12 @@ Develop the `SklearnMetric` class, which extends the `Metric` base class to comp
      - Include the type aliases in the project’s type definitions.  
      - Ensure the class is deployed through the CI/CD pipeline after passing all tests.  
 
-
 **Deliverables:**  
+
 - A fully implemented and tested `SklearnMetric` class.  
 - Comprehensive unit tests ensuring correctness and robustness.  
 - Documentation explaining the class functionality and integration with scikit-learn.  
 - Deployment-ready code integrated into the project.
-
 
 ----
 
@@ -182,8 +179,6 @@ Develop the `SklearnMetric` class, which extends the `Metric` base class to comp
 **Objective:**  
 
 Develop the `Threshold` class, which provides a standardized mechanism to monitor model performance metrics against predefined thresholds. This class will support triggering alerts or actions when a threshold condition is met.
-
-
 
  **Task Description**
 
@@ -234,7 +229,16 @@ Develop the `Threshold` class, which provides a standardized mechanism to monito
      - Ensure proper inclusion in CI/CD pipelines with automated tests.  
 
  **Deliverables**  
+
 - A fully implemented and tested `Threshold` class.  
 - Unit tests for validation and integration with MLflow.  
 - Documentation detailing usage and integration.  
 - Deployment-ready code.
+
+## Code location
+
+[src/model_name/core/metrics.py](../src/model_name/core/metrics.py)
+
+## Test location
+
+[tests/core/test_metrics.py](../tests/core/test_metrics.py)
