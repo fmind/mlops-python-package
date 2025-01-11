@@ -1,6 +1,6 @@
 # US [Scchemas](./backlog_mlops_regresion.md) : Define structured data formats for input, output, and intermediate processes, ensuring consistency and validation throughout the pipeline
 
-- [Uml diagram of the package](#uml-diagram-of-the-package)
+- [classes relations](#classes-relations)
 - [**User Story: Define and Validate DataFrame Schemas with Pandera**](#user-story-define-and-validate-dataframe-schemas-with-pandera)
 - [**User Story: Define and Validate SHAP Values and Feature Importances Schemas**](#user-story-define-and-validate-shap-values-and-feature-importances-schemas)
 - [Code location](#code-location)
@@ -8,7 +8,7 @@
 
 ------------
 
-## Uml diagram of the package
+## classes relations
 
 ```plantuml
 @startuml classes_Models

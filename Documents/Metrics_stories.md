@@ -2,11 +2,14 @@
 
 Provide standardized measurements for model performance, accuracy, and evaluation. Useful for tracking improvement and identifying bottlenecks.
 
+- [classes relations](#classes-relations)
 - [**User Story: Develop a Base Metric Class for Model Evaluation**](#user-story-develop-a-base-metric-class-for-model-evaluation)
 - [**User Story: Implement a Scikit-learn Metric Wrapper**](#user-story-implement-a-scikit-learn-metric-wrapper)
 - [**User Story: Implement a Threshold Class for Metric Monitoring**](#user-story-implement-a-threshold-class-for-metric-monitoring)
 
 ------------
+
+## classes relations
 
 ```plantuml
 @startuml classes_Metrics
@@ -34,6 +37,7 @@ model_name.core.metrics.SklearnMetric --|> model_name.core.metrics.Metric
 @enduml
 
 ```
+
 ## **User Story: Develop a Base Metric Class for Model Evaluation**
 
 ---
@@ -98,6 +102,7 @@ The `Metric` class serves as a base for implementing various evaluation metrics,
 ---
 
 **Definition of Done (DoD):**  
+
 - The `Metric` class is implemented with all specified attributes and methods.  
 - Abstract methods enforce implementation in derived classes.  
 - The class integrates seamlessly with `mlflow`.  
@@ -167,11 +172,11 @@ The `SklearnMetric` class extends the `Metric` base class to utilize scikit-lear
 ---
 
 **Definition of Done (DoD):**  
+
 - The `SklearnMetric` class is implemented and passes all specified test cases.  
 - Clear and comprehensive documentation is provided, including usage examples.  
 - The class integrates with the `Metric` base class and other tools like `mlflow`.  
 - The code passes CI/CD validation and is ready for deployment in the machine learning project.
-
 
 ## **User Story: Implement a Threshold Class for Metric Monitoring**
 
@@ -234,6 +239,7 @@ The `Threshold` class provides a way to define and manage thresholds for metrics
 ---
 
 **Definition of Done (DoD):**  
+
 - The `Threshold` class is implemented and passes all specified test cases.  
 - The class integrates with `mlflow` via the `to_mlflow` method.  
 - Clear documentation and usage examples are provided.  

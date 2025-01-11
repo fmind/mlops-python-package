@@ -1,6 +1,6 @@
 # US [Models](./backlog_mlops_regresion.md) : Define the structure of machine learning models, including architectures and checkpoints, to standardize training and deployment
 
-- [Uml diagram of the package](#uml-diagram-of-the-package)
+- [classes relations](#classes-relations)
 - [**User Story: Develop a Base Model Class for Machine Learning Frameworks**](#user-story-develop-a-base-model-class-for-machine-learning-frameworks)
 - [**User Story: Develop a Baseline Scikit-Learn Model for Machine Learning**](#user-story-develop-a-baseline-scikit-learn-model-for-machine-learning)
 - [Code location](#code-location)
@@ -8,7 +8,7 @@
 
 ------------
 
-## Uml diagram of the package
+## classes relations
 
 ```plantuml
 @startuml classes_Models
