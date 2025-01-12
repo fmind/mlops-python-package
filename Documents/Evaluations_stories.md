@@ -20,9 +20,8 @@
 
 ```mermaid
 classDiagram
-    %% EvaluationsJob Class
     class EvaluationsJob {
-        +KIND: T.Literal["EvaluationsJob"]
+        +KIND: Literal["EvaluationsJob"]
         +run_config: services.MlflowService.RunConfig
         +inputs: datasets.ReaderKind
         +targets: datasets.ReaderKind
@@ -31,8 +30,46 @@ classDiagram
         +metrics: metrics_.MetricsKind
         +evaluators: list[str]
         +thresholds: dict[str, metrics_.Threshold]
-        +run() : base.Locals
+        +run(): base.Locals
     }
+
+    class MlflowService {
+        +client() : MlflowClient
+        +run_context(run_config: RunConfig) : context
+    }
+
+    class ReaderKind {
+        +read() : pd.DataFrame
+        +lineage(data: pd.DataFrame, name: str) : Lineage
+    }
+
+    class MetricsKind {
+        +to_mlflow() : dict
+    }
+
+    class SklearnMetric {
+        +to_mlflow() : dict
+    }
+
+    class Threshold {
+        +to_mlflow() : dict
+    }
+
+    class AlertsService {
+        +notify(title: str, message: str) : None
+    }
+
+    EvaluationsJob --> MlflowService : "uses"
+    EvaluationsJob --> ReaderKind : "inputs & targets"
+    EvaluationsJob --> MetricsKind : "metrics"
+    EvaluationsJob --> SklearnMetric : "metrics"
+    EvaluationsJob --> AlertsService : "notifies"
+    EvaluationsJob --> Threshold : "thresholds"
+    MlflowService --> MlflowClient : "provides client"
+    ReaderKind --> pd.DataFrame : "returns"
+    SklearnMetric --> dict : "to_mlflow"
+    Threshold --> dict : "to_mlflow"
+
 ```
 
 ## **User Stories: Evaluation Job Management**

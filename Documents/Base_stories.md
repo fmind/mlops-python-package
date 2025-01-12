@@ -18,17 +18,46 @@
 
 ```mermaid
 classDiagram
-    %% Base Class: Job
     class Job {
-        <<abstract>>
         +KIND: str
         +logger_service: services.LoggerService
         +alerts_service: services.AlertsService
         +mlflow_service: services.MlflowService
         +__enter__() : T.Self
-        +__exit__(exc_type: T.Type[BaseException] | None, exc_value: BaseException | None, exc_traceback: TS.TracebackType | None) : T.Literal[False
+        +__exit__(exc_type, exc_value, exc_traceback) : Literal[False]
         +run() : Locals
     }
+
+    class LoggerService {
+        +start() : None
+        +stop() : None
+        +logger() : Logger
+    }
+
+    class AlertsService {
+        +start() : None
+        +stop() : None
+    }
+
+    class MlflowService {
+        +start() : None
+        +stop() : None
+    }
+
+    class Logger {
+        +debug(msg: str, *args) : None
+    }
+
+    class Locals {
+        +Dict[str, Any]
+    }
+
+    Job --> LoggerService : "uses"
+    Job --> AlertsService : "uses"
+    Job --> MlflowService : "uses"
+    LoggerService --> Logger : "provides"
+    Job --> Locals : "returns"
+
 ```
 
 ## **User Stories: Job Management**
