@@ -35,7 +35,7 @@
    Define and manage specific tasks and workflows for various stages in the machine learning lifecycle:
 
 - **[US: Base](Base_stories.md)**: The foundational job configurations and implementations shared across all job types.
-- **US: Evaluations**: Execute performance tests and comparisons for models, ensuring they meet predefined criteria.
+- **[US: Evaluations](Evaluations_stories.md)**: Execute performance tests and comparisons for models, ensuring they meet predefined criteria.
 - **US: Explanations**: Generate explainability reports for machine learning models to provide insights into predictions and decisions.
 - **US: Inference**: Execute predictions using trained models, optimized for low latency and high throughput.
 - **US: KafkaInference**: Specialized inference jobs designed to integrate with Kafka for real-time data streaming applications.
