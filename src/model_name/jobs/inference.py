@@ -63,7 +63,5 @@ class InferenceJob(base.Job):
         logger.info("Write outputs: {}", self.outputs)
         self.outputs.write(data=pd.DataFrame(outputs))
         # notify
-        self.alerts_service.notify(
-            title="Inference Job Finished", message=f"Outputs Shape: {outputs.shape}"
-        )
+        self.alerts_service.notify(title="Inference Job Finished", message=f"Outputs Shape: {outputs.shape}")
         return locals()

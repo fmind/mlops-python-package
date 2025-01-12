@@ -43,9 +43,7 @@ class TrainingJob(base.Job):
     # Metrics
     metrics: metrics_.MetricsKind = [metrics_.SklearnMetric()]
     # Splitter
-    splitter: splitters.SplitterKind = pdt.Field(
-        splitters.TrainTestSplitter(), discriminator="KIND"
-    )
+    splitter: splitters.SplitterKind = pdt.Field(splitters.TrainTestSplitter(), discriminator="KIND")
     # Saver
     saver: registries.SaverKind = pdt.Field(registries.CustomSaver(), discriminator="KIND")
     # Signer
@@ -84,9 +82,7 @@ class TrainingJob(base.Job):
             logger.debug("- Inputs lineage: {}", inputs_lineage.to_dict())
             # - targets
             logger.info("Log lineage: targets")
-            targets_lineage = self.targets.lineage(
-                data=targets, name="targets", targets=schemas.TargetsSchema.cnt
-            )
+            targets_lineage = self.targets.lineage(data=targets, name="targets", targets=schemas.TargetsSchema.cnt)
             mlflow.log_input(dataset=targets_lineage, context=self.run_config.name)
             logger.debug("- Targets lineage: {}", targets_lineage.to_dict())
             # splitter
@@ -122,9 +118,7 @@ class TrainingJob(base.Job):
             logger.debug("- Model signature: {}", model_signature.to_dict())
             # saver
             logger.info("Save model: {}", self.saver)
-            model_info = self.saver.save(
-                model=self.model, signature=model_signature, input_example=inputs
-            )
+            model_info = self.saver.save(model=self.model, signature=model_signature, input_example=inputs)
             logger.debug("- Model URI: {}", model_info.model_uri)
             # register
             logger.info("Register model: {}", self.registry)
@@ -133,7 +127,5 @@ class TrainingJob(base.Job):
             )
             logger.debug("- Model version: {}", model_version)
             # notify
-            self.alerts_service.notify(
-                title="Training Job Finished", message=f"Model version: {model_version.version}"
-            )
+            self.alerts_service.notify(title="Training Job Finished", message=f"Model version: {model_version.version}")
         return locals()

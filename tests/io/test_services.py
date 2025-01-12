@@ -11,9 +11,7 @@ from model_name.io import services
 # %% SERVICES
 
 
-def test_logger_service(
-    logger_service: services.LoggerService, logger_caplog: pl.LogCaptureFixture
-) -> None:
+def test_logger_service(logger_service: services.LoggerService, logger_caplog: pl.LogCaptureFixture) -> None:
     # given
     service = logger_service
     logger = service.logger()
@@ -26,9 +24,7 @@ def test_logger_service(
 
 
 @pytest.mark.parametrize("enable", [True, False])
-def test_alerts_service(
-    enable: bool, mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]
-) -> None:
+def test_alerts_service(enable: bool, mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]) -> None:
     # given
     service = services.AlertsService(enable=enable)
     mocker.patch("plyer.notification.notify")
@@ -43,9 +39,7 @@ def test_alerts_service(
             plyer.notification.notify.assert_not_called(),
             "Notification method should not be called!",
         )
-        assert (
-            capsys.readouterr().out == "[model_name] test: hello\n"
-        ), "Notification should be printed to stdout!"
+        assert capsys.readouterr().out == "[model_name] test: hello\n", "Notification should be printed to stdout!"
 
 
 def test_mlflow_service(mlflow_service: services.MlflowService) -> None:
@@ -75,12 +69,8 @@ def test_mlflow_service(mlflow_service: services.MlflowService) -> None:
     assert client.get_experiment_by_name(service.experiment_name), "Experiment should be setup!"
     # - context
     assert context.info.run_name == run_config.name, "Context name should be the same!"
-    assert (
-        run_config.description in context.data.tags.values()
-    ), "Context desc. should be in tags values!"
-    assert (
-        context.data.tags.items() > run_config.tags.items()
-    ), "Context tags should be a subset of the given tags!"
+    assert run_config.description in context.data.tags.values(), "Context desc. should be in tags values!"
+    assert context.data.tags.items() > run_config.tags.items(), "Context tags should be a subset of the given tags!"
     assert context.info.status == "RUNNING", "Context should be running!"
     # - finished
     assert finished.info.status == "FINISHED", "Finished should be finished!"

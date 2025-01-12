@@ -115,9 +115,7 @@ class AlertsService(Service):
             message (str): message of the notification.
         """
         if self.enable:
-            notification.notify(
-                title=title, message=message, app_name=self.app_name, timeout=self.timeout
-            )
+            notification.notify(title=title, message=message, app_name=self.app_name, timeout=self.timeout)
         else:
             print(f"[{self.app_name}] {title}: {message}")
 

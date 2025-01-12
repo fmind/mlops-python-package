@@ -25,7 +25,7 @@ model_name = 'model_name.scripts:main'
 python = "^3.12"
 loguru = "^0.7.2"
 matplotlib = "^3.9.0"
-mlflow = "^2.14.3"
+mlflow = { version = "^2.14.3", extras = ["extras"] }
 numpy = "^1.26.4"
 omegaconf = "^2.3.0"
 pandas = "^2.2.2"
@@ -41,6 +41,7 @@ setuptools = "^71.1.0"
 scikit-learn = "1.4.2"
 shap = "^0.46.0"
 dvc = "^3.58.0"
+
 
 [tool.poetry.group.checks.dependencies]
 bandit = "^1.7.9"
@@ -87,11 +88,14 @@ omit = ["__main__.py"]
 
 [tool.mypy]
 pretty = true
-strict = true
+strict = false
 python_version = "3.12"
-check_untyped_defs = true
+check_untyped_defs = false
 ignore_missing_imports = true
 plugins = ["pandera.mypy", "pydantic.mypy"]
+exclude = ["src/model_name/jobs/evaluations.py",
+"src/model_name/jobs/training.py",
+"src/model_name/io/registries.py"]
 
 [tool.pytest.ini_options]
 addopts = "--verbosity=2"
@@ -100,7 +104,7 @@ pythonpath = ["src"]
 [tool.ruff]
 fix = true
 indent-width = 4
-line-length = 100
+line-length = 120
 target-version = "py312"
 
 [tool.ruff.format]

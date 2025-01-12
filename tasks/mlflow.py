@@ -15,13 +15,9 @@ def doctor(ctx: Context) -> None:
 
 
 @task
-def serve(
-    ctx: Context, host: str = "127.0.0.1", port: str = "5000", backend_uri: str = "./mlruns"
-) -> None:
+def serve(ctx: Context, host: str = "127.0.0.1", port: str = "5000", backend_uri: str = "./mlruns") -> None:
     """Start the mlflow server."""
-    ctx.run(
-        f"poetry run mlflow server --host={host} --port={port} --backend-store-uri={backend_uri}"
-    )
+    ctx.run(f"poetry run mlflow server --host={host} --port={port} --backend-store-uri={backend_uri}")
 
 
 @task(pre=[doctor, serve], default=True)

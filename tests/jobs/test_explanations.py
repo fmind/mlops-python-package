@@ -55,9 +55,7 @@ def test_explanations_job(
     assert out["inputs_samples"].ndim == 2, "Inputs samples should be a dataframe!"
     # - model uri
     assert str(alias_or_version) in out["model_uri"], "Model URI should contain the model alias!"
-    assert (
-        mlflow_service.registry_name in out["model_uri"]
-    ), "Model URI should contain the registry name!"
+    assert mlflow_service.registry_name in out["model_uri"], "Model URI should contain the registry name!"
     # - model
     assert isinstance(out["model"], models.Model), "Model should be an instance of a project Model!"
     # - model explanations
@@ -72,6 +70,4 @@ def test_explanations_job(
         out["inputs_samples"].columns
     ), "Samples explanations should have at least as many columns as inputs samples!"
     # - alerting service
-    assert (
-        "Explanations Job Finished" in capsys.readouterr().out
-    ), "Alerting service should be called!"
+    assert "Explanations Job Finished" in capsys.readouterr().out, "Alerting service should be called!"

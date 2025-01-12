@@ -102,6 +102,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
   - [Python Powers](#python-powers)
     - [Context Manager](#context-manager)
     - [Python Package](#python-package)
+    - [UML description](#uml-description)
   - [Software Engineering](#software-engineering)
     - [Code Typing](#code-typing)
     - [Config Typing](#config-typing)
@@ -538,7 +539,7 @@ Edition, validation, and versioning of your project source code.
 - **[DVC vs Git LFS](https://dvc.org/doc/user-guide/dvc-vs-git-lfs):** A comparison of DVC and Git LFS.
 
 ## Configs
-
+pyreverse -o plantuml -p MyProject src/
 Manage the configs files of your project to change executions.
 
 ### Format: [YAML](https://yaml.org/)
@@ -1008,7 +1009,16 @@ poetry build
 inv packages
 ```
 
+### UML description
+using pyrecers it is possible to generate plantuml diagrams
+```
+pyreverse -o plantuml -A -S -p Metrics metrics.py  # classes 
+pyreverse -o png -A -S  -p Metrics metrics.py # packages
+```
+
 ## [Software Engineering](https://en.wikipedia.org/wiki/Software_engineering)
+
+
 
 ### [Code Typing](https://docs.python.org/3/library/typing.html)
 

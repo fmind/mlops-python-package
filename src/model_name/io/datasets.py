@@ -86,9 +86,7 @@ class ParquetReader(Reader):
         targets: str | None = None,
         predictions: str | None = None,
     ) -> Lineage:
-        return lineage.from_pandas(
-            df=data, name=name, source=self.path, targets=targets, predictions=predictions
-        )
+        return lineage.from_pandas(df=data, name=name, source=self.path, targets=targets, predictions=predictions)
 
 
 ReaderKind = ParquetReader

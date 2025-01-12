@@ -1,0 +1,395 @@
+@startuml classes_model_name
+set namespaceSeparator none
+class "Adapter" as model_name.io.registries.CustomSaver.Adapter {
+  model
+  predict(context: mlflow.pyfunc.PythonModelContext, model_input: schemas.Inputs, params: dict[str, T.Any] | None) -> schemas.Outputs
+}
+class "Adapter" as model_name.io.registries.Loader.Adapter {
+  {abstract}predict(inputs: schemas.Inputs) -> schemas.Outputs
+}
+class "Adapter" as model_name.io.registries.CustomLoader.Adapter {
+  model
+  predict(inputs: schemas.Inputs) -> schemas.Outputs
+}
+class "Adapter" as model_name.io.registries.BuiltinLoader.Adapter {
+  model
+  predict(inputs: schemas.Inputs) -> schemas.Outputs
+}
+class "AlertsService" as model_name.io.services.AlertsService {
+  app_name : str
+  enable : bool
+  timeout : int | None
+  notify(title: str, message: str) -> None
+  {abstract}start() -> None
+}
+class "BaselineSklearnModel" as model_name.core.models.BaselineSklearnModel {
+  KIND : T.Literal['BaselineSklearnModel']
+  max_depth : int
+  n_estimators : int
+  random_state : int | None
+  explain_model() -> schemas.FeatureImportances
+  explain_samples(inputs: schemas.Inputs) -> schemas.SHAPValues
+  fit(inputs: schemas.Inputs, targets: schemas.Targets) -> 'BaselineSklearnModel'
+  get_internal_model() -> pipeline.Pipeline
+  predict(inputs: schemas.Inputs) -> schemas.Outputs
+}
+class "BuiltinLoader" as model_name.io.registries.BuiltinLoader {
+  KIND : T.Literal['BuiltinLoader']
+  load(uri: str) -> 'BuiltinLoader.Adapter'
+}
+class "BuiltinSaver" as model_name.io.registries.BuiltinSaver {
+  KIND : T.Literal['BuiltinSaver']
+  flavor : str
+  save(model: models.Model, signature: signers.Signature, input_example: schemas.Inputs | None) -> mlflow.entities.model_registry.ModelVersion
+}
+class "Config" as model_name.core.schemas.Schema.Config {
+  coerce : bool
+  strict : bool
+}
+class "Config" as model_name.core.schemas.SHAPValuesSchema.Config {
+  dtype : str
+  strict : bool
+}
+class "Config" as model_name.io.osvariables.Env.Config {
+  case_sensitive : bool
+  env_file : str
+  env_file_encoding : str
+}
+class "CustomLoader" as model_name.io.registries.CustomLoader {
+  KIND : T.Literal['CustomLoader']
+  load(uri: str) -> 'CustomLoader.Adapter'
+}
+class "CustomSaver" as model_name.io.registries.CustomSaver {
+  KIND : T.Literal['CustomSaver']
+  save(model: models.Model, signature: signers.Signature, input_example: schemas.Inputs) -> Info
+}
+class "Env" as model_name.io.osvariables.Env {
+  mlflow_experiment_name : str
+  mlflow_registered_model_name : str
+  mlflow_registry_uri : str
+  mlflow_tracking_uri : str
+}
+class "EvaluationsJob" as model_name.jobs.evaluations.EvaluationsJob {
+  KIND : T.Literal['EvaluationsJob']
+  alias_or_version : str | int
+  evaluators : list[str]
+  inputs
+  metrics : list
+  model_type : str
+  run_config
+  targets
+  thresholds : dict[str, metrics_.Threshold]
+  run() -> base.Locals
+}
+class "ExplanationsJob" as model_name.jobs.explanations.ExplanationsJob {
+  KIND : T.Literal['ExplanationsJob']
+  alias_or_version : str | int
+  inputs_samples
+  loader
+  models_explanations
+  samples_explanations
+  run() -> base.Locals
+}
+class "FeatureImportancesSchema" as model_name.core.schemas.FeatureImportancesSchema {
+  feature : papd.Series[padt.String]
+  importance : papd.Series[padt.Float32]
+}
+class "GridCVSearcher" as model_name.utils.searchers.GridCVSearcher {
+  KIND : T.Literal['GridCVSearcher']
+  error_score : str | float
+  n_jobs : int | None
+  refit : bool
+  return_train_score : bool
+  verbose : int
+  search(model: models.Model, metric: metrics.Metric, inputs: schemas.Inputs, targets: schemas.Targets, cv: CrossValidation) -> Results
+}
+class "InferSigner" as model_name.utils.signers.InferSigner {
+  KIND : T.Literal['InferSigner']
+  sign(inputs: schemas.Inputs, outputs: schemas.Outputs) -> Signature
+}
+class "InferenceJob" as model_name.jobs.inference.InferenceJob {
+  KIND : T.Literal['InferenceJob']
+  alias_or_version : str | int
+  inputs
+  loader
+  outputs
+  run() -> base.Locals
+}
+class "InputsSchema" as model_name.core.schemas.InputsSchema {
+  atemp : papd.Series[padt.Float16]
+  casual : papd.Series[padt.UInt32]
+  dteday : papd.Series[padt.DateTime]
+  holiday : papd.Series[padt.Bool]
+  hr : papd.Series[padt.UInt8]
+  hum : papd.Series[padt.Float16]
+  instant : papd.Index[padt.UInt32]
+  mnth : papd.Series[padt.UInt8]
+  registered : papd.Series[padt.UInt32]
+  season : papd.Series[padt.UInt8]
+  temp : papd.Series[padt.Float16]
+  weathersit : papd.Series[padt.UInt8]
+  weekday : papd.Series[padt.UInt8]
+  windspeed : papd.Series[padt.Float16]
+  workingday : papd.Series[padt.Bool]
+  yr : papd.Series[padt.UInt8]
+}
+class "Job" as model_name.jobs.base.Job {
+  KIND : str
+  alerts_service
+  logger_service
+  mlflow_service
+  {abstract}run() -> Locals
+}
+class "KafkaInferenceJob" as model_name.jobs.kafkainference.KafkaInferenceJob {
+  KIND : T.Literal['KafkaInferenceJob']
+  alias_or_version : str | int
+  input_topic : str
+  kafka_config : dict
+  loader
+  output_topic : str
+  run() -> base.Locals
+}
+class "Loader" as model_name.io.registries.Loader {
+  KIND : str
+  {abstract}load(uri: str) -> 'Loader.Adapter'
+}
+class "LoggerService" as model_name.io.services.LoggerService {
+  backtrace : bool
+  catch : bool
+  colorize : bool
+  diagnose : bool
+  format : str
+  level : str
+  serialize : bool
+  sink : str
+  logger() -> loguru.Logger
+  start() -> None
+}
+class "MainSettings" as model_name.settings.MainSettings {
+  job
+}
+class "Metric" as model_name.core.metrics.Metric {
+  KIND : str
+  greater_is_better : bool
+  name : str
+  {abstract}score(targets: schemas.Targets, outputs: schemas.Outputs) -> float
+  scorer(model: models.Model, inputs: schemas.Inputs, targets: schemas.Targets) -> float
+  to_mlflow() -> MlflowMetric
+}
+class "MlflowRegister" as model_name.io.registries.MlflowRegister {
+  KIND : T.Literal['MlflowRegister']
+  register(name: str, model_uri: str) -> Version
+}
+class "MlflowService" as model_name.io.services.MlflowService {
+  autolog_disable : bool
+  autolog_disable_for_unsupported_versions : bool
+  autolog_exclusive : bool
+  autolog_log_datasets : bool
+  autolog_log_input_examples : bool
+  autolog_log_model_signatures : bool
+  autolog_log_models : bool
+  autolog_silent : bool
+  env : ClassVar[Env]
+  experiment_name : str
+  registry_name : str
+  registry_uri : str
+  tracking_uri : str
+  client() -> mt.MlflowClient
+  run_context(run_config: RunConfig) -> T.Generator[mlflow.ActiveRun, None, None]
+  start() -> None
+}
+class "Model" as model_name.core.models.Model {
+  KIND : str
+  {abstract}explain_model() -> schemas.FeatureImportances
+  {abstract}explain_samples(inputs: schemas.Inputs) -> schemas.SHAPValues
+  {abstract}fit(inputs: schemas.Inputs, targets: schemas.Targets) -> T.Self
+  {abstract}get_internal_model() -> T.Any
+  get_params(deep: bool) -> Params
+  {abstract}predict(inputs: schemas.Inputs) -> schemas.Outputs
+  set_params() -> T.Self
+}
+class "OutputsSchema" as model_name.core.schemas.OutputsSchema {
+  instant : papd.Index[padt.UInt32]
+  prediction : papd.Series[padt.UInt32]
+}
+class "ParquetReader" as model_name.io.datasets.ParquetReader {
+  KIND : T.Literal['ParquetReader']
+  path : str
+  lineage(name: str, data: pd.DataFrame, targets: str | None, predictions: str | None) -> Lineage
+  read() -> pd.DataFrame
+}
+class "ParquetWriter" as model_name.io.datasets.ParquetWriter {
+  KIND : T.Literal['ParquetWriter']
+  path : str
+  write(data: pd.DataFrame) -> None
+}
+class "PromotionJob" as model_name.jobs.promotion.PromotionJob {
+  KIND : T.Literal['PromotionJob']
+  alias : str
+  version : int | None
+  run() -> base.Locals
+}
+class "Reader" as model_name.io.datasets.Reader {
+  KIND : str
+  limit : int | None
+  {abstract}lineage(name: str, data: pd.DataFrame, targets: str | None, predictions: str | None) -> Lineage
+  {abstract}read() -> pd.DataFrame
+}
+class "Register" as model_name.io.registries.Register {
+  KIND : str
+  tags : dict[str, T.Any]
+  {abstract}register(name: str, model_uri: str) -> Version
+}
+class "RunConfig" as model_name.io.services.MlflowService.RunConfig {
+  description : str | None
+  log_system_metrics : bool | None
+  name : str
+  tags : dict[str, T.Any] | None
+}
+class "SHAPValuesSchema" as model_name.core.schemas.SHAPValuesSchema {
+}
+class "Saver" as model_name.io.registries.Saver {
+  KIND : str
+  path : str
+  {abstract}save(model: models.Model, signature: signers.Signature, input_example: schemas.Inputs) -> Info
+}
+class "Schema" as model_name.core.schemas.Schema {
+  check(data: pd.DataFrame) -> papd.DataFrame[TSchema]
+}
+class "Searcher" as model_name.utils.searchers.Searcher {
+  KIND : str
+  param_grid : dict
+  {abstract}search(model: models.Model, metric: metrics.Metric, inputs: schemas.Inputs, targets: schemas.Targets, cv: CrossValidation) -> Results
+}
+class "Service" as model_name.io.services.Service {
+  {abstract}start() -> None
+  {abstract}stop() -> None
+}
+class "Settings" as model_name.settings.Settings {
+}
+class "Signer" as model_name.utils.signers.Signer {
+  KIND : str
+  {abstract}sign(inputs: schemas.Inputs, outputs: schemas.Outputs) -> Signature
+}
+class "Singleton" as model_name.io.osvariables.Singleton {
+}
+class "SklearnMetric" as model_name.core.metrics.SklearnMetric {
+  KIND : T.Literal['SklearnMetric']
+  greater_is_better : bool
+  name : str
+  score(targets: schemas.Targets, outputs: schemas.Outputs) -> float
+}
+class "Splitter" as model_name.utils.splitters.Splitter {
+  KIND : str
+  {abstract}get_n_splits(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> int
+  {abstract}split(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> TrainTestSplits
+}
+class "TargetsSchema" as model_name.core.schemas.TargetsSchema {
+  cnt : papd.Series[padt.UInt32]
+  instant : papd.Index[padt.UInt32]
+}
+class "Threshold" as model_name.core.metrics.Threshold {
+  greater_is_better : bool
+  threshold : int | float
+  to_mlflow() -> MlflowThreshold
+}
+class "TimeSeriesSplitter" as model_name.utils.splitters.TimeSeriesSplitter {
+  KIND : T.Literal['TimeSeriesSplitter']
+  gap : int
+  n_splits : int
+  test_size : int | float
+  get_n_splits(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> int
+  split(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> TrainTestSplits
+}
+class "TrainTestSplitter" as model_name.utils.splitters.TrainTestSplitter {
+  KIND : T.Literal['TrainTestSplitter']
+  random_state : int
+  shuffle : bool
+  test_size : int | float
+  get_n_splits(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> int
+  split(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> TrainTestSplits
+}
+class "TrainingJob" as model_name.jobs.training.TrainingJob {
+  KIND : T.Literal['TrainingJob']
+  inputs
+  metrics : list
+  model
+  registry
+  run_config
+  saver
+  signer
+  splitter
+  targets
+  run() -> base.Locals
+}
+class "TuningJob" as model_name.jobs.tuning.TuningJob {
+  KIND : T.Literal['TuningJob']
+  inputs
+  metric
+  model
+  run_config
+  searcher
+  splitter
+  targets
+  run() -> base.Locals
+}
+class "Writer" as model_name.io.datasets.Writer {
+  KIND : str
+  {abstract}write(data: pd.DataFrame) -> None
+}
+model_name.core.metrics.SklearnMetric --|> model_name.core.metrics.Metric
+model_name.core.models.BaselineSklearnModel --|> model_name.core.models.Model
+model_name.core.schemas.FeatureImportancesSchema --|> model_name.core.schemas.Schema
+model_name.core.schemas.InputsSchema --|> model_name.core.schemas.Schema
+model_name.core.schemas.OutputsSchema --|> model_name.core.schemas.Schema
+model_name.core.schemas.SHAPValuesSchema --|> model_name.core.schemas.Schema
+model_name.core.schemas.TargetsSchema --|> model_name.core.schemas.Schema
+model_name.io.datasets.ParquetReader --|> model_name.io.datasets.Reader
+model_name.io.datasets.ParquetWriter --|> model_name.io.datasets.Writer
+model_name.io.osvariables.Env --|> model_name.io.osvariables.Singleton
+model_name.io.registries.BuiltinLoader --|> model_name.io.registries.Loader
+model_name.io.registries.BuiltinLoader.Adapter --|> model_name.io.registries.Loader.Adapter
+model_name.io.registries.BuiltinSaver --|> model_name.io.registries.Saver
+model_name.io.registries.CustomLoader --|> model_name.io.registries.Loader
+model_name.io.registries.CustomLoader.Adapter --|> model_name.io.registries.Loader.Adapter
+model_name.io.registries.CustomSaver --|> model_name.io.registries.Saver
+model_name.io.registries.MlflowRegister --|> model_name.io.registries.Register
+model_name.io.services.AlertsService --|> model_name.io.services.Service
+model_name.io.services.LoggerService --|> model_name.io.services.Service
+model_name.io.services.MlflowService --|> model_name.io.services.Service
+model_name.jobs.evaluations.EvaluationsJob --|> model_name.jobs.base.Job
+model_name.jobs.explanations.ExplanationsJob --|> model_name.jobs.base.Job
+model_name.jobs.inference.InferenceJob --|> model_name.jobs.base.Job
+model_name.jobs.promotion.PromotionJob --|> model_name.jobs.base.Job
+model_name.jobs.training.TrainingJob --|> model_name.jobs.base.Job
+model_name.jobs.tuning.TuningJob --|> model_name.jobs.base.Job
+model_name.settings.MainSettings --|> model_name.settings.Settings
+model_name.utils.searchers.GridCVSearcher --|> model_name.utils.searchers.Searcher
+model_name.utils.signers.InferSigner --|> model_name.utils.signers.Signer
+model_name.utils.splitters.TimeSeriesSplitter --|> model_name.utils.splitters.Splitter
+model_name.utils.splitters.TrainTestSplitter --|> model_name.utils.splitters.Splitter
+model_name.core.metrics.SklearnMetric --* model_name.jobs.tuning.TuningJob : metric
+model_name.core.models.BaselineSklearnModel --* model_name.jobs.training.TrainingJob : model
+model_name.core.models.BaselineSklearnModel --* model_name.jobs.tuning.TuningJob : model
+model_name.io.datasets.ParquetReader --* model_name.jobs.evaluations.EvaluationsJob : inputs
+model_name.io.datasets.ParquetReader --* model_name.jobs.evaluations.EvaluationsJob : targets
+model_name.io.datasets.ParquetReader --* model_name.jobs.explanations.ExplanationsJob : inputs_samples
+model_name.io.datasets.ParquetReader --* model_name.jobs.inference.InferenceJob : inputs
+model_name.io.datasets.ParquetReader --* model_name.jobs.training.TrainingJob : inputs
+model_name.io.datasets.ParquetReader --* model_name.jobs.training.TrainingJob : targets
+model_name.io.datasets.ParquetReader --* model_name.jobs.tuning.TuningJob : inputs
+model_name.io.datasets.ParquetReader --* model_name.jobs.tuning.TuningJob : targets
+model_name.io.datasets.ParquetWriter --* model_name.jobs.explanations.ExplanationsJob : models_explanations
+model_name.io.datasets.ParquetWriter --* model_name.jobs.explanations.ExplanationsJob : samples_explanations
+model_name.io.datasets.ParquetWriter --* model_name.jobs.inference.InferenceJob : outputs
+model_name.io.registries.MlflowRegister --* model_name.jobs.training.TrainingJob : registry
+model_name.io.services.AlertsService --* model_name.jobs.base.Job : alerts_service
+model_name.io.services.LoggerService --* model_name.jobs.base.Job : logger_service
+model_name.io.services.MlflowService --* model_name.jobs.base.Job : mlflow_service
+model_name.io.services.MlflowService.RunConfig --* model_name.jobs.evaluations.EvaluationsJob : run_config
+model_name.io.services.MlflowService.RunConfig --* model_name.jobs.training.TrainingJob : run_config
+model_name.io.services.MlflowService.RunConfig --* model_name.jobs.tuning.TuningJob : run_config
+model_name.utils.searchers.GridCVSearcher --* model_name.jobs.tuning.TuningJob : searcher
+model_name.utils.signers.InferSigner --* model_name.jobs.training.TrainingJob : signer
+model_name.core.models.Model --o model_name.io.registries.CustomSaver.Adapter : model
+@enduml
