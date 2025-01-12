@@ -39,8 +39,8 @@
 - **[US: Explanations](Explanations_stories.md)**: Generate explainability reports for machine learning models to provide insights into predictions and decisions.
 - **[US: Inference](Inference_stories.md)**: Execute predictions using trained models, optimized for low latency and high throughput.
 - **US: KafkaInference**: Specialized inference jobs designed to integrate with Kafka for real-time data streaming applications.
-- **[US: Promotion](Promotions_stories.py)**: Automate the promotion of models from development to production environments, ensuring governance and validation.
-- **US: Training**: Handle the full model training process, including data preparation, model fitting, and checkpointing.
+- **[US: Promotion](Promotions_stories.md)**: Automate the promotion of models from development to production environments, ensuring governance and validation.
+- **[US: Training](Trainning_stories.md)**: Handle the full model training process, including data preparation, model fitting, and checkpointing.
 - **US: Tuning**: Optimize hyperparameters and configurations to improve model performance systematically.
 
 ### **FE: Utils**
