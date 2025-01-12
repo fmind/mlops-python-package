@@ -1,26 +1,20 @@
 
-# US [Global Context Management](./backlog_mlops_regresion.md) : Efficiently manage global context during the execution of machine learning workflows.
+# US [Global Context Management](./backlog_mlops_regresion.md) : Manage global contexts during execution for logging, notifications, and MLflow tracking.
 
-- [US Global Context Management : Efficiently manage global context during the execution of machine learning workflows.](#us-global-context-management--efficiently-manage-global-context-during-the-execution-of-machine-learning-workflows)
-  - [Classes Relations](#classes-relations)
-  - [**User Stories: Service Management**](#user-stories-service-management)
-    - [**1. User Story: Start a Global Service**](#1-user-story-start-a-global-service)
-    - [**2. User Story: Stop a Global Service**](#2-user-story-stop-a-global-service)
-  - [**User Stories: Logger Service**](#user-stories-logger-service)
-    - [**1. User Story: Log Messages with Logger Service**](#1-user-story-log-messages-with-logger-service)
-    - [**2. User Story: Configure Logger Service**](#2-user-story-configure-logger-service)
-  - [**User Stories: Alerts Service**](#user-stories-alerts-service)
-    - [**1. User Story: Send Notifications with Alerts Service**](#1-user-story-send-notifications-with-alerts-service)
-  - [**User Stories: Mlflow Service**](#user-stories-mlflow-service)
-    - [**1. User Story: Configure Mlflow Tracking Service**](#1-user-story-configure-mlflow-tracking-service)
-    - [**2. User Story: Use Mlflow Run Context**](#2-user-story-use-mlflow-run-context)
+- [US Global Context Management : Manage global contexts during execution for logging, notifications, and MLflow tracking.](#us-global-context-management--manage-global-contexts-during-execution-for-logging-notifications-and-mlflow-tracking)
+  - [classes relations](#classes-relations)
+  - [**User Stories: Global Services**](#user-stories-global-services)
+    - [**1. User Story: Manage Logging Service**](#1-user-story-manage-logging-service)
+    - [**2. User Story: Manage Notification Service**](#2-user-story-manage-notification-service)
+    - [**3. User Story: Manage MLflow Tracking Service**](#3-user-story-manage-mlflow-tracking-service)
+    - [**Common Acceptance Criteria**](#common-acceptance-criteria)
+    - [**Definition of Done (DoD):**](#definition-of-done-dod)
   - [Code location](#code-location)
   - [Test location](#test-location)
 
-
 ------------
 
-## Classes Relations
+## classes relations
 
 ```mermaid
 classDiagram
@@ -44,145 +38,103 @@ classDiagram
     class AlertsService {
         +enable: bool
         +app_name: str
-        +timeout: int | None
-        +start(): None
         +notify(title: str, message: str): None
     }
     Service <|-- AlertsService : "specializes"
 
     %% MlflowService Class
     class MlflowService {
-        <<abstract>>
         +tracking_uri: str
-        +experiment_name: str
+        +registry_uri: str
         +start(): None
-        +run_context(run_config: RunConfig): [[REDACTED]nerator[[REDACTED], None, None]
-        +client(): [REDACTED]flowClient
+        +run_context(run_config: RunConfig): T.Generator[mlflow.ActiveRun, None, None]
+        +client(): mt.MlflowClient
     }
     Service <|-- MlflowService : "specializes"
+
+    %% Relationships
+    LoggerService ..> loguru.Logger : "uses"
+    AlertsService ..> notification : "uses"
+    MlflowService ..> mlflow : "uses"
 ```
 
-## **User Stories: Service Management**
+## **User Stories: Global Services**
 
 ---
 
-### **1. User Story: Start a Global Service**
+### **1. User Story: Manage Logging Service**
 
 **Title:**  
-As a **system administrator**, I want to start global services so that necessary resources are initialized to support my application's execution.
+As a **developer**, I want to have a centralized logging service that captures and formats log entries, so I can keep track of system activities and alerts.
 
 **Description:**  
-The `Service` class serves as the base for managing global context through subclasses like `LoggerService`, `AlertsService`, and `MlflowService`. Each service must implement the `start` method to initialize their respective functionalities properly.
+The `LoggerService` class provides functionality to manage logging in the application using the Loguru library. It allows configuration of log outputs, levels, and formats.
 
 **Acceptance Criteria:**  
-- The `start` method of specific services initializes all necessary configurations.
-- The context of the global service must be accessible throughout the application lifecycle.
-- No exceptions should be raised during initialization unless severe errors occur.
+- The `start` method initializes the logger with the desired configuration.
+- Log entries should show timestamps, log levels, and the source of the log message.
+- The logger can be retrieved through the `logger` method.
 
 ---
 
-### **2. User Story: Stop a Global Service**
+### **2. User Story: Manage Notification Service**
 
 **Title:**  
-As a **system administrator**, I want to stop global services so that I can clean up resources and avoid memory leaks.
+As a **user**, I want to be able to receive notifications from the application, so I can be alerted about important events or errors.
 
 **Description:**  
-The `stop` method in the `Service` class is intended to gracefully release any global resources when the application execution is complete.
+The `AlertsService` class provides capabilities to send notifications through the system or display them on the console if notifications are disabled.
 
 **Acceptance Criteria:**  
-- The global services can be stopped without errors, indicating that resources are cleaned up.
-- Any necessary logging of the stop operation is performed for audit purposes.
+- The `start` method initializes the notification service.
+- The `notify` method allows sending notifications with a title and message.
+- When notifications are disabled, messages should be printed to the console instead.
 
 ---
 
-## **User Stories: Logger Service**
-
----
-
-### **1. User Story: Log Messages with Logger Service**
+### **3. User Story: Manage MLflow Tracking Service**
 
 **Title:**  
-As a **developer**, I want to log messages using the Logger Service to track information and errors during application execution.
+As a **data scientist**, I want to manage MLflow tracking and model registry through a unified service, so I can easily log experiments and access models.
 
 **Description:**  
-The `LoggerService` provides functionalities to log messages with various levels (DEBUG, INFO, ERROR) to different outputs (like stderr or files).
+The `MlflowService` class integrates MLflow tracking features, enabling experiment management, automatic logging, and model registrations.
 
 **Acceptance Criteria:**  
-- The logger captures messages of various severity levels correctly.
-- The log output format aligns with the specified configuration.
-- The application can retrieve the logger instance for usage at any point in execution.
+- The `start` method sets the tracking and registry URIs and initializes the experiment for logging.
+- The `run_context` method provides a context manager for tracking runs, allowing easy management of logging during model training.
+- Users can retrieve the MLflow client through the `client` method to perform direct MLflow API operations.
 
 ---
 
-### **2. User Story: Configure Logger Service**
+### **Common Acceptance Criteria**
 
-**Title:**  
-As a **developer**, I want to configure the Logger Service so that I can customize the logging behavior for my application.
+1. **Implementation Requirements:**
+   - Each service class must extend the `Service` base class and implement the `start` method.
+   - Clear separation of responsibilities among services (logging, notifications, MLflow tracking).
 
-**Description:**  
-The configuration parameters (like logging level, output sink, and format) allow developers to tailor the logging service to meet specific needs.
+2. **Error Handling:**
+   - Appropriate error messaging for issues encountered during starting services or sending notifications.
 
-**Acceptance Criteria:**  
-- Configuration options can be specified at initialization and successfully applied.
-- Users can customize at least the sink, level, and format of log messages before starting the Logger Service.
+3. **Testing:**
+   - Unit tests validate the functionality of each service, ensuring they operate as intended when invoked.
 
----
-
-## **User Stories: Alerts Service**
-
----
-
-### **1. User Story: Send Notifications with Alerts Service**
-
-**Title:**  
-As a **user**, I want to receive notifications on important events so that I can be promptly informed of critical actions taken by the application.
-
-**Description:**  
-The `AlertsService` allows for sending notifications to the system or console and manages user alerts based on specific criteria.
-
-**Acceptance Criteria:**  
-- Notifications are sent successfully with correct formatting.
-- Users can toggle notifications on or off.
-- Notifications contain a title and message.
+4. **Documentation:**
+   - Each class and method contains detailed docstrings and usage examples to guide users.
 
 ---
 
-## **User Stories: Mlflow Service**
+### **Definition of Done (DoD):** 
 
----
+- All required methods in `Service`, `LoggerService`, `AlertsService`, and `MlflowService` are implemented.
+- Each service class passes all relevant tests.
+- Documentation is clear, and examples are provided for usage.
 
-### **1. User Story: Configure Mlflow Tracking Service**
-
-**Title:**  
-As a **data scientist**, I want to configure the Mlflow tracking service to ensure my model training runs are tracked properly.
-
-**Description:**  
-The `MlflowService` manages the setup required for tracking experiments, including configuring logging parameters.
-
-**Acceptance Criteria:**  
-- The service initializes the tracking URI and experiment settings on start.
-- Configuration parameters (logging and registry settings) must function as intended without raising errors.
-
----
-
-### **2. User Story: Use Mlflow Run Context**
-
-**Title:**  
-As a **data scientist**, I want to manage my experiments using a MLflow run context to ensure my runs are tracked accurately.
-
-**Description:**  
-The `run_context` method in `MlflowService` facilitates managing the lifecycle of an MLflow run, encapsulating the logging actions within a defined context.
-
-**Acceptance Criteria:**  
-- Users can enter a contextual block that automatically logs the start and end of a run.
-- Relevant parameters (like name, tags, and description) are correctly logged against the experiment.
-
----
 
 ## Code location
 
-[src/model_name/io/registries.py](../src/model_name/io/registries.py)
+[src/model_name/io/services.py](../src/model_name/io/services.py)
 
 ## Test location
 
-[tests/io/test_registries.py](../tests/io/test_registries.py)
+[tests/io/test_services.py](../tests/io/test_services.py)
