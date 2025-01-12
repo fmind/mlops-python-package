@@ -8,6 +8,7 @@
     - [**FE: Utils**](#fe-utils)
     - [**FE: main**](#fe-main)
     - [**FE: Tasks for CI/CD**](#fe-tasks-for-cicd)
+  - [UML packages relations](#uml-packages-relations)
 
 ---
 
@@ -70,3 +71,152 @@ Break down operational processes into manageable, modular tasks
 - **US: MLFlow**: Integrate with MLFlow for experiment tracking, model registry, and deployment workflows.
 - **US: Packages**: Organize and manage Python or other language packages for modularized codebases.
 - **US: Projects**: Create and maintain projects, ensuring that each has the structure, configuration, and tools needed for success.
+
+## UML packages relations
+
+```mermaid
+graph LR
+    subgraph model_name
+    end
+    subgraph model_name.__main__
+    end
+    subgraph model_name.core
+    end
+    subgraph model_name.core.metrics
+    end
+    subgraph model_name.core.models
+    end
+    subgraph model_name.core.schemas
+    end
+    subgraph model_name.io
+    end
+    subgraph model_name.io.configs
+    end
+    subgraph model_name.io.datasets
+    end
+    subgraph model_name.io.osvariables
+    end
+    subgraph model_name.io.registries
+    end
+    subgraph model_name.io.services
+    end
+    subgraph model_name.jobs
+    end
+    subgraph model_name.jobs.base
+    end
+    subgraph model_name.jobs.evaluations
+    end
+    subgraph model_name.jobs.explanations
+    end
+    subgraph model_name.jobs.inference
+    end
+    subgraph model_name.jobs.kafkainference
+    end
+    subgraph model_name.jobs.promotion
+    end
+    subgraph model_name.jobs.training
+    end
+    subgraph model_name.jobs.tuning
+    end
+    subgraph model_name.scripts
+    end
+    subgraph model_name.settings
+    end
+    subgraph model_name.utils
+    end
+    subgraph model_name.utils.searchers
+    end
+    subgraph model_name.utils.signers
+    end
+    subgraph model_name.utils.splitters
+    end
+
+    model_name.__main__ --> model_name
+    model_name.__main__ --> model_name.scripts
+    model_name.core.metrics --> model_name.core
+    model_name.core.metrics --> model_name.core.models
+    model_name.core.metrics --> model_name.core.schemas
+    model_name.core.models --> model_name.core
+    model_name.core.models --> model_name.core.schemas
+    model_name.io.registries --> model_name.core
+    model_name.io.registries --> model_name.core.models
+    model_name.io.registries --> model_name.core.schemas
+    model_name.io.registries --> model_name.utils
+    model_name.io.registries --> model_name.utils.signers
+    model_name.io.services --> model_name.io.osvariables
+    model_name.jobs --> model_name.jobs.evaluations
+    model_name.jobs --> model_name.jobs.explanations
+    model_name.jobs --> model_name.jobs.inference
+    model_name.jobs --> model_name.jobs.promotion
+    model_name.jobs --> model_name.jobs.training
+    model_name.jobs --> model_name.jobs.tuning
+    model_name.jobs.base --> model_name.io
+    model_name.jobs.base --> model_name.io.services
+    model_name.jobs.evaluations --> model_name.core
+    model_name.jobs.evaluations --> model_name.core.metrics
+    model_name.jobs.evaluations --> model_name.core.schemas
+    model_name.jobs.evaluations --> model_name.io
+    model_name.jobs.evaluations --> model_name.io.datasets
+    model_name.jobs.evaluations --> model_name.io.registries
+    model_name.jobs.evaluations --> model_name.io.services
+    model_name.jobs.evaluations --> model_name.jobs
+    model_name.jobs.evaluations --> model_name.jobs.base
+    model_name.jobs.explanations --> model_name.core
+    model_name.jobs.explanations --> model_name.core.schemas
+    model_name.jobs.explanations --> model_name.io
+    model_name.jobs.explanations --> model_name.io.datasets
+    model_name.jobs.explanations --> model_name.io.registries
+    model_name.jobs.explanations --> model_name.jobs
+    model_name.jobs.explanations --> model_name.jobs.base
+    model_name.jobs.inference --> model_name.core
+    model_name.jobs.inference --> model_name.core.schemas
+    model_name.jobs.inference --> model_name.io
+    model_name.jobs.inference --> model_name.io.datasets
+    model_name.jobs.inference --> model_name.io.registries
+    model_name.jobs.inference --> model_name.jobs
+    model_name.jobs.inference --> model_name.jobs.base
+    model_name.jobs.promotion --> model_name.jobs
+    model_name.jobs.promotion --> model_name.jobs.base
+    model_name.jobs.training --> model_name.core
+    model_name.jobs.training --> model_name.core.metrics
+    model_name.jobs.training --> model_name.core.models
+    model_name.jobs.training --> model_name.core.schemas
+    model_name.jobs.training --> model_name.io
+    model_name.jobs.training --> model_name.io.datasets
+    model_name.jobs.training --> model_name.io.registries
+    model_name.jobs.training --> model_name.io.services
+    model_name.jobs.training --> model_name.jobs
+    model_name.jobs.training --> model_name.jobs.base
+    model_name.jobs.training --> model_name.utils
+    model_name.jobs.training --> model_name.utils.signers
+    model_name.jobs.training --> model_name.utils.splitters
+    model_name.jobs.tuning --> model_name.core
+    model_name.jobs.tuning --> model_name.core.metrics
+    model_name.jobs.tuning --> model_name.core.models
+    model_name.jobs.tuning --> model_name.core.schemas
+    model_name.jobs.tuning --> model_name.io
+    model_name.jobs.tuning --> model_name.io.datasets
+    model_name.jobs.tuning --> model_name.io.services
+    model_name.jobs.tuning --> model_name.jobs
+    model_name.jobs.tuning --> model_name.jobs.base
+    model_name.jobs.tuning --> model_name.utils
+    model_name.jobs.tuning --> model_name.utils.searchers
+    model_name.jobs.tuning --> model_name.utils.splitters
+    model_name.scripts --> model_name
+    model_name.scripts --> model_name.io
+    model_name.scripts --> model_name.io.configs
+    model_name.scripts --> model_name.settings
+    model_name.settings --> model_name
+    model_name.settings --> model_name.jobs
+    model_name.utils.searchers --> model_name.core
+    model_name.utils.searchers --> model_name.core.metrics
+    model_name.utils.searchers --> model_name.core.models
+    model_name.utils.searchers --> model_name.core.schemas
+    model_name.utils.searchers --> model_name.utils
+    model_name.utils.searchers --> model_name.utils.splitters
+    model_name.utils.signers --> model_name.core
+    model_name.utils.signers --> model_name.core.schemas
+    model_name.utils.splitters --> model_name.core
+    model_name.utils.splitters --> model_name.core.schemas
+
+```
