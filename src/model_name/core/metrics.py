@@ -18,9 +18,7 @@ from model_name.core import models, schemas
 
 MlflowMetric: T.TypeAlias = mlflow.metrics.MetricValue
 MlflowThreshold: T.TypeAlias = mlflow.models.MetricThreshold
-MlflowModelValidationFailedException: T.TypeAlias = (
-    mlflow.models.evaluation.validation.ModelValidationFailedException
-)
+MlflowModelValidationFailedException: T.TypeAlias = mlflow.models.evaluation.validation.ModelValidationFailedException
 
 # %% METRICS
 
@@ -53,9 +51,7 @@ class Metric(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
             float: single result from the metric computation.
         """
 
-    def scorer(
-        self, model: models.Model, inputs: schemas.Inputs, targets: schemas.Targets
-    ) -> float:
+    def scorer(self, model: models.Model, inputs: schemas.Inputs, targets: schemas.Targets) -> float:
         """Score model outputs against targets.
 
         Args:
@@ -87,19 +83,13 @@ class Metric(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
             Returns:
                 MlflowMetric: the mlflow metric.
             """
-            score_targets = schemas.Targets(
-                {schemas.TargetsSchema.cnt: targets}, index=targets.index
-            )
-            score_outputs = schemas.Outputs(
-                {schemas.OutputsSchema.prediction: predictions}, index=predictions.index
-            )
+            score_targets = schemas.Targets({schemas.TargetsSchema.cnt: targets}, index=targets.index)
+            score_outputs = schemas.Outputs({schemas.OutputsSchema.prediction: predictions}, index=predictions.index)
             sign = 1 if self.greater_is_better else -1  # reverse the effect
             score = self.score(targets=score_targets, outputs=score_outputs)
             return MlflowMetric(aggregate_results={self.name: score * sign})
 
-        return mlflow.metrics.make_metric(
-            eval_fn=eval_fn, name=self.name, greater_is_better=self.greater_is_better
-        )
+        return mlflow.metrics.make_metric(eval_fn=eval_fn, name=self.name, greater_is_better=self.greater_is_better)
 
 
 class SklearnMetric(Metric):

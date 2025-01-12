@@ -24,9 +24,7 @@ def serve(ctx: Context, format: str = DOC_FORMAT, port: int = 8088) -> None:
 @task
 def api(ctx: Context, format: str = DOC_FORMAT, output_dir: str = OUTPUT_DIR) -> None:
     """Generate the API docs with pdoc."""
-    ctx.run(
-        f"poetry run pdoc --docformat={format} --output-directory={output_dir} src/{ctx.project.package}"
-    )
+    ctx.run(f"poetry run pdoc --docformat={format} --output-directory={output_dir} src/{ctx.project.package}")
 
 
 @task(pre=[cleans.docs, api], default=True)

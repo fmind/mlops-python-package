@@ -14,11 +14,7 @@ from model_name.io import datasets, registries, services
     [
         (
             1,
-            {
-                "mean_squared_error": metrics.Threshold(
-                    threshold=float("inf"), greater_is_better=False
-                )
-            },
+            {"mean_squared_error": metrics.Threshold(threshold=float("inf"), greater_is_better=False)},
         ),
         (
             "Promotion",
@@ -91,9 +87,7 @@ def test_evaluations_job(
     assert run_config.tags is not None, "Run config tags should be set!"
     assert out["run"].info.run_name == run_config.name, "Run name should be the same!"
     assert run_config.description in out["run"].data.tags.values(), "Run desc. should be tags!"
-    assert (
-        out["run"].data.tags.items() > run_config.tags.items()
-    ), "Run tags should be a subset of tags!"
+    assert out["run"].data.tags.items() > run_config.tags.items(), "Run tags should be a subset of tags!"
     # - data
     assert out["inputs"].ndim == out["inputs_"].ndim == 2, "Inputs should be a dataframe!"
     assert out["targets"].ndim == out["targets_"].ndim == 2, "Targets should be a dataframe!"
@@ -106,33 +100,19 @@ def test_evaluations_job(
     assert (
         out["targets_lineage"].source.uri == targets_reader.path
     ), "Targets lineage source should be the targets reader path!"
-    assert (
-        out["targets_lineage"].targets == schemas.TargetsSchema.cnt
-    ), "Targets lineage target should be cnt!"
+    assert out["targets_lineage"].targets == schemas.TargetsSchema.cnt, "Targets lineage target should be cnt!"
     # - dataset
     assert out["dataset"].name == "evaluation", "Dataset name should be evaluation!"
     assert out["dataset"].predictions is None, "Dataset predictions should be None!"
-    assert (
-        out["dataset"].targets == schemas.TargetsSchema.cnt
-    ), "Dataset targets should be the target column!"
-    assert (
-        inputs_reader.path in out["dataset"].source.uri
-    ), "Dataset source should contain the inputs path!"
-    assert (
-        targets_reader.path in out["dataset"].source.uri
-    ), "Dataset source should contain the targets path!"
+    assert out["dataset"].targets == schemas.TargetsSchema.cnt, "Dataset targets should be the target column!"
+    assert inputs_reader.path in out["dataset"].source.uri, "Dataset source should contain the inputs path!"
+    assert targets_reader.path in out["dataset"].source.uri, "Dataset source should contain the targets path!"
     # - model uri
     assert str(alias_or_version) in out["model_uri"], "Model URI should contain the model alias!"
-    assert (
-        mlflow_service.registry_name in out["model_uri"]
-    ), "Model URI should contain the registry name!"
+    assert mlflow_service.registry_name in out["model_uri"], "Model URI should contain the registry name!"
     # - extra metrics
-    assert len(out["extra_metrics"]) == len(
-        job.metrics
-    ), "Extra metrics should have the same length as metrics!"
-    assert (
-        out["extra_metrics"][0].name == job.metrics[0].name
-    ), "Extra metrics name should be the same!"
+    assert len(out["extra_metrics"]) == len(job.metrics), "Extra metrics should have the same length as metrics!"
+    assert out["extra_metrics"][0].name == job.metrics[0].name, "Extra metrics name should be the same!"
     assert (
         out["extra_metrics"][0].greater_is_better == job.metrics[0].greater_is_better
     ), "Extra metrics greatter is better should be the same!"
@@ -147,9 +127,7 @@ def test_evaluations_job(
     assert job.metrics[0].name in out["evaluations"].metrics, "Metric should be logged in Mlflow!"
     # - mlflow tracking
     experiment = mlflow_service.client().get_experiment_by_name(name=mlflow_service.experiment_name)
-    assert (
-        experiment.name == mlflow_service.experiment_name
-    ), "Mlflow Experiment name should be the same!"
+    assert experiment.name == mlflow_service.experiment_name, "Mlflow Experiment name should be the same!"
     runs = mlflow_service.client().search_runs(experiment_ids=experiment.experiment_id)
     assert len(runs) == 2, "There should be a two Mlflow run for training and evaluations!"
     assert metric.name in runs[0].data.metrics, "Metric should be logged in Mlflow!"

@@ -348,9 +348,7 @@ def tmp_path_resolver(tmp_path: str) -> str:
 
 
 @pytest.fixture(scope="session")
-def signature(
-    signer: signers.Signer, inputs: schemas.Inputs, outputs: schemas.Outputs
-) -> signers.Signature:
+def signature(signer: signers.Signer, inputs: schemas.Inputs, outputs: schemas.Outputs) -> signers.Signature:
     """Return the signature for the testing model."""
     return signer.sign(inputs=inputs, outputs=outputs)
 
@@ -402,8 +400,6 @@ def model_alias(
     """Promote the default model version with an alias."""
     alias = "Promotion"
     client = mlflow_service.client()
-    client.set_registered_model_alias(
-        name=mlflow_service.registry_name, alias=alias, version=model_version.version
-    )
+    client.set_registered_model_alias(name=mlflow_service.registry_name, alias=alias, version=model_version.version)
     model_alias = client.get_model_version_by_alias(name=mlflow_service.registry_name, alias=alias)
     return model_alias

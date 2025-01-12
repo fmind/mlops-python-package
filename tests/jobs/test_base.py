@@ -19,9 +19,7 @@ def test_job(
             a, b = 1, "test"
             return locals()
 
-    job = MyJob(
-        logger_service=logger_service, alerts_service=alerts_service, mlflow_service=mlflow_service
-    )
+    job = MyJob(logger_service=logger_service, alerts_service=alerts_service, mlflow_service=mlflow_service)
     # when
     with job as runner:
         out = runner.run()

@@ -10,7 +10,6 @@ import pydantic as pdt
 
 from model_name.core import models, schemas
 from model_name.utils import signers
-import pandas as pd
 
 # %% TYPES
 
@@ -82,9 +81,7 @@ class Saver(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
     path: str = "model"
 
     @abc.abstractmethod
-    def save(
-        self, model: models.Model, signature: signers.Signature, input_example: schemas.Inputs
-    ) -> Info:
+    def save(self, model: models.Model, signature: signers.Signature, input_example: schemas.Inputs) -> Info:
         """Save a model in the model registry.
 
         Args:
@@ -139,9 +136,7 @@ class CustomSaver(Saver):
             return T.cast(schemas.Outputs, output.prediction)
 
     @T.override
-    def save(
-        self, model: models.Model, signature: signers.Signature, input_example: schemas.Inputs
-    ) -> Info:
+    def save(self, model: models.Model, signature: signers.Signature, input_example: schemas.Inputs) -> Info:
         adapter = CustomSaver.Adapter(model=model)
         return mlflow.pyfunc.log_model(
             python_model=adapter,

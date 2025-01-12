@@ -24,12 +24,8 @@ def test_parquet_reader(limit: int | None, inputs_path: str) -> None:
     # - lineage
     assert lineage.name == "inputs", "Lineage name should be inputs!"
     assert lineage.source.uri == inputs_path, "Lineage source uri should be the inputs path!"
-    assert set(lineage.schema.input_names()) == set(
-        data.columns
-    ), "Lineage schema names should be the data columns!"
-    assert lineage.profile["num_rows"] == len(
-        data
-    ), "Lineage profile should contain the data row count!"
+    assert set(lineage.schema.input_names()) == set(data.columns), "Lineage schema names should be the data columns!"
+    assert lineage.profile["num_rows"] == len(data), "Lineage profile should contain the data row count!"
 
 
 # %% WRITERS

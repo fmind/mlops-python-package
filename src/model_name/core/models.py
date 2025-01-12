@@ -151,9 +151,7 @@ class BaselineSklearnModel(Model):
     @T.override
     def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "BaselineSklearnModel":
         # subcomponents
-        categoricals_transformer = preprocessing.OneHotEncoder(
-            sparse_output=False, handle_unknown="ignore"
-        )
+        categoricals_transformer = preprocessing.OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         # components
         transformer = compose.ColumnTransformer(
             [
@@ -179,9 +177,7 @@ class BaselineSklearnModel(Model):
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
         model = self.get_internal_model()
         prediction = model.predict(inputs)
-        outputs = schemas.Outputs(
-            {schemas.OutputsSchema.prediction: prediction}, index=inputs.index
-        )
+        outputs = schemas.Outputs({schemas.OutputsSchema.prediction: prediction}, index=inputs.index)
         return outputs
 
     @T.override
