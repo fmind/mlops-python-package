@@ -47,6 +47,8 @@
 ### **FE: Utils**
 Auxiliary tools and configurations that enhance functionality and streamline development
 - **[US: Searchers](Searchers_stories.md)**: Define functionalities for finding the best hyperparameters for a model.
+- **[US: Signers](Signers_stories.md)**:  Generate signatures for AI/ML models.
+- **[US: Splitters](Splitters_stories.md)**: Split dataframes into subsets for model training and evaluation. 
 
 ### **FE: main**
 General execution scripts
