@@ -26,7 +26,7 @@
 
 - **[US: Config](Configs_stories.md)**: Store and manage configuration files to customize and control the behavior of different modules.
 - **[US: Dataset](Datasets_stories.md)**: Handle loading, preprocessing, and managing data sets for training, evaluation, and inference.
-- **US: OSVariables**: Provide environment variables and system-level configurations for portability across various environments.
+- **[US: OSVariables](OSvariables_stories.md)**: Provide environment variables and system-level configurations for portability across various environments.
 - **US: Registries**: Maintain a central repository for tracking artifacts like models, datasets, and configurations.
 - **US: Services**: Connect and integrate external or internal services such as APIs, databases, and message brokers.
 
