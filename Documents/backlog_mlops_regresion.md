@@ -53,7 +53,7 @@ Auxiliary tools and configurations that enhance functionality and streamline dev
 ### **FE: main**
 General execution scripts
 - **[US. Scripts](Scripts_stories.md)**: Include utility scripts for automating tasks, data handling, and system management.
-- **Us: Settings**: Centralize settings and constants used across different modules for consistency and maintainability.
+- **[US: Settings](Settings_stories.md)**: Centralize settings and constants used across different modules for consistency and maintainability.
 
 
 ### **FE: Tasks for CI/CD**
