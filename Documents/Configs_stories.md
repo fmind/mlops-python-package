@@ -1,15 +1,18 @@
 # US [Configs](./backlog_mlops_regresion.md) : Parse, Merge, and Convert Configuration Objects
 
-- [**1. Parse Configuration File**](#1-parse-configuration-file)
-- [**2. User Story: Parse Configuration String**](#2-user-story-parse-configuration-string)
-- [**3. User Story: Merge Multiple Configurations**](#3-user-story-merge-multiple-configurations)
-- [**4. User Story: Convert Configuration to Python Object**](#4-user-story-convert-configuration-to-python-object)
-- [**Common Acceptance Criteria Across All Stories**](#common-acceptance-criteria-across-all-stories)
-- [**Definition of Done (DoD):**](#definition-of-done-dod)
+- [US Configs : Parse, Merge, and Convert Configuration Objects](#us-configs--parse-merge-and-convert-configuration-objects)
+  - [**1.  User Story: Parse Configuration File**](#1--user-story-parse-configuration-file)
+  - [**2. User Story: Parse Configuration String**](#2-user-story-parse-configuration-string)
+  - [**3. User Story: Merge Multiple Configurations**](#3-user-story-merge-multiple-configurations)
+  - [**4. User Story: Convert Configuration to Python Object**](#4-user-story-convert-configuration-to-python-object)
+  - [**Common Acceptance Criteria Across All Stories**](#common-acceptance-criteria-across-all-stories)
+  - [**Definition of Done (DoD):**](#definition-of-done-dod)
+  - [Code location](#code-location)
+  - [Test location](#test-location)
 
 ---
 
-## **1. Parse Configuration File**
+## **1.  User Story: Parse Configuration File**
 
 **Title:**  
 As a **developer**, I want to parse configuration files from a specified path so that I can load application settings dynamically.
@@ -91,3 +94,13 @@ The `to_object` function converts an `OmegaConf` configuration object into stand
 - Documentation includes clear examples and explanations for each function.
 - Functions are robust, handling errors gracefully with meaningful messages.
 - Code passes peer review and adheres to the project's coding standards.
+
+
+
+## Code location
+
+[src/model_name/core/schemas.py](../src/model_name/io/configs.py)
+
+## Test location
+
+[tests/core/test_schemas.py](../tests/io/configs.py)
