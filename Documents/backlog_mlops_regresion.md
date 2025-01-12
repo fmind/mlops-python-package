@@ -6,6 +6,7 @@
     - [**FE: Input Outputs**](#fe-input-outputs)
     - [**FE: Jobs**](#fe-jobs)
     - [**FE: Utils**](#fe-utils)
+    - [**FE: main**](#fe-main)
     - [**FE: Tasks for CI/CD**](#fe-tasks-for-cicd)
 
 ---
@@ -44,9 +45,11 @@
 - **[US: Tuning](Tuning_stories.md)**: Optimize hyperparameters and configurations to improve model performance systematically.
 
 ### **FE: Utils**
-
 Auxiliary tools and configurations that enhance functionality and streamline development
+- **[US: Searchers](Searchers_stories.md)**: Define functionalities for finding the best hyperparameters for a model.
 
+### **FE: main**
+General execution scripts
 - **[US. Scripts](Scripts_stories.md)**: Include utility scripts for automating tasks, data handling, and system management.
 - **Us: Settings**: Centralize settings and constants used across different modules for consistency and maintainability.
 
