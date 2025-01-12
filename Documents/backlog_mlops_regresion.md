@@ -1,11 +1,12 @@
 # Backlog for Class Diagram Implementation
 
-- [**Features/packages**](#featurespackages)
-  - [**FE: Core**](#fe-core)
-  - [**FE: Input Outputs**](#fe-input-outputs)
-  - [**FE: Jobs**](#fe-jobs)
-  - [**FE: Utils**](#fe-utils)
-  - [**FE: Tasks**](#fe-tasks)
+- [Backlog for Class Diagram Implementation](#backlog-for-class-diagram-implementation)
+  - [**Features/packages**](#featurespackages)
+    - [**FE: Core**](#fe-core)
+    - [**FE: Input Outputs**](#fe-input-outputs)
+    - [**FE: Jobs**](#fe-jobs)
+    - [**FE: Utils**](#fe-utils)
+    - [**FE: Tasks**](#fe-tasks)
 
 ---
 
@@ -24,7 +25,7 @@
  Handle configuration, data ingestion, and external environment variables for seamless integration:
 
 - **[US: Config](Configs_stories.md)**: Store and manage configuration files to customize and control the behavior of different modules.
-- **US: Datasets**: Handle loading, preprocessing, and managing data sets for training, evaluation, and inference.
+- **[US: Dataset](Datasets_stories.md)**: Handle loading, preprocessing, and managing data sets for training, evaluation, and inference.
 - **US: OSVariables**: Provide environment variables and system-level configurations for portability across various environments.
 - **US: Registries**: Maintain a central repository for tracking artifacts like models, datasets, and configurations.
 - **US: Services**: Connect and integrate external or internal services such as APIs, databases, and message brokers.
