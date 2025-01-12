@@ -253,8 +253,8 @@ The `Register` base class defines the fundamental aspects of model registration,
 
 ## Code location
 
-[src/model_name/core/model_registries.py](../src/model_name/io/registries.py)
+[src/model_name/io/model_registries.py](../src/model_name/io/registries.py)
 
 ## Test location
 
-[tests/core/test_model_registries.py](../tests/io/test_registries.py)
+[tests/io/test_model_registries.py](../tests/io/test_registries.py)
