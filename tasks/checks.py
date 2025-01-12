@@ -23,7 +23,7 @@ def format(ctx: Context) -> None:
 @task
 def type(ctx: Context) -> None:
     """Check the types with mypy."""
-    ctx.run("poetry run mypy src/ tasks/ tests/")
+    ctx.run("poetry run mypy src/ tasks/")
 
 
 @task

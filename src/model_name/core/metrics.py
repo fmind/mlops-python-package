@@ -8,6 +8,7 @@ import abc
 import typing as T
 
 import mlflow
+from mlflow.metrics import MetricValue
 import pandas as pd
 import pydantic as pdt
 from sklearn import metrics
@@ -16,7 +17,7 @@ from model_name.core import models, schemas
 
 # %% TYPINGS
 
-MlflowMetric: T.TypeAlias = mlflow.metrics.MetricValue
+MlflowMetric: T.TypeAlias = MetricValue
 MlflowThreshold: T.TypeAlias = mlflow.models.MetricThreshold
 MlflowModelValidationFailedException: T.TypeAlias = mlflow.models.evaluation.validation.ModelValidationFailedException
 
