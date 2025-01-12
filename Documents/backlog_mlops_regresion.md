@@ -41,14 +41,15 @@
 - **US: KafkaInference**: Specialized inference jobs designed to integrate with Kafka for real-time data streaming applications.
 - **[US: Promotion](Promotions_stories.md)**: Automate the promotion of models from development to production environments, ensuring governance and validation.
 - **[US: Training](Trainning_stories.md)**: Handle the full model training process, including data preparation, model fitting, and checkpointing.
-- **US: Tuning**: Optimize hyperparameters and configurations to improve model performance systematically.
+- **[US: Tuning](Tuning_stories.md)**: Optimize hyperparameters and configurations to improve model performance systematically.
 
 ### **FE: Utils**
 
 Auxiliary tools and configurations that enhance functionality and streamline development
 
-- **US. Scripts**: Include utility scripts for automating tasks, data handling, and system management.
+- **[US. Scripts](Scripts_stories.md)**: Include utility scripts for automating tasks, data handling, and system management.
 - **Us: Settings**: Centralize settings and constants used across different modules for consistency and maintainability.
+
 
 ### **FE: Tasks for CI/CD**
 
