@@ -6,7 +6,7 @@
     - [**FE: Input Outputs**](#fe-input-outputs)
     - [**FE: Jobs**](#fe-jobs)
     - [**FE: Utils**](#fe-utils)
-    - [**FE: Tasks**](#fe-tasks)
+    - [**FE: Tasks for CI/CD**](#fe-tasks-for-cicd)
 
 ---
 
@@ -39,7 +39,7 @@
 - **[US: Explanations](Explanations_stories.md)**: Generate explainability reports for machine learning models to provide insights into predictions and decisions.
 - **[US: Inference](Inference_stories.md)**: Execute predictions using trained models, optimized for low latency and high throughput.
 - **US: KafkaInference**: Specialized inference jobs designed to integrate with Kafka for real-time data streaming applications.
-- **US: Promotion**: Automate the promotion of models from development to production environments, ensuring governance and validation.
+- **[US: Promotion](Promotions_stories.py)**: Automate the promotion of models from development to production environments, ensuring governance and validation.
 - **US: Training**: Handle the full model training process, including data preparation, model fitting, and checkpointing.
 - **US: Tuning**: Optimize hyperparameters and configurations to improve model performance systematically.
 
@@ -50,7 +50,7 @@ Auxiliary tools and configurations that enhance functionality and streamline dev
 - **US. Scripts**: Include utility scripts for automating tasks, data handling, and system management.
 - **Us: Settings**: Centralize settings and constants used across different modules for consistency and maintainability.
 
-### **FE: Tasks**
+### **FE: Tasks for CI/CD**
 
 Break down operational processes into manageable, modular tasks
 
