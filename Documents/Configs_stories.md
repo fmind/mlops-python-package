@@ -1,6 +1,7 @@
 # US [Configs](./backlog_mlops_regresion.md) : Parse, Merge, and Convert Configuration Objects
 
 - [US Configs : Parse, Merge, and Convert Configuration Objects](#us-configs--parse-merge-and-convert-configuration-objects)
+  - [methods uml diagram](#methods-uml-diagram)
   - [**1.  User Story: Parse Configuration File**](#1--user-story-parse-configuration-file)
   - [**2. User Story: Parse Configuration String**](#2-user-story-parse-configuration-string)
   - [**3. User Story: Merge Multiple Configurations**](#3-user-story-merge-multiple-configurations)
@@ -11,6 +12,48 @@
   - [Test location](#test-location)
 
 ---
+## methods uml diagram
+
+```mermaid
+classDiagram
+    %% Functions - Parsers
+    class Parser {
+        +parse_file(path: str): Config
+        +parse_string(string: str): Config
+    }
+
+    Parser --> oc.OmegaConf : "uses"
+
+    %% Config
+    class Config {
+        <<type alias>>
+        +ListConfig | DictConfig
+    }
+
+    %% Functions - Mergers
+    class Merger {
+        +merge_configs(configs: T.Sequence[Config]): Config
+    }
+
+    Merger --> oc.OmegaConf : "uses"
+
+    %% Functions - Converters
+    class Converter {
+        +to_object(config: Config, resolve: bool = True): object
+    }
+
+    Converter --> oc.OmegaConf : "uses"
+
+    %% Relationships
+    Parser --> Config : "returns"
+    Merger --> Config : "returns"
+    Converter --> object : "returns"
+    
+    %% Dependencies on OmegaConf
+    oc.OmegaConf --> Config : "returns ListConfig | DictConfig"
+    oc.OmegaConf --> object : "converts to container"
+
+```
 
 ## **1.  User Story: Parse Configuration File**
 

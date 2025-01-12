@@ -2,39 +2,59 @@
 
 Provide standardized measurements for model performance, accuracy, and evaluation. Useful for tracking improvement and identifying bottlenecks.
 
-- [classes relations](#classes-relations)
-- [**User Story: Develop a Base Metric Class for Model Evaluation**](#user-story-develop-a-base-metric-class-for-model-evaluation)
-- [**User Story: Implement a Scikit-learn Metric Wrapper**](#user-story-implement-a-scikit-learn-metric-wrapper)
-- [**User Story: Implement a Threshold Class for Metric Monitoring**](#user-story-implement-a-threshold-class-for-metric-monitoring)
+- [US Metrics : Provide standardized measurements for model performance, accuracy, and evaluation](#us-metrics--provide-standardized-measurements-for-model-performance-accuracy-and-evaluation)
+  - [classes relations](#classes-relations)
+  - [**User Story: Develop a Base Metric Class for Model Evaluation**](#user-story-develop-a-base-metric-class-for-model-evaluation)
+  - [**User Story: Implement a Scikit-learn Metric Wrapper**](#user-story-implement-a-scikit-learn-metric-wrapper)
+  - [**User Story: Implement a Threshold Class for Metric Monitoring**](#user-story-implement-a-threshold-class-for-metric-monitoring)
+  - [Code location](#code-location)
+  - [Test location](#test-location)
 
 ------------
 
 ## classes relations
 
-```plantuml
-@startuml classes_Metrics
-set namespaceSeparator none
-class "Metric" as model_name.core.metrics.Metric {
-  KIND : str
-  greater_is_better : bool
-  name : str
-  {abstract}score(targets: schemas.Targets, outputs: schemas.Outputs) -> float
-  scorer(model: models.Model, inputs: schemas.Inputs, targets: schemas.Targets) -> float
-  to_mlflow() -> MlflowMetric
-}
-class "SklearnMetric" as model_name.core.metrics.SklearnMetric {
-  KIND : T.Literal['SklearnMetric']
-  greater_is_better : bool
-  name : str
-  score(targets: schemas.Targets, outputs: schemas.Outputs) -> float
-}
-class "Threshold" as model_name.core.metrics.Threshold {
-  greater_is_better : bool
-  threshold : int | float
-  to_mlflow() -> MlflowThreshold
-}
-model_name.core.metrics.SklearnMetric --|> model_name.core.metrics.Metric
-@enduml
+```mermaid
+classDiagram
+    %% Base Class: Metric
+    class Metric {
+        <<abstract>>
+        +KIND: str
+        +name: str
+        +greater_is_better: bool
+        +score(targets: schemas.Targets, outputs: schemas.Outputs): float
+        +scorer(model: models.Model, inputs: schemas.Inputs, targets: schemas.Targets): float
+        +to_mlflow(): MlflowMetric
+    }
+    Metric ..> pdt.BaseModel : "inherits"
+
+    %% SklearnMetric Class
+    class SklearnMetric {
+        +KIND: T.Literal["SklearnMetric"]
+        +name: str = "mean_squared_error"
+        +greater_is_better: bool = False
+        +score(targets: schemas.Targets, outputs: schemas.Outputs): float
+    }
+    Metric <|-- SklearnMetric : "specializes"
+
+    %% Threshold Class
+    class Threshold {
+        <<abstract>>
+        +threshold: int | float
+        +greater_is_better: bool
+        +to_mlflow(): MlflowThreshold
+    }
+    Threshold ..> pdt.BaseModel : "inherits"
+
+    %% Aliases and Relationships
+    MetricKind --> SklearnMetric : "type alias"
+    MetricsKind --> MetricKind : "list of metrics"
+    Metric ..> MlflowMetric : "returns"
+    Threshold ..> MlflowThreshold : "returns"
+    Metric ..> schemas.Targets : "uses"
+    Metric ..> schemas.Outputs : "uses"
+    Metric ..> models.Model : "uses"
+
 
 ```
 
@@ -244,3 +264,12 @@ The `Threshold` class provides a way to define and manage thresholds for metrics
 - The class integrates with `mlflow` via the `to_mlflow` method.  
 - Clear documentation and usage examples are provided.  
 - The implementation is validated in the project's CI/CD pipeline and is deployment-ready.
+
+
+## Code location
+
+[src/model_name/core/models.py](../src/model_name/core/metrics.py)
+
+## Test location
+
+[tests/core/test_models.py](../tests/core/test_metrics.py)

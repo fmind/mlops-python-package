@@ -26,34 +26,53 @@
 
 ## classes relations
 
-```plantuml
-@startuml classes_Datasets
-set namespaceSeparator none
-class "ParquetReader" as model_name.io.datasets.ParquetReader {
-  KIND : T.Literal['ParquetReader']
-  path : str
-  lineage(name: str, data: pd.DataFrame, targets: str | None, predictions: str | None) -> Lineage
-  read() -> pd.DataFrame
-}
-class "ParquetWriter" as model_name.io.datasets.ParquetWriter {
-  KIND : T.Literal['ParquetWriter']
-  path : str
-  write(data: pd.DataFrame) -> None
-}
-class "Reader" as model_name.io.datasets.Reader {
-  KIND : str
-  limit : int | None
-  {abstract}lineage(name: str, data: pd.DataFrame, targets: str | None, predictions: str | None) -> Lineage
-  {abstract}read() -> pd.DataFrame
-}
-class "Writer" as model_name.io.datasets.Writer {
-  KIND : str
-  {abstract}write(data: pd.DataFrame) -> None
-}
-model_name.io.datasets.ParquetReader --|> model_name.io.datasets.Reader
-model_name.io.datasets.ParquetWriter --|> model_name.io.datasets.Writer
-@enduml
+```mermaid
+classDiagram
+    %% Base Class: Reader
+    class Reader {
+        <<abstract>>
+        +KIND: str
+        +limit: int | None
+        +read(): pd.DataFrame
+        +lineage(name: str, data: pd.DataFrame, targets: str | None, predictions: str | None): Lineage
+    }
+    Reader ..> pdt.BaseModel : "inherits"
 
+    %% ParquetReader Class
+    class ParquetReader {
+        +KIND: T.Literal["ParquetReader"]
+        +path: str
+        +read(): pd.DataFrame
+        +lineage(name: str, data: pd.DataFrame, targets: str | None, predictions: str | None): Lineage
+    }
+    Reader <|-- ParquetReader : "specializes"
+
+    %% Base Class: Writer
+    class Writer {
+        <<abstract>>
+        +KIND: str
+        +write(data: pd.DataFrame): None
+    }
+    Writer ..> pdt.BaseModel : "inherits"
+
+    %% ParquetWriter Class
+    class ParquetWriter {
+        +KIND: T.Literal["ParquetWriter"]
+        +path: str
+        +write(data: pd.DataFrame): None
+    }
+    Writer <|-- ParquetWriter : "specializes"
+
+    %% Aliases
+    Lineage --> lineage.PandasDataset : "type alias"
+    ReaderKind --> ParquetReader : "type alias"
+    WriterKind --> ParquetWriter : "type alias"
+
+    %% Relationships
+    Reader ..> pd.DataFrame : "returns"
+    Writer ..> pd.DataFrame : "uses"
+    ParquetReader ..> lineage.PandasDataset : "uses"
+    ParquetReader ..> pd.DataFrame : "uses"
 
 ```
 ## **User Stories: Dataset Reader and Lineage Generator**

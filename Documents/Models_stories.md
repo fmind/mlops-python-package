@@ -1,41 +1,49 @@
 # US [Models](./backlog_mlops_regresion.md) : Define the structure of machine learning models, including architectures and checkpoints, to standardize training and deployment
 
-- [classes relations](#classes-relations)
-- [**User Story: Develop a Base Model Class for Machine Learning Frameworks**](#user-story-develop-a-base-model-class-for-machine-learning-frameworks)
-- [**User Story: Develop a Baseline Scikit-Learn Model for Machine Learning**](#user-story-develop-a-baseline-scikit-learn-model-for-machine-learning)
-- [Code location](#code-location)
-- [Test location](#test-location)
+- [US Models : Define the structure of machine learning models, including architectures and checkpoints, to standardize training and deployment](#us-models--define-the-structure-of-machine-learning-models-including-architectures-and-checkpoints-to-standardize-training-and-deployment)
+  - [classes relations](#classes-relations)
+  - [**User Story: Develop a Base Model Class for Machine Learning Frameworks**](#user-story-develop-a-base-model-class-for-machine-learning-frameworks)
+  - [**User Story: Develop a Baseline Scikit-Learn Model for Machine Learning**](#user-story-develop-a-baseline-scikit-learn-model-for-machine-learning)
+  - [Code location](#code-location)
+  - [Test location](#test-location)
 
 ------------
 
 ## classes relations
 
-```plantuml
-@startuml classes_Models
-set namespaceSeparator none
-class "BaselineSklearnModel" as model_name.core.models.BaselineSklearnModel {
-  KIND : T.Literal['BaselineSklearnModel']
-  max_depth : int
-  n_estimators : int
-  random_state : int | None
-  explain_model() -> schemas.FeatureImportances
-  explain_samples(inputs: schemas.Inputs) -> schemas.SHAPValues
-  fit(inputs: schemas.Inputs, targets: schemas.Targets) -> 'BaselineSklearnModel'
-  get_internal_model() -> pipeline.Pipeline
-  predict(inputs: schemas.Inputs) -> schemas.Outputs
-}
-class "Model" as model_name.core.models.Model {
-  KIND : str
-  {abstract}explain_model() -> schemas.FeatureImportances
-  {abstract}explain_samples(inputs: schemas.Inputs) -> schemas.SHAPValues
-  {abstract}fit(inputs: schemas.Inputs, targets: schemas.Targets) -> T.Self
-  {abstract}get_internal_model() -> T.Any
-  get_params(deep: bool) -> Params
-  {abstract}predict(inputs: schemas.Inputs) -> schemas.Outputs
-  set_params() -> T.Self
-}
-model_name.core.models.BaselineSklearnModel --|> model_name.core.models.Model
-@enduml
+```mermaid
+classDiagram
+    %% Abstract Base Class
+    class Model {
+        <<abstract>>
+        +KIND: str
+        +get_params(deep: bool = True): Params
+        +set_params(**params: ParamValue): T.Self
+        +fit(inputs: schemas.Inputs, targets: schemas.Targets): T.Self
+        +predict(inputs: schemas.Inputs): schemas.Outputs
+        +explain_model(): schemas.FeatureImportances
+        +explain_samples(inputs: schemas.Inputs): schemas.SHAPValues
+        +get_internal_model(): T.Any
+    }
+
+    %% Derived Class
+    class BaselineSklearnModel {
+        +KIND: T.Literal["BaselineSklearnModel"] = "BaselineSklearnModel"
+        +max_depth: int = 20
+        +n_estimators: int = 200
+        +random_state: int|None = 42
+        -_pipeline: pipeline.Pipeline|None
+        -_numericals: list[str]
+        -_categoricals: list[str]
+        +fit(inputs: schemas.Inputs, targets: schemas.Targets): BaselineSklearnModel
+        +predict(inputs: schemas.Inputs): schemas.Outputs
+        +explain_model(): schemas.FeatureImportances
+        +explain_samples(inputs: schemas.Inputs): schemas.SHAPValues
+        +get_internal_model(): pipeline.Pipeline
+    }
+
+    %% Relationships
+    Model <|-- BaselineSklearnModel
 
 ```
 
