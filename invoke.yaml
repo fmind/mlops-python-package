@@ -3,6 +3,6 @@
 run:
   echo: true
 project:
-  name: model_name
-  package: model_name
-  repository: model_name
+  name: regression_model_template
+  package: regression_model_template
+  repository: regression_model_template

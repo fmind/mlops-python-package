@@ -8,7 +8,7 @@ import typing as T
 
 import pydantic as pdt
 
-from model_name.io import services
+from regression_model_template.io import services
 
 # %% TYPES
 

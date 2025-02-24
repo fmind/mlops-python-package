@@ -10,7 +10,7 @@ import numpy.typing as npt
 import pydantic as pdt
 from sklearn import model_selection
 
-from model_name.core import schemas
+from regression_model_template.core import schemas
 
 # %% TYPES
 

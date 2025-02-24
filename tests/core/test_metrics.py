@@ -3,7 +3,7 @@
 import mlflow
 import pandas as pd
 import pytest
-from model_name.core import metrics, models, schemas
+from regression_model_template.core import metrics, models, schemas
 
 # %% METRICS
 

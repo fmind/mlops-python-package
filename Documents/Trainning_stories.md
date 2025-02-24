@@ -337,7 +337,7 @@ At the conclusion of the job execution, the system sends a notification summariz
 
 ## Code location
 
-[src/model_name/jobs/training.py](../src/model_name/jobs/training.py)
+[src/regression_model_template/jobs/training.py](../src/regression_model_template/jobs/training.py)
 
 ## Test location
 

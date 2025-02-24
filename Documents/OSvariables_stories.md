@@ -32,8 +32,8 @@ classDiagram
     class Env {
         + mlflow_tracking_uri: str = "./mlruns"
         + mlflow_registry_uri: str = "./mlruns"
-        + mlflow_experiment_name: str = "model_name"
-        + mlflow_registered_model_name: str = "model_name"
+        + mlflow_experiment_name: str = "regression_model_template"
+        + mlflow_registered_model_name: str = "regression_model_template"
     }
 
     class Config {
@@ -87,8 +87,8 @@ The `Env` class provides default and customizable values for MLflow-related conf
 - The following MLflow configuration keys are available:
   - `mlflow_tracking_uri`: Default is `"./mlruns"`.
   - `mlflow_registry_uri`: Default is `"./mlruns"`.
-  - `mlflow_experiment_name`: Default is `"model_name"`.
-  - `mlflow_registered_model_name`: Default is `"model_name"`.
+  - `mlflow_experiment_name`: Default is `"regression_model_template"`.
+  - `mlflow_registered_model_name`: Default is `"regression_model_template"`.
 - Values can be overridden by environment variables or a `.env` file.
 - The Singleton pattern ensures no accidental re-creation of the `Env` instance.
 
@@ -159,7 +159,7 @@ The `Env` class provides default and customizable values for MLflow-related conf
 - 
 ## Code location
 
-[src/model_name/core/schemas.py](../src/model_name/io/osvariables.py)
+[src/regression_model_template/core/schemas.py](../src/regression_model_template/io/osvariables.py)
 
 ## Test location
 

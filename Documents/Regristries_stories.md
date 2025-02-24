@@ -311,7 +311,7 @@ The `MlflowRegister` class provides methods for registering models within the ML
 
 ## Code location
 
-[src/model_name/io/model_registries.py](../src/model_name/io/registries.py)
+[src/regression_model_template/io/model_registries.py](../src/regression_model_template/io/registries.py)
 
 ## Test location
 

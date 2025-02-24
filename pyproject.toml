@@ -3,21 +3,21 @@
 # PROJECT
 
 [tool.poetry]
-name = "model_name"
+name = "regression_model_template"
 version = "2.0.0"
-description = "Predict the number of model_name available."
+description = "Predict the number of regression_model_template available."
 repository = "https://github.com/lgcorzo/mlops-python-package"
 documentation = "https://lgcorzo.github.io/mlops-python-package/"
 authors = []
 readme = "README.md"
 license = "MIT"
 keywords = ["mlops", "python", "package"]
-packages = [{ include = "model_name", from = "src" }]
+packages = [{ include = "regression_model_template", from = "src" }]
 
 # SCRIPTS
 
 [tool.poetry.scripts]
-model_name = 'model_name.scripts:main'
+regression_model_template = 'regression_model_template.scripts:main'
 
 # DEPENDENCIES
 
@@ -93,9 +93,9 @@ python_version = "3.12"
 check_untyped_defs = false
 ignore_missing_imports = true
 plugins = ["pandera.mypy", "pydantic.mypy"]
-exclude = ["src/model_name/jobs/evaluations.py",
-"src/model_name/jobs/training.py",
-"src/model_name/io/registries.py"]
+exclude = ["src/regression_model_template/jobs/evaluations.py",
+"src/regression_model_template/jobs/training.py",
+"src/regression_model_template/io/registries.py"]
 
 [tool.pytest.ini_options]
 addopts = "--verbosity=2"

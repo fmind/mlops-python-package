@@ -4,7 +4,7 @@
 
 import typing as T
 
-from model_name.jobs import base
+from regression_model_template.jobs import base
 
 # %% JOBS
 

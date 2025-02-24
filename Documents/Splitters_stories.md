@@ -173,7 +173,7 @@ Both the `TrainTestSplitter` and `TimeSeriesSplitter` should provide the number 
 
 ## Code location
 
-[src/model_name/utils/splitters.py](../src/model_name/utils/splitters.py)
+[src/regression_model_template/utils/splitters.py](../src/regression_model_template/utils/splitters.py)
 
 ## Test location
 

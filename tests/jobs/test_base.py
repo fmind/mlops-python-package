@@ -1,7 +1,7 @@
 # %% IMPORTS
 
-from model_name.io import services
-from model_name.jobs import base
+from regression_model_template.io import services
+from regression_model_template.jobs import base
 
 # %% JOBS
 

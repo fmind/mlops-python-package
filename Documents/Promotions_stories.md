@@ -155,7 +155,7 @@ At the conclusion of the job execution, the promotion job sends notifications to
 
 ## Code location
 
-[src/model_name/jobs/promotion.py](../src/model_name/jobs/promotion.py)
+[src/regression_model_template/jobs/promotion.py](../src/regression_model_template/jobs/promotion.py)
 
 ## Test location
 

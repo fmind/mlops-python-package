@@ -188,7 +188,7 @@ The `BaselineSklearnModel` class provides a baseline regression model leveraging
 
 ## Code location
 
-[src/model_name/core/models.py](../src/model_name/core/models.py)
+[src/regression_model_template/core/models.py](../src/regression_model_template/core/models.py)
 
 ## Test location
 

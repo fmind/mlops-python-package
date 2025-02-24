@@ -9,7 +9,7 @@ import pydantic as pdt
 import shap
 from sklearn import compose, ensemble, pipeline, preprocessing
 
-from model_name.core import schemas
+from regression_model_template.core import schemas
 
 # %% TYPES
 

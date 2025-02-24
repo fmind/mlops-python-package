@@ -1,7 +1,7 @@
 # %% IMPORTS
 
-from model_name.core import models, schemas
-from model_name.io import datasets
+from regression_model_template.core import models, schemas
+from regression_model_template.io import datasets
 
 # %% SCHEMAS
 

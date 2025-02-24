@@ -319,7 +319,7 @@ The `ParquetWriter` class provides functionality to save a DataFrame in Parquet 
 
 ## Code location
 
-[src/model_name/core/schemas.py](../src/model_name/io/datasets.py)
+[src/regression_model_template/core/schemas.py](../src/regression_model_template/io/datasets.py)
 
 ## Test location
 

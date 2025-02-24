@@ -3,8 +3,8 @@
 import os
 
 import pytest
-from model_name.core import schemas
-from model_name.io import datasets
+from regression_model_template.core import schemas
+from regression_model_template.io import datasets
 
 # %% READERS
 

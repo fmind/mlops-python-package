@@ -1,10 +1,10 @@
 # %% IMPORTS
 
 import _pytest.capture as pc
-from model_name import jobs
-from model_name.core import metrics, models, schemas
-from model_name.io import datasets, services
-from model_name.utils import searchers, splitters
+from regression_model_template import jobs
+from regression_model_template.core import metrics, models, schemas
+from regression_model_template.io import datasets, services
+from regression_model_template.utils import searchers, splitters
 
 # %% JOBS
 

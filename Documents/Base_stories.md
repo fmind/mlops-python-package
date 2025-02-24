@@ -152,7 +152,7 @@ The `mlflow_service` attribute enables the job to track experiments and model me
 
 ## Code location
 
-[src/model_name/jobs/base.py](../src/model_name/jobs/base.py)
+[src/regression_model_template/jobs/base.py](../src/regression_model_template/jobs/base.py)
 
 ## Test location
 

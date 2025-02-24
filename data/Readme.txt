@@ -44,7 +44,7 @@ Associated tasks
 		Predication of bike rental count hourly or daily based on the environmental and seasonal settings.
 
 	- Event and Anomaly Detection:
-		Count of rented model_name are also correlated to some events in the town which easily are traceable via search engines.
+		Count of rented regression_model_template are also correlated to some events in the town which easily are traceable via search engines.
 		For instance, query like "2012-10-30 washington d.c." in Google returns related results to Hurricane Sandy. Some of the important events are
 		identified in [1]. Therefore the data can be used for validation of anomaly or event detection algorithms as well.
 
@@ -83,7 +83,7 @@ Both hour.csv and day.csv have the following fields, except hr which is not avai
 	- windspeed: Normalized wind speed. The values are divided to 67 (max)
 	- casual: count of casual users
 	- registered: count of registered users
-	- cnt: count of total rental model_name including both casual and registered
+	- cnt: count of total rental regression_model_template including both casual and registered
 
 =========================================
 License

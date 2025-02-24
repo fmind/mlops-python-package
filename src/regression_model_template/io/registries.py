@@ -8,8 +8,8 @@ import typing as T
 import mlflow
 import pydantic as pdt
 
-from model_name.core import models, schemas
-from model_name.utils import signers
+from regression_model_template.core import models, schemas
+from regression_model_template.utils import signers
 
 # %% TYPES
 

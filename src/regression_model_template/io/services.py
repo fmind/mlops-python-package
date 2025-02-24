@@ -15,7 +15,7 @@ import mlflow.tracking as mt
 import pydantic as pdt
 from plyer import notification
 
-from model_name.io.osvariables import Env
+from regression_model_template.io.osvariables import Env
 
 # %% SERVICES
 
@@ -100,7 +100,7 @@ class AlertsService(Service):
     """
 
     enable: bool = True
-    app_name: str = "model_name"
+    app_name: str = "regression_model_template"
     timeout: int | None = None
 
     @T.override

@@ -9,7 +9,7 @@ import mlflow
 import pydantic as pdt
 from mlflow.models import signature as ms
 
-from model_name.core import schemas
+from regression_model_template.core import schemas
 
 # %% TYPES
 

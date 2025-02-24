@@ -16,8 +16,8 @@ class Singleton(object):
 class Env(Singleton, BaseSettings):
     mlflow_tracking_uri: str = "./mlruns"
     mlflow_registry_uri: str = "./mlruns"
-    mlflow_experiment_name: str = "model_name"
-    mlflow_registered_model_name: str = "model_name"
+    mlflow_experiment_name: str = "regression_model_template"
+    mlflow_registered_model_name: str = "regression_model_template"
 
     class Config:
         case_sensitive: bool = False  # Optional: make env var lookup case-insensitive

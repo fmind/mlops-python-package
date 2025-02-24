@@ -168,7 +168,7 @@ The searcher should return the best score and the corresponding hyperparameters 
 
 ## Code location
 
-[src/model_name/utils/searchers.py](../src/model_name/utils/searchers.py)
+[src/regression_model_template/utils/searchers.py](../src/regression_model_template/utils/searchers.py)
 
 ## Test location
 

@@ -7,10 +7,10 @@ import typing as T
 import mlflow
 import pydantic as pdt
 
-from model_name.core import metrics, models, schemas
-from model_name.io import datasets, services
-from model_name.jobs import base
-from model_name.utils import searchers, splitters
+from regression_model_template.core import metrics, models, schemas
+from regression_model_template.io import datasets, services
+from regression_model_template.jobs import base
+from regression_model_template.utils import searchers, splitters
 
 # %% JOBS
 

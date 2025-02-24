@@ -1,9 +1,9 @@
 # https://mlflow.org/docs/latest/projects.html
 
-name: model_name
+name: regression_model_template
 python_env: python_env.yaml
 entry_points:
   main:
     parameters:
       conf_file: path
-    command: "PYTHONPATH=src python -m model_name {conf_file}"
+    command: "PYTHONPATH=src python -m regression_model_template {conf_file}"

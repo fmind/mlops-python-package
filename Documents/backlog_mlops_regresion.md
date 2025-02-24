@@ -76,147 +76,147 @@ Break down operational processes into manageable, modular tasks
 
 ```mermaid
 graph LR
-    subgraph model_name
+    subgraph regression_model_template
     end
-    subgraph model_name.__main__
+    subgraph regression_model_template.__main__
     end
-    subgraph model_name.core
+    subgraph regression_model_template.core
     end
-    subgraph model_name.core.metrics
+    subgraph regression_model_template.core.metrics
     end
-    subgraph model_name.core.models
+    subgraph regression_model_template.core.models
     end
-    subgraph model_name.core.schemas
+    subgraph regression_model_template.core.schemas
     end
-    subgraph model_name.io
+    subgraph regression_model_template.io
     end
-    subgraph model_name.io.configs
+    subgraph regression_model_template.io.configs
     end
-    subgraph model_name.io.datasets
+    subgraph regression_model_template.io.datasets
     end
-    subgraph model_name.io.osvariables
+    subgraph regression_model_template.io.osvariables
     end
-    subgraph model_name.io.registries
+    subgraph regression_model_template.io.registries
     end
-    subgraph model_name.io.services
+    subgraph regression_model_template.io.services
     end
-    subgraph model_name.jobs
+    subgraph regression_model_template.jobs
     end
-    subgraph model_name.jobs.base
+    subgraph regression_model_template.jobs.base
     end
-    subgraph model_name.jobs.evaluations
+    subgraph regression_model_template.jobs.evaluations
     end
-    subgraph model_name.jobs.explanations
+    subgraph regression_model_template.jobs.explanations
     end
-    subgraph model_name.jobs.inference
+    subgraph regression_model_template.jobs.inference
     end
-    subgraph model_name.jobs.kafkainference
+    subgraph regression_model_template.jobs.kafkainference
     end
-    subgraph model_name.jobs.promotion
+    subgraph regression_model_template.jobs.promotion
     end
-    subgraph model_name.jobs.training
+    subgraph regression_model_template.jobs.training
     end
-    subgraph model_name.jobs.tuning
+    subgraph regression_model_template.jobs.tuning
     end
-    subgraph model_name.scripts
+    subgraph regression_model_template.scripts
     end
-    subgraph model_name.settings
+    subgraph regression_model_template.settings
     end
-    subgraph model_name.utils
+    subgraph regression_model_template.utils
     end
-    subgraph model_name.utils.searchers
+    subgraph regression_model_template.utils.searchers
     end
-    subgraph model_name.utils.signers
+    subgraph regression_model_template.utils.signers
     end
-    subgraph model_name.utils.splitters
+    subgraph regression_model_template.utils.splitters
     end
 
-    model_name.__main__ --> model_name
-    model_name.__main__ --> model_name.scripts
-    model_name.core.metrics --> model_name.core
-    model_name.core.metrics --> model_name.core.models
-    model_name.core.metrics --> model_name.core.schemas
-    model_name.core.models --> model_name.core
-    model_name.core.models --> model_name.core.schemas
-    model_name.io.registries --> model_name.core
-    model_name.io.registries --> model_name.core.models
-    model_name.io.registries --> model_name.core.schemas
-    model_name.io.registries --> model_name.utils
-    model_name.io.registries --> model_name.utils.signers
-    model_name.io.services --> model_name.io.osvariables
-    model_name.jobs --> model_name.jobs.evaluations
-    model_name.jobs --> model_name.jobs.explanations
-    model_name.jobs --> model_name.jobs.inference
-    model_name.jobs --> model_name.jobs.promotion
-    model_name.jobs --> model_name.jobs.training
-    model_name.jobs --> model_name.jobs.tuning
-    model_name.jobs.base --> model_name.io
-    model_name.jobs.base --> model_name.io.services
-    model_name.jobs.evaluations --> model_name.core
-    model_name.jobs.evaluations --> model_name.core.metrics
-    model_name.jobs.evaluations --> model_name.core.schemas
-    model_name.jobs.evaluations --> model_name.io
-    model_name.jobs.evaluations --> model_name.io.datasets
-    model_name.jobs.evaluations --> model_name.io.registries
-    model_name.jobs.evaluations --> model_name.io.services
-    model_name.jobs.evaluations --> model_name.jobs
-    model_name.jobs.evaluations --> model_name.jobs.base
-    model_name.jobs.explanations --> model_name.core
-    model_name.jobs.explanations --> model_name.core.schemas
-    model_name.jobs.explanations --> model_name.io
-    model_name.jobs.explanations --> model_name.io.datasets
-    model_name.jobs.explanations --> model_name.io.registries
-    model_name.jobs.explanations --> model_name.jobs
-    model_name.jobs.explanations --> model_name.jobs.base
-    model_name.jobs.inference --> model_name.core
-    model_name.jobs.inference --> model_name.core.schemas
-    model_name.jobs.inference --> model_name.io
-    model_name.jobs.inference --> model_name.io.datasets
-    model_name.jobs.inference --> model_name.io.registries
-    model_name.jobs.inference --> model_name.jobs
-    model_name.jobs.inference --> model_name.jobs.base
-    model_name.jobs.promotion --> model_name.jobs
-    model_name.jobs.promotion --> model_name.jobs.base
-    model_name.jobs.training --> model_name.core
-    model_name.jobs.training --> model_name.core.metrics
-    model_name.jobs.training --> model_name.core.models
-    model_name.jobs.training --> model_name.core.schemas
-    model_name.jobs.training --> model_name.io
-    model_name.jobs.training --> model_name.io.datasets
-    model_name.jobs.training --> model_name.io.registries
-    model_name.jobs.training --> model_name.io.services
-    model_name.jobs.training --> model_name.jobs
-    model_name.jobs.training --> model_name.jobs.base
-    model_name.jobs.training --> model_name.utils
-    model_name.jobs.training --> model_name.utils.signers
-    model_name.jobs.training --> model_name.utils.splitters
-    model_name.jobs.tuning --> model_name.core
-    model_name.jobs.tuning --> model_name.core.metrics
-    model_name.jobs.tuning --> model_name.core.models
-    model_name.jobs.tuning --> model_name.core.schemas
-    model_name.jobs.tuning --> model_name.io
-    model_name.jobs.tuning --> model_name.io.datasets
-    model_name.jobs.tuning --> model_name.io.services
-    model_name.jobs.tuning --> model_name.jobs
-    model_name.jobs.tuning --> model_name.jobs.base
-    model_name.jobs.tuning --> model_name.utils
-    model_name.jobs.tuning --> model_name.utils.searchers
-    model_name.jobs.tuning --> model_name.utils.splitters
-    model_name.scripts --> model_name
-    model_name.scripts --> model_name.io
-    model_name.scripts --> model_name.io.configs
-    model_name.scripts --> model_name.settings
-    model_name.settings --> model_name
-    model_name.settings --> model_name.jobs
-    model_name.utils.searchers --> model_name.core
-    model_name.utils.searchers --> model_name.core.metrics
-    model_name.utils.searchers --> model_name.core.models
-    model_name.utils.searchers --> model_name.core.schemas
-    model_name.utils.searchers --> model_name.utils
-    model_name.utils.searchers --> model_name.utils.splitters
-    model_name.utils.signers --> model_name.core
-    model_name.utils.signers --> model_name.core.schemas
-    model_name.utils.splitters --> model_name.core
-    model_name.utils.splitters --> model_name.core.schemas
+    regression_model_template.__main__ --> regression_model_template
+    regression_model_template.__main__ --> regression_model_template.scripts
+    regression_model_template.core.metrics --> regression_model_template.core
+    regression_model_template.core.metrics --> regression_model_template.core.models
+    regression_model_template.core.metrics --> regression_model_template.core.schemas
+    regression_model_template.core.models --> regression_model_template.core
+    regression_model_template.core.models --> regression_model_template.core.schemas
+    regression_model_template.io.registries --> regression_model_template.core
+    regression_model_template.io.registries --> regression_model_template.core.models
+    regression_model_template.io.registries --> regression_model_template.core.schemas
+    regression_model_template.io.registries --> regression_model_template.utils
+    regression_model_template.io.registries --> regression_model_template.utils.signers
+    regression_model_template.io.services --> regression_model_template.io.osvariables
+    regression_model_template.jobs --> regression_model_template.jobs.evaluations
+    regression_model_template.jobs --> regression_model_template.jobs.explanations
+    regression_model_template.jobs --> regression_model_template.jobs.inference
+    regression_model_template.jobs --> regression_model_template.jobs.promotion
+    regression_model_template.jobs --> regression_model_template.jobs.training
+    regression_model_template.jobs --> regression_model_template.jobs.tuning
+    regression_model_template.jobs.base --> regression_model_template.io
+    regression_model_template.jobs.base --> regression_model_template.io.services
+    regression_model_template.jobs.evaluations --> regression_model_template.core
+    regression_model_template.jobs.evaluations --> regression_model_template.core.metrics
+    regression_model_template.jobs.evaluations --> regression_model_template.core.schemas
+    regression_model_template.jobs.evaluations --> regression_model_template.io
+    regression_model_template.jobs.evaluations --> regression_model_template.io.datasets
+    regression_model_template.jobs.evaluations --> regression_model_template.io.registries
+    regression_model_template.jobs.evaluations --> regression_model_template.io.services
+    regression_model_template.jobs.evaluations --> regression_model_template.jobs
+    regression_model_template.jobs.evaluations --> regression_model_template.jobs.base
+    regression_model_template.jobs.explanations --> regression_model_template.core
+    regression_model_template.jobs.explanations --> regression_model_template.core.schemas
+    regression_model_template.jobs.explanations --> regression_model_template.io
+    regression_model_template.jobs.explanations --> regression_model_template.io.datasets
+    regression_model_template.jobs.explanations --> regression_model_template.io.registries
+    regression_model_template.jobs.explanations --> regression_model_template.jobs
+    regression_model_template.jobs.explanations --> regression_model_template.jobs.base
+    regression_model_template.jobs.inference --> regression_model_template.core
+    regression_model_template.jobs.inference --> regression_model_template.core.schemas
+    regression_model_template.jobs.inference --> regression_model_template.io
+    regression_model_template.jobs.inference --> regression_model_template.io.datasets
+    regression_model_template.jobs.inference --> regression_model_template.io.registries
+    regression_model_template.jobs.inference --> regression_model_template.jobs
+    regression_model_template.jobs.inference --> regression_model_template.jobs.base
+    regression_model_template.jobs.promotion --> regression_model_template.jobs
+    regression_model_template.jobs.promotion --> regression_model_template.jobs.base
+    regression_model_template.jobs.training --> regression_model_template.core
+    regression_model_template.jobs.training --> regression_model_template.core.metrics
+    regression_model_template.jobs.training --> regression_model_template.core.models
+    regression_model_template.jobs.training --> regression_model_template.core.schemas
+    regression_model_template.jobs.training --> regression_model_template.io
+    regression_model_template.jobs.training --> regression_model_template.io.datasets
+    regression_model_template.jobs.training --> regression_model_template.io.registries
+    regression_model_template.jobs.training --> regression_model_template.io.services
+    regression_model_template.jobs.training --> regression_model_template.jobs
+    regression_model_template.jobs.training --> regression_model_template.jobs.base
+    regression_model_template.jobs.training --> regression_model_template.utils
+    regression_model_template.jobs.training --> regression_model_template.utils.signers
+    regression_model_template.jobs.training --> regression_model_template.utils.splitters
+    regression_model_template.jobs.tuning --> regression_model_template.core
+    regression_model_template.jobs.tuning --> regression_model_template.core.metrics
+    regression_model_template.jobs.tuning --> regression_model_template.core.models
+    regression_model_template.jobs.tuning --> regression_model_template.core.schemas
+    regression_model_template.jobs.tuning --> regression_model_template.io
+    regression_model_template.jobs.tuning --> regression_model_template.io.datasets
+    regression_model_template.jobs.tuning --> regression_model_template.io.services
+    regression_model_template.jobs.tuning --> regression_model_template.jobs
+    regression_model_template.jobs.tuning --> regression_model_template.jobs.base
+    regression_model_template.jobs.tuning --> regression_model_template.utils
+    regression_model_template.jobs.tuning --> regression_model_template.utils.searchers
+    regression_model_template.jobs.tuning --> regression_model_template.utils.splitters
+    regression_model_template.scripts --> regression_model_template
+    regression_model_template.scripts --> regression_model_template.io
+    regression_model_template.scripts --> regression_model_template.io.configs
+    regression_model_template.scripts --> regression_model_template.settings
+    regression_model_template.settings --> regression_model_template
+    regression_model_template.settings --> regression_model_template.jobs
+    regression_model_template.utils.searchers --> regression_model_template.core
+    regression_model_template.utils.searchers --> regression_model_template.core.metrics
+    regression_model_template.utils.searchers --> regression_model_template.core.models
+    regression_model_template.utils.searchers --> regression_model_template.core.schemas
+    regression_model_template.utils.searchers --> regression_model_template.utils
+    regression_model_template.utils.searchers --> regression_model_template.utils.splitters
+    regression_model_template.utils.signers --> regression_model_template.core
+    regression_model_template.utils.signers --> regression_model_template.core.schemas
+    regression_model_template.utils.splitters --> regression_model_template.core
+    regression_model_template.utils.splitters --> regression_model_template.core.schemas
 
 ```

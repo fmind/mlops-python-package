@@ -268,7 +268,7 @@ The `Threshold` class provides a way to define and manage thresholds for metrics
 
 ## Code location
 
-[src/model_name/core/models.py](../src/model_name/core/metrics.py)
+[src/regression_model_template/core/models.py](../src/regression_model_template/core/metrics.py)
 
 ## Test location
 

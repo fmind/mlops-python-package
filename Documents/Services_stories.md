@@ -133,7 +133,7 @@ The `MlflowService` class integrates MLflow tracking features, enabling experime
 
 ## Code location
 
-[src/model_name/io/services.py](../src/model_name/io/services.py)
+[src/regression_model_template/io/services.py](../src/regression_model_template/io/services.py)
 
 ## Test location
 

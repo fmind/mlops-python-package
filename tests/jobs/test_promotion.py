@@ -3,8 +3,8 @@
 import _pytest.capture as pc
 import mlflow
 import pytest
-from model_name import jobs
-from model_name.io import registries, services
+from regression_model_template import jobs
+from regression_model_template.io import registries, services
 
 # %% JOBS
 

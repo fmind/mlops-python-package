@@ -3,7 +3,7 @@
 import typing as T
 
 import pytest
-from model_name.core import models, schemas
+from regression_model_template.core import models, schemas
 
 # %% MODELS
 

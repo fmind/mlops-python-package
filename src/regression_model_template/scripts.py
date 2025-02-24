@@ -9,8 +9,8 @@ import argparse
 import json
 import sys
 
-from model_name import settings
-from model_name.io import configs
+from regression_model_template import settings
+from regression_model_template.io import configs
 
 # %% WARNINGS
 

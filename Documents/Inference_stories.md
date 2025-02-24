@@ -192,7 +192,7 @@ At the end of the job execution, notifications are sent to relevant stakeholders
 
 ## Code location
 
-[src/model_name/jobs/inference.py](../src/model_name/jobs/inference.py)
+[src/regression_model_template/jobs/inference.py](../src/regression_model_template/jobs/inference.py)
 
 ## Test location
 

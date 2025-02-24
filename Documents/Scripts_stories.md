@@ -205,7 +205,7 @@ The application checks if any configurations have been provided and raises an er
 
 ## Code location
 
-[src/model_name/scripts.py](../src/model_name/scripts.py)
+[src/regression_model_template/scripts.py](../src/regression_model_template/scripts.py)
 
 ## Test location
 

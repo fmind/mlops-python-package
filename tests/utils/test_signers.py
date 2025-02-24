@@ -1,7 +1,7 @@
 # %% IMPORTS
 
-from model_name.core import schemas
-from model_name.utils import signers
+from regression_model_template.core import schemas
+from regression_model_template.utils import signers
 
 # %% SIGNERS
 

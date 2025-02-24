@@ -229,7 +229,7 @@ This implementation introduces schemas for managing SHAP values and feature impo
 
 ## Code location
 
-[src/model_name/core/schemas.py](../src/model_name/core/schemas.py)
+[src/regression_model_template/core/schemas.py](../src/regression_model_template/core/schemas.py)
 
 ## Test location
 

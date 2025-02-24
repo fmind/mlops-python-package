@@ -1,0 +1,395 @@
+@startuml classes_model_name
+set namespaceSeparator none
+class "Adapter" as regression_model_template.io.registries.CustomSaver.Adapter {
+  model
+  predict(context: mlflow.pyfunc.PythonModelContext, model_input: schemas.Inputs, params: dict[str, T.Any] | None) -> schemas.Outputs
+}
+class "Adapter" as regression_model_template.io.registries.Loader.Adapter {
+  {abstract}predict(inputs: schemas.Inputs) -> schemas.Outputs
+}
+class "Adapter" as regression_model_template.io.registries.CustomLoader.Adapter {
+  model
+  predict(inputs: schemas.Inputs) -> schemas.Outputs
+}
+class "Adapter" as regression_model_template.io.registries.BuiltinLoader.Adapter {
+  model
+  predict(inputs: schemas.Inputs) -> schemas.Outputs
+}
+class "AlertsService" as regression_model_template.io.services.AlertsService {
+  app_name : str
+  enable : bool
+  timeout : int | None
+  notify(title: str, message: str) -> None
+  {abstract}start() -> None
+}
+class "BaselineSklearnModel" as regression_model_template.core.models.BaselineSklearnModel {
+  KIND : T.Literal['BaselineSklearnModel']
+  max_depth : int
+  n_estimators : int
+  random_state : int | None
+  explain_model() -> schemas.FeatureImportances
+  explain_samples(inputs: schemas.Inputs) -> schemas.SHAPValues
+  fit(inputs: schemas.Inputs, targets: schemas.Targets) -> 'BaselineSklearnModel'
+  get_internal_model() -> pipeline.Pipeline
+  predict(inputs: schemas.Inputs) -> schemas.Outputs
+}
+class "BuiltinLoader" as regression_model_template.io.registries.BuiltinLoader {
+  KIND : T.Literal['BuiltinLoader']
+  load(uri: str) -> 'BuiltinLoader.Adapter'
+}
+class "BuiltinSaver" as regression_model_template.io.registries.BuiltinSaver {
+  KIND : T.Literal['BuiltinSaver']
+  flavor : str
+  save(model: models.Model, signature: signers.Signature, input_example: schemas.Inputs | None) -> mlflow.entities.model_registry.ModelVersion
+}
+class "Config" as regression_model_template.core.schemas.Schema.Config {
+  coerce : bool
+  strict : bool
+}
+class "Config" as regression_model_template.core.schemas.SHAPValuesSchema.Config {
+  dtype : str
+  strict : bool
+}
+class "Config" as regression_model_template.io.osvariables.Env.Config {
+  case_sensitive : bool
+  env_file : str
+  env_file_encoding : str
+}
+class "CustomLoader" as regression_model_template.io.registries.CustomLoader {
+  KIND : T.Literal['CustomLoader']
+  load(uri: str) -> 'CustomLoader.Adapter'
+}
+class "CustomSaver" as regression_model_template.io.registries.CustomSaver {
+  KIND : T.Literal['CustomSaver']
+  save(model: models.Model, signature: signers.Signature, input_example: schemas.Inputs) -> Info
+}
+class "Env" as regression_model_template.io.osvariables.Env {
+  mlflow_experiment_name : str
+  mlflow_registered_model_name : str
+  mlflow_registry_uri : str
+  mlflow_tracking_uri : str
+}
+class "EvaluationsJob" as regression_model_template.jobs.evaluations.EvaluationsJob {
+  KIND : T.Literal['EvaluationsJob']
+  alias_or_version : str | int
+  evaluators : list[str]
+  inputs
+  metrics : list
+  model_type : str
+  run_config
+  targets
+  thresholds : dict[str, metrics_.Threshold]
+  run() -> base.Locals
+}
+class "ExplanationsJob" as regression_model_template.jobs.explanations.ExplanationsJob {
+  KIND : T.Literal['ExplanationsJob']
+  alias_or_version : str | int
+  inputs_samples
+  loader
+  models_explanations
+  samples_explanations
+  run() -> base.Locals
+}
+class "FeatureImportancesSchema" as regression_model_template.core.schemas.FeatureImportancesSchema {
+  feature : papd.Series[padt.String]
+  importance : papd.Series[padt.Float32]
+}
+class "GridCVSearcher" as regression_model_template.utils.searchers.GridCVSearcher {
+  KIND : T.Literal['GridCVSearcher']
+  error_score : str | float
+  n_jobs : int | None
+  refit : bool
+  return_train_score : bool
+  verbose : int
+  search(model: models.Model, metric: metrics.Metric, inputs: schemas.Inputs, targets: schemas.Targets, cv: CrossValidation) -> Results
+}
+class "InferSigner" as regression_model_template.utils.signers.InferSigner {
+  KIND : T.Literal['InferSigner']
+  sign(inputs: schemas.Inputs, outputs: schemas.Outputs) -> Signature
+}
+class "InferenceJob" as regression_model_template.jobs.inference.InferenceJob {
+  KIND : T.Literal['InferenceJob']
+  alias_or_version : str | int
+  inputs
+  loader
+  outputs
+  run() -> base.Locals
+}
+class "InputsSchema" as regression_model_template.core.schemas.InputsSchema {
+  atemp : papd.Series[padt.Float16]
+  casual : papd.Series[padt.UInt32]
+  dteday : papd.Series[padt.DateTime]
+  holiday : papd.Series[padt.Bool]
+  hr : papd.Series[padt.UInt8]
+  hum : papd.Series[padt.Float16]
+  instant : papd.Index[padt.UInt32]
+  mnth : papd.Series[padt.UInt8]
+  registered : papd.Series[padt.UInt32]
+  season : papd.Series[padt.UInt8]
+  temp : papd.Series[padt.Float16]
+  weathersit : papd.Series[padt.UInt8]
+  weekday : papd.Series[padt.UInt8]
+  windspeed : papd.Series[padt.Float16]
+  workingday : papd.Series[padt.Bool]
+  yr : papd.Series[padt.UInt8]
+}
+class "Job" as regression_model_template.jobs.base.Job {
+  KIND : str
+  alerts_service
+  logger_service
+  mlflow_service
+  {abstract}run() -> Locals
+}
+class "KafkaInferenceJob" as regression_model_template.jobs.kafkainference.KafkaInferenceJob {
+  KIND : T.Literal['KafkaInferenceJob']
+  alias_or_version : str | int
+  input_topic : str
+  kafka_config : dict
+  loader
+  output_topic : str
+  run() -> base.Locals
+}
+class "Loader" as regression_model_template.io.registries.Loader {
+  KIND : str
+  {abstract}load(uri: str) -> 'Loader.Adapter'
+}
+class "LoggerService" as regression_model_template.io.services.LoggerService {
+  backtrace : bool
+  catch : bool
+  colorize : bool
+  diagnose : bool
+  format : str
+  level : str
+  serialize : bool
+  sink : str
+  logger() -> loguru.Logger
+  start() -> None
+}
+class "MainSettings" as regression_model_template.settings.MainSettings {
+  job
+}
+class "Metric" as regression_model_template.core.metrics.Metric {
+  KIND : str
+  greater_is_better : bool
+  name : str
+  {abstract}score(targets: schemas.Targets, outputs: schemas.Outputs) -> float
+  scorer(model: models.Model, inputs: schemas.Inputs, targets: schemas.Targets) -> float
+  to_mlflow() -> MlflowMetric
+}
+class "MlflowRegister" as regression_model_template.io.registries.MlflowRegister {
+  KIND : T.Literal['MlflowRegister']
+  register(name: str, model_uri: str) -> Version
+}
+class "MlflowService" as regression_model_template.io.services.MlflowService {
+  autolog_disable : bool
+  autolog_disable_for_unsupported_versions : bool
+  autolog_exclusive : bool
+  autolog_log_datasets : bool
+  autolog_log_input_examples : bool
+  autolog_log_model_signatures : bool
+  autolog_log_models : bool
+  autolog_silent : bool
+  env : ClassVar[Env]
+  experiment_name : str
+  registry_name : str
+  registry_uri : str
+  tracking_uri : str
+  client() -> mt.MlflowClient
+  run_context(run_config: RunConfig) -> T.Generator[mlflow.ActiveRun, None, None]
+  start() -> None
+}
+class "Model" as regression_model_template.core.models.Model {
+  KIND : str
+  {abstract}explain_model() -> schemas.FeatureImportances
+  {abstract}explain_samples(inputs: schemas.Inputs) -> schemas.SHAPValues
+  {abstract}fit(inputs: schemas.Inputs, targets: schemas.Targets) -> T.Self
+  {abstract}get_internal_model() -> T.Any
+  get_params(deep: bool) -> Params
+  {abstract}predict(inputs: schemas.Inputs) -> schemas.Outputs
+  set_params() -> T.Self
+}
+class "OutputsSchema" as regression_model_template.core.schemas.OutputsSchema {
+  instant : papd.Index[padt.UInt32]
+  prediction : papd.Series[padt.UInt32]
+}
+class "ParquetReader" as regression_model_template.io.datasets.ParquetReader {
+  KIND : T.Literal['ParquetReader']
+  path : str
+  lineage(name: str, data: pd.DataFrame, targets: str | None, predictions: str | None) -> Lineage
+  read() -> pd.DataFrame
+}
+class "ParquetWriter" as regression_model_template.io.datasets.ParquetWriter {
+  KIND : T.Literal['ParquetWriter']
+  path : str
+  write(data: pd.DataFrame) -> None
+}
+class "PromotionJob" as regression_model_template.jobs.promotion.PromotionJob {
+  KIND : T.Literal['PromotionJob']
+  alias : str
+  version : int | None
+  run() -> base.Locals
+}
+class "Reader" as regression_model_template.io.datasets.Reader {
+  KIND : str
+  limit : int | None
+  {abstract}lineage(name: str, data: pd.DataFrame, targets: str | None, predictions: str | None) -> Lineage
+  {abstract}read() -> pd.DataFrame
+}
+class "Register" as regression_model_template.io.registries.Register {
+  KIND : str
+  tags : dict[str, T.Any]
+  {abstract}register(name: str, model_uri: str) -> Version
+}
+class "RunConfig" as regression_model_template.io.services.MlflowService.RunConfig {
+  description : str | None
+  log_system_metrics : bool | None
+  name : str
+  tags : dict[str, T.Any] | None
+}
+class "SHAPValuesSchema" as regression_model_template.core.schemas.SHAPValuesSchema {
+}
+class "Saver" as regression_model_template.io.registries.Saver {
+  KIND : str
+  path : str
+  {abstract}save(model: models.Model, signature: signers.Signature, input_example: schemas.Inputs) -> Info
+}
+class "Schema" as regression_model_template.core.schemas.Schema {
+  check(data: pd.DataFrame) -> papd.DataFrame[TSchema]
+}
+class "Searcher" as regression_model_template.utils.searchers.Searcher {
+  KIND : str
+  param_grid : dict
+  {abstract}search(model: models.Model, metric: metrics.Metric, inputs: schemas.Inputs, targets: schemas.Targets, cv: CrossValidation) -> Results
+}
+class "Service" as regression_model_template.io.services.Service {
+  {abstract}start() -> None
+  {abstract}stop() -> None
+}
+class "Settings" as regression_model_template.settings.Settings {
+}
+class "Signer" as regression_model_template.utils.signers.Signer {
+  KIND : str
+  {abstract}sign(inputs: schemas.Inputs, outputs: schemas.Outputs) -> Signature
+}
+class "Singleton" as regression_model_template.io.osvariables.Singleton {
+}
+class "SklearnMetric" as regression_model_template.core.metrics.SklearnMetric {
+  KIND : T.Literal['SklearnMetric']
+  greater_is_better : bool
+  name : str
+  score(targets: schemas.Targets, outputs: schemas.Outputs) -> float
+}
+class "Splitter" as regression_model_template.utils.splitters.Splitter {
+  KIND : str
+  {abstract}get_n_splits(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> int
+  {abstract}split(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> TrainTestSplits
+}
+class "TargetsSchema" as regression_model_template.core.schemas.TargetsSchema {
+  cnt : papd.Series[padt.UInt32]
+  instant : papd.Index[padt.UInt32]
+}
+class "Threshold" as regression_model_template.core.metrics.Threshold {
+  greater_is_better : bool
+  threshold : int | float
+  to_mlflow() -> MlflowThreshold
+}
+class "TimeSeriesSplitter" as regression_model_template.utils.splitters.TimeSeriesSplitter {
+  KIND : T.Literal['TimeSeriesSplitter']
+  gap : int
+  n_splits : int
+  test_size : int | float
+  get_n_splits(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> int
+  split(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> TrainTestSplits
+}
+class "TrainTestSplitter" as regression_model_template.utils.splitters.TrainTestSplitter {
+  KIND : T.Literal['TrainTestSplitter']
+  random_state : int
+  shuffle : bool
+  test_size : int | float
+  get_n_splits(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> int
+  split(inputs: schemas.Inputs, targets: schemas.Targets, groups: Index | None) -> TrainTestSplits
+}
+class "TrainingJob" as regression_model_template.jobs.training.TrainingJob {
+  KIND : T.Literal['TrainingJob']
+  inputs
+  metrics : list
+  model
+  registry
+  run_config
+  saver
+  signer
+  splitter
+  targets
+  run() -> base.Locals
+}
+class "TuningJob" as regression_model_template.jobs.tuning.TuningJob {
+  KIND : T.Literal['TuningJob']
+  inputs
+  metric
+  model
+  run_config
+  searcher
+  splitter
+  targets
+  run() -> base.Locals
+}
+class "Writer" as regression_model_template.io.datasets.Writer {
+  KIND : str
+  {abstract}write(data: pd.DataFrame) -> None
+}
+regression_model_template.core.metrics.SklearnMetric --|> regression_model_template.core.metrics.Metric
+regression_model_template.core.models.BaselineSklearnModel --|> regression_model_template.core.models.Model
+regression_model_template.core.schemas.FeatureImportancesSchema --|> regression_model_template.core.schemas.Schema
+regression_model_template.core.schemas.InputsSchema --|> regression_model_template.core.schemas.Schema
+regression_model_template.core.schemas.OutputsSchema --|> regression_model_template.core.schemas.Schema
+regression_model_template.core.schemas.SHAPValuesSchema --|> regression_model_template.core.schemas.Schema
+regression_model_template.core.schemas.TargetsSchema --|> regression_model_template.core.schemas.Schema
+regression_model_template.io.datasets.ParquetReader --|> regression_model_template.io.datasets.Reader
+regression_model_template.io.datasets.ParquetWriter --|> regression_model_template.io.datasets.Writer
+regression_model_template.io.osvariables.Env --|> regression_model_template.io.osvariables.Singleton
+regression_model_template.io.registries.BuiltinLoader --|> regression_model_template.io.registries.Loader
+regression_model_template.io.registries.BuiltinLoader.Adapter --|> regression_model_template.io.registries.Loader.Adapter
+regression_model_template.io.registries.BuiltinSaver --|> regression_model_template.io.registries.Saver
+regression_model_template.io.registries.CustomLoader --|> regression_model_template.io.registries.Loader
+regression_model_template.io.registries.CustomLoader.Adapter --|> regression_model_template.io.registries.Loader.Adapter
+regression_model_template.io.registries.CustomSaver --|> regression_model_template.io.registries.Saver
+regression_model_template.io.registries.MlflowRegister --|> regression_model_template.io.registries.Register
+regression_model_template.io.services.AlertsService --|> regression_model_template.io.services.Service
+regression_model_template.io.services.LoggerService --|> regression_model_template.io.services.Service
+regression_model_template.io.services.MlflowService --|> regression_model_template.io.services.Service
+regression_model_template.jobs.evaluations.EvaluationsJob --|> regression_model_template.jobs.base.Job
+regression_model_template.jobs.explanations.ExplanationsJob --|> regression_model_template.jobs.base.Job
+regression_model_template.jobs.inference.InferenceJob --|> regression_model_template.jobs.base.Job
+regression_model_template.jobs.promotion.PromotionJob --|> regression_model_template.jobs.base.Job
+regression_model_template.jobs.training.TrainingJob --|> regression_model_template.jobs.base.Job
+regression_model_template.jobs.tuning.TuningJob --|> regression_model_template.jobs.base.Job
+regression_model_template.settings.MainSettings --|> regression_model_template.settings.Settings
+regression_model_template.utils.searchers.GridCVSearcher --|> regression_model_template.utils.searchers.Searcher
+regression_model_template.utils.signers.InferSigner --|> regression_model_template.utils.signers.Signer
+regression_model_template.utils.splitters.TimeSeriesSplitter --|> regression_model_template.utils.splitters.Splitter
+regression_model_template.utils.splitters.TrainTestSplitter --|> regression_model_template.utils.splitters.Splitter
+regression_model_template.core.metrics.SklearnMetric --* regression_model_template.jobs.tuning.TuningJob : metric
+regression_model_template.core.models.BaselineSklearnModel --* regression_model_template.jobs.training.TrainingJob : model
+regression_model_template.core.models.BaselineSklearnModel --* regression_model_template.jobs.tuning.TuningJob : model
+regression_model_template.io.datasets.ParquetReader --* regression_model_template.jobs.evaluations.EvaluationsJob : inputs
+regression_model_template.io.datasets.ParquetReader --* regression_model_template.jobs.evaluations.EvaluationsJob : targets
+regression_model_template.io.datasets.ParquetReader --* regression_model_template.jobs.explanations.ExplanationsJob : inputs_samples
+regression_model_template.io.datasets.ParquetReader --* regression_model_template.jobs.inference.InferenceJob : inputs
+regression_model_template.io.datasets.ParquetReader --* regression_model_template.jobs.training.TrainingJob : inputs
+regression_model_template.io.datasets.ParquetReader --* regression_model_template.jobs.training.TrainingJob : targets
+regression_model_template.io.datasets.ParquetReader --* regression_model_template.jobs.tuning.TuningJob : inputs
+regression_model_template.io.datasets.ParquetReader --* regression_model_template.jobs.tuning.TuningJob : targets
+regression_model_template.io.datasets.ParquetWriter --* regression_model_template.jobs.explanations.ExplanationsJob : models_explanations
+regression_model_template.io.datasets.ParquetWriter --* regression_model_template.jobs.explanations.ExplanationsJob : samples_explanations
+regression_model_template.io.datasets.ParquetWriter --* regression_model_template.jobs.inference.InferenceJob : outputs
+regression_model_template.io.registries.MlflowRegister --* regression_model_template.jobs.training.TrainingJob : registry
+regression_model_template.io.services.AlertsService --* regression_model_template.jobs.base.Job : alerts_service
+regression_model_template.io.services.LoggerService --* regression_model_template.jobs.base.Job : logger_service
+regression_model_template.io.services.MlflowService --* regression_model_template.jobs.base.Job : mlflow_service
+regression_model_template.io.services.MlflowService.RunConfig --* regression_model_template.jobs.evaluations.EvaluationsJob : run_config
+regression_model_template.io.services.MlflowService.RunConfig --* regression_model_template.jobs.training.TrainingJob : run_config
+regression_model_template.io.services.MlflowService.RunConfig --* regression_model_template.jobs.tuning.TuningJob : run_config
+regression_model_template.utils.searchers.GridCVSearcher --* regression_model_template.jobs.tuning.TuningJob : searcher
+regression_model_template.utils.signers.InferSigner --* regression_model_template.jobs.training.TrainingJob : signer
+regression_model_template.core.models.Model --o regression_model_template.io.registries.CustomSaver.Adapter : model
+@enduml

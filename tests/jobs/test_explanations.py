@@ -2,9 +2,9 @@
 
 import _pytest.capture as pc
 import pytest
-from model_name import jobs
-from model_name.core import models
-from model_name.io import datasets, registries, services
+from regression_model_template import jobs
+from regression_model_template.core import models
+from regression_model_template.io import datasets, registries, services
 
 # %% JOBS
 

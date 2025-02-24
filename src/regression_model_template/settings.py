@@ -5,7 +5,7 @@
 import pydantic as pdt
 import pydantic_settings as pdts
 
-from model_name import jobs
+from regression_model_template import jobs
 
 # %% SETTINGS
 

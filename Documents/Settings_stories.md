@@ -136,6 +136,6 @@ By defining settings as a distinct class, the application can cleanly interface 
 
 ## Code location
 
-[src/model_name/settings.py](../src/model_name/settings.py)
+[src/regression_model_template/settings.py](../src/regression_model_template/settings.py)
 
 ```

@@ -1,7 +1,7 @@
 # %% IMPORTS
 
-from model_name.core import metrics, models, schemas
-from model_name.utils import searchers, splitters
+from regression_model_template.core import metrics, models, schemas
+from regression_model_template.utils import searchers, splitters
 
 # %% SEARCHERS
 

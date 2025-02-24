@@ -9,8 +9,8 @@ import pandas as pd
 import pydantic as pdt
 from sklearn import model_selection
 
-from model_name.core import metrics, models, schemas
-from model_name.utils import splitters
+from regression_model_template.core import metrics, models, schemas
+from regression_model_template.utils import splitters
 
 # %% TYPES
 

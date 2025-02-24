@@ -13,7 +13,7 @@ import pandas as pd
 import pydantic as pdt
 from sklearn import metrics
 
-from model_name.core import models, schemas
+from regression_model_template.core import models, schemas
 
 # %% TYPINGS
 

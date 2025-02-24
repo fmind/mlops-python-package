@@ -129,7 +129,7 @@ The `InferSigner` class provides functionality that leverages the MLflow library
 
 ## Code location
 
-[src/model_name/utils/signers.py](../src/model_name/utils/signers.py)
+[src/regression_model_template/utils/signers.py](../src/regression_model_template/utils/signers.py)
 
 ## Test location
 

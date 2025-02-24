@@ -1,8 +1,8 @@
 # %% IMPORTS
 
-from model_name.core import models, schemas
-from model_name.io import registries, services
-from model_name.utils import signers
+from regression_model_template.core import models, schemas
+from regression_model_template.io import registries, services
+from regression_model_template.utils import signers
 
 # %% HELPERS
 

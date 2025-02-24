@@ -3,4 +3,4 @@
 FROM python:3.12
 COPY dist/*.whl .
 RUN pip install *.whl
-CMD ["model_name", "--help"]
+CMD ["regression_model_template", "--help"]

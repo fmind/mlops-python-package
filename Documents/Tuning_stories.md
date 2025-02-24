@@ -236,7 +236,7 @@ At the conclusion of the job execution, the tuning job sends a notification deta
 
 ## Code location
 
-[src/model_name/jobs/tuning.py](../src/model_name/jobs/tuning.py)
+[src/regression_model_template/jobs/tuning.py](../src/regression_model_template/jobs/tuning.py)
 
 ## Test location
 

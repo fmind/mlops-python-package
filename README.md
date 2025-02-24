@@ -179,19 +179,19 @@ This config file instructs the program to start a `TrainingJob` with 2 parameter
 
 You can find all the parameters of your program in the `src/[package]/jobs/*.py` files.
 
-You can also print the full schema supported by this package using `poetry run model_name --schema`.
+You can also print the full schema supported by this package using `poetry run regression_model_template --schema`.
 
 ## Execution
 
 The project code can be executed with poetry during your development:
 
 ```bash
-$ poetry run model_name confs/tuning.yaml
-$ poetry run model_name confs/training.yaml
-$ poetry run model_name confs/promotion.yaml
-$ poetry run model_name confs/inference.yaml
-$ poetry run model_name confs/evaluations.yaml
-$ poetry run model_name confs/explanations.yaml
+$ poetry run regression_model_template confs/tuning.yaml
+$ poetry run regression_model_template confs/training.yaml
+$ poetry run regression_model_template confs/promotion.yaml
+$ poetry run regression_model_template confs/inference.yaml
+$ poetry run regression_model_template confs/evaluations.yaml
+$ poetry run regression_model_template confs/explanations.yaml
 ```
 debug in vscode  is possible th the following configuration:
 ```json
@@ -203,7 +203,7 @@ debug in vscode  is possible th the following configuration:
             "name": "Poetry evaluations Debug",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/src/model_name/__main__.py", // Adjust the entry point path
+            "program": "${workspaceFolder}/src/regression_model_template/__main__.py", // Adjust the entry point path
             "args": [
                 "confs/evaluations.yaml"
             ], // Arguments passed to your script

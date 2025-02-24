@@ -172,7 +172,7 @@ At the conclusion of the evaluation process, the `EvaluationsJob` class sends a 
 
 ## Code location
 
-[src/model_name/jobs/evaluations.py](../src/model_name/jobs/evaluations.py)
+[src/regression_model_template/jobs/evaluations.py](../src/regression_model_template/jobs/evaluations.py)
 
 ## Test location
 

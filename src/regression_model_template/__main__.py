@@ -2,7 +2,7 @@
 
 # %% IMPORTS
 
-from model_name import scripts
+from regression_model_template import scripts
 
 # %% MAIN
 

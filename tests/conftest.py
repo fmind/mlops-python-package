@@ -8,9 +8,9 @@ import typing as T
 import omegaconf
 import pytest
 from _pytest import logging as pl
-from model_name.core import metrics, models, schemas
-from model_name.io import datasets, registries, services
-from model_name.utils import searchers, signers, splitters
+from regression_model_template.core import metrics, models, schemas
+from regression_model_template.io import datasets, registries, services
+from regression_model_template.utils import searchers, signers, splitters
 
 # %% CONFIGS
 

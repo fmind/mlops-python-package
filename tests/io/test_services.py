@@ -6,7 +6,7 @@ import mlflow
 import plyer
 import pytest
 import pytest_mock as pm
-from model_name.io import services
+from regression_model_template.io import services
 
 # %% SERVICES
 
@@ -39,7 +39,7 @@ def test_alerts_service(enable: bool, mocker: pm.MockerFixture, capsys: pc.Captu
             plyer.notification.notify.assert_not_called(),
             "Notification method should not be called!",
         )
-        assert capsys.readouterr().out == "[model_name] test: hello\n", "Notification should be printed to stdout!"
+        assert capsys.readouterr().out == "[regression_model_template] test: hello\n", "Notification should be printed to stdout!"
 
 
 def test_mlflow_service(mlflow_service: services.MlflowService) -> None:

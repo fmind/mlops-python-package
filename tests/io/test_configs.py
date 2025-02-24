@@ -3,7 +3,7 @@
 import os
 
 import omegaconf as oc
-from model_name.io import configs
+from regression_model_template.io import configs
 
 # %% PARSERS
 

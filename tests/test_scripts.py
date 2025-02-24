@@ -6,7 +6,7 @@ import os
 import pydantic as pdt
 import pytest
 from _pytest import capture as pc
-from model_name import scripts
+from regression_model_template import scripts
 
 # %% SCRIPTS
 

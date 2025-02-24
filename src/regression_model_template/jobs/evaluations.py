@@ -8,10 +8,10 @@ import mlflow
 import pandas as pd
 import pydantic as pdt
 
-from model_name.core import metrics as metrics_
-from model_name.core import schemas
-from model_name.io import datasets, registries, services
-from model_name.jobs import base
+from regression_model_template.core import metrics as metrics_
+from regression_model_template.core import schemas
+from regression_model_template.io import datasets, registries, services
+from regression_model_template.jobs import base
 
 # %% JOBS
 

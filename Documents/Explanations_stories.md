@@ -209,7 +209,7 @@ At the end of the job execution, notifications are sent to relevant stakeholders
 
 ## Code location
 
-[src/model_name/jobs/explanations.py](../src/model_name/jobs/explanations.py)
+[src/regression_model_template/jobs/explanations.py](../src/regression_model_template/jobs/explanations.py)
 
 ## Test location
 

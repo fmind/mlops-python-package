@@ -6,9 +6,9 @@ import typing as T
 
 import pydantic as pdt
 
-from model_name.core import schemas
-from model_name.io import datasets, registries
-from model_name.jobs import base
+from regression_model_template.core import schemas
+from regression_model_template.io import datasets, registries
+from regression_model_template.jobs import base
 
 # %% JOBS
 
