@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/fmind/cookiecutter-mlops-package",
-  "commit": "00fef7106e4abd8ddc7a1625ebe7342fcb145f6c",
+  "commit": "2ce51abb4333d594baee46ce590ead4e4cd76142",
   "checkout": null,
   "context": {
     "cookiecutter": {
