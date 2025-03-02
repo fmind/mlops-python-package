@@ -121,7 +121,7 @@ This section details the requirements, actions, and next steps to kickstart your
 
 ## Prerequisites
 
-- [Python>=3.12](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.12.html)
+- [Python>=3.13](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.13.html)
 - [uv>=0.5.5](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
 
 ## Installation
