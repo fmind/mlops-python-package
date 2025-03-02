@@ -60,14 +60,14 @@ def test_promotion_job(
     assert out["version"] == model_version.version, "Version number should be the same!"
     # - model version
     assert out["model_version"].name == out["name"], "Model version name should be the same!"
-    assert (
-        out["model_version"].version == out["version"]
-    ), "Model version number should be the same!"
-    assert (
-        out["model_version"].run_id == model_version.run_id
-    ), "Model version run id should be the same!"
-    assert out["model_version"].aliases == [
-        alias
-    ], "Model version aliases should contain the given alias!"
+    assert out["model_version"].version == out["version"], (
+        "Model version number should be the same!"
+    )
+    assert out["model_version"].run_id == model_version.run_id, (
+        "Model version run id should be the same!"
+    )
+    assert out["model_version"].aliases == [alias], (
+        "Model version aliases should contain the given alias!"
+    )
     # - alerting service
     assert "Promotion Job Finished" in capsys.readouterr().out, "Alerting service should be called!"

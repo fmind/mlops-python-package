@@ -5,6 +5,7 @@
 import abc
 import typing as T
 
+import pandas as pd
 import pydantic as pdt
 import shap
 from sklearn import compose, ensemble, pipeline, preprocessing
@@ -175,9 +176,10 @@ class BaselineSklearnModel(Model):
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
         model = self.get_internal_model()
         prediction = model.predict(inputs)
-        outputs = schemas.Outputs(
-            {schemas.OutputsSchema.prediction: prediction}, index=inputs.index
+        outputs_ = pd.DataFrame(
+            data={schemas.OutputsSchema.prediction: prediction}, index=inputs.index
         )
+        outputs = schemas.OutputsSchema.check(data=outputs_)
         return outputs
 
     @T.override
@@ -186,12 +188,13 @@ class BaselineSklearnModel(Model):
         regressor = model.named_steps["regressor"]
         transformer = model.named_steps["transformer"]
         feature = transformer.get_feature_names_out()
-        feature_importances = schemas.FeatureImportances(
+        feature_importances_ = pd.DataFrame(
             data={
                 "feature": feature,
                 "importance": regressor.feature_importances_,
             }
         )
+        feature_importances = schemas.FeatureImportancesSchema.check(data=feature_importances_)
         return feature_importances
 
     @T.override
@@ -201,10 +204,11 @@ class BaselineSklearnModel(Model):
         transformer = model.named_steps["transformer"]
         transformed = transformer.transform(X=inputs)
         explainer = shap.TreeExplainer(model=regressor)
-        shap_values = schemas.SHAPValues(
+        shap_values_ = pd.DataFrame(
             data=explainer.shap_values(X=transformed),
             columns=transformer.get_feature_names_out(),
         )
+        shap_values = schemas.SHAPValuesSchema.check(data=shap_values_)
         return shap_values
 
     @T.override

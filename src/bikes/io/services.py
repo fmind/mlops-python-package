@@ -8,7 +8,6 @@ import abc
 import contextlib as ctx
 import sys
 import typing as T
-import warnings
 
 import loguru
 import mlflow
@@ -122,7 +121,7 @@ class AlertsService(Service):
                     timeout=self.timeout,
                 )
             except NotImplementedError:
-                warnings.warn("Notifications are not supported on this system.", RuntimeWarning)
+                print("Notifications are not supported on this system.")
                 self._print(title=title, message=message)
         else:
             self._print(title=title, message=message)
