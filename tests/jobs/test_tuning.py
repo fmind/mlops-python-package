@@ -63,40 +63,40 @@ def test_tuning_job(
     assert run_config.tags is not None, "Run config tags should be set!"
     assert out["run"].info.run_name == run_config.name, "Run name should be the same!"
     assert run_config.description in out["run"].data.tags.values(), "Run desc. should be tags!"
-    assert (
-        out["run"].data.tags.items() > run_config.tags.items()
-    ), "Run tags should be a subset of tags!"
+    assert out["run"].data.tags.items() > run_config.tags.items(), (
+        "Run tags should be a subset of tags!"
+    )
     # - data
     assert out["inputs"].ndim == out["inputs_"].ndim == 2, "Inputs should be a dataframe!"
     assert out["targets"].ndim == out["inputs_"].ndim == 2, "Targets should be a dataframe!"
     # - lineage
     assert out["inputs_lineage"].name == "inputs", "Inputs lineage name should be inputs!"
-    assert (
-        out["inputs_lineage"].source.uri == inputs_reader.path
-    ), "Inputs lineage source should be the inputs reader path!"
+    assert out["inputs_lineage"].source.uri == inputs_reader.path, (
+        "Inputs lineage source should be the inputs reader path!"
+    )
     assert out["targets_lineage"].name == "targets", "Targets lineage name should be targets!"
-    assert (
-        out["targets_lineage"].source.uri == targets_reader.path
-    ), "Targets lineage source should be the targets reader path!"
-    assert (
-        out["targets_lineage"].targets == schemas.TargetsSchema.cnt
-    ), "Targets lineage target should be cnt!"
+    assert out["targets_lineage"].source.uri == targets_reader.path, (
+        "Targets lineage source should be the targets reader path!"
+    )
+    assert out["targets_lineage"].targets == schemas.TargetsSchema.cnt, (
+        "Targets lineage target should be cnt!"
+    )
     # - results
     assert out["results"].ndim == 2, "Results should be a dataframe!"
     # - best score
-    assert (
-        float("-inf") < out["best_score"] < float("inf")
-    ), "Best score should be between -inf and +inf!"
+    assert float("-inf") < out["best_score"] < float("inf"), (
+        "Best score should be between -inf and +inf!"
+    )
     # - best params
-    assert (
-        out["best_params"].keys() == searcher.param_grid.keys()
-    ), "Best params should have the same keys!"
+    assert out["best_params"].keys() == searcher.param_grid.keys(), (
+        "Best params should have the same keys!"
+    )
     # - mlflow tracking
     experiment = client.get_experiment_by_name(name=mlflow_service.experiment_name)
     assert experiment is not None, "Mlflow experiment should exist!"
-    assert (
-        experiment.name == mlflow_service.experiment_name
-    ), "Mlflow experiment name should be the same!"
+    assert experiment.name == mlflow_service.experiment_name, (
+        "Mlflow experiment name should be the same!"
+    )
     runs = client.search_runs(experiment_ids=experiment.experiment_id)
     assert len(runs) == len(out["results"]) + 1, "Mlflow should have 1 run per result + parent!"
     # - alerting service

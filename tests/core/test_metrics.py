@@ -50,9 +50,9 @@ def test_sklearn_metric(
         mlflow_metric.greater_is_better == metric.greater_is_better  # type: ignore[attr-defined]
     ), "Mlflow metric greater is better should be the same!"
     # - mlflow results
-    assert mlflow_results.metrics == {
-        metric.name: score * (1 if greater_is_better else -1)
-    }, "Mlflow results metrics should have the same name and score!"
+    assert mlflow_results.metrics == {metric.name: score * (1 if greater_is_better else -1)}, (
+        "Mlflow results metrics should have the same name and score!"
+    )
 
 
 # %% THRESHOLDS
@@ -65,6 +65,6 @@ def test_threshold() -> None:
     mlflow_threshold = threshold.to_mlflow()
     # then
     assert mlflow_threshold.threshold == threshold.threshold, "Threshold should be the same!"
-    assert (
-        mlflow_threshold.greater_is_better == threshold.greater_is_better
-    ), "Greater is better should be the same!"
+    assert mlflow_threshold.greater_is_better == threshold.greater_is_better, (
+        "Greater is better should be the same!"
+    )
