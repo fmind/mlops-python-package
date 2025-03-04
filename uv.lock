@@ -90,6 +90,7 @@ name = "bikes"
 version = "4.0.0"
 source = { editable = "." }
 dependencies = [
+    { name = "hatchling" },
     { name = "loguru" },
     { name = "matplotlib" },
     { name = "mlflow" },
@@ -111,7 +112,7 @@ dependencies = [
 ]
 
 [package.dev-dependencies]
-checks = [
+check = [
     { name = "bandit" },
     { name = "coverage" },
     { name = "mypy" },
@@ -122,23 +123,24 @@ checks = [
     { name = "pytest-xdist" },
     { name = "ruff" },
 ]
-commits = [
+commit = [
     { name = "commitizen" },
     { name = "pre-commit" },
 ]
 dev = [
-    { name = "invoke" },
+    { name = "rust-just" },
 ]
-docs = [
+doc = [
     { name = "pdoc" },
 ]
-notebooks = [
+notebook = [
     { name = "ipykernel" },
     { name = "nbformat" },
 ]
 
 [package.metadata]
 requires-dist = [
+    { name = "hatchling", specifier = ">=1.27.0" },
     { name = "loguru", specifier = ">=0.7.3" },
     { name = "matplotlib", specifier = ">=3.10.1" },
     { name = "mlflow", specifier = ">=2.20.3" },
@@ -160,7 +162,7 @@ requires-dist = [
 ]
 
 [package.metadata.requires-dev]
-checks = [
+check = [
     { name = "bandit", specifier = ">=1.8.3" },
     { name = "coverage", specifier = ">=7.6.12" },
     { name = "mypy", specifier = ">=1.15.0" },
@@ -171,13 +173,13 @@ checks = [
     { name = "pytest-xdist", specifier = ">=3.6.1" },
     { name = "ruff", specifier = ">=0.9.9" },
 ]
-commits = [
+commit = [
     { name = "commitizen", specifier = ">=4.4.1" },
     { name = "pre-commit", specifier = ">=4.1.0" },
 ]
-dev = [{ name = "invoke", specifier = ">=2.2.0" }]
-docs = [{ name = "pdoc", specifier = ">=15.0.1" }]
-notebooks = [
+dev = [{ name = "rust-just", specifier = ">=1.39.0" }]
+doc = [{ name = "pdoc", specifier = ">=15.0.1" }]
+notebook = [
     { name = "ipykernel", specifier = ">=6.29.5" },
     { name = "nbformat", specifier = ">=5.10.4" },
 ]
@@ -653,6 +655,21 @@ wheels = [
 ]
 
 [[package]]
+name = "hatchling"
+version = "1.27.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "packaging" },
+    { name = "pathspec" },
+    { name = "pluggy" },
+    { name = "trove-classifiers" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/8f/8a/cc1debe3514da292094f1c3a700e4ca25442489731ef7c0814358816bb03/hatchling-1.27.0.tar.gz", hash = "sha256:971c296d9819abb3811112fc52c7a9751c8d381898f36533bb16f9791e941fd6", size = 54983 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/08/e7/ae38d7a6dfba0533684e0b2136817d667588ae3ec984c1a4e5df5eb88482/hatchling-1.27.0-py3-none-any.whl", hash = "sha256:d3a2f3567c4f926ea39849cdf924c7e99e6686c9c8e288ae1037c8fa2a5d937b", size = 75794 },
+]
+
+[[package]]
 name = "identify"
 version = "2.6.8"
 source = { registry = "https://pypi.org/simple" }
@@ -689,15 +706,6 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/d7/4b/cbd8e699e64a6f16ca3a8220661b5f83792b3017d0f79807cb8708d33913/iniconfig-2.0.0.tar.gz", hash = "sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3", size = 4646 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/ef/a6/62565a6e1cf69e10f5727360368e451d4b7f58beeac6173dc9db836a5b46/iniconfig-2.0.0-py3-none-any.whl", hash = "sha256:b6a85871a79d2e3b22d2d1b94ac2824226a63c6b741c88f7ae975f18b6778374", size = 5892 },
-]
-
-[[package]]
-name = "invoke"
-version = "2.2.0"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/f9/42/127e6d792884ab860defc3f4d80a8f9812e48ace584ffc5a346de58cdc6c/invoke-2.2.0.tar.gz", hash = "sha256:ee6cbb101af1a859c7fe84f2a264c059020b0cb7fe3535f9424300ab568f6bd5", size = 299835 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/0a/66/7f8c48009c72d73bc6bbe6eb87ac838d6a526146f7dab14af671121eb379/invoke-2.2.0-py3-none-any.whl", hash = "sha256:6ea924cc53d4f78e3d98bc436b08069a03077e6f85ad1ddaa8a116d7dad15820", size = 160274 },
 ]
 
 [[package]]
@@ -1339,6 +1347,15 @@ wheels = [
 ]
 
 [[package]]
+name = "pathspec"
+version = "0.12.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/ca/bc/f35b8446f4531a7cb215605d100cd88b7ac6f44ab3fc94870c120ab3adbf/pathspec-0.12.1.tar.gz", hash = "sha256:a482d51503a1ab33b1c67a6c3813a26953dbdc71c31dacaef9a838c4e29f5712", size = 51043 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/cc/20/ff623b09d963f88bfde16306a54e12ee5ea43e9b597108672ff3a408aad6/pathspec-0.12.1-py3-none-any.whl", hash = "sha256:a0d503e138a4c123b27490a4f7beda6a01c6f288df0e4a8b79c7eb0dc7b4cc08", size = 31191 },
+]
+
+[[package]]
 name = "pbr"
 version = "6.1.1"
 source = { registry = "https://pypi.org/simple" }
@@ -1918,6 +1935,28 @@ wheels = [
 ]
 
 [[package]]
+name = "rust-just"
+version = "1.39.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/a3/e5/37254d353a23f567ac218ddd2c461337fafe3a43d44dcd6f0c8e72d096f4/rust_just-1.39.0.tar.gz", hash = "sha256:247d0b293924cc8089a73428c9c03a3c2c0627bb8f205addb976ded0681f0dac", size = 1395439 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/c9/9e/c7151bfa84c1cd3ac4c11a60d1a2f074b7a244ae96959d968e8b9e8e3f29/rust_just-1.39.0-py3-none-macosx_10_12_x86_64.whl", hash = "sha256:3845ab10254c994ddebcf489b30c53a24c1d11585c9e0eeaf1cb0da422bee87f", size = 1781993 },
+    { url = "https://files.pythonhosted.org/packages/e4/0f/c93ef08567835356033bee162c2e5e06b018811f5188b94ef3e74dafe7eb/rust_just-1.39.0-py3-none-macosx_11_0_arm64.whl", hash = "sha256:fd5c12118a8d65266ccdacfbc24bab26f77d509caaf263095cb96611ea6ce7e8", size = 1652880 },
+    { url = "https://files.pythonhosted.org/packages/f3/e7/22647f9c18537046940b3b4159377665912acccbacedd775917610c0390d/rust_just-1.39.0-py3-none-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:428d07b1e798777c4e9a8c245539d72743be095558010f0a86823e1c442930f9", size = 1771788 },
+    { url = "https://files.pythonhosted.org/packages/d5/1f/2a36afad5eeca6756fc8c87e08d102cdadf8e4b31c5f8bcb6f12c109b5b4/rust_just-1.39.0-py3-none-manylinux_2_17_armv7l.manylinux2014_armv7l.whl", hash = "sha256:135a7a65a8641b00a2fe7f3156a97ab7052e4830a922a71e67ca4e38ccd54cd2", size = 1778377 },
+    { url = "https://files.pythonhosted.org/packages/97/5b/45effb44bbfab892774a239446920cfb9b3d999921fe7cff3d99b36394a7/rust_just-1.39.0-py3-none-manylinux_2_17_i686.manylinux2014_i686.whl", hash = "sha256:94eb45e585fda019f7f9cbac198e10e31f81c704371887cbdec9b7a1ae2e0d29", size = 1896235 },
+    { url = "https://files.pythonhosted.org/packages/b5/12/7e88a7e917c2e933846a32a2f537786829b48c827a6029e85943d5eeadc0/rust_just-1.39.0-py3-none-manylinux_2_17_ppc64le.manylinux2014_ppc64le.whl", hash = "sha256:de4a8566ca1eb87b5ff2669a6dd9474b16977c5d712534a5a9c7a950271da2d0", size = 1954347 },
+    { url = "https://files.pythonhosted.org/packages/9a/36/5dc917a2c0a0b66f0cc4bb0be4985090deefa33433dd869649a4ce2bc8f3/rust_just-1.39.0-py3-none-manylinux_2_17_s390x.manylinux2014_s390x.whl", hash = "sha256:4e7ecd8fd862729c243498951caa54d778ff480c2524039280ff3ebb9a64299f", size = 2450909 },
+    { url = "https://files.pythonhosted.org/packages/da/fc/b9224b354da8a89b38cd4145ec0e9e089635a45c1459231e349647cdad64/rust_just-1.39.0-py3-none-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:576229024d2ef8fc696d5a049ecd0d8f3d9b920a32e76f65e95840d24d804101", size = 1895058 },
+    { url = "https://files.pythonhosted.org/packages/0b/ef/985cb93c9dd36f9bc41f26b3ce6d420c69fb18166ac61783bced2c328f75/rust_just-1.39.0-py3-none-musllinux_1_2_aarch64.whl", hash = "sha256:c1cd9240e2c1b352d7ccc6b89ce84fcc0352f15bb9660cdc6bc34802b36251b6", size = 1767816 },
+    { url = "https://files.pythonhosted.org/packages/50/43/fc644746a7479fadbe6878ae9fa1da83860104d1e64a49de47306fa1a591/rust_just-1.39.0-py3-none-musllinux_1_2_armv7l.whl", hash = "sha256:d6eff0461df7e36eba6e7f0addf16ef98563cf8cb483e4c8393be5456d6af5c6", size = 1791992 },
+    { url = "https://files.pythonhosted.org/packages/32/d9/6924547c02afba3a49b14f53bed09b54d4292016b830f366d7ed1f80288a/rust_just-1.39.0-py3-none-musllinux_1_2_i686.whl", hash = "sha256:0dfcc49a5fa126ba923b58e48921fd117e429660495577a854494c6ced3134c9", size = 1884357 },
+    { url = "https://files.pythonhosted.org/packages/15/96/7e8d3795588c2e8e629f9f0d9cdd0cf1ba1bef5bf9c8b64aae33c78f1993/rust_just-1.39.0-py3-none-musllinux_1_2_x86_64.whl", hash = "sha256:826203ad02c869ad8621993a608adb01394ef9c9c9ca6aa7dd7875b1f272aa46", size = 1936706 },
+    { url = "https://files.pythonhosted.org/packages/23/28/2492c4b7c8f0e526f52a263f20b951880387f992151bbc46c6c8914786a8/rust_just-1.39.0-py3-none-win32.whl", hash = "sha256:dcef0926b287449e853b878f6f34759a797d017cefb83afbcd74820d37259b78", size = 1577519 },
+    { url = "https://files.pythonhosted.org/packages/6f/c2/1d576be1ca714df4a90255cfbcb4ec06d9aafbf7b14924c2881a8596a68e/rust_just-1.39.0-py3-none-win_amd64.whl", hash = "sha256:3139f3f76434a8ebbf35b213d149e647c4d9546312b438e262df7ec41e7ef7bc", size = 1705761 },
+]
+
+[[package]]
 name = "scikit-learn"
 version = "1.6.1"
 source = { registry = "https://pypi.org/simple" }
@@ -2142,6 +2181,15 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/eb/79/72064e6a701c2183016abbbfedaba506d81e30e232a68c9f0d6f6fcd1574/traitlets-5.14.3.tar.gz", hash = "sha256:9ed0579d3502c94b4b3732ac120375cda96f923114522847de4b3bb98b96b6b7", size = 161621 }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/00/c0/8f5d070730d7836adc9c9b6408dec68c6ced86b304a9b26a14df072a6e8c/traitlets-5.14.3-py3-none-any.whl", hash = "sha256:b74e89e397b1ed28cc831db7aea759ba6640cb3de13090ca145426688ff1ac4f", size = 85359 },
+]
+
+[[package]]
+name = "trove-classifiers"
+version = "2025.3.3.18"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/e9/eb59303bac7aca949c4a4b0fa03a9b270be165d303a84cf2733d35a840ce/trove_classifiers-2025.3.3.18.tar.gz", hash = "sha256:3ffcfa90a428adfde1a5d90e3aa1b87fe474c5dbdbf5ccbca74ed69ba83c5ca7", size = 16239 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/ef/bf/44195f3d9c3c4fe4cccf1c261c80d50781b9e8a0a6febf084c09c66740ff/trove_classifiers-2025.3.3.18-py3-none-any.whl", hash = "sha256:215630da61cf8757c373f81b602fc1283ec5a691cf12c5f9f96f11d6ad5fc7f2", size = 13629 },
 ]
 
 [[package]]
