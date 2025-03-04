@@ -36,7 +36,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
   - [Automation](#automation-1)
     - [Commits: Commitizen](#commits-commitizen)
     - [Git Hooks: Pre-Commit](#git-hooks-pre-commit)
-    - [Tasks: PyInvoke](#tasks-pyinvoke)
+    - [Tasks: Just](#tasks-just)
   - [CI/CD](#cicd)
     - [Runner: GitHub Actions](#runner-github-actions)
   - [CLI](#cli)
@@ -76,7 +76,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
     - [Runtime: Docker](#runtime-docker)
   - [Programming](#programming)
     - [Language: Python](#language-python)
-    - [Version: Pyenv](#version-pyenv)
+    - [Version: Uv](#version-uv)
   - [Observability](#observability)
     - [Reproducibility: Mlflow Project](#reproducibility-mlflow-project)
     - [Monitoring : Mlflow Evaluate](#monitoring--mlflow-evaluate)
@@ -121,7 +121,7 @@ This section details the requirements, actions, and next steps to kickstart your
 
 ## Prerequisites
 
-- [Python>=3.12](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.12.html)
+- [Python>=3.13](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.13.html)
 - [uv>=0.5.5](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
 
 ## Installation
@@ -220,71 +220,90 @@ with job as runner:
 
 This project includes several automation tasks to easily repeat common actions.
 
-You can invoke the actions from the [command-line](https://www.pyinvoke.org/) or [VS Code extension](https://marketplace.visualstudio.com/items?itemName=dchanco.vsc-invoke).
+You can invoke the actions from the [command-line](https://just.systems/man/en/introduction.html) or [VS Code extension](https://marketplace.visualstudio.com/items?itemName=nefrob.vscode-just-syntax).
 
 ```bash
 # execute the project DAG
-$ inv projects
+$ just project
 # create a code archive
-$ inv packages
+$ just package
 # list other actions
-$ inv --list
+$ just
 ```
 
 **Available tasks**:
-- **checks.all (checks)** - Run all check tasks.
-- **checks.code** - Check the codes with ruff.
-- **checks.coverage** - Check the coverage with coverage.
-- **checks.format** - Check the formats with ruff.
-- **checks.security** - Check the security with bandit.
-- **checks.test** - Check the tests with pytest.
-- **checks.type** - Check the types with mypy.
-- **cleans.all (cleans)** - Run all tools and folders tasks.
-- **cleans.cache** - Clean the cache folder.
-- **cleans.coverage** - Clean the coverage tool.
-- **cleans.dist** - Clean the dist folder.
-- **cleans.docs** - Clean the docs folder.
-- **cleans.environment** - Clean the project environment file.
-- **cleans.folders** - Run all folders tasks.
-- **cleans.mlruns** - Clean the mlruns folder.
-- **cleans.mypy** - Clean the mypy tool.
-- **cleans.outputs** - Clean the outputs folder.
-- **cleans.projects** - Run all projects tasks.
-- **cleans.pytest** - Clean the pytest tool.
-- **cleans.python** - Clean python caches and bytecodes.
-- **cleans.requirements** - Clean the project requirements file.
-- **cleans.reset** - Run all tools, folders, and sources tasks.
-- **cleans.ruff** - Clean the ruff tool.
-- **cleans.sources** - Run all sources tasks.
-- **cleans.tools** - Run all tools tasks.
-- **cleans.uv** - Clean uv lock file.
-- **cleans.venv** - Clean the venv folder.
-- **commits.all (commits)** - Run all commit tasks.
-- **commits.bump** - Bump the version of the package.
-- **commits.commit** - Commit all changes with a message.
-- **commits.info** - Print a guide for messages.
-- **containers.all (containers)** - Run all container tasks.
-- **containers.build** - Build the container image with the given tag.
-- **containers.compose** - Start up docker compose.
-- **containers.run** - Run the container image with the given tag.
-- **docs.all (docs)** - Run all docs tasks.
-- **docs.api** - Document the API with pdoc using the given format and output directory.
-- **docs.serve** - Serve the API docs with pdoc using the given format and computer port.
-- **formats.all** - (formats) Run all format tasks.
-- **formats.imports** - Format python imports with ruff.
-- **formats.sources** - Format python sources with ruff.
-- **installs.all (installs)** - Run all install tasks.
-- **installs.pre-commit** - Install pre-commit hooks on git.
-- **installs.uv** - Install uv packages.
-- **mlflow.all (mlflow)** - Run all mlflow tasks.
-- **mlflow.doctor** - Run mlflow doctor to diagnose issues.
-- **mlflow.serve** - Start mlflow server with the given host, port, and backend uri.
-- **packages.all (packages)** - Run all package tasks.
-- **packages.build** - Build a python package with the given format.
-- **projects.all (projects)** - Run all project tasks.
-- **projects.environment** - Export the project environment file.
-- **projects.requirements** - Export the project requirements file.
-- **projects.run** - Run an mlflow project from MLproject file.
+
+```toml
+default # display help information
+
+[check]
+check # run check tasks
+check-code # check code quality
+check-coverage numprocesses="auto" cov_fail_under="80" # check code coverage
+check-format # check code format
+check-security # check code security
+check-test numprocesses="auto" # check unit tests
+check-type # check code typing
+
+[clean]
+clean # run clean tasks
+clean-build # clean build folders
+clean-cache # clean cache folder
+clean-constraints # clean constraints file
+clean-coverage # clean coverage files
+clean-docs # clean docs folder
+clean-environment # clean environment file
+clean-mlruns # clean mlruns folder
+clean-mypy # clean mypy folders
+clean-outputs # clean outputs folder
+clean-pytest # clean pytest cache
+clean-python # clean python caches
+clean-requirements # clean requirements file
+clean-ruff # clean ruff cache
+clean-venv # clean venv folder
+
+[commit]
+commit-bump # bump package
+commit-files # commit package
+commit-info # get commit info
+
+[doc]
+doc # run doc tasks
+doc-build format="google" output="docs" # build documentation
+doc-serve format="google" port="8088" # serve documentation
+
+[docker]
+docker # run docker tasks
+docker-build tag="latest" # build docker image
+docker-compose # start docker compose
+docker-run tag="latest" # run latest docker image
+
+[format]
+format # run format tasks
+format-import # format code import
+format-source # format code source
+
+[install]
+install # run install tasks
+install-hooks # install git hooks
+install-project # install the project
+
+[mlflow]
+mlflow # run mlflow tasks
+mlflow-doctor # run mlflow doctor
+mlflow-serve host="127.0.0.1" port="5000" uri="./mlruns" # start mlflow server
+
+[package]
+package # run package tasks
+package-build constraints="constraints.txt" # build python package
+package-constraints constraints="constraints.txt" # build package constraints
+
+[project]
+project # run project tasks
+project-environment # export environment file
+project-requirements # export requirements file
+project-run job # run project job using mlflow
+```
 
 ## Workflows
 
@@ -324,16 +343,17 @@ Pre-defined actions to automate your project development.
 - **Alternatives**:
   - [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks): less convenient to use
 
-### Tasks: [PyInvoke](https://www.pyinvoke.org/)
+### Tasks: [Just](https://just.systems/man/en/introduction.html)
 
 - **Motivations**:
   - Automate project workflows
   - Sane syntax compared to alternatives
-  - Good trade-off between power/simplicity
+  - Good trade-off between power and simplicity
 - **Limitations**:
   - Not familiar to most developers
 - **Alternatives**:
   - [Make](https://www.gnu.org/software/make/manual/make.html): most popular, but awful syntax
+  - [PyInvoke](https://www.pyinvoke.org/): pythonic, but verbose and less straightforward.
 
 ## CI/CD
 
@@ -581,8 +601,8 @@ Generate and share the project documentations.
 - **Limitations**:
   - Only support API docs (i.e., no custom docs)
 - **Alternatives**:
-  - [Sphinx](https://www.sphinx-doc.org/en/master/): Most complete, overkill for simple projects
-  - [Mkdocs](https://www.mkdocs.org/): no support for API doc, which is the core feature
+  - [Sphinx](https://www.sphinx-doc.org/en/master/): More complete, overkill for simple projects
+  - [Mkdocs](https://www.mkdocs.org/): More complete, but requires more setup
 
 ### Format: [Google](https://google.github.io/styleguide/pyguide.html)
 
@@ -727,7 +747,7 @@ Select your programming environment.
   - [R](https://www.r-project.org/): specific purpose language
   - [Julia](https://julialang.org/): specific purpose language
 
-### Version: [Pyenv](https://github.com/pyenv/pyenv)
+### Version: [Uv](https://docs.astral.sh/uv/guides/install-python/)
 
 - **Motivations**:
   - Switch between Python version
@@ -737,6 +757,7 @@ Select your programming environment.
   - Require some shell configurations
 - **Alternatives**:
   - Manual installation: time consuming
+  - [PyEnv](https://github.com/pyenv/pyenv): shell-based, require more setup
 
 ## Observability
 

@@ -1,8 +1,0 @@
-# https://docs.pyinvoke.org/en/latest/index.html
-
-run:
-  echo: true
-project:
-  name: bikes
-  package: bikes
-  repository: bikes

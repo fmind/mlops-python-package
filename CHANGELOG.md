@@ -1,22 +1,20 @@
-## v3.0.0 (2024-12-14)
+## v4.0.0 (2025-03-04)
 
 ### Feat
 
-- **mlflow**: bump to 2.19.0
-- **manager**: switch from poetry to uv (#22)
-- **manager**: switch from poetry to uv
+- **tasks**: switch from pyinvoke to just (#42)
+- **workflows**: bump GitHub action versions (#41)
+- **versions**: bump python and package version (#40)
+- **mindmap**: add mindmap of the package (#32)
 
 ### Fix
 
-- **tasks**: merge conflict
-- **tasks**: fix mlflow.serve task attribute
-- **github-actions**: run check on all PR
+- **version**: ready to bump
+- **datasets**: fix dtype backend (#44)
 
 ### Refactor
 
-- **release**: prepare before release
-- **actions**: split check tasks into subtask for easier debugging (#29)
-- **code**: improve abstractions (#28)
+- **cruft**: update to new template version
 
 ## v2.0.0 (2024-07-28)
 
@@ -41,32 +39,6 @@
 ### Fix
 
 - **publish**: fix publication workflow by installing dev dependencies
-
-## v1.1.0 (2024-07-21)
-
-### Feat
-
-- **kpi**: add key performance indicators
-- **mlproject**: add mlflow project and tasks
-- **monitoring**: add mlflow.evaluate API
-- **lineage**: add lineage features through mlflow data api
-- **explanations**: add explainability features and tooling
-- **data**: add train, test, and sample data
-- **notification**: add service and alerts with plyer
-- **observability**: add alerting with plyer notifications
-- **observability**: add infrastructure through mlflow system metrics
-
-### Fix
-
-- **kpi**: add key performance indicators
-- **projects**: change naming convention
-- **evaluation**: add evaluation files
-- **loading**: use version or alias for loading models
-- **warnings**: improve styles and remove warnings
-- **mlflow**: remove input examples following the addition of lineage
-- **paths**: fix path for explanation job
-- **data**: fix models explanations name
-- **data**: add parquet data
 
 ## v1.0.1 (2024-06-28)
 
