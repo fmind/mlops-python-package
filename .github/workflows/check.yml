@@ -12,9 +12,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup
-      - run: uv sync --group=checks
-      - run: uv run invoke checks.format
-      - run: uv run invoke checks.type
-      - run: uv run invoke checks.code
-      - run: uv run invoke checks.security
-      - run: uv run invoke checks.coverage
+      - run: uv sync --group=check
+      - run: uv run just check-code
+      - run: uv run just check-type
+      - run: uv run just check-format
+      - run: uv run just check-security
+      - run: uv run just check-coverage

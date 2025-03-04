@@ -21,7 +21,6 @@
 	"extensions": {
 		"recommendations": [
 			"charliermarsh.ruff",
-			"dchanco.vsc-invoke",
 			"ms-python.mypy-type-checker",
 			"ms-python.python",
 			"ms-python.vscode-pylance",

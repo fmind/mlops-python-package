@@ -9,6 +9,8 @@ version = "4.0.0"
 description = "Predict the number of bikes available."
 authors = [{ name = "Médéric HURIER", email = "github@fmind.dev" }]
 readme = "README.md"
+license = { file = "LICENSE.txt" }
+keywords = ["mlops", "python", "package"]
 requires-python = ">=3.13"
 dependencies = [
     "loguru>=0.7.3",
@@ -29,9 +31,8 @@ dependencies = [
     "scikit-learn>=1.6.1",
     "setuptools>=75.8.2",
     "shap>=0.46.0",
+    "hatchling>=1.27.0",
 ]
-license = { file = "LICENSE.txt" }
-keywords = ["mlops", "python", "package"]
 
 # LINKS
 
@@ -50,7 +51,7 @@ bikes = 'bikes.scripts:main'
 # DEPENDENCIES
 
 [dependency-groups]
-checks = [
+check = [
     "bandit>=1.8.3",
     "coverage>=7.6.12",
     "mypy>=1.15.0",
@@ -61,15 +62,15 @@ checks = [
     "pytest-xdist>=3.6.1",
     "ruff>=0.9.9",
 ]
-commits = ["commitizen>=4.4.1", "pre-commit>=4.1.0"]
-dev = ["invoke>=2.2.0"]
-docs = ["pdoc>=15.0.1"]
-notebooks = ["ipykernel>=6.29.5", "nbformat>=5.10.4"]
+commit = ["commitizen>=4.4.1", "pre-commit>=4.1.0"]
+dev = ["rust-just>=1.39.0"]
+doc = ["pdoc>=15.0.1"]
+notebook = ["ipykernel>=6.29.5", "nbformat>=5.10.4"]
 
 # TOOLS
 
 [tool.uv]
-default-groups = ["checks", "commits", "dev", "docs", "notebooks"]
+default-groups = ["check", "commit", "dev", "doc", "notebook"]
 
 [tool.bandit]
 targets = ["src"]
