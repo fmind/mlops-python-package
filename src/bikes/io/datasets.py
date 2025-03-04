@@ -74,7 +74,7 @@ class ParquetReader(Reader):
     @T.override
     def read(self) -> pd.DataFrame:
         # can't limit rows at read time
-        data = pd.read_parquet(self.path, dtype_backend="pyarrow")
+        data = pd.read_parquet(self.path, dtype_backend=self.backend)
         if self.limit is not None:
             data = data.head(self.limit)
         return data
