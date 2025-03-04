@@ -141,15 +141,15 @@
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
 </span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="c1"># %% IMPORTS</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">import</span> <span class="nn">abc</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">T</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span> <span class="nn">numpy.typing</span> <span class="k">as</span> <span class="nn">npt</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">import</span> <span class="nn">pydantic</span> <span class="k">as</span> <span class="nn">pdt</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">model_selection</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy.typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">npt</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pdt</span>
+</span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">model_selection</span>
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span> <span class="nn">bikes.core</span> <span class="kn">import</span> <span class="n">schemas</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">schemas</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="c1"># %% TYPES</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>
@@ -160,7 +160,7 @@
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="c1"># %% SPLITTERS</span>
 </span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a>
 </span><span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a>
-</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="k">class</span> <span class="nc">Splitter</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
+</span><span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Splitter</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
 </span><span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a splitter.</span>
 </span><span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a>
 </span><span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="sd">    Use splitters to split data in sets.</span>
@@ -172,7 +172,7 @@
 </span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>    <span class="n">KIND</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>
 </span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -190,7 +190,7 @@
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>
 </span><span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -208,7 +208,7 @@
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a>
-</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="k">class</span> <span class="nc">TrainTestSplitter</span><span class="p">(</span><span class="n">Splitter</span><span class="p">):</span>
+</span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a><span class="k">class</span><span class="w"> </span><span class="nc">TrainTestSplitter</span><span class="p">(</span><span class="n">Splitter</span><span class="p">):</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Split a dataframe into a train and test set.</span>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>
 </span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a><span class="sd">    Parameters:</span>
@@ -224,7 +224,7 @@
 </span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>    <span class="n">random_state</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span>
 </span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>
 </span><span id="L-87"><a href="#L-87"><span class="linenos"> 87</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="L-88"><a href="#L-88"><span class="linenos"> 88</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -240,7 +240,7 @@
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a>        <span class="k">yield</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -249,7 +249,7 @@
 </span><span id="L-110"><a href="#L-110"><span class="linenos">110</span></a>        <span class="k">return</span> <span class="mi">1</span>
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>
 </span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
-</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="k">class</span> <span class="nc">TimeSeriesSplitter</span><span class="p">(</span><span class="n">Splitter</span><span class="p">):</span>
+</span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a><span class="k">class</span><span class="w"> </span><span class="nc">TimeSeriesSplitter</span><span class="p">(</span><span class="n">Splitter</span><span class="p">):</span>
 </span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Split a dataframe into fixed time series subsets.</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a><span class="sd">    Parameters:</span>
@@ -265,7 +265,7 @@
 </span><span id="L-126"><a href="#L-126"><span class="linenos">126</span></a>    <span class="n">test_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">30</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># 2 months</span>
 </span><span id="L-127"><a href="#L-127"><span class="linenos">127</span></a>
 </span><span id="L-128"><a href="#L-128"><span class="linenos">128</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="L-129"><a href="#L-129"><span class="linenos">129</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="L-130"><a href="#L-130"><span class="linenos">130</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -277,7 +277,7 @@
 </span><span id="L-138"><a href="#L-138"><span class="linenos">138</span></a>        <span class="k">yield from</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 </span><span id="L-139"><a href="#L-139"><span class="linenos">139</span></a>
 </span><span id="L-140"><a href="#L-140"><span class="linenos">140</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="L-141"><a href="#L-141"><span class="linenos">141</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="L-142"><a href="#L-142"><span class="linenos">142</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-143"><a href="#L-143"><span class="linenos">143</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="L-144"><a href="#L-144"><span class="linenos">144</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -340,7 +340,7 @@
 
     </div>
     <a class="headerlink" href="#Splitter"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Splitter-25"><a href="#Splitter-25"><span class="linenos">25</span></a><span class="k">class</span> <span class="nc">Splitter</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Splitter-25"><a href="#Splitter-25"><span class="linenos">25</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Splitter</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
 </span><span id="Splitter-26"><a href="#Splitter-26"><span class="linenos">26</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a splitter.</span>
 </span><span id="Splitter-27"><a href="#Splitter-27"><span class="linenos">27</span></a>
 </span><span id="Splitter-28"><a href="#Splitter-28"><span class="linenos">28</span></a><span class="sd">    Use splitters to split data in sets.</span>
@@ -352,7 +352,7 @@
 </span><span id="Splitter-34"><a href="#Splitter-34"><span class="linenos">34</span></a>    <span class="n">KIND</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="Splitter-35"><a href="#Splitter-35"><span class="linenos">35</span></a>
 </span><span id="Splitter-36"><a href="#Splitter-36"><span class="linenos">36</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Splitter-37"><a href="#Splitter-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="Splitter-37"><a href="#Splitter-37"><span class="linenos">37</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="Splitter-38"><a href="#Splitter-38"><span class="linenos">38</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="Splitter-39"><a href="#Splitter-39"><span class="linenos">39</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="Splitter-40"><a href="#Splitter-40"><span class="linenos">40</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -370,7 +370,7 @@
 </span><span id="Splitter-52"><a href="#Splitter-52"><span class="linenos">52</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="Splitter-53"><a href="#Splitter-53"><span class="linenos">53</span></a>
 </span><span id="Splitter-54"><a href="#Splitter-54"><span class="linenos">54</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Splitter-55"><a href="#Splitter-55"><span class="linenos">55</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="Splitter-55"><a href="#Splitter-55"><span class="linenos">55</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="Splitter-56"><a href="#Splitter-56"><span class="linenos">56</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="Splitter-57"><a href="#Splitter-57"><span class="linenos">57</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="Splitter-58"><a href="#Splitter-58"><span class="linenos">58</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -422,7 +422,7 @@ e.g., split between a train/test subsets.</p>
     </div>
     <a class="headerlink" href="#Splitter.split"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Splitter.split-36"><a href="#Splitter.split-36"><span class="linenos">36</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Splitter.split-37"><a href="#Splitter.split-37"><span class="linenos">37</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="Splitter.split-37"><a href="#Splitter.split-37"><span class="linenos">37</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="Splitter.split-38"><a href="#Splitter.split-38"><span class="linenos">38</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="Splitter.split-39"><a href="#Splitter.split-39"><span class="linenos">39</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="Splitter.split-40"><a href="#Splitter.split-40"><span class="linenos">40</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -473,7 +473,7 @@ e.g., split between a train/test subsets.</p>
     </div>
     <a class="headerlink" href="#Splitter.get_n_splits"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Splitter.get_n_splits-54"><a href="#Splitter.get_n_splits-54"><span class="linenos">54</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Splitter.get_n_splits-55"><a href="#Splitter.get_n_splits-55"><span class="linenos">55</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="Splitter.get_n_splits-55"><a href="#Splitter.get_n_splits-55"><span class="linenos">55</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="Splitter.get_n_splits-56"><a href="#Splitter.get_n_splits-56"><span class="linenos">56</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="Splitter.get_n_splits-57"><a href="#Splitter.get_n_splits-57"><span class="linenos">57</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="Splitter.get_n_splits-58"><a href="#Splitter.get_n_splits-58"><span class="linenos">58</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -537,7 +537,7 @@ e.g., split between a train/test subsets.</p>
 
     </div>
     <a class="headerlink" href="#TrainTestSplitter"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="TrainTestSplitter-73"><a href="#TrainTestSplitter-73"><span class="linenos"> 73</span></a><span class="k">class</span> <span class="nc">TrainTestSplitter</span><span class="p">(</span><span class="n">Splitter</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="TrainTestSplitter-73"><a href="#TrainTestSplitter-73"><span class="linenos"> 73</span></a><span class="k">class</span><span class="w"> </span><span class="nc">TrainTestSplitter</span><span class="p">(</span><span class="n">Splitter</span><span class="p">):</span>
 </span><span id="TrainTestSplitter-74"><a href="#TrainTestSplitter-74"><span class="linenos"> 74</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Split a dataframe into a train and test set.</span>
 </span><span id="TrainTestSplitter-75"><a href="#TrainTestSplitter-75"><span class="linenos"> 75</span></a>
 </span><span id="TrainTestSplitter-76"><a href="#TrainTestSplitter-76"><span class="linenos"> 76</span></a><span class="sd">    Parameters:</span>
@@ -553,7 +553,7 @@ e.g., split between a train/test subsets.</p>
 </span><span id="TrainTestSplitter-86"><a href="#TrainTestSplitter-86"><span class="linenos"> 86</span></a>    <span class="n">random_state</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">42</span>
 </span><span id="TrainTestSplitter-87"><a href="#TrainTestSplitter-87"><span class="linenos"> 87</span></a>
 </span><span id="TrainTestSplitter-88"><a href="#TrainTestSplitter-88"><span class="linenos"> 88</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TrainTestSplitter-89"><a href="#TrainTestSplitter-89"><span class="linenos"> 89</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="TrainTestSplitter-89"><a href="#TrainTestSplitter-89"><span class="linenos"> 89</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="TrainTestSplitter-90"><a href="#TrainTestSplitter-90"><span class="linenos"> 90</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="TrainTestSplitter-91"><a href="#TrainTestSplitter-91"><span class="linenos"> 91</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="TrainTestSplitter-92"><a href="#TrainTestSplitter-92"><span class="linenos"> 92</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -569,7 +569,7 @@ e.g., split between a train/test subsets.</p>
 </span><span id="TrainTestSplitter-102"><a href="#TrainTestSplitter-102"><span class="linenos">102</span></a>        <span class="k">yield</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">test_index</span>
 </span><span id="TrainTestSplitter-103"><a href="#TrainTestSplitter-103"><span class="linenos">103</span></a>
 </span><span id="TrainTestSplitter-104"><a href="#TrainTestSplitter-104"><span class="linenos">104</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TrainTestSplitter-105"><a href="#TrainTestSplitter-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="TrainTestSplitter-105"><a href="#TrainTestSplitter-105"><span class="linenos">105</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="TrainTestSplitter-106"><a href="#TrainTestSplitter-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="TrainTestSplitter-107"><a href="#TrainTestSplitter-107"><span class="linenos">107</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="TrainTestSplitter-108"><a href="#TrainTestSplitter-108"><span class="linenos">108</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -648,7 +648,7 @@ e.g., split between a train/test subsets.</p>
     </div>
     <a class="headerlink" href="#TrainTestSplitter.split"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TrainTestSplitter.split-88"><a href="#TrainTestSplitter.split-88"><span class="linenos"> 88</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TrainTestSplitter.split-89"><a href="#TrainTestSplitter.split-89"><span class="linenos"> 89</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="TrainTestSplitter.split-89"><a href="#TrainTestSplitter.split-89"><span class="linenos"> 89</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="TrainTestSplitter.split-90"><a href="#TrainTestSplitter.split-90"><span class="linenos"> 90</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="TrainTestSplitter.split-91"><a href="#TrainTestSplitter.split-91"><span class="linenos"> 91</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="TrainTestSplitter.split-92"><a href="#TrainTestSplitter.split-92"><span class="linenos"> 92</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -697,7 +697,7 @@ e.g., split between a train/test subsets.</p>
     </div>
     <a class="headerlink" href="#TrainTestSplitter.get_n_splits"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TrainTestSplitter.get_n_splits-104"><a href="#TrainTestSplitter.get_n_splits-104"><span class="linenos">104</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TrainTestSplitter.get_n_splits-105"><a href="#TrainTestSplitter.get_n_splits-105"><span class="linenos">105</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="TrainTestSplitter.get_n_splits-105"><a href="#TrainTestSplitter.get_n_splits-105"><span class="linenos">105</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="TrainTestSplitter.get_n_splits-106"><a href="#TrainTestSplitter.get_n_splits-106"><span class="linenos">106</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="TrainTestSplitter.get_n_splits-107"><a href="#TrainTestSplitter.get_n_splits-107"><span class="linenos">107</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="TrainTestSplitter.get_n_splits-108"><a href="#TrainTestSplitter.get_n_splits-108"><span class="linenos">108</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -752,7 +752,7 @@ e.g., split between a train/test subsets.</p>
 
     </div>
     <a class="headerlink" href="#TimeSeriesSplitter"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="TimeSeriesSplitter-114"><a href="#TimeSeriesSplitter-114"><span class="linenos">114</span></a><span class="k">class</span> <span class="nc">TimeSeriesSplitter</span><span class="p">(</span><span class="n">Splitter</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="TimeSeriesSplitter-114"><a href="#TimeSeriesSplitter-114"><span class="linenos">114</span></a><span class="k">class</span><span class="w"> </span><span class="nc">TimeSeriesSplitter</span><span class="p">(</span><span class="n">Splitter</span><span class="p">):</span>
 </span><span id="TimeSeriesSplitter-115"><a href="#TimeSeriesSplitter-115"><span class="linenos">115</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Split a dataframe into fixed time series subsets.</span>
 </span><span id="TimeSeriesSplitter-116"><a href="#TimeSeriesSplitter-116"><span class="linenos">116</span></a>
 </span><span id="TimeSeriesSplitter-117"><a href="#TimeSeriesSplitter-117"><span class="linenos">117</span></a><span class="sd">    Parameters:</span>
@@ -768,7 +768,7 @@ e.g., split between a train/test subsets.</p>
 </span><span id="TimeSeriesSplitter-127"><a href="#TimeSeriesSplitter-127"><span class="linenos">127</span></a>    <span class="n">test_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">float</span> <span class="o">=</span> <span class="mi">24</span> <span class="o">*</span> <span class="mi">30</span> <span class="o">*</span> <span class="mi">2</span>  <span class="c1"># 2 months</span>
 </span><span id="TimeSeriesSplitter-128"><a href="#TimeSeriesSplitter-128"><span class="linenos">128</span></a>
 </span><span id="TimeSeriesSplitter-129"><a href="#TimeSeriesSplitter-129"><span class="linenos">129</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TimeSeriesSplitter-130"><a href="#TimeSeriesSplitter-130"><span class="linenos">130</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="TimeSeriesSplitter-130"><a href="#TimeSeriesSplitter-130"><span class="linenos">130</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="TimeSeriesSplitter-131"><a href="#TimeSeriesSplitter-131"><span class="linenos">131</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="TimeSeriesSplitter-132"><a href="#TimeSeriesSplitter-132"><span class="linenos">132</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="TimeSeriesSplitter-133"><a href="#TimeSeriesSplitter-133"><span class="linenos">133</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -780,7 +780,7 @@ e.g., split between a train/test subsets.</p>
 </span><span id="TimeSeriesSplitter-139"><a href="#TimeSeriesSplitter-139"><span class="linenos">139</span></a>        <span class="k">yield from</span> <span class="n">splitter</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">inputs</span><span class="p">)</span>
 </span><span id="TimeSeriesSplitter-140"><a href="#TimeSeriesSplitter-140"><span class="linenos">140</span></a>
 </span><span id="TimeSeriesSplitter-141"><a href="#TimeSeriesSplitter-141"><span class="linenos">141</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TimeSeriesSplitter-142"><a href="#TimeSeriesSplitter-142"><span class="linenos">142</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="TimeSeriesSplitter-142"><a href="#TimeSeriesSplitter-142"><span class="linenos">142</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="TimeSeriesSplitter-143"><a href="#TimeSeriesSplitter-143"><span class="linenos">143</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="TimeSeriesSplitter-144"><a href="#TimeSeriesSplitter-144"><span class="linenos">144</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="TimeSeriesSplitter-145"><a href="#TimeSeriesSplitter-145"><span class="linenos">145</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -859,7 +859,7 @@ e.g., split between a train/test subsets.</p>
     </div>
     <a class="headerlink" href="#TimeSeriesSplitter.split"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TimeSeriesSplitter.split-129"><a href="#TimeSeriesSplitter.split-129"><span class="linenos">129</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TimeSeriesSplitter.split-130"><a href="#TimeSeriesSplitter.split-130"><span class="linenos">130</span></a>    <span class="k">def</span> <span class="nf">split</span><span class="p">(</span>
+</span><span id="TimeSeriesSplitter.split-130"><a href="#TimeSeriesSplitter.split-130"><span class="linenos">130</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">split</span><span class="p">(</span>
 </span><span id="TimeSeriesSplitter.split-131"><a href="#TimeSeriesSplitter.split-131"><span class="linenos">131</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="TimeSeriesSplitter.split-132"><a href="#TimeSeriesSplitter.split-132"><span class="linenos">132</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="TimeSeriesSplitter.split-133"><a href="#TimeSeriesSplitter.split-133"><span class="linenos">133</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>
@@ -904,7 +904,7 @@ e.g., split between a train/test subsets.</p>
     </div>
     <a class="headerlink" href="#TimeSeriesSplitter.get_n_splits"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TimeSeriesSplitter.get_n_splits-141"><a href="#TimeSeriesSplitter.get_n_splits-141"><span class="linenos">141</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TimeSeriesSplitter.get_n_splits-142"><a href="#TimeSeriesSplitter.get_n_splits-142"><span class="linenos">142</span></a>    <span class="k">def</span> <span class="nf">get_n_splits</span><span class="p">(</span>
+</span><span id="TimeSeriesSplitter.get_n_splits-142"><a href="#TimeSeriesSplitter.get_n_splits-142"><span class="linenos">142</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_n_splits</span><span class="p">(</span>
 </span><span id="TimeSeriesSplitter.get_n_splits-143"><a href="#TimeSeriesSplitter.get_n_splits-143"><span class="linenos">143</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="TimeSeriesSplitter.get_n_splits-144"><a href="#TimeSeriesSplitter.get_n_splits-144"><span class="linenos">144</span></a>        <span class="n">inputs</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Inputs</span><span class="p">,</span>
 </span><span id="TimeSeriesSplitter.get_n_splits-145"><a href="#TimeSeriesSplitter.get_n_splits-145"><span class="linenos">145</span></a>        <span class="n">targets</span><span class="p">:</span> <span class="n">schemas</span><span class="o">.</span><span class="n">Targets</span><span class="p">,</span>

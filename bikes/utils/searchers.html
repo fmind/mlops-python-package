@@ -117,15 +117,15 @@
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
 </span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="c1"># %% IMPORTS</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">import</span> <span class="nn">abc</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">T</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span> <span class="nn">pydantic</span> <span class="k">as</span> <span class="nn">pdt</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">model_selection</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pdt</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn</span><span class="w"> </span><span class="kn">import</span> <span class="n">model_selection</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
-</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span> <span class="nn">bikes.core</span> <span class="kn">import</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">schemas</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span> <span class="nn">bikes.utils</span> <span class="kn">import</span> <span class="n">splitters</span>
+</span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.core</span><span class="w"> </span><span class="kn">import</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">models</span><span class="p">,</span> <span class="n">schemas</span>
+</span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">splitters</span>
 </span><span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a>
 </span><span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="c1"># %% TYPES</span>
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a>
@@ -145,7 +145,7 @@
 </span><span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="c1"># %% SEARCHERS</span>
 </span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="k">class</span> <span class="nc">Searcher</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
+</span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Searcher</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
 </span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a searcher.</span>
 </span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a>
 </span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a><span class="sd">    Use searcher to fine-tune models.</span>
@@ -160,7 +160,7 @@
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>    <span class="n">param_grid</span><span class="p">:</span> <span class="n">Grid</span>
 </span><span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>
 </span><span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+</span><span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
 </span><span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>        <span class="n">model</span><span class="p">:</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span>
 </span><span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>        <span class="n">metric</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">Metric</span><span class="p">,</span>
@@ -182,7 +182,7 @@
 </span><span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>
 </span><span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a>
-</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="k">class</span> <span class="nc">GridCVSearcher</span><span class="p">(</span><span class="n">Searcher</span><span class="p">):</span>
+</span><span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GridCVSearcher</span><span class="p">(</span><span class="n">Searcher</span><span class="p">):</span>
 </span><span id="L-71"><a href="#L-71"><span class="linenos"> 71</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Grid searcher with cross-fold validation.</span>
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a><span class="sd">    Convention: metric returns higher values for better models.</span>
@@ -204,7 +204,7 @@
 </span><span id="L-89"><a href="#L-89"><span class="linenos"> 89</span></a>    <span class="n">return_train_score</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 </span><span id="L-90"><a href="#L-90"><span class="linenos"> 90</span></a>
 </span><span id="L-91"><a href="#L-91"><span class="linenos"> 91</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+</span><span id="L-92"><a href="#L-92"><span class="linenos"> 92</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
 </span><span id="L-93"><a href="#L-93"><span class="linenos"> 93</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-94"><a href="#L-94"><span class="linenos"> 94</span></a>        <span class="n">model</span><span class="p">:</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span>
 </span><span id="L-95"><a href="#L-95"><span class="linenos"> 95</span></a>        <span class="n">metric</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">Metric</span><span class="p">,</span>
@@ -282,7 +282,7 @@
 
     </div>
     <a class="headerlink" href="#Searcher"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Searcher-34"><a href="#Searcher-34"><span class="linenos">34</span></a><span class="k">class</span> <span class="nc">Searcher</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Searcher-34"><a href="#Searcher-34"><span class="linenos">34</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Searcher</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
 </span><span id="Searcher-35"><a href="#Searcher-35"><span class="linenos">35</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a searcher.</span>
 </span><span id="Searcher-36"><a href="#Searcher-36"><span class="linenos">36</span></a>
 </span><span id="Searcher-37"><a href="#Searcher-37"><span class="linenos">37</span></a><span class="sd">    Use searcher to fine-tune models.</span>
@@ -297,7 +297,7 @@
 </span><span id="Searcher-46"><a href="#Searcher-46"><span class="linenos">46</span></a>    <span class="n">param_grid</span><span class="p">:</span> <span class="n">Grid</span>
 </span><span id="Searcher-47"><a href="#Searcher-47"><span class="linenos">47</span></a>
 </span><span id="Searcher-48"><a href="#Searcher-48"><span class="linenos">48</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Searcher-49"><a href="#Searcher-49"><span class="linenos">49</span></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+</span><span id="Searcher-49"><a href="#Searcher-49"><span class="linenos">49</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
 </span><span id="Searcher-50"><a href="#Searcher-50"><span class="linenos">50</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="Searcher-51"><a href="#Searcher-51"><span class="linenos">51</span></a>        <span class="n">model</span><span class="p">:</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span>
 </span><span id="Searcher-52"><a href="#Searcher-52"><span class="linenos">52</span></a>        <span class="n">metric</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">Metric</span><span class="p">,</span>
@@ -368,7 +368,7 @@ i.e., to find the best model params.</p>
     </div>
     <a class="headerlink" href="#Searcher.search"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Searcher.search-48"><a href="#Searcher.search-48"><span class="linenos">48</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Searcher.search-49"><a href="#Searcher.search-49"><span class="linenos">49</span></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+</span><span id="Searcher.search-49"><a href="#Searcher.search-49"><span class="linenos">49</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
 </span><span id="Searcher.search-50"><a href="#Searcher.search-50"><span class="linenos">50</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="Searcher.search-51"><a href="#Searcher.search-51"><span class="linenos">51</span></a>        <span class="n">model</span><span class="p">:</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span>
 </span><span id="Searcher.search-52"><a href="#Searcher.search-52"><span class="linenos">52</span></a>        <span class="n">metric</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">Metric</span><span class="p">,</span>
@@ -438,7 +438,7 @@ i.e., to find the best model params.</p>
 
     </div>
     <a class="headerlink" href="#GridCVSearcher"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="GridCVSearcher-71"><a href="#GridCVSearcher-71"><span class="linenos"> 71</span></a><span class="k">class</span> <span class="nc">GridCVSearcher</span><span class="p">(</span><span class="n">Searcher</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="GridCVSearcher-71"><a href="#GridCVSearcher-71"><span class="linenos"> 71</span></a><span class="k">class</span><span class="w"> </span><span class="nc">GridCVSearcher</span><span class="p">(</span><span class="n">Searcher</span><span class="p">):</span>
 </span><span id="GridCVSearcher-72"><a href="#GridCVSearcher-72"><span class="linenos"> 72</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Grid searcher with cross-fold validation.</span>
 </span><span id="GridCVSearcher-73"><a href="#GridCVSearcher-73"><span class="linenos"> 73</span></a>
 </span><span id="GridCVSearcher-74"><a href="#GridCVSearcher-74"><span class="linenos"> 74</span></a><span class="sd">    Convention: metric returns higher values for better models.</span>
@@ -460,7 +460,7 @@ i.e., to find the best model params.</p>
 </span><span id="GridCVSearcher-90"><a href="#GridCVSearcher-90"><span class="linenos"> 90</span></a>    <span class="n">return_train_score</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
 </span><span id="GridCVSearcher-91"><a href="#GridCVSearcher-91"><span class="linenos"> 91</span></a>
 </span><span id="GridCVSearcher-92"><a href="#GridCVSearcher-92"><span class="linenos"> 92</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="GridCVSearcher-93"><a href="#GridCVSearcher-93"><span class="linenos"> 93</span></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+</span><span id="GridCVSearcher-93"><a href="#GridCVSearcher-93"><span class="linenos"> 93</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
 </span><span id="GridCVSearcher-94"><a href="#GridCVSearcher-94"><span class="linenos"> 94</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="GridCVSearcher-95"><a href="#GridCVSearcher-95"><span class="linenos"> 95</span></a>        <span class="n">model</span><span class="p">:</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span>
 </span><span id="GridCVSearcher-96"><a href="#GridCVSearcher-96"><span class="linenos"> 96</span></a>        <span class="n">metric</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">Metric</span><span class="p">,</span>
@@ -580,7 +580,7 @@ i.e., to find the best model params.</p>
     </div>
     <a class="headerlink" href="#GridCVSearcher.search"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="GridCVSearcher.search-92"><a href="#GridCVSearcher.search-92"><span class="linenos"> 92</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="GridCVSearcher.search-93"><a href="#GridCVSearcher.search-93"><span class="linenos"> 93</span></a>    <span class="k">def</span> <span class="nf">search</span><span class="p">(</span>
+</span><span id="GridCVSearcher.search-93"><a href="#GridCVSearcher.search-93"><span class="linenos"> 93</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">search</span><span class="p">(</span>
 </span><span id="GridCVSearcher.search-94"><a href="#GridCVSearcher.search-94"><span class="linenos"> 94</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="GridCVSearcher.search-95"><a href="#GridCVSearcher.search-95"><span class="linenos"> 95</span></a>        <span class="n">model</span><span class="p">:</span> <span class="n">models</span><span class="o">.</span><span class="n">Model</span><span class="p">,</span>
 </span><span id="GridCVSearcher.search-96"><a href="#GridCVSearcher.search-96"><span class="linenos"> 96</span></a>        <span class="n">metric</span><span class="p">:</span> <span class="n">metrics</span><span class="o">.</span><span class="n">Metric</span><span class="p">,</span>

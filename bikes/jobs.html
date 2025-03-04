@@ -258,12 +258,12 @@
 </span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
 </span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="c1"># %% IMPORTS</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span> <span class="nn">bikes.jobs.evaluations</span> <span class="kn">import</span> <span class="n">EvaluationsJob</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span> <span class="nn">bikes.jobs.explanations</span> <span class="kn">import</span> <span class="n">ExplanationsJob</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span> <span class="nn">bikes.jobs.inference</span> <span class="kn">import</span> <span class="n">InferenceJob</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span> <span class="nn">bikes.jobs.promotion</span> <span class="kn">import</span> <span class="n">PromotionJob</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span> <span class="nn">bikes.jobs.training</span> <span class="kn">import</span> <span class="n">TrainingJob</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span> <span class="nn">bikes.jobs.tuning</span> <span class="kn">import</span> <span class="n">TuningJob</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.jobs.evaluations</span><span class="w"> </span><span class="kn">import</span> <span class="n">EvaluationsJob</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.jobs.explanations</span><span class="w"> </span><span class="kn">import</span> <span class="n">ExplanationsJob</span>
+</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.jobs.inference</span><span class="w"> </span><span class="kn">import</span> <span class="n">InferenceJob</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.jobs.promotion</span><span class="w"> </span><span class="kn">import</span> <span class="n">PromotionJob</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.jobs.training</span><span class="w"> </span><span class="kn">import</span> <span class="n">TrainingJob</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">bikes.jobs.tuning</span><span class="w"> </span><span class="kn">import</span> <span class="n">TuningJob</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a>
 </span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="c1"># %% TYPES</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
@@ -295,7 +295,7 @@
 
     </div>
     <a class="headerlink" href="#TuningJob"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="TuningJob-19"><a href="#TuningJob-19"><span class="linenos"> 19</span></a><span class="k">class</span> <span class="nc">TuningJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="TuningJob-19"><a href="#TuningJob-19"><span class="linenos"> 19</span></a><span class="k">class</span><span class="w"> </span><span class="nc">TuningJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
 </span><span id="TuningJob-20"><a href="#TuningJob-20"><span class="linenos"> 20</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the best hyperparameters for a model.</span>
 </span><span id="TuningJob-21"><a href="#TuningJob-21"><span class="linenos"> 21</span></a>
 </span><span id="TuningJob-22"><a href="#TuningJob-22"><span class="linenos"> 22</span></a><span class="sd">    Parameters:</span>
@@ -334,7 +334,7 @@
 </span><span id="TuningJob-55"><a href="#TuningJob-55"><span class="linenos"> 55</span></a>    <span class="p">)</span>
 </span><span id="TuningJob-56"><a href="#TuningJob-56"><span class="linenos"> 56</span></a>
 </span><span id="TuningJob-57"><a href="#TuningJob-57"><span class="linenos"> 57</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TuningJob-58"><a href="#TuningJob-58"><span class="linenos"> 58</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="TuningJob-58"><a href="#TuningJob-58"><span class="linenos"> 58</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="TuningJob-59"><a href="#TuningJob-59"><span class="linenos"> 59</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the tuning job in context.&quot;&quot;&quot;</span>
 </span><span id="TuningJob-60"><a href="#TuningJob-60"><span class="linenos"> 60</span></a>        <span class="c1"># services</span>
 </span><span id="TuningJob-61"><a href="#TuningJob-61"><span class="linenos"> 61</span></a>        <span class="c1"># - logger</span>
@@ -509,7 +509,7 @@
     </div>
     <a class="headerlink" href="#TuningJob.run"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TuningJob.run-57"><a href="#TuningJob.run-57"><span class="linenos"> 57</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TuningJob.run-58"><a href="#TuningJob.run-58"><span class="linenos"> 58</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="TuningJob.run-58"><a href="#TuningJob.run-58"><span class="linenos"> 58</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="TuningJob.run-59"><a href="#TuningJob.run-59"><span class="linenos"> 59</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the tuning job in context.&quot;&quot;&quot;</span>
 </span><span id="TuningJob.run-60"><a href="#TuningJob.run-60"><span class="linenos"> 60</span></a>        <span class="c1"># services</span>
 </span><span id="TuningJob.run-61"><a href="#TuningJob.run-61"><span class="linenos"> 61</span></a>        <span class="c1"># - logger</span>
@@ -598,7 +598,7 @@
 
     </div>
     <a class="headerlink" href="#TrainingJob"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="TrainingJob-20"><a href="#TrainingJob-20"><span class="linenos"> 20</span></a><span class="k">class</span> <span class="nc">TrainingJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="TrainingJob-20"><a href="#TrainingJob-20"><span class="linenos"> 20</span></a><span class="k">class</span><span class="w"> </span><span class="nc">TrainingJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
 </span><span id="TrainingJob-21"><a href="#TrainingJob-21"><span class="linenos"> 21</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Train and register a single AI/ML model.</span>
 </span><span id="TrainingJob-22"><a href="#TrainingJob-22"><span class="linenos"> 22</span></a>
 </span><span id="TrainingJob-23"><a href="#TrainingJob-23"><span class="linenos"> 23</span></a><span class="sd">    Parameters:</span>
@@ -637,7 +637,7 @@
 </span><span id="TrainingJob-56"><a href="#TrainingJob-56"><span class="linenos"> 56</span></a>    <span class="n">registry</span><span class="p">:</span> <span class="n">registries</span><span class="o">.</span><span class="n">RegisterKind</span> <span class="o">=</span> <span class="n">pdt</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">registries</span><span class="o">.</span><span class="n">MlflowRegister</span><span class="p">(),</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;KIND&quot;</span><span class="p">)</span>
 </span><span id="TrainingJob-57"><a href="#TrainingJob-57"><span class="linenos"> 57</span></a>
 </span><span id="TrainingJob-58"><a href="#TrainingJob-58"><span class="linenos"> 58</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TrainingJob-59"><a href="#TrainingJob-59"><span class="linenos"> 59</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="TrainingJob-59"><a href="#TrainingJob-59"><span class="linenos"> 59</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="TrainingJob-60"><a href="#TrainingJob-60"><span class="linenos"> 60</span></a>        <span class="c1"># services</span>
 </span><span id="TrainingJob-61"><a href="#TrainingJob-61"><span class="linenos"> 61</span></a>        <span class="c1"># - logger</span>
 </span><span id="TrainingJob-62"><a href="#TrainingJob-62"><span class="linenos"> 62</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
@@ -864,7 +864,7 @@
     </div>
     <a class="headerlink" href="#TrainingJob.run"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="TrainingJob.run-58"><a href="#TrainingJob.run-58"><span class="linenos"> 58</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="TrainingJob.run-59"><a href="#TrainingJob.run-59"><span class="linenos"> 59</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="TrainingJob.run-59"><a href="#TrainingJob.run-59"><span class="linenos"> 59</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="TrainingJob.run-60"><a href="#TrainingJob.run-60"><span class="linenos"> 60</span></a>        <span class="c1"># services</span>
 </span><span id="TrainingJob.run-61"><a href="#TrainingJob.run-61"><span class="linenos"> 61</span></a>        <span class="c1"># - logger</span>
 </span><span id="TrainingJob.run-62"><a href="#TrainingJob.run-62"><span class="linenos"> 62</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
@@ -987,7 +987,7 @@
 
     </div>
     <a class="headerlink" href="#PromotionJob"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="PromotionJob-13"><a href="#PromotionJob-13"><span class="linenos">13</span></a><span class="k">class</span> <span class="nc">PromotionJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="PromotionJob-13"><a href="#PromotionJob-13"><span class="linenos">13</span></a><span class="k">class</span><span class="w"> </span><span class="nc">PromotionJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
 </span><span id="PromotionJob-14"><a href="#PromotionJob-14"><span class="linenos">14</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Define a job for promoting a registered model version with an alias.</span>
 </span><span id="PromotionJob-15"><a href="#PromotionJob-15"><span class="linenos">15</span></a>
 </span><span id="PromotionJob-16"><a href="#PromotionJob-16"><span class="linenos">16</span></a><span class="sd">    https://mlflow.org/docs/latest/model-registry.html#concepts</span>
@@ -1003,7 +1003,7 @@
 </span><span id="PromotionJob-26"><a href="#PromotionJob-26"><span class="linenos">26</span></a>    <span class="n">version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="PromotionJob-27"><a href="#PromotionJob-27"><span class="linenos">27</span></a>
 </span><span id="PromotionJob-28"><a href="#PromotionJob-28"><span class="linenos">28</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="PromotionJob-29"><a href="#PromotionJob-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="PromotionJob-29"><a href="#PromotionJob-29"><span class="linenos">29</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="PromotionJob-30"><a href="#PromotionJob-30"><span class="linenos">30</span></a>        <span class="c1"># services</span>
 </span><span id="PromotionJob-31"><a href="#PromotionJob-31"><span class="linenos">31</span></a>        <span class="c1"># - logger</span>
 </span><span id="PromotionJob-32"><a href="#PromotionJob-32"><span class="linenos">32</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
@@ -1095,7 +1095,7 @@
     </div>
     <a class="headerlink" href="#PromotionJob.run"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="PromotionJob.run-28"><a href="#PromotionJob.run-28"><span class="linenos">28</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="PromotionJob.run-29"><a href="#PromotionJob.run-29"><span class="linenos">29</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="PromotionJob.run-29"><a href="#PromotionJob.run-29"><span class="linenos">29</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="PromotionJob.run-30"><a href="#PromotionJob.run-30"><span class="linenos">30</span></a>        <span class="c1"># services</span>
 </span><span id="PromotionJob.run-31"><a href="#PromotionJob.run-31"><span class="linenos">31</span></a>        <span class="c1"># - logger</span>
 </span><span id="PromotionJob.run-32"><a href="#PromotionJob.run-32"><span class="linenos">32</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
@@ -1165,7 +1165,7 @@
 
     </div>
     <a class="headerlink" href="#InferenceJob"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="InferenceJob-17"><a href="#InferenceJob-17"><span class="linenos">17</span></a><span class="k">class</span> <span class="nc">InferenceJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="InferenceJob-17"><a href="#InferenceJob-17"><span class="linenos">17</span></a><span class="k">class</span><span class="w"> </span><span class="nc">InferenceJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
 </span><span id="InferenceJob-18"><a href="#InferenceJob-18"><span class="linenos">18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate batch predictions from a registered model.</span>
 </span><span id="InferenceJob-19"><a href="#InferenceJob-19"><span class="linenos">19</span></a>
 </span><span id="InferenceJob-20"><a href="#InferenceJob-20"><span class="linenos">20</span></a><span class="sd">    Parameters:</span>
@@ -1187,7 +1187,7 @@
 </span><span id="InferenceJob-36"><a href="#InferenceJob-36"><span class="linenos">36</span></a>    <span class="n">loader</span><span class="p">:</span> <span class="n">registries</span><span class="o">.</span><span class="n">LoaderKind</span> <span class="o">=</span> <span class="n">pdt</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">registries</span><span class="o">.</span><span class="n">CustomLoader</span><span class="p">(),</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;KIND&quot;</span><span class="p">)</span>
 </span><span id="InferenceJob-37"><a href="#InferenceJob-37"><span class="linenos">37</span></a>
 </span><span id="InferenceJob-38"><a href="#InferenceJob-38"><span class="linenos">38</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="InferenceJob-39"><a href="#InferenceJob-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="InferenceJob-39"><a href="#InferenceJob-39"><span class="linenos">39</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="InferenceJob-40"><a href="#InferenceJob-40"><span class="linenos">40</span></a>        <span class="c1"># services</span>
 </span><span id="InferenceJob-41"><a href="#InferenceJob-41"><span class="linenos">41</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
 </span><span id="InferenceJob-42"><a href="#InferenceJob-42"><span class="linenos">42</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;With logger: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
@@ -1303,7 +1303,7 @@
     </div>
     <a class="headerlink" href="#InferenceJob.run"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="InferenceJob.run-38"><a href="#InferenceJob.run-38"><span class="linenos">38</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="InferenceJob.run-39"><a href="#InferenceJob.run-39"><span class="linenos">39</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="InferenceJob.run-39"><a href="#InferenceJob.run-39"><span class="linenos">39</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="InferenceJob.run-40"><a href="#InferenceJob.run-40"><span class="linenos">40</span></a>        <span class="c1"># services</span>
 </span><span id="InferenceJob.run-41"><a href="#InferenceJob.run-41"><span class="linenos">41</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
 </span><span id="InferenceJob.run-42"><a href="#InferenceJob.run-42"><span class="linenos">42</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;With logger: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
@@ -1375,7 +1375,7 @@
 
     </div>
     <a class="headerlink" href="#EvaluationsJob"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="EvaluationsJob-20"><a href="#EvaluationsJob-20"><span class="linenos"> 20</span></a><span class="k">class</span> <span class="nc">EvaluationsJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="EvaluationsJob-20"><a href="#EvaluationsJob-20"><span class="linenos"> 20</span></a><span class="k">class</span><span class="w"> </span><span class="nc">EvaluationsJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
 </span><span id="EvaluationsJob-21"><a href="#EvaluationsJob-21"><span class="linenos"> 21</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate evaluations from a registered model and a dataset.</span>
 </span><span id="EvaluationsJob-22"><a href="#EvaluationsJob-22"><span class="linenos"> 22</span></a>
 </span><span id="EvaluationsJob-23"><a href="#EvaluationsJob-23"><span class="linenos"> 23</span></a><span class="sd">    Parameters:</span>
@@ -1413,7 +1413,7 @@
 </span><span id="EvaluationsJob-55"><a href="#EvaluationsJob-55"><span class="linenos"> 55</span></a>    <span class="p">}</span>
 </span><span id="EvaluationsJob-56"><a href="#EvaluationsJob-56"><span class="linenos"> 56</span></a>
 </span><span id="EvaluationsJob-57"><a href="#EvaluationsJob-57"><span class="linenos"> 57</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="EvaluationsJob-58"><a href="#EvaluationsJob-58"><span class="linenos"> 58</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="EvaluationsJob-58"><a href="#EvaluationsJob-58"><span class="linenos"> 58</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="EvaluationsJob-59"><a href="#EvaluationsJob-59"><span class="linenos"> 59</span></a>        <span class="c1"># services</span>
 </span><span id="EvaluationsJob-60"><a href="#EvaluationsJob-60"><span class="linenos"> 60</span></a>        <span class="c1"># - logger</span>
 </span><span id="EvaluationsJob-61"><a href="#EvaluationsJob-61"><span class="linenos"> 61</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
@@ -1641,7 +1641,7 @@
     </div>
     <a class="headerlink" href="#EvaluationsJob.run"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="EvaluationsJob.run-57"><a href="#EvaluationsJob.run-57"><span class="linenos"> 57</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="EvaluationsJob.run-58"><a href="#EvaluationsJob.run-58"><span class="linenos"> 58</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="EvaluationsJob.run-58"><a href="#EvaluationsJob.run-58"><span class="linenos"> 58</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="EvaluationsJob.run-59"><a href="#EvaluationsJob.run-59"><span class="linenos"> 59</span></a>        <span class="c1"># services</span>
 </span><span id="EvaluationsJob.run-60"><a href="#EvaluationsJob.run-60"><span class="linenos"> 60</span></a>        <span class="c1"># - logger</span>
 </span><span id="EvaluationsJob.run-61"><a href="#EvaluationsJob.run-61"><span class="linenos"> 61</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
@@ -1766,7 +1766,7 @@
 
     </div>
     <a class="headerlink" href="#ExplanationsJob"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ExplanationsJob-17"><a href="#ExplanationsJob-17"><span class="linenos">17</span></a><span class="k">class</span> <span class="nc">ExplanationsJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ExplanationsJob-17"><a href="#ExplanationsJob-17"><span class="linenos">17</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ExplanationsJob</span><span class="p">(</span><span class="n">base</span><span class="o">.</span><span class="n">Job</span><span class="p">):</span>
 </span><span id="ExplanationsJob-18"><a href="#ExplanationsJob-18"><span class="linenos">18</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate explanations from the model and a data sample.</span>
 </span><span id="ExplanationsJob-19"><a href="#ExplanationsJob-19"><span class="linenos">19</span></a>
 </span><span id="ExplanationsJob-20"><a href="#ExplanationsJob-20"><span class="linenos">20</span></a><span class="sd">    Parameters:</span>
@@ -1790,7 +1790,7 @@
 </span><span id="ExplanationsJob-38"><a href="#ExplanationsJob-38"><span class="linenos">38</span></a>    <span class="n">loader</span><span class="p">:</span> <span class="n">registries</span><span class="o">.</span><span class="n">LoaderKind</span> <span class="o">=</span> <span class="n">pdt</span><span class="o">.</span><span class="n">Field</span><span class="p">(</span><span class="n">registries</span><span class="o">.</span><span class="n">CustomLoader</span><span class="p">(),</span> <span class="n">discriminator</span><span class="o">=</span><span class="s2">&quot;KIND&quot;</span><span class="p">)</span>
 </span><span id="ExplanationsJob-39"><a href="#ExplanationsJob-39"><span class="linenos">39</span></a>
 </span><span id="ExplanationsJob-40"><a href="#ExplanationsJob-40"><span class="linenos">40</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="ExplanationsJob-41"><a href="#ExplanationsJob-41"><span class="linenos">41</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="ExplanationsJob-41"><a href="#ExplanationsJob-41"><span class="linenos">41</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="ExplanationsJob-42"><a href="#ExplanationsJob-42"><span class="linenos">42</span></a>        <span class="c1"># services</span>
 </span><span id="ExplanationsJob-43"><a href="#ExplanationsJob-43"><span class="linenos">43</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
 </span><span id="ExplanationsJob-44"><a href="#ExplanationsJob-44"><span class="linenos">44</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;With logger: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>
@@ -1928,7 +1928,7 @@
     </div>
     <a class="headerlink" href="#ExplanationsJob.run"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="ExplanationsJob.run-40"><a href="#ExplanationsJob.run-40"><span class="linenos">40</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="ExplanationsJob.run-41"><a href="#ExplanationsJob.run-41"><span class="linenos">41</span></a>    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
+</span><span id="ExplanationsJob.run-41"><a href="#ExplanationsJob.run-41"><span class="linenos">41</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">Locals</span><span class="p">:</span>
 </span><span id="ExplanationsJob.run-42"><a href="#ExplanationsJob.run-42"><span class="linenos">42</span></a>        <span class="c1"># services</span>
 </span><span id="ExplanationsJob.run-43"><a href="#ExplanationsJob.run-43"><span class="linenos">43</span></a>        <span class="n">logger</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">logger_service</span><span class="o">.</span><span class="n">logger</span><span class="p">()</span>
 </span><span id="ExplanationsJob.run-44"><a href="#ExplanationsJob.run-44"><span class="linenos">44</span></a>        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;With logger: </span><span class="si">{}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">logger</span><span class="p">)</span>

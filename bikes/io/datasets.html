@@ -144,12 +144,12 @@
 </span><span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a>
 </span><span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="c1"># %% IMPORTS</span>
 </span><span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">import</span> <span class="nn">abc</span>
-</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">import</span> <span class="nn">typing</span> <span class="k">as</span> <span class="nn">T</span>
+</span><span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+</span><span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">T</span>
 </span><span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a>
-</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">import</span> <span class="nn">mlflow.data.pandas_dataset</span> <span class="k">as</span> <span class="nn">lineage</span>
-</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">import</span> <span class="nn">pydantic</span> <span class="k">as</span> <span class="nn">pdt</span>
+</span><span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">mlflow.data.pandas_dataset</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">lineage</span>
+</span><span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+</span><span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pdt</span>
 </span><span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a>
 </span><span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a><span class="c1"># %% TYPINGS</span>
 </span><span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a>
@@ -158,7 +158,7 @@
 </span><span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="c1"># %% READERS</span>
 </span><span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a>
 </span><span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a>
-</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="k">class</span> <span class="nc">Reader</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
+</span><span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Reader</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
 </span><span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a dataset reader.</span>
 </span><span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a>
 </span><span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a><span class="sd">    Use a reader to load a dataset in memory.</span>
@@ -173,7 +173,7 @@
 </span><span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a>    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a>
 </span><span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 </span><span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Read a dataframe from a dataset.</span>
 </span><span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>
 </span><span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a><span class="sd">        Returns:</span>
@@ -181,7 +181,7 @@
 </span><span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>
 </span><span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>    <span class="k">def</span> <span class="nf">lineage</span><span class="p">(</span>
+</span><span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">lineage</span><span class="p">(</span>
 </span><span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 </span><span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>        <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -201,7 +201,7 @@
 </span><span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>
 </span><span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a>
-</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="k">class</span> <span class="nc">ParquetReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+</span><span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ParquetReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
 </span><span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a dataframe from a parquet file.</span>
 </span><span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>
 </span><span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a><span class="sd">    Parameters:</span>
@@ -214,15 +214,15 @@
 </span><span id="L-72"><a href="#L-72"><span class="linenos"> 72</span></a>    <span class="n">backend</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;pyarrow&quot;</span><span class="p">,</span> <span class="s2">&quot;numpy_nullable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;pyarrow&quot;</span>
 </span><span id="L-73"><a href="#L-73"><span class="linenos"> 73</span></a>
 </span><span id="L-74"><a href="#L-74"><span class="linenos"> 74</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="L-75"><a href="#L-75"><span class="linenos"> 75</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 </span><span id="L-76"><a href="#L-76"><span class="linenos"> 76</span></a>        <span class="c1"># can&#39;t limit rows at read time</span>
-</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype_backend</span><span class="o">=</span><span class="s2">&quot;pyarrow&quot;</span><span class="p">)</span>
+</span><span id="L-77"><a href="#L-77"><span class="linenos"> 77</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype_backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
 </span><span id="L-78"><a href="#L-78"><span class="linenos"> 78</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-79"><a href="#L-79"><span class="linenos"> 79</span></a>            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">)</span>
 </span><span id="L-80"><a href="#L-80"><span class="linenos"> 80</span></a>        <span class="k">return</span> <span class="n">data</span>
 </span><span id="L-81"><a href="#L-81"><span class="linenos"> 81</span></a>
 </span><span id="L-82"><a href="#L-82"><span class="linenos"> 82</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>    <span class="k">def</span> <span class="nf">lineage</span><span class="p">(</span>
+</span><span id="L-83"><a href="#L-83"><span class="linenos"> 83</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">lineage</span><span class="p">(</span>
 </span><span id="L-84"><a href="#L-84"><span class="linenos"> 84</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="L-85"><a href="#L-85"><span class="linenos"> 85</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 </span><span id="L-86"><a href="#L-86"><span class="linenos"> 86</span></a>        <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -243,7 +243,7 @@
 </span><span id="L-101"><a href="#L-101"><span class="linenos">101</span></a><span class="c1"># %% WRITERS</span>
 </span><span id="L-102"><a href="#L-102"><span class="linenos">102</span></a>
 </span><span id="L-103"><a href="#L-103"><span class="linenos">103</span></a>
-</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="k">class</span> <span class="nc">Writer</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
+</span><span id="L-104"><a href="#L-104"><span class="linenos">104</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Writer</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
 </span><span id="L-105"><a href="#L-105"><span class="linenos">105</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a dataset writer.</span>
 </span><span id="L-106"><a href="#L-106"><span class="linenos">106</span></a>
 </span><span id="L-107"><a href="#L-107"><span class="linenos">107</span></a><span class="sd">    Use a writer to save a dataset from memory.</span>
@@ -253,7 +253,7 @@
 </span><span id="L-111"><a href="#L-111"><span class="linenos">111</span></a>    <span class="n">KIND</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="L-112"><a href="#L-112"><span class="linenos">112</span></a>
 </span><span id="L-113"><a href="#L-113"><span class="linenos">113</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-114"><a href="#L-114"><span class="linenos">114</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-115"><a href="#L-115"><span class="linenos">115</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Write a dataframe to a dataset.</span>
 </span><span id="L-116"><a href="#L-116"><span class="linenos">116</span></a>
 </span><span id="L-117"><a href="#L-117"><span class="linenos">117</span></a><span class="sd">        Args:</span>
@@ -261,7 +261,7 @@
 </span><span id="L-119"><a href="#L-119"><span class="linenos">119</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="L-120"><a href="#L-120"><span class="linenos">120</span></a>
 </span><span id="L-121"><a href="#L-121"><span class="linenos">121</span></a>
-</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="k">class</span> <span class="nc">ParquetWriter</span><span class="p">(</span><span class="n">Writer</span><span class="p">):</span>
+</span><span id="L-122"><a href="#L-122"><span class="linenos">122</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ParquetWriter</span><span class="p">(</span><span class="n">Writer</span><span class="p">):</span>
 </span><span id="L-123"><a href="#L-123"><span class="linenos">123</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Writer a dataframe to a parquet file.</span>
 </span><span id="L-124"><a href="#L-124"><span class="linenos">124</span></a>
 </span><span id="L-125"><a href="#L-125"><span class="linenos">125</span></a><span class="sd">    Parameters:</span>
@@ -273,7 +273,7 @@
 </span><span id="L-131"><a href="#L-131"><span class="linenos">131</span></a>    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="L-132"><a href="#L-132"><span class="linenos">132</span></a>
 </span><span id="L-133"><a href="#L-133"><span class="linenos">133</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="L-134"><a href="#L-134"><span class="linenos">134</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="L-135"><a href="#L-135"><span class="linenos">135</span></a>        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 </span><span id="L-136"><a href="#L-136"><span class="linenos">136</span></a>
 </span><span id="L-137"><a href="#L-137"><span class="linenos">137</span></a>
@@ -305,7 +305,7 @@
 
     </div>
     <a class="headerlink" href="#Reader"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Reader-20"><a href="#Reader-20"><span class="linenos">20</span></a><span class="k">class</span> <span class="nc">Reader</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Reader-20"><a href="#Reader-20"><span class="linenos">20</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Reader</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
 </span><span id="Reader-21"><a href="#Reader-21"><span class="linenos">21</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a dataset reader.</span>
 </span><span id="Reader-22"><a href="#Reader-22"><span class="linenos">22</span></a>
 </span><span id="Reader-23"><a href="#Reader-23"><span class="linenos">23</span></a><span class="sd">    Use a reader to load a dataset in memory.</span>
@@ -320,7 +320,7 @@
 </span><span id="Reader-32"><a href="#Reader-32"><span class="linenos">32</span></a>    <span class="n">limit</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 </span><span id="Reader-33"><a href="#Reader-33"><span class="linenos">33</span></a>
 </span><span id="Reader-34"><a href="#Reader-34"><span class="linenos">34</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Reader-35"><a href="#Reader-35"><span class="linenos">35</span></a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="Reader-35"><a href="#Reader-35"><span class="linenos">35</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 </span><span id="Reader-36"><a href="#Reader-36"><span class="linenos">36</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Read a dataframe from a dataset.</span>
 </span><span id="Reader-37"><a href="#Reader-37"><span class="linenos">37</span></a>
 </span><span id="Reader-38"><a href="#Reader-38"><span class="linenos">38</span></a><span class="sd">        Returns:</span>
@@ -328,7 +328,7 @@
 </span><span id="Reader-40"><a href="#Reader-40"><span class="linenos">40</span></a><span class="sd">        &quot;&quot;&quot;</span>
 </span><span id="Reader-41"><a href="#Reader-41"><span class="linenos">41</span></a>
 </span><span id="Reader-42"><a href="#Reader-42"><span class="linenos">42</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Reader-43"><a href="#Reader-43"><span class="linenos">43</span></a>    <span class="k">def</span> <span class="nf">lineage</span><span class="p">(</span>
+</span><span id="Reader-43"><a href="#Reader-43"><span class="linenos">43</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">lineage</span><span class="p">(</span>
 </span><span id="Reader-44"><a href="#Reader-44"><span class="linenos">44</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="Reader-45"><a href="#Reader-45"><span class="linenos">45</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 </span><span id="Reader-46"><a href="#Reader-46"><span class="linenos">46</span></a>        <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -397,7 +397,7 @@ e.g., to read file, database, cloud storage, ...</p>
     </div>
     <a class="headerlink" href="#Reader.read"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Reader.read-34"><a href="#Reader.read-34"><span class="linenos">34</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Reader.read-35"><a href="#Reader.read-35"><span class="linenos">35</span></a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="Reader.read-35"><a href="#Reader.read-35"><span class="linenos">35</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 </span><span id="Reader.read-36"><a href="#Reader.read-36"><span class="linenos">36</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Read a dataframe from a dataset.</span>
 </span><span id="Reader.read-37"><a href="#Reader.read-37"><span class="linenos">37</span></a>
 </span><span id="Reader.read-38"><a href="#Reader.read-38"><span class="linenos">38</span></a><span class="sd">        Returns:</span>
@@ -430,7 +430,7 @@ e.g., to read file, database, cloud storage, ...</p>
     </div>
     <a class="headerlink" href="#Reader.lineage"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Reader.lineage-42"><a href="#Reader.lineage-42"><span class="linenos">42</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Reader.lineage-43"><a href="#Reader.lineage-43"><span class="linenos">43</span></a>    <span class="k">def</span> <span class="nf">lineage</span><span class="p">(</span>
+</span><span id="Reader.lineage-43"><a href="#Reader.lineage-43"><span class="linenos">43</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">lineage</span><span class="p">(</span>
 </span><span id="Reader.lineage-44"><a href="#Reader.lineage-44"><span class="linenos">44</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="Reader.lineage-45"><a href="#Reader.lineage-45"><span class="linenos">45</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 </span><span id="Reader.lineage-46"><a href="#Reader.lineage-46"><span class="linenos">46</span></a>        <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -497,7 +497,7 @@ e.g., to read file, database, cloud storage, ...</p>
 
     </div>
     <a class="headerlink" href="#ParquetReader"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ParquetReader-63"><a href="#ParquetReader-63"><span class="linenos">63</span></a><span class="k">class</span> <span class="nc">ParquetReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ParquetReader-63"><a href="#ParquetReader-63"><span class="linenos">63</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ParquetReader</span><span class="p">(</span><span class="n">Reader</span><span class="p">):</span>
 </span><span id="ParquetReader-64"><a href="#ParquetReader-64"><span class="linenos">64</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a dataframe from a parquet file.</span>
 </span><span id="ParquetReader-65"><a href="#ParquetReader-65"><span class="linenos">65</span></a>
 </span><span id="ParquetReader-66"><a href="#ParquetReader-66"><span class="linenos">66</span></a><span class="sd">    Parameters:</span>
@@ -510,15 +510,15 @@ e.g., to read file, database, cloud storage, ...</p>
 </span><span id="ParquetReader-73"><a href="#ParquetReader-73"><span class="linenos">73</span></a>    <span class="n">backend</span><span class="p">:</span> <span class="n">T</span><span class="o">.</span><span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;pyarrow&quot;</span><span class="p">,</span> <span class="s2">&quot;numpy_nullable&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;pyarrow&quot;</span>
 </span><span id="ParquetReader-74"><a href="#ParquetReader-74"><span class="linenos">74</span></a>
 </span><span id="ParquetReader-75"><a href="#ParquetReader-75"><span class="linenos">75</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="ParquetReader-76"><a href="#ParquetReader-76"><span class="linenos">76</span></a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="ParquetReader-76"><a href="#ParquetReader-76"><span class="linenos">76</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 </span><span id="ParquetReader-77"><a href="#ParquetReader-77"><span class="linenos">77</span></a>        <span class="c1"># can&#39;t limit rows at read time</span>
-</span><span id="ParquetReader-78"><a href="#ParquetReader-78"><span class="linenos">78</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype_backend</span><span class="o">=</span><span class="s2">&quot;pyarrow&quot;</span><span class="p">)</span>
+</span><span id="ParquetReader-78"><a href="#ParquetReader-78"><span class="linenos">78</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype_backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
 </span><span id="ParquetReader-79"><a href="#ParquetReader-79"><span class="linenos">79</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="ParquetReader-80"><a href="#ParquetReader-80"><span class="linenos">80</span></a>            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">)</span>
 </span><span id="ParquetReader-81"><a href="#ParquetReader-81"><span class="linenos">81</span></a>        <span class="k">return</span> <span class="n">data</span>
 </span><span id="ParquetReader-82"><a href="#ParquetReader-82"><span class="linenos">82</span></a>
 </span><span id="ParquetReader-83"><a href="#ParquetReader-83"><span class="linenos">83</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="ParquetReader-84"><a href="#ParquetReader-84"><span class="linenos">84</span></a>    <span class="k">def</span> <span class="nf">lineage</span><span class="p">(</span>
+</span><span id="ParquetReader-84"><a href="#ParquetReader-84"><span class="linenos">84</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">lineage</span><span class="p">(</span>
 </span><span id="ParquetReader-85"><a href="#ParquetReader-85"><span class="linenos">85</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="ParquetReader-86"><a href="#ParquetReader-86"><span class="linenos">86</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 </span><span id="ParquetReader-87"><a href="#ParquetReader-87"><span class="linenos">87</span></a>        <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -591,9 +591,9 @@ e.g., to read file, database, cloud storage, ...</p>
     </div>
     <a class="headerlink" href="#ParquetReader.read"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="ParquetReader.read-75"><a href="#ParquetReader.read-75"><span class="linenos">75</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="ParquetReader.read-76"><a href="#ParquetReader.read-76"><span class="linenos">76</span></a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
+</span><span id="ParquetReader.read-76"><a href="#ParquetReader.read-76"><span class="linenos">76</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">:</span>
 </span><span id="ParquetReader.read-77"><a href="#ParquetReader.read-77"><span class="linenos">77</span></a>        <span class="c1"># can&#39;t limit rows at read time</span>
-</span><span id="ParquetReader.read-78"><a href="#ParquetReader.read-78"><span class="linenos">78</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype_backend</span><span class="o">=</span><span class="s2">&quot;pyarrow&quot;</span><span class="p">)</span>
+</span><span id="ParquetReader.read-78"><a href="#ParquetReader.read-78"><span class="linenos">78</span></a>        <span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_parquet</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">dtype_backend</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">backend</span><span class="p">)</span>
 </span><span id="ParquetReader.read-79"><a href="#ParquetReader.read-79"><span class="linenos">79</span></a>        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">limit</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="ParquetReader.read-80"><a href="#ParquetReader.read-80"><span class="linenos">80</span></a>            <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">limit</span><span class="p">)</span>
 </span><span id="ParquetReader.read-81"><a href="#ParquetReader.read-81"><span class="linenos">81</span></a>        <span class="k">return</span> <span class="n">data</span>
@@ -624,7 +624,7 @@ e.g., to read file, database, cloud storage, ...</p>
     </div>
     <a class="headerlink" href="#ParquetReader.lineage"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="ParquetReader.lineage-83"><a href="#ParquetReader.lineage-83"><span class="linenos">83</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="ParquetReader.lineage-84"><a href="#ParquetReader.lineage-84"><span class="linenos">84</span></a>    <span class="k">def</span> <span class="nf">lineage</span><span class="p">(</span>
+</span><span id="ParquetReader.lineage-84"><a href="#ParquetReader.lineage-84"><span class="linenos">84</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">lineage</span><span class="p">(</span>
 </span><span id="ParquetReader.lineage-85"><a href="#ParquetReader.lineage-85"><span class="linenos">85</span></a>        <span class="bp">self</span><span class="p">,</span>
 </span><span id="ParquetReader.lineage-86"><a href="#ParquetReader.lineage-86"><span class="linenos">86</span></a>        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
 </span><span id="ParquetReader.lineage-87"><a href="#ParquetReader.lineage-87"><span class="linenos">87</span></a>        <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">,</span>
@@ -708,7 +708,7 @@ e.g., to read file, database, cloud storage, ...</p>
 
     </div>
     <a class="headerlink" href="#Writer"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="Writer-105"><a href="#Writer-105"><span class="linenos">105</span></a><span class="k">class</span> <span class="nc">Writer</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="Writer-105"><a href="#Writer-105"><span class="linenos">105</span></a><span class="k">class</span><span class="w"> </span><span class="nc">Writer</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">,</span> <span class="n">pdt</span><span class="o">.</span><span class="n">BaseModel</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">frozen</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="s2">&quot;forbid&quot;</span><span class="p">):</span>
 </span><span id="Writer-106"><a href="#Writer-106"><span class="linenos">106</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for a dataset writer.</span>
 </span><span id="Writer-107"><a href="#Writer-107"><span class="linenos">107</span></a>
 </span><span id="Writer-108"><a href="#Writer-108"><span class="linenos">108</span></a><span class="sd">    Use a writer to save a dataset from memory.</span>
@@ -718,7 +718,7 @@ e.g., to read file, database, cloud storage, ...</p>
 </span><span id="Writer-112"><a href="#Writer-112"><span class="linenos">112</span></a>    <span class="n">KIND</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="Writer-113"><a href="#Writer-113"><span class="linenos">113</span></a>
 </span><span id="Writer-114"><a href="#Writer-114"><span class="linenos">114</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Writer-115"><a href="#Writer-115"><span class="linenos">115</span></a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Writer-115"><a href="#Writer-115"><span class="linenos">115</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="Writer-116"><a href="#Writer-116"><span class="linenos">116</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Write a dataframe to a dataset.</span>
 </span><span id="Writer-117"><a href="#Writer-117"><span class="linenos">117</span></a>
 </span><span id="Writer-118"><a href="#Writer-118"><span class="linenos">118</span></a><span class="sd">        Args:</span>
@@ -758,7 +758,7 @@ e.g., to write file, database, cloud storage, ...</p>
     </div>
     <a class="headerlink" href="#Writer.write"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="Writer.write-114"><a href="#Writer.write-114"><span class="linenos">114</span></a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-</span><span id="Writer.write-115"><a href="#Writer.write-115"><span class="linenos">115</span></a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="Writer.write-115"><a href="#Writer.write-115"><span class="linenos">115</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="Writer.write-116"><a href="#Writer.write-116"><span class="linenos">116</span></a><span class="w">        </span><span class="sd">&quot;&quot;&quot;Write a dataframe to a dataset.</span>
 </span><span id="Writer.write-117"><a href="#Writer.write-117"><span class="linenos">117</span></a>
 </span><span id="Writer.write-118"><a href="#Writer.write-118"><span class="linenos">118</span></a><span class="sd">        Args:</span>
@@ -804,7 +804,7 @@ e.g., to write file, database, cloud storage, ...</p>
 
     </div>
     <a class="headerlink" href="#ParquetWriter"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="ParquetWriter-123"><a href="#ParquetWriter-123"><span class="linenos">123</span></a><span class="k">class</span> <span class="nc">ParquetWriter</span><span class="p">(</span><span class="n">Writer</span><span class="p">):</span>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="ParquetWriter-123"><a href="#ParquetWriter-123"><span class="linenos">123</span></a><span class="k">class</span><span class="w"> </span><span class="nc">ParquetWriter</span><span class="p">(</span><span class="n">Writer</span><span class="p">):</span>
 </span><span id="ParquetWriter-124"><a href="#ParquetWriter-124"><span class="linenos">124</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Writer a dataframe to a parquet file.</span>
 </span><span id="ParquetWriter-125"><a href="#ParquetWriter-125"><span class="linenos">125</span></a>
 </span><span id="ParquetWriter-126"><a href="#ParquetWriter-126"><span class="linenos">126</span></a><span class="sd">    Parameters:</span>
@@ -816,7 +816,7 @@ e.g., to write file, database, cloud storage, ...</p>
 </span><span id="ParquetWriter-132"><a href="#ParquetWriter-132"><span class="linenos">132</span></a>    <span class="n">path</span><span class="p">:</span> <span class="nb">str</span>
 </span><span id="ParquetWriter-133"><a href="#ParquetWriter-133"><span class="linenos">133</span></a>
 </span><span id="ParquetWriter-134"><a href="#ParquetWriter-134"><span class="linenos">134</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="ParquetWriter-135"><a href="#ParquetWriter-135"><span class="linenos">135</span></a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ParquetWriter-135"><a href="#ParquetWriter-135"><span class="linenos">135</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="ParquetWriter-136"><a href="#ParquetWriter-136"><span class="linenos">136</span></a>        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 </span></pre></div>
 
@@ -866,7 +866,7 @@ e.g., to write file, database, cloud storage, ...</p>
     </div>
     <a class="headerlink" href="#ParquetWriter.write"></a>
             <div class="pdoc-code codehilite"><pre><span></span><span id="ParquetWriter.write-134"><a href="#ParquetWriter.write-134"><span class="linenos">134</span></a>    <span class="nd">@T</span><span class="o">.</span><span class="n">override</span>
-</span><span id="ParquetWriter.write-135"><a href="#ParquetWriter.write-135"><span class="linenos">135</span></a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="ParquetWriter.write-135"><a href="#ParquetWriter.write-135"><span class="linenos">135</span></a>    <span class="k">def</span><span class="w"> </span><span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 </span><span id="ParquetWriter.write-136"><a href="#ParquetWriter.write-136"><span class="linenos">136</span></a>        <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="o">.</span><span class="n">to_parquet</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
 </span></pre></div>
 
