@@ -1,3 +1,19 @@
+## v4.1.0 (2025-03-05)
+
+### Feat
+
+- **gemini**: add support for gemini code assist (#51)
+- **dependabot**: add dependabot configuration file (#50)
+- **github**: add default rulesets and installation (#47)
+
+### Fix
+
+- **workflows**: fix just in workflows
+
+### Refactor
+
+- **cruft**: update to new template version
+
 ## v4.0.0 (2025-03-04)
 
 ### Feat
