@@ -287,6 +287,7 @@ format-source # format code source
 install # run install tasks
 install-hooks # install git hooks
 install-project # install the project
+install-rulesets # install github rulesets
 
 [mlflow]
 mlflow # run mlflow tasks
