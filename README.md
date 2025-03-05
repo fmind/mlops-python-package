@@ -34,7 +34,9 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
   - [Workflows](#workflows)
 - [Tools](#tools)
   - [Automation](#automation-1)
+    - [AI Assistant: Gemini Code Assist](#ai-assistant-gemini-code-assist)
     - [Commits: Commitizen](#commits-commitizen)
+    - [Dependabot: Dependabot](#dependabot-dependabot)
     - [Git Hooks: Pre-Commit](#git-hooks-pre-commit)
     - [Tasks: Just](#tasks-just)
   - [CI/CD](#cicd)
@@ -287,6 +289,7 @@ format-source # format code source
 install # run install tasks
 install-hooks # install git hooks
 install-project # install the project
+install-rulesets # install github rulesets
 
 [mlflow]
 mlflow # run mlflow tasks
@@ -321,6 +324,15 @@ This sections motivates the use of developer tools to improve your coding experi
 
 Pre-defined actions to automate your project development.
 
+### AI Assistant: [Gemini Code Assist](https://developers.google.com/gemini-code-assist/docs/review-github-code)
+
+- **Motivations**:
+  - Increase your coding productivity
+  - Get code suggestions and completions
+  - Reduce the time spent on reviewing code
+- **Limitations**:
+  - Can generate wrong code, reviews, or summaries
+
 ### Commits: [Commitizen](https://commitizen-tools.github.io/commitizen/)
 
 - **Motivations**:
@@ -329,6 +341,17 @@ Pre-defined actions to automate your project development.
   - Integrate well with [SemVer](https://semver.org/) and [PEP 440](https://peps.python.org/pep-0440/)
 - **Limitations**:
   - Learning curve for new users
+- **Alternatives**:
+  - Do It Yourself (DIY)
+
+### Dependabot: [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide)
+
+- **Motivations**:
+  - Avoid security issues
+  - Avoid breaking changes
+  - Update your dependencies
+- **Limitations**:
+  - Can break your code
 - **Alternatives**:
   - Do It Yourself (DIY)
 

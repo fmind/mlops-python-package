@@ -12,3 +12,13 @@ install-hooks:
 [group('install')]
 install-project:
     uv sync --all-groups
+
+# install github rulesets
+[group('install')]
+install-rulesets:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    repo=$(gh repo view --json=name --jq=.name)
+    owner=$(gh repo view --json=owner --jq=.owner.login)
+    gh api --method POST -H "Accept: application/vnd.github+json" \
+    "/repos/$owner/$repo/rulesets" --input=".github/rulesets/main.json"
