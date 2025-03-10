@@ -121,7 +121,7 @@ pytest-xdist==3.6.1
 python-dateutil==2.9.0.post0
 python-dotenv==1.0.1
 pytz==2025.1
-pywin32==308 ; sys_platform == 'win32'
+pywin32==309 ; sys_platform == 'win32'
 pyyaml==6.0.2
 pyzmq==26.2.1
 questionary==2.1.0
