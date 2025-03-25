@@ -4,7 +4,7 @@ alembic==1.14.1
 annotated-types==0.7.0
 antlr4-python3-runtime==4.9.3
 appnope==0.1.4 ; platform_system == 'Darwin'
-argcomplete==3.5.3
+argcomplete==3.6.1
 asttokens==3.0.0
 attrs==25.1.0
 bandit==1.8.3
