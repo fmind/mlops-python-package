@@ -49,7 +49,7 @@ idna==3.10
 importlib-metadata==8.6.1
 iniconfig==2.0.0
 ipykernel==6.29.5
-ipython==9.0.0
+ipython==9.0.2
 ipython-pygments-lexers==1.1.1
 itsdangerous==2.2.0
 jedi==0.19.2
