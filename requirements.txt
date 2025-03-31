@@ -86,7 +86,7 @@ opentelemetry-sdk==1.16.0
 opentelemetry-semantic-conventions==0.37b0
 packaging==24.2
 pandas==2.2.3
-pandas-stubs==2.2.3.241126
+pandas-stubs==2.2.3.250308
 pandera==0.23.0
 parso==0.8.4
 pathspec==0.12.1
