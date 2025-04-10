@@ -128,7 +128,7 @@ questionary==2.1.0
 referencing==0.36.2
 requests==2.32.3
 rich==13.9.4
-rpds-py==0.23.1
+rpds-py==0.24.0
 rsa==4.9
 ruff==0.11.2
 scikit-learn==1.6.1
