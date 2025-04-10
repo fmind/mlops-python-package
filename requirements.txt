@@ -32,7 +32,7 @@ docker==7.1.0
 execnet==2.1.1
 executing==2.2.0
 fastjsonschema==2.21.1
-filelock==3.17.0
+filelock==3.18.0
 flask==3.1.0
 fonttools==4.56.0
 gitdb==4.0.12
