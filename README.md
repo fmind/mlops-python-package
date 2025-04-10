@@ -913,7 +913,7 @@ This package provides a simple deterministic strategy implemented in `src/[packa
 
 A DAG can express the dependencies between steps while keeping the individual step independent.
 
-This package provides a simple DAG example in `tasks/dags.py`. This approach is based on [PyInvoke](https://www.pyinvoke.org/).
+This package provides a DAG example in `tasks/project.just`. The approach is based on [Just](https://just.systems/man/en/introduction.html) and is explained in the section on Automation above.
 
 In production, we recommend to use a scalable system such as [Airflow](https://airflow.apache.org/), [Dagster](https://dagster.io/), [Prefect](https://www.prefect.io/), [Metaflow](https://metaflow.org/), or [ZenML](https://zenml.io/).
 
