@@ -18,7 +18,7 @@ click==8.1.8
 cloudpickle==3.1.1
 colorama==0.4.6
 comm==0.2.2
-commitizen==4.4.1
+commitizen==4.6.0
 contourpy==1.3.1
 coverage==7.6.12
 cycler==0.12.1
