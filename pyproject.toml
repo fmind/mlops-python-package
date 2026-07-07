@@ -176,5 +176,5 @@ skip_covered = true
 # SYSTEMS
 
 [build-system]
-requires = ["uv_build>=0.9.0"]
+requires = ["uv_build>=0.11.27"]
 build-backend = "uv_build"
