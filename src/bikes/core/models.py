@@ -9,6 +9,7 @@ import pandas as pd
 import pydantic as pdt
 import shap
 from sklearn import compose, ensemble, pipeline, preprocessing
+from sklearn.base import BaseEstimator, RegressorMixin
 
 from bikes.core import schemas
 
@@ -22,6 +23,10 @@ Params = dict[ParamKey, ParamValue]
 # %% MODELS
 
 
+class _RegressorTagger(RegressorMixin, BaseEstimator):
+    """Source of default scikit-learn regressor tags (sklearn >= 1.6 tags API)."""
+
+
 class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
     """Base class for a project model.
 
@@ -31,7 +36,19 @@ class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
 
     KIND: str
 
-    def get_params(self, deep: bool = True) -> Params:
+    def __sklearn_tags__(self) -> T.Any:
+        """Return scikit-learn estimator tags.
+
+        Meta-estimators (e.g. GridSearchCV) query this since scikit-learn 1.6. The
+        project Model is a Pydantic adapter rather than a scikit-learn BaseEstimator,
+        so it borrows the default regressor tags.
+
+        Returns:
+            T.Any: scikit-learn estimator tags for a regressor.
+        """
+        return _RegressorTagger().__sklearn_tags__()
+
+    def get_params(self, deep: bool = True) -> Params:  # noqa: ARG002  # sklearn get_params interface
         """Get the model params.
 
         Args:
@@ -85,7 +102,7 @@ class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
         Returns:
             schemas.FeatureImportances: feature importances.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def explain_samples(self, inputs: schemas.Inputs) -> schemas.SHAPValues:
         """Explain model outputs on input samples.
@@ -93,7 +110,7 @@ class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
         Returns:
             schemas.SHAPValues: SHAP values.
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
     def get_internal_model(self) -> T.Any:
         """Return the internal model in the object.
@@ -104,7 +121,7 @@ class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
         Returns:
             T.Any: any internal model (either empty or fitted).
         """
-        raise NotImplementedError()
+        raise NotImplementedError
 
 
 class BaselineSklearnModel(Model):
@@ -144,11 +161,9 @@ class BaselineSklearnModel(Model):
     ]
 
     @T.override
-    def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "BaselineSklearnModel":
+    def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> BaselineSklearnModel:
         # subcomponents
-        categoricals_transformer = preprocessing.OneHotEncoder(
-            sparse_output=False, handle_unknown="ignore"
-        )
+        categoricals_transformer = preprocessing.OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         # components
         transformer = compose.ColumnTransformer(
             [
@@ -176,11 +191,8 @@ class BaselineSklearnModel(Model):
     def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
         model = self.get_internal_model()
         prediction = model.predict(inputs)
-        outputs_ = pd.DataFrame(
-            data={schemas.OutputsSchema.prediction: prediction}, index=inputs.index
-        )
-        outputs = schemas.OutputsSchema.check(data=outputs_)
-        return outputs
+        outputs_ = pd.DataFrame(data={schemas.OutputsSchema.prediction: prediction}, index=inputs.index)
+        return schemas.OutputsSchema.check(data=outputs_)
 
     @T.override
     def explain_model(self) -> schemas.FeatureImportances:
@@ -194,8 +206,7 @@ class BaselineSklearnModel(Model):
                 "importance": regressor.feature_importances_,
             }
         )
-        feature_importances = schemas.FeatureImportancesSchema.check(data=feature_importances_)
-        return feature_importances
+        return schemas.FeatureImportancesSchema.check(data=feature_importances_)
 
     @T.override
     def explain_samples(self, inputs: schemas.Inputs) -> schemas.SHAPValues:
@@ -208,8 +219,7 @@ class BaselineSklearnModel(Model):
             data=explainer.shap_values(X=transformed),
             columns=transformer.get_feature_names_out(),
         )
-        shap_values = schemas.SHAPValuesSchema.check(data=shap_values_)
-        return shap_values
+        return schemas.SHAPValuesSchema.check(data=shap_values_)
 
     @T.override
     def get_internal_model(self) -> pipeline.Pipeline:

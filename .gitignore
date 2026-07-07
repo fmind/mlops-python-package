@@ -7,9 +7,10 @@
 # Cache
 .cache/
 .coverage*
-.mypy_cache/
 .ruff_cache/
 .pytest_cache/
+.ty_cache/
+/htmlcov/
 
 # Editor
 /.idea/
@@ -23,6 +24,7 @@
 # Project
 /docs/*
 /mlruns/*
+/mlartifacts/*
 /outputs/*
 !**/.gitkeep
 

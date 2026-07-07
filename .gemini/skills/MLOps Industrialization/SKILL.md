@@ -23,18 +23,18 @@ Adopt the `src` layout to prevent import errors and separate source from tooling
 
 1. **Directory Tree**:
 
-    ```text
-    my-project/
-    ├── pyproject.toml       # Dependencies & Metadata
-    ├── uv.lock
-    ├── README.md
-    └── src/
-        └── my_package/      # Main package directory
-            ├── __init__.py
-            ├── io/          # Side-effects (Datasets, APIs)
-            ├── domain/      # Pure business logic (Models, Features)
-            └── application/ # Orchestration (Training loops, Inference)
-    ```
+   ```text
+   my-project/
+   ├── pyproject.toml       # Dependencies & Metadata
+   ├── uv.lock
+   ├── README.md
+   └── src/
+       └── my_package/      # Main package directory
+           ├── __init__.py
+           ├── io/          # Side-effects (Datasets, APIs)
+           ├── domain/      # Pure business logic (Models, Features)
+           └── application/ # Orchestration (Training loops, Inference)
+   ```
 
 2. **Configuration**: Use `pyproject.toml` for all build metadata and dependencies.
 
@@ -43,16 +43,16 @@ Adopt the `src` layout to prevent import errors and separate source from tooling
 Balance structure with predictability.
 
 1. **Domain Layer (Pure)**:
-    - **Rule**: Code here must be deterministic and free of side effects (no I/O).
-    - **Use Case**: Feature transformations, Model architecture definitions.
-    - **Style**: Functional (pure functions) or Immutable Objects (dataclasses).
+   - **Rule**: Code here must be deterministic and free of side effects (no I/O).
+   - **Use Case**: Feature transformations, Model architecture definitions.
+   - **Style**: Functional (pure functions) or Immutable Objects (dataclasses).
 2. **I/O Layer (Impure)**:
-    - **Rule**: Isolate external interactions here.
-    - **Use Case**: Loading data from S3, saving models to disk, logging to MLflow.
-    - **Style**: OOP (Classes to manage connections/state).
+   - **Rule**: Isolate external interactions here.
+   - **Use Case**: Loading data from S3, saving models to disk, logging to MLflow.
+   - **Style**: OOP (Classes to manage connections/state).
 3. **Application Layer (Orchestration)**:
-    - **Rule**: Wire Domain and I/O together.
-    - **Use Case**: Tuning, Training, Inference, Evaluation, etc.
+   - **Rule**: Wire Domain and I/O together.
+   - **Use Case**: Tuning, Training, Inference, Evaluation, etc.
 
 ### 3. Application Entrypoints
 
@@ -61,14 +61,14 @@ Create standard, installable CLI tools.
 1. **Define Script**: Create `src/my_package/scripts.py` with a `main()` function.
 2. **Register**: Add to `pyproject.toml`:
 
-    ```toml
-    [project.scripts]
-    my-tool = "my_package.scripts:main"
-    ```
+   ```toml
+   [project.scripts]
+   my-tool = "my_package.scripts:main"
+   ```
 
 3. **CLI Execution**:
-    - **Dev**: `uv run my-tool` (No install needed).
-    - **Prod**: `pip install .` -> `my-tool` (Installed on PATH).
+   - **Dev**: `uv run my-tool` (No install needed).
+   - **Prod**: `pip install .` -> `my-tool` (Installed on PATH).
 4. **Guard**: Always use `if __name__ == "__main__":` in scripts to prevent execution on import.
 
 ### 4. Configuration Management
@@ -76,31 +76,31 @@ Create standard, installable CLI tools.
 Decouple settings from code using **OmegaConf** (Parsing) and **Pydantic** (Validation).
 
 1. **Define Schema (Pydantic)**:
-    - Create a class that defines *expected* types and defaults.
+   - Create a class that defines _expected_ types and defaults.
 
-    ```python
-    from pydantic import BaseModel
+   ```python
+   from pydantic import BaseModel
 
-    class TrainingConfig(BaseModel):
-        batch_size: int = 32
-        learning_rate: float = 0.001
-        use_gpu: bool = False
-    ```
+   class TrainingConfig(BaseModel):
+       batch_size: int = 32
+       learning_rate: float = 0.001
+       use_gpu: bool = False
+   ```
 
 2. **Parse & Validate (OmegaConf)**:
-    - Load YAML, merge with CLI args, and validate against the schema.
+   - Load YAML, merge with CLI args, and validate against the schema.
 
-    ```python
-    import omegaconf
+   ```python
+   import omegaconf
 
-    # 1. Load YAML
-    conf = omegaconf.OmegaConf.load("config.yaml")
-    # 2. Merge with CLI (optional)
-    cli_conf = omegaconf.OmegaConf.from_cli()
-    merged = omegaconf.OmegaConf.merge(conf, cli_conf)
-    # 3. Validate -> Returns a validated Pydantic object
-    cfg: TrainingConfig = TrainingConfig(**omegaconf.OmegaConf.to_container(merged))
-    ```
+   # 1. Load YAML
+   conf = omegaconf.OmegaConf.load("config.yaml")
+   # 2. Merge with CLI (optional)
+   cli_conf = omegaconf.OmegaConf.from_cli()
+   merged = omegaconf.OmegaConf.merge(conf, cli_conf)
+   # 3. Validate -> Returns a validated Pydantic object
+   cfg: TrainingConfig = TrainingConfig(**omegaconf.OmegaConf.to_container(merged))
+   ```
 
 3. **Secrets**: Use Environment Variables (`os.getenv`), never commit them.
 
@@ -110,18 +110,18 @@ Make code usable and maintainable.
 
 1. **Docstrings**: Use **Google Style** docstrings for all modules, classes, and functions.
 
-    ```python
-    def calculate_metric(y_true: np.ndarray, y_pred: np.ndarray) -> float:
-        """Calculates the accuracy score.
+   ```python
+   def calculate_metric(y_true: np.ndarray, y_pred: np.ndarray) -> float:
+       """Calculates the accuracy score.
 
-        Args:
-            y_true: Ground truth labels.
-            y_pred: Predicted labels.
+       Args:
+           y_true: Ground truth labels.
+           y_pred: Predicted labels.
 
-        Returns:
-            The accuracy as a float between 0 and 1.
-        """
-    ```
+       Returns:
+           The accuracy as a float between 0 and 1.
+       """
+   ```
 
 2. **Type Hints**: Use standard python typing (`typing`, `list[str]`) everywhere.
 

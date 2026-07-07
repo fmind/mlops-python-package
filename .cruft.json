@@ -11,8 +11,8 @@
       "license": "MIT",
       "version": "4.0.0",
       "description": "Predict the number of bikes available",
-      "python_version": "3.13",
-      "mlflow_version": "2.20.3",
+      "python_version": "3.14",
+      "mlflow_version": "3.14.0",
       "_template": "https://github.com/fmind/cookiecutter-mlops-package"
     }
   },

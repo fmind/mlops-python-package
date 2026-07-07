@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import abc
 import contextlib as ctx
+import os
 import sys
 import typing as T
 
@@ -121,7 +122,7 @@ class AlertsService(Service):
                     timeout=self.timeout,
                 )
             except NotImplementedError:
-                print("Notifications are not supported on this system.")
+                print("Notifications are not supported on this system.")  # noqa: T201  # user-facing fallback
                 self._print(title=title, message=message)
         else:
             self._print(title=title, message=message)
@@ -133,7 +134,7 @@ class AlertsService(Service):
             title (str): title of the notification.
             message (str): message of the notification.
         """
-        print(f"[{self.app_name}] {title}: {message}")
+        print(f"[{self.app_name}] {title}: {message}")  # noqa: T201  # user-facing fallback
 
 
 class MlflowService(Service):
@@ -188,6 +189,10 @@ class MlflowService(Service):
 
     @T.override
     def start(self) -> None:
+        # MLflow 3 puts the filesystem store (e.g., './mlruns') in maintenance mode and
+        # refuses it by default. Opt in for the simple local backend used in development.
+        # In production, prefer a database backend (e.g., 'sqlite:///mlflow.db').
+        os.environ.setdefault("MLFLOW_ALLOW_FILE_STORE", "true")
         # server uri
         mlflow.set_tracking_uri(uri=self.tracking_uri)
         mlflow.set_registry_uri(uri=self.registry_uri)
@@ -205,11 +210,11 @@ class MlflowService(Service):
         )
 
     @ctx.contextmanager
-    def run_context(self, run_config: RunConfig) -> T.Generator[mlflow.ActiveRun, None, None]:
+    def run_context(self, run_config: RunConfig) -> T.Generator[mlflow.ActiveRun]:
         """Yield an active Mlflow run and exit it afterwards.
 
         Args:
-            run (str): run parameters.
+            run_config (RunConfig): mlflow run parameters.
 
         Yields:
             T.Generator[mlflow.ActiveRun, None, None]: active run context. Will be closed at the end of context.

@@ -13,7 +13,7 @@ from bikes.io import services
 # %% TYPES
 
 # Local job variables
-Locals = T.Dict[str, T.Any]
+Locals = dict[str, T.Any]
 
 # %% JOBS
 
@@ -53,7 +53,7 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
     def __exit__(
         self,
-        exc_type: T.Type[BaseException] | None,
+        exc_type: type[BaseException] | None,
         exc_value: BaseException | None,
         exc_traceback: TS.TracebackType | None,
     ) -> T.Literal[False]:

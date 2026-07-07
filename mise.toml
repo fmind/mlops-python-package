@@ -1,0 +1,193 @@
+# https://mise.jdx.dev
+# Canonical task vocabulary shared by git hooks (lefthook) and CI (GitHub Actions).
+
+[env]
+_.source = ".env"
+# MLflow 3 refuses the filesystem store by default; opt in for local development so the
+# `mlflow` CLI (project runner, server) works. Prefer a database backend in production.
+MLFLOW_ALLOW_FILE_STORE = "true"
+
+[settings.task]
+run_auto_install = false
+
+[tools]
+uv = "latest"
+dprint = "latest"
+gitleaks = "latest"
+trivy = "latest"
+
+# INSTALL
+
+[tasks.install]
+alias = "i"
+description = "Install dependencies and git hooks"
+depends = ["install:hooks"]
+
+[tasks."install:python"]
+description = "Sync Python dependencies (uv)"
+run = "uv sync --all-groups"
+
+[tasks."install:hooks"]
+description = "Install git hooks (lefthook)"
+depends = ["install:python"]
+run = "uv run lefthook install"
+
+[tasks."install:rulesets"]
+description = "Install GitHub branch rulesets"
+run = """
+repo=$(gh repo view --json=name --jq=.name)
+owner=$(gh repo view --json=owner --jq=.owner.login)
+gh api --method POST -H "Accept: application/vnd.github+json" \
+  "/repos/$owner/$repo/rulesets" --input=.github/rulesets/main.json
+"""
+
+# FORMAT
+
+[tasks.format]
+alias = "f"
+description = "Format all sources and documents"
+run = ["mise run format:python", "mise run format:dprint"]
+
+[tasks."format:python"]
+description = "Format Python sources and imports (ruff)"
+run = "uv run ruff check --select=I --fix --force-exclude . && uv run ruff format --force-exclude ."
+
+[tasks."format:dprint"]
+description = "Format JSON, Markdown, TOML, YAML (dprint)"
+run = "dprint fmt"
+
+# CHECK
+
+[tasks.check]
+alias = "c"
+description = "Run all static checks in parallel"
+depends = [
+  "check:format",
+  "check:leaks",
+  "check:lint",
+  "check:types",
+  "check:vuln",
+  "check:scan",
+]
+
+[tasks."check:format"]
+description = "Check formatting and config validity"
+run = [
+  "uv run validate-pyproject pyproject.toml",
+  "uv run ruff format --check .",
+  "dprint check",
+  "uv lock --check",
+]
+
+[tasks."check:lint"]
+description = "Lint Python sources (ruff)"
+run = "uv run ruff check --force-exclude ."
+
+[tasks."check:types"]
+description = "Type-check Python sources (ty)"
+run = "uv run ty check"
+
+[tasks."check:vuln"]
+description = "Scan dependencies for vulnerabilities (pip-audit)"
+run = "uv run pip-audit"
+
+[tasks."check:leaks"]
+description = "Audit codebase for leaked secrets (gitleaks)"
+run = 'gitleaks git --log-opts="--max-count=100" --verbose'
+
+[tasks."check:scan"]
+description = "Scan configuration files for misconfigurations (trivy)"
+run = "trivy config ."
+
+# TEST
+
+[tasks.test]
+alias = "t"
+description = "Run the test suite with coverage (pytest)"
+run = "uv run pytest"
+
+# BUILD
+
+[tasks.build]
+alias = "b"
+description = "Build the Python distribution (wheel + sdist)"
+depends = ["build:python"]
+
+[tasks."build:python"]
+description = "Build Python distribution artifacts (uv)"
+run = "uv build"
+
+[tasks."build:image"]
+description = "Build the production OCI image (Docker)"
+run = "docker build --tag=bikes:latest ."
+
+# DOCS
+
+[tasks.docs]
+alias = "d"
+description = "Generate the API documentation (pdoc)"
+run = "uv run pdoc --docformat=google --output-directory=docs src/bikes"
+
+[tasks."docs:serve"]
+description = "Serve the API documentation (pdoc)"
+run = "uv run pdoc --docformat=google --port=8088 src/bikes"
+
+# MLFLOW
+
+[tasks."mlflow:doctor"]
+description = "Run the MLflow environment doctor"
+run = "uv run mlflow doctor"
+
+[tasks."mlflow:serve"]
+description = "Start a local MLflow tracking server"
+run = "uv run mlflow server --host=127.0.0.1 --port=5000 --backend-store-uri=./mlruns"
+
+# PROJECT (MLflow Projects)
+
+[tasks.project]
+description = "Run every MLflow job in sequence"
+run = [
+  "mise run project:run tuning",
+  "mise run project:run training",
+  "mise run project:run promotion",
+  "mise run project:run inference",
+  "mise run project:run evaluations",
+  "mise run project:run explanations",
+]
+
+[tasks."project:run"]
+description = "Run one MLflow job by config name (e.g. `mise run project:run training`)"
+usage = 'arg "job" help="Config name under confs/ (without extension)"'
+# --env-manager=local reuses the uv-managed environment (no separate python_env.yaml to maintain).
+run = 'uv run mlflow run --env-manager=local --experiment-name=bikes --run-name="$usage_job" -P "conf_file=confs/$usage_job.yaml" .'
+
+# DOCKER
+
+[tasks."docker:compose"]
+description = "Start the local MLflow server with Docker Compose"
+run = "docker compose up"
+
+[tasks."docker:run"]
+description = "Run the latest built image"
+run = "docker run --rm bikes:latest"
+
+# UTILITIES
+
+[tasks.coverage]
+alias = "v"
+description = "Open the HTML coverage report"
+run = "uv run pytest --cov=src --cov-report=html && echo 'Report: htmlcov/index.html'"
+
+[tasks.upgrade]
+alias = "u"
+description = "Upgrade dependencies to the latest compatible versions"
+run = "uv sync --upgrade"
+
+[tasks.clean]
+alias = "n"
+description = "Remove caches and build artifacts"
+run = [
+  "find . -type f -name '*.py[co]' -delete",
+  "find . -type d -name __pycache__ -exec rm -rf {} +",
+  "rm -rf .pytest_cache .ruff_cache .ty_cache .coverage htmlcov dist docs mlruns/* outputs/*",
+]

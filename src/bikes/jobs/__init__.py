@@ -16,11 +16,11 @@ JobKind = TuningJob | TrainingJob | PromotionJob | InferenceJob | EvaluationsJob
 # %% EXPORTS
 
 __all__ = [
-    "TuningJob",
-    "TrainingJob",
-    "PromotionJob",
-    "InferenceJob",
     "EvaluationsJob",
     "ExplanationsJob",
+    "InferenceJob",
     "JobKind",
+    "PromotionJob",
+    "TrainingJob",
+    "TuningJob",
 ]

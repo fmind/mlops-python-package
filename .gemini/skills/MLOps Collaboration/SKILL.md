@@ -41,8 +41,8 @@ Eliminate "it works on my machine".
 
 1. **Templates**: Use `cookiecutter` for scaffolding and `cruft update` to keep projects synced.
 2. **Workstations**: Add `.devcontainer/devcontainer.json`.
-    - Define Docker image, extensions, and settings.
-    - Enable GitHub Codespaces support.
+   - Define Docker image, extensions, and settings.
+   - Enable GitHub Codespaces support.
 
 ### 4. Release Management
 
@@ -50,9 +50,9 @@ Ship with confidence.
 
 1. **Versioning**: Follow **SemVer** (MAJOR.MINOR.PATCH) and [Keep a Changelog](https://keepachangelog.com/).
 2. **Workflows**:
-    - **GitHub Flow**: Small teams, continuous delivery (`main` is stable).
-    - **Git Flow**: Scheduled releases (`develop` + `release` branches).
-    - **Forking**: Open source, distributed contributors.
+   - **GitHub Flow**: Small teams, continuous delivery (`main` is stable).
+   - **Git Flow**: Scheduled releases (`develop` + `release` branches).
+   - **Forking**: Open source, distributed contributors.
 3. **Process**: Bump version -> Update Changelog -> Tag -> Release.
 
 ## Self-Correction Checklist

@@ -60,8 +60,7 @@ def uri_for_model_alias_or_version(name: str, alias_or_version: str | int) -> st
     """
     if isinstance(alias_or_version, int):
         return uri_for_model_version(name=name, version=alias_or_version)
-    else:
-        return uri_for_model_alias(name=name, alias=alias_or_version)
+    return uri_for_model_alias(name=name, alias=alias_or_version)
 
 
 # %% SAVERS
@@ -124,9 +123,9 @@ class CustomSaver(Saver):
 
         def predict(
             self,
-            context: PythonModelContext,
+            context: PythonModelContext,  # noqa: ARG002  # required by mlflow PythonModel.predict
             model_input: schemas.Inputs,
-            params: dict[str, T.Any] | None = None,
+            params: dict[str, T.Any] | None = None,  # noqa: ARG002  # required by mlflow PythonModel.predict
         ) -> schemas.Outputs:
             """Generate predictions with a custom model for the given inputs.
 
@@ -151,7 +150,7 @@ class CustomSaver(Saver):
         return mlflow.pyfunc.log_model(
             python_model=adapter,
             signature=signature,
-            artifact_path=self.path,
+            name=self.path,
             input_example=input_example,
         )
 
@@ -180,7 +179,7 @@ class BuiltinSaver(Saver):
         module = getattr(mlflow, self.flavor)
         return module.log_model(
             builtin_model,
-            artifact_path=self.path,
+            name=self.path,
             signature=signature,
             input_example=input_example,
         )
@@ -215,7 +214,7 @@ class Loader(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
             """
 
     @abc.abstractmethod
-    def load(self, uri: str) -> "Loader.Adapter":
+    def load(self, uri: str) -> Loader.Adapter:
         """Load a model from the model registry.
 
         Args:
@@ -252,10 +251,9 @@ class CustomLoader(Loader):
             return T.cast(schemas.Outputs, outputs)
 
     @T.override
-    def load(self, uri: str) -> "CustomLoader.Adapter":
+    def load(self, uri: str) -> CustomLoader.Adapter:
         model = mlflow.pyfunc.load_model(model_uri=uri)
-        adapter = CustomLoader.Adapter(model=model)
-        return adapter
+        return CustomLoader.Adapter(model=model)
 
 
 class BuiltinLoader(Loader):
@@ -286,10 +284,9 @@ class BuiltinLoader(Loader):
             return schemas.Outputs(outputs, columns=columns, index=inputs.index)
 
     @T.override
-    def load(self, uri: str) -> "BuiltinLoader.Adapter":
+    def load(self, uri: str) -> BuiltinLoader.Adapter:
         model = mlflow.pyfunc.load_model(model_uri=uri)
-        adapter = BuiltinLoader.Adapter(model=model)
-        return adapter
+        return BuiltinLoader.Adapter(model=model)
 
 
 LoaderKind = CustomLoader | BuiltinLoader

@@ -1,0 +1,56 @@
+[changelog]
+header = """
+# Changelog
+
+All notable changes to this project are documented in this file.
+"""
+body = """
+{% if version %}\
+    ## [{{ version | trim_start_matches(pat="v") }}] - {{ timestamp | date(format="%Y-%m-%d") }}
+{% else %}\
+    ## [Unreleased]
+{% endif %}\
+{% for group, commits in commits | group_by(attribute="group") %}
+    ### {{ group | striptags | trim | upper_first }}
+    {% for commit in commits %}
+        - {% if commit.scope %}*({{ commit.scope }})* {% endif %}\
+            {% if commit.breaking %}[**breaking**] {% endif %}\
+            {{ commit.message | upper_first }}\
+    {% endfor %}
+{% endfor %}
+"""
+footer = ""
+postprocessors = []
+trim = true
+
+[git]
+commit_parsers = [
+  { message = "^feat", group = "<!-- 0 -->🚀 Features" },
+  { message = "^fix", group = "<!-- 1 -->🐛 Bug Fixes" },
+  { message = "^perf", group = "<!-- 2 -->⚡ Performance" },
+  { message = "^refactor", group = "<!-- 3 -->♻️ Refactor" },
+  { message = "^docs", group = "<!-- 4 -->📚 Documentation" },
+  { message = "^test", group = "<!-- 5 -->🧪 Testing" },
+  { message = "^(build|ci)", group = "<!-- 6 -->⚙️ Build & CI" },
+  { message = "^chore\\(release\\)", skip = true },
+  { message = "^chore\\(deps\\)", skip = true },
+  { message = "^(chore|style)", group = "<!-- 7 -->🧹 Miscellaneous" },
+  { message = "^revert", group = "<!-- 8 -->⏪ Reverts" },
+  { message = ".*", group = "<!-- 9 -->📦 Other" },
+]
+commit_preprocessors = []
+conventional_commits = true
+filter_commits = false
+filter_unconventional = true
+ignore_tags = ""
+protect_breaking_commits = true
+skip_tags = ""
+sort_commits = "oldest"
+split_commits = false
+tag_pattern = "v[0-9].*"
+topo_order = false
+
+[bump]
+features_always_bump_minor = false
+breaking_always_bump_major = false
+initial_tag = "v0.1.0"
