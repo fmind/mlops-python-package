@@ -1,63 +1,87 @@
-## v4.1.0 (2025-03-05)
+# Changelog
 
-### Feat
+All notable changes to this project are documented in this file.
 
-- **gemini**: add support for gemini code assist (#51)
-- **dependabot**: add dependabot configuration file (#50)
-- **github**: add default rulesets and installation (#47)
+## [5.0.0] - 2026-07-07
 
-### Fix
+### 🚀 Features
 
-- **workflows**: fix just in workflows
+- Add Agent Skills.
+- [**breaking**] Migrate to canonical stack (mise, lefthook, ty, dprint, git-cliff, uv_build), Python 3.14, MLflow 3
 
-### Refactor
+### 📚 Documentation
 
-- **cruft**: update to new template version
+- _(fix)_ `PyInvoke` replaced by `just` (#70)
+- _(readme)_ Add Pytest Cov as an alternative for code coverage (#106)
 
-## v4.0.0 (2025-03-04)
+### ⚙️ Build & CI
 
-### Feat
+- _(deps)_ Bump virtualenv from 20.29.2 to 20.29.3 (#56)
+- _(deps)_ Bump ipython from 9.0.0 to 9.0.2 (#59)
+- _(deps)_ Bump pywin32 from 308 to 310 (#61)
+- _(deps)_ Bump argcomplete from 3.5.3 to 3.6.1 (#63)
+- _(deps)_ Bump ruff from 0.9.9 to 0.11.2 (#64)
+- _(deps)_ Bump pandas-stubs from 2.2.3.241126 to 2.2.3.250308 (#65)
+- _(deps)_ Bump identify from 2.6.8 to 2.6.9 (#66)
+- _(deps)_ Bump filelock from 3.17.0 to 3.18.0 (#67)
+- _(deps)_ Bump types-pytz from 2025.1.0.20250204 to 2025.2.0.20250326 (#68)
+- _(deps)_ Bump rpds-py from 0.23.1 to 0.24.0 (#69)
 
-- **tasks**: switch from pyinvoke to just (#42)
-- **workflows**: bump GitHub action versions (#41)
-- **versions**: bump python and package version (#40)
-- **mindmap**: add mindmap of the package (#32)
+## [4.0.0] - 2025-03-04
 
-### Fix
+### 🐛 Bug Fixes
 
-- **version**: ready to bump
-- **datasets**: fix dtype backend (#44)
+- _(workflows)_ Fix just in workflows
 
-### Refactor
+### ♻️ Refactor
 
-- **cruft**: update to new template version
+- _(cruft)_ Update to new template version
 
-## v2.0.0 (2024-07-28)
+## [2.0.0] - 2024-07-28
 
-### Feat
+### 🐛 Bug Fixes
 
-- **cruft**: adopt cruft and link it to cookiecutter-mlops-package
+- _(dependencies)_ Add setuptools to main dependency for mlflow
+- _(mlproject)_ Fix calling mlflow run by adding project run in front
 
-## v1.1.3 (2024-07-28)
+### 🧹 Miscellaneous
 
-### Fix
+- _(indicators)_ Compute run time for indicators
+- _(typos)_ Fix typos in code and comments
+- _(docs)_ Fix docstrings in tasks
+- _(pre-commit)_ Add poetry-check pre commit
 
-- **mlproject**: fix calling mlflow run by adding project run in front
+### 📦 Other
 
-## v1.1.2 (2024-07-28)
+- Version 1.1.1 → 1.1.2
+- Version 1.1.2 → 1.1.3
+- Version 1.1.3 → 2.0.0
 
-### Fix
+## [1.1.1] - 2024-07-23
 
-- **dependencies**: add setuptools to main dependency for mlflow
+### 🐛 Bug Fixes
 
-## v1.1.1 (2024-07-23)
+- _(version)_ Bump
+- _(publish)_ Fix publication workflow by installing dev dependencies
 
-### Fix
+### 📚 Documentation
 
-- **publish**: fix publication workflow by installing dev dependencies
+- _(readme)_ Added link to the MLOps Coding Course
 
-## v1.0.1 (2024-06-28)
+### 🧹 Miscellaneous
 
-### Fix
+- _(notebook)_ Switch prototype from light to dark mode
 
-- **version**: bump
+### 📦 Other
+
+- Version 1.0.0 → 1.0.1
+- Version 1.1.0 → 1.1.1
+
+## [0.8.0] - 2024-03-18
+
+### 🐛 Bug Fixes
+
+- _(version)_ Bump version number
+- _(publish)_ Fix ref name in publish workflow
+
+## [0.1.0] - 2023-06-23
