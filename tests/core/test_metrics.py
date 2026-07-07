@@ -10,7 +10,7 @@ from bikes.core import metrics, models, schemas
 
 
 @pytest.mark.parametrize(
-    "name, interval, greater_is_better",
+    ("name", "interval", "greater_is_better"),
     [
         ("mean_squared_error", [0, float("inf")], True),
         ("mean_absolute_error", [float("-inf"), 0], False),
@@ -65,6 +65,4 @@ def test_threshold() -> None:
     mlflow_threshold = threshold.to_mlflow()
     # then
     assert mlflow_threshold.threshold == threshold.threshold, "Threshold should be the same!"
-    assert mlflow_threshold.greater_is_better == threshold.greater_is_better, (
-        "Greater is better should be the same!"
-    )
+    assert mlflow_threshold.greater_is_better == threshold.greater_is_better, "Greater is better should be the same!"

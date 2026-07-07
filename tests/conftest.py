@@ -28,8 +28,7 @@ TEST_SIZE = 24 * 7  # 1 week
 def tests_path() -> str:
     """Return the path of the tests folder."""
     file = os.path.abspath(__file__)
-    parent = os.path.dirname(file)
-    return parent
+    return os.path.dirname(file)
 
 
 @pytest.fixture(scope="session")
@@ -87,7 +86,7 @@ def tmp_samples_explanations_path(tmp_path: str) -> str:
 def extra_config() -> str:
     """Extra config for scripts."""
     # use OmegaConf resolver: ${tmp_path:}
-    config = """
+    return """
     {
         "job": {
             "alerts_service": {
@@ -100,7 +99,6 @@ def extra_config() -> str:
         }
     }
     """
-    return config
 
 
 # %% - Datasets
@@ -277,7 +275,7 @@ def signer() -> signers.InferSigner:
 
 
 @pytest.fixture(scope="session", autouse=True)
-def logger_service() -> T.Generator[services.LoggerService, None, None]:
+def logger_service() -> T.Generator[services.LoggerService]:
     """Return and start the logger service."""
     service = services.LoggerService(colorize=False, diagnose=True)
     service.start()
@@ -288,7 +286,7 @@ def logger_service() -> T.Generator[services.LoggerService, None, None]:
 @pytest.fixture
 def logger_caplog(
     caplog: pl.LogCaptureFixture, logger_service: services.LoggerService
-) -> T.Generator[pl.LogCaptureFixture, None, None]:
+) -> T.Generator[pl.LogCaptureFixture]:
     """Extend pytest caplog fixture with the logger service (loguru)."""
     # https://loguru.readthedocs.io/en/stable/resources/migration.html#replacing-caplog-fixture-from-pytest-library
     logger = logger_service.logger()
@@ -304,7 +302,7 @@ def logger_caplog(
 
 
 @pytest.fixture(scope="session", autouse=True)
-def alerts_service() -> T.Generator[services.AlertsService, None, None]:
+def alerts_service() -> T.Generator[services.AlertsService]:
     """Return and start the alerter service."""
     service = services.AlertsService(enable=False)
     service.start()
@@ -313,7 +311,7 @@ def alerts_service() -> T.Generator[services.AlertsService, None, None]:
 
 
 @pytest.fixture(scope="function", autouse=True)
-def mlflow_service(tmp_path: str) -> T.Generator[services.MlflowService, None, None]:
+def mlflow_service(tmp_path: str) -> T.Generator[services.MlflowService]:
     """Return and start the mlflow service."""
     service = services.MlflowService(
         tracking_uri=f"{tmp_path}/tracking/",
@@ -357,9 +355,7 @@ def tmp_path_resolver(tmp_path: str) -> str:
 
 
 @pytest.fixture(scope="session")
-def signature(
-    signer: signers.Signer, inputs: schemas.Inputs, outputs: schemas.Outputs
-) -> signers.Signature:
+def signature(signer: signers.Signer, inputs: schemas.Inputs, outputs: schemas.Outputs) -> signers.Signature:
     """Return the signature for the testing model."""
     return signer.sign(inputs=inputs, outputs=outputs)
 
@@ -399,8 +395,7 @@ def model_version(
     run_config = mlflow_service.RunConfig(name="Custom-Run")
     with mlflow_service.run_context(run_config=run_config):
         info = saver.save(model=model, signature=signature, input_example=inputs)
-        version = register.register(name=mlflow_service.registry_name, model_uri=info.model_uri)
-    return version
+        return register.register(name=mlflow_service.registry_name, model_uri=info.model_uri)
 
 
 @pytest.fixture(scope="function")
@@ -411,8 +406,5 @@ def model_alias(
     """Promote the default model version with an alias."""
     alias = "Promotion"
     client = mlflow_service.client()
-    client.set_registered_model_alias(
-        name=mlflow_service.registry_name, alias=alias, version=model_version.version
-    )
-    model_alias = client.get_model_version_by_alias(name=mlflow_service.registry_name, alias=alias)
-    return model_alias
+    client.set_registered_model_alias(name=mlflow_service.registry_name, alias=alias, version=model_version.version)
+    return client.get_model_version_by_alias(name=mlflow_service.registry_name, alias=alias)

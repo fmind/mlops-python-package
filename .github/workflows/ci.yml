@@ -1,0 +1,26 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+jobs:
+  checks: # name kept as "checks" to satisfy the repository's required-status-check ruleset
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+      - name: Install mise toolchain
+        uses: jdx/mise-action@v4
+      - name: Format sources
+        run: mise run format
+      - name: Run checks
+        run: mise run check
+      - name: Run tests
+        run: mise run test
+      - name: Verify no changes
+        run: git diff --exit-code

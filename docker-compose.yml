@@ -2,9 +2,10 @@
 
 services:
   mlflow:
-    image: ghcr.io/mlflow/mlflow:v2.20.3
+    image: ghcr.io/mlflow/mlflow:v3.14.0
     ports:
       - 5000:5000
     environment:
-      - MLFLOW_HOST=0.0.0.0
-    command: mlflow server
+      # MLflow 3 puts the filesystem store in maintenance mode; opt in for local development.
+      - MLFLOW_ALLOW_FILE_STORE=true
+    command: mlflow server --host 0.0.0.0 --port 5000

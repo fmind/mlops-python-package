@@ -1,7 +1,7 @@
 # https://mlflow.org/docs/latest/projects.html
+# Run with `mise run project:run <job>` (uses --env-manager=local to reuse the uv environment).
 
 name: bikes
-python_env: python_env.yaml
 entry_points:
   main:
     parameters:

@@ -40,9 +40,7 @@ class TuningJob(base.Job):
     # Metric
     metric: metrics.MetricKind = pdt.Field(metrics.SklearnMetric(), discriminator="KIND")
     # splitter
-    splitter: splitters.SplitterKind = pdt.Field(
-        splitters.TimeSeriesSplitter(), discriminator="KIND"
-    )
+    splitter: splitters.SplitterKind = pdt.Field(splitters.TimeSeriesSplitter(), discriminator="KIND")
     # Searcher
     searcher: searchers.SearcherKind = pdt.Field(
         searchers.GridCVSearcher(
@@ -81,9 +79,7 @@ class TuningJob(base.Job):
             logger.debug("- Inputs lineage: {}", inputs_lineage.to_dict())
             # - targets
             logger.info("Log lineage: targets")
-            targets_lineage = self.targets.lineage(
-                data=targets, name="targets", targets=schemas.TargetsSchema.cnt
-            )
+            targets_lineage = self.targets.lineage(data=targets, name="targets", targets=schemas.TargetsSchema.cnt)
             mlflow.log_input(dataset=targets_lineage, context=self.run_config.name)
             logger.debug("- Targets lineage: {}", targets_lineage.to_dict())
             # model
@@ -105,7 +101,5 @@ class TuningJob(base.Job):
             logger.debug("- Best Score: {}", best_score)
             logger.debug("- Best Params: {}", best_params)
             # notify
-            self.alerts_service.notify(
-                title="Tuning Job Finished", message=f"Best score: {best_score}"
-            )
+            self.alerts_service.notify(title="Tuning Job Finished", message=f"Best score: {best_score}")
         return locals()

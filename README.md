@@ -1,10 +1,6 @@
 # MLOps Python Package
 
-[![check.yml](https://github.com/fmind/mlops-python-package/actions/workflows/check.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/check.yml)
-[![publish.yml](https://github.com/fmind/mlops-python-package/actions/workflows/publish.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/publish.yml)
-[![Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://fmind.github.io/mlops-python-package/)
-[![License](https://img.shields.io/github/license/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/blob/main/LICENCE.txt)
-[![Release](https://img.shields.io/github/v/release/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/releases)
+[![ci.yml](https://github.com/fmind/mlops-python-package/actions/workflows/ci.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/ci.yml) [![cd.yml](https://github.com/fmind/mlops-python-package/actions/workflows/cd.yml/badge.svg)](https://github.com/fmind/mlops-python-package/actions/workflows/cd.yml) [![Documentation](https://img.shields.io/badge/documentation-available-brightgreen.svg)](https://fmind.github.io/mlops-python-package/) [![License](https://img.shields.io/github/license/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/blob/main/LICENSE.txt) [![Release](https://img.shields.io/github/v/release/fmind/mlops-python-package)](https://github.com/fmind/mlops-python-package/releases)
 
 **This repository contains a Python code base with best practices designed to support your MLOps initiatives.**
 
@@ -37,10 +33,10 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
 - [Tools](#tools)
   - [Automation](#automation-1)
     - [AI Assistant: Gemini Code Assist](#ai-assistant-gemini-code-assist)
-    - [Commits: Commitizen](#commits-commitizen)
+    - [Commits: git-cliff](#commits-git-cliff)
     - [Dependabot: Dependabot](#dependabot-dependabot)
-    - [Git Hooks: Pre-Commit](#git-hooks-pre-commit)
-    - [Tasks: Just](#tasks-just)
+    - [Git Hooks: Lefthook](#git-hooks-lefthook)
+    - [Tasks: Mise](#tasks-mise)
   - [CI/CD](#cicd)
     - [Runner: GitHub Actions](#runner-github-actions)
   - [CLI](#cli)
@@ -51,15 +47,16 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
     - [Editor: VS Code](#editor-vs-code)
     - [Formatting: Ruff](#formatting-ruff)
     - [Quality: Ruff](#quality-ruff)
-    - [Security: Bandit](#security-bandit)
+    - [Security: Ruff](#security-ruff)
     - [Testing: Pytest](#testing-pytest)
-    - [Typing: Mypy](#typing-mypy)
+    - [Typing: ty](#typing-ty)
     - [Versioning: Git](#versioning-git)
   - [Configs](#configs)
     - [Format: YAML](#format-yaml)
     - [Parser: OmegaConf](#parser-omegaconf)
     - [Reader: Cloudpathlib](#reader-cloudpathlib)
     - [Validator: Pydantic](#validator-pydantic)
+    - [Formatter: dprint](#formatter-dprint)
   - [Data](#data)
     - [Container: Pandas](#container-pandas)
     - [Format: Parquet](#format-parquet)
@@ -125,8 +122,9 @@ This section details the requirements, actions, and next steps to kickstart your
 
 ## Prerequisites
 
-- [Python>=3.13](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.13.html)
-- [uv>=0.5.5](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
+- [Python>=3.14](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.14.html)
+- [uv>=0.9.0](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
+- [mise](https://mise.jdx.dev/): to run the canonical project tasks (`install`, `format`, `check`, `test`, `build`) shared by git hooks and CI
 
 ## Installation
 
@@ -139,11 +137,11 @@ $ git clone git@github.com:fmind/mlops-python-package
 $ git clone https://github.com/fmind/mlops-python-package
 ```
 
-2. [Run the project installation with uv](https://docs.astral.sh/uv/)
+2. [Run the project installation with mise](https://mise.jdx.dev/)
 
 ```bash
 cd mlops-python-package/
-uv sync
+mise run install
 ```
 
 3. Adapt the code base to your desire
@@ -230,98 +228,60 @@ with job as runner:
 
 This project includes several automation tasks to easily repeat common actions.
 
-You can invoke the actions from the [command-line](https://just.systems/man/en/introduction.html) or [VS Code extension](https://marketplace.visualstudio.com/items?itemName=nefrob.vscode-just-syntax).
+> **AI agents**: read [`AGENTS.md`](AGENTS.md) for the full stack, task vocabulary, and conventions before contributing.
+
+You can run the tasks from the [command-line](https://mise.jdx.dev/tasks/) or [VS Code extension](https://marketplace.visualstudio.com/items?itemName=hverlin.mise-vscode).
 
 ```bash
 # execute the project DAG
-$ just project
-# create a code archive
-$ just package
+$ mise run project
+# build a code archive
+$ mise run build
 # list other actions
-$ just
+$ mise tasks
 ```
 
 **Available tasks**:
 
-```toml
-default # display help information
-
-[check]
-check # run check tasks
-check-code # check code quality
-check-coverage numprocesses="auto" cov_fail_under="80" # check code coverage
-check-format # check code format
-check-security # check code security
-check-test numprocesses="auto" # check unit tests
-check-type # check code typing
-
-[clean]
-clean # run clean tasks
-clean-build # clean build folders
-clean-cache # clean cache folder
-clean-constraints # clean constraints file
-clean-coverage # clean coverage files
-clean-docs # clean docs folder
-clean-environment # clean environment file
-clean-mlruns # clean mlruns folder
-clean-mypy # clean mypy folders
-clean-outputs # clean outputs folder
-clean-pytest # clean pytest cache
-clean-python # clean python caches
-clean-requirements # clean requirements file
-clean-ruff # clean ruff cache
-clean-venv # clean venv folder
-
-[commit]
-commit-bump # bump package
-commit-files # commit package
-commit-info # get commit info
-
-[doc]
-doc # run doc tasks
-doc-build format="google" output="docs" # build documentation
-doc-serve format="google" port="8088" # serve documentation
-
-[docker]
-docker # run docker tasks
-docker-build tag="latest" # build docker image
-docker-compose # start docker compose
-docker-run tag="latest" # run latest docker image
-
-[format]
-format # run format tasks
-format-import # format code import
-format-source # format code source
-
-[install]
-install # run install tasks
-install-hooks # install git hooks
-install-project # install the project
-install-rulesets # install github rulesets
-
-[mlflow]
-mlflow # run mlflow tasks
-mlflow-doctor # run mlflow doctor
-mlflow-serve host="127.0.0.1" port="5000" uri="./mlruns" # start mlflow server
-
-[package]
-package # run package tasks
-package-build constraints="constraints.txt" # build python package
-package-constraints constraints="constraints.txt" # build package constraints
-
-[project]
-project # run project tasks
-project-environment # export environment file
-project-requirements # export requirements file
-project-run job # run project job using mlflow
+```bash
+$ mise tasks
+install          # Install dependencies and git hooks
+install:python   # Sync Python dependencies (uv)
+install:hooks    # Install git hooks (lefthook)
+install:rulesets # Install GitHub branch rulesets
+format           # Format all sources and documents
+format:python    # Format Python sources and imports (ruff)
+format:dprint    # Format JSON, Markdown, TOML, YAML (dprint)
+check            # Run all static checks in parallel
+check:format     # Check formatting and config validity
+check:lint       # Lint Python sources (ruff)
+check:types      # Type-check Python sources (ty)
+check:vuln       # Scan dependencies for vulnerabilities (pip-audit)
+check:leaks      # Audit codebase for leaked secrets (gitleaks)
+check:scan       # Scan configuration files for misconfigurations (trivy)
+test             # Run the test suite with coverage (pytest)
+build            # Build the Python distribution (wheel + sdist)
+build:python     # Build Python distribution artifacts (uv)
+build:image      # Build the production OCI image (Docker)
+docs             # Generate the API documentation (pdoc)
+docs:serve       # Serve the API documentation (pdoc)
+mlflow:doctor    # Run the MLflow environment doctor
+mlflow:serve     # Start a local MLflow tracking server
+project          # Run every MLflow job in sequence
+project:run      # Run one MLflow job by config name (e.g. project:run training)
+docker:compose   # Start the local MLflow server with Docker Compose
+docker:run       # Run the latest built image
+coverage         # Open the HTML coverage report
+upgrade          # Upgrade dependencies to the latest compatible versions
+clean            # Remove caches and build artifacts
 ```
 
 ## Workflows
 
 This package supports two GitHub Workflows in `.github/workflows`:
 
-- `check.yml`: validate the quality of the package on each Pull Request
-- `publish.yml`: build and publish the docs and packages on code release.
+- `ci.yml`: run `format`, `check`, and `test` on each push and Pull Request
+- `cd.yml`: build and publish the docs (GitHub Pages) and the Docker image on code release.
 
 You can use and extend these workflows to automate repetitive package management tasks.
 
@@ -342,14 +302,14 @@ Pre-defined actions to automate your project development.
 - **Limitations**:
   - Can generate wrong code, reviews, or summaries
 
-### Commits: [Commitizen](https://commitizen-tools.github.io/commitizen/)
+### Commits: [git-cliff](https://git-cliff.org/)
 
 - **Motivations**:
-  - Format your code commits
-  - Generate a standard changelog
+  - Standardize commits with [Conventional Commits](https://www.conventionalcommits.org/)
+  - Generate a standard changelog from the git history
   - Integrate well with [SemVer](https://semver.org/) and [PEP 440](https://peps.python.org/pep-0440/)
 - **Limitations**:
-  - Learning curve for new users
+  - Requires disciplined commit messages
 - **Alternatives**:
   - Do It Yourself (DIY)
 
@@ -364,28 +324,28 @@ Pre-defined actions to automate your project development.
 - **Alternatives**:
   - Do It Yourself (DIY)
 
-### Git Hooks: [Pre-Commit](https://pre-commit.com/)
+### Git Hooks: [Lefthook](https://lefthook.dev/)
 
 - **Motivations**:
   - Check your code locally before a commit
   - Avoid wasting resources on your CI/CD
-  - Can perform extra actions (e.g., file cleanup)
+  - Fast, parallel hooks that delegate to `mise run` tasks
 - **Limitations**:
   - Add overhead before your commit
 - **Alternatives**:
-  - [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks): less convenient to use
+  - [Git Hooks](https://git-scm.com/book/en/v2/Customizing-Git-Git-Hooks): native but less convenient to use
 
-### Tasks: [Just](https://just.systems/man/en/introduction.html)
+### Tasks: [Mise](https://mise.jdx.dev/)
 
 - **Motivations**:
   - Automate project workflows
-  - Sane syntax compared to alternatives
-  - Good trade-off between power and simplicity
+  - One task vocabulary shared by git hooks and CI
+  - Also manages the project toolchain (uv, dprint, gitleaks, trivy)
 - **Limitations**:
   - Not familiar to most developers
 - **Alternatives**:
   - [Make](https://www.gnu.org/software/make/manual/make.html): most popular, but awful syntax
-  - [PyInvoke](https://www.pyinvoke.org/): pythonic, but verbose and less straightforward.
+  - [Task](https://taskfile.dev/): YAML task runner without toolchain management
 
 ## CI/CD
 
@@ -443,7 +403,7 @@ Edition, validation, and versioning of your project source code.
 - **Limitations**:
   - None
 - **Alternatives**:
- - [Pytest Cov](https://pytest-cov.readthedocs.io/en/latest/) A Pytest plugin that uses `coverage.py` to measure code coverage.
+- [Pytest Cov](https://pytest-cov.readthedocs.io/en/latest/) A Pytest plugin that uses `coverage.py` to measure code coverage.
 
 ### Editor: [VS Code](https://code.visualstudio.com/)
 
@@ -482,16 +442,16 @@ Edition, validation, and versioning of your project source code.
   - [PyLint](https://www.pylint.org/): too slow and too complex system
   - [Flake8](https://flake8.pycqa.org/en/latest/): too much plugins, I prefer Pylint in practice
 
-### Security: [Bandit](https://bandit.readthedocs.io/en/latest/)
+### Security: [Ruff](https://docs.astral.sh/ruff/)
 
 - **Motivations**:
-  - Detect security issues
-  - Complement linting solutions
-  - Not to heavy to use and enable
+  - Detect security issues with the `S` (flake8-bandit) rules
+  - Complemented by [Trivy](https://trivy.dev/), [gitleaks](https://gitleaks.io/), and [pip-audit](https://pypi.org/project/pip-audit/) in `mise run check`
+  - No extra tool to install: folded into the linter
 - **Limitations**:
   - None
 - **Alternatives**:
-  - None
+  - [Bandit](https://bandit.readthedocs.io/en/latest/): the standalone tool the `S` rules are based on
 
 ### Testing: [Pytest](https://docs.pytest.org/en/latest/)
 
@@ -504,14 +464,14 @@ Edition, validation, and versioning of your project source code.
 - **Alternatives**:
   - [Unittest](https://docs.python.org/fr/3/library/unittest.html): more verbose, less fun
 
-### Typing: [Mypy](https://mypy-lang.org/)
+### Typing: [ty](https://github.com/astral-sh/ty)
 
 - **Motivations**:
   - Static typing is cool!
-  - Communicate types to use
-  - Official type checker for Python
+  - Extremely fast, written in Rust by [Astral](https://astral.sh/)
+  - Same maintainers and ecosystem as Ruff and uv
 - **Limitations**:
-  - Can have overhead for complex typing
+  - Pre-1.0, still stabilizing its type-checking rules
 - **Alternatives**:
   - [PyRight](https://github.com/microsoft/pyright): check big code base by MicroSoft
   - [PyType](https://google.github.io/pytype/): check big code base by Google
@@ -579,6 +539,17 @@ Manage the configs files of your project to change executions.
 - **Alternatives**:
   - [Dataclass](https://docs.python.org/3/library/dataclasses.html): simpler, but much less powerful
   - [Attrs](https://www.attrs.org/en/stable/): no validation, less intuitive to use
+
+### Formatter: [dprint](https://dprint.dev/)
+
+- **Motivations**:
+  - Format JSON, Markdown, TOML, and YAML files
+  - Fast, pluggable formatter written in Rust
+  - Keep configs and docs consistent alongside Ruff for Python
+- **Limitations**:
+  - Separate tool from the Python formatter (Ruff)
+- **Alternatives**:
+  - [Prettier](https://prettier.io/): broader language support, but slower and Node-based
 
 ## Data
 
@@ -710,6 +681,8 @@ Toolkit to handle machine learning models.
   - [Neptune.ai](https://neptune.ai/): SaaS solution
   - [Weights and Biases](https://wandb.ai/site): SaaS solution
 
+> **MLflow 3**: MLflow 3 deprecated the local filesystem store, so for local development this package opts in via the `MLFLOW_ALLOW_FILE_STORE` environment variable (see `.env`) and serves the `./mlruns` store with `mise run mlflow:serve`. Prefer a database backend (e.g., PostgreSQL) in production.
+
 ## Package
 
 Define and build modern Python package.
@@ -718,7 +691,7 @@ Define and build modern Python package.
 
 - **Motivation**:
   - Communicate changes to user
-  - Can be updated with [Commitizen](https://commitizen-tools.github.io/commitizen/changelog/)
+  - Generated from [Conventional Commits](https://www.conventionalcommits.org/) with [git-cliff](https://git-cliff.org/)
   - Standardized with [Keep a Changelog](https://keepachangelog.com/)
 - **Limitations**:
   - None
@@ -741,7 +714,7 @@ Define and build modern Python package.
 ### Manager: [uv](https://docs.astral.sh/uv/)
 
 - **Motivations**:
-  - Define and build Python package
+  - Define and build Python package (with the `uv_build` backend)
   - Fast and compliant package manager
   - Pack every metadata in a single static file
 - **Limitations**:
@@ -805,6 +778,8 @@ Select your programming environment.
   - [DVC](https://dvc.org/): both data and models.
   - [Metaflow](https://metaflow.org/): focus on machine learning.
   - **[Apache Airflow](https://airflow.apache.org/)**: for large scale projects.
+
+> Run an MLflow Project job with `mise run project:run <job>` (e.g. `mise run project:run training`); it passes `--env-manager=local` to reuse the uv-managed environment instead of creating a new one.
 
 ### Monitoring : [Mlflow Evaluate](https://mlflow.org/docs/latest/model-evaluation/index.html)
 
@@ -882,12 +857,12 @@ In your code, you can refer to your dataset with a tag (e.g., `inputs`, `targets
 This tag can then be associated to a reader/writer implementation in a configuration file:
 
 ```yaml
-  inputs:
-    KIND: ParquetReader
-    path: data/inputs_train.parquet
-  targets:
-    KIND: ParquetReader
-    path: data/targets_train.parquet
+inputs:
+  KIND: ParquetReader
+  path: data/inputs_train.parquet
+targets:
+  KIND: ParquetReader
+  path: data/targets_train.parquet
 ```
 
 In this package, the implementation are described in `src/[package]/io/datasets.py` and selected by `KIND`.
@@ -906,9 +881,9 @@ For more complex project, we recommend to use more complex strategy (e.g., [Baye
 
 **You should properly split your dataset into a training, validation, and testing sets.**
 
-- *Training*: used for fitting the model parameters
-- *Validation*: used to find the best hyperparameters
-- *Testing*: used to evaluate the final model performance
+- _Training_: used for fitting the model parameters
+- _Validation_: used to find the best hyperparameters
+- _Testing_: used to evaluate the final model performance
 
 The sets should be exclusive, and the testing set should never be used as training inputs!
 
@@ -922,7 +897,7 @@ This package provides a simple deterministic strategy implemented in `src/[packa
 
 A DAG can express the dependencies between steps while keeping the individual step independent.
 
-This package provides a DAG example in `tasks/project.just`. The approach is based on [Just](https://just.systems/man/en/introduction.html) and is explained in the section on Automation above.
+This package provides a DAG example in the `project` task of `mise.toml`. The approach is based on [mise](https://mise.jdx.dev/) and is explained in the section on Automation above.
 
 In production, we recommend to use a scalable system such as [Airflow](https://airflow.apache.org/), [Dagster](https://dagster.io/), [Prefect](https://www.prefect.io/), [Metaflow](https://metaflow.org/), or [ZenML](https://zenml.io/).
 
@@ -946,11 +921,11 @@ This package seeks to expose as much parameter as possible to the users in confi
 
 **You should implement the SOLID principles to make your code as flexible as possible.**
 
-- *Single responsibility principle*:  Class has one job to do. Each change in requirements can be done by changing just one class.
-- *Open/closed principle*: Class is happy (open) to be used by others. Class is not happy (closed) to be changed by others.
-- *Liskov substitution principle*: Class can be replaced by any of its children. Children classes inherit parent's behaviours.
-- *Interface segregation principle*: When classes promise each other something, they should separate these promises (interfaces) into many small promises, so it's easier to understand.
-- *Dependency inversion principle*: When classes talk to each other in a very specific way, they both depend on each other to never change. Instead classes should use promises (interfaces, parents), so classes can change as long as they keep the promise.
+- _Single responsibility principle_: Class has one job to do. Each change in requirements can be done by changing exactly one class.
+- _Open/closed principle_: Class is happy (open) to be used by others. Class is not happy (closed) to be changed by others.
+- _Liskov substitution principle_: Class can be replaced by any of its children. Children classes inherit parent's behaviours.
+- _Interface segregation principle_: When classes promise each other something, they should separate these promises (interfaces) into many small promises, so it's easier to understand.
+- _Dependency inversion principle_: When classes talk to each other in a very specific way, they both depend on each other to never change. Instead classes should use promises (interfaces, parents), so classes can change as long as they keep the promise.
 
 In practice, this mean you can implement software contracts with interface and swap the implementation.
 
@@ -1000,7 +975,7 @@ To build a Python package with uv, you simply have to type in a terminal:
 # for all uv project
 uv build
 # for this project only
-inv packages
+mise run build
 ```
 
 ## [Software Engineering](https://en.wikipedia.org/wiki/Software_engineering)
@@ -1009,7 +984,7 @@ inv packages
 
 **You should type your Python code to make it more robust and explicit for your user.**
 
-Python provides the [typing module](https://docs.python.org/3/library/typing.html) for adding type hints and [mypy](https://mypy-lang.org/) to checking them.
+Python provides the [typing module](https://docs.python.org/3/library/typing.html) for adding type hints and [ty](https://github.com/astral-sh/ty) to checking them.
 
 ```python
 # in src/[package]/core/models.py
@@ -1099,9 +1074,9 @@ The package defines class interface whenever possible to provide intuitive and r
 
 Semantic Versioning (SemVer) provides a simple schema to communicate code changes. For package X.Y.Z:
 
-- *Major* (X): major release with breaking changed (i.e., imply actions from the benefit)
-- *Minor* (Y): minor release with new features (i.e., provide new capabilities)
-- *Patch* (Z): patch release to fix bugs (i.e., correct wrong behavior)
+- _Major_ (X): major release with breaking changed (i.e., imply actions from the benefit)
+- _Minor_ (Y): minor release with new features (i.e., provide new capabilities)
+- _Patch_ (Z): patch release to fix bugs (i.e., correct wrong behavior)
 
 Uv and this package leverage Semantic Versioning to let developers control the speed of adoption for new releases.
 

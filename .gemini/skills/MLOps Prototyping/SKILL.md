@@ -36,11 +36,11 @@ Expose all "knobs" at the top of the notebook for easy experimentation.
 - **Randomness**: Define `RANDOM_STATE = 42` and use it in splits and model initialization.
 - **Paths**: Use `pathlib` for robust path handling.
 
-    ```python
-    from pathlib import Path
-    ROOT = Path("..")
-    DATA_PATH = ROOT / "data" / "input.parquet"
-    ```
+  ```python
+  from pathlib import Path
+  ROOT = Path("..")
+  DATA_PATH = ROOT / "data" / "input.parquet"
+  ```
 
 - **Hyperparameters**: Group model params (e.g., `N_ESTIMATORS`, `MAX_DEPTH`).
 - **Toggles**: Use booleans for expensive operations (e.g., `USE_GPU = True`, `RUN_GRID_SEARCH = False`).
@@ -64,29 +64,29 @@ Prohibit raw data transformations on the full dataset.
 - **Why**: Automation of `fit` on train and `transform` on test prevents data leakage.
 - **Example**:
 
-    ```python
-    from sklearn.pipeline import Pipeline
-    from sklearn.preprocessing import StandardScaler, OneHotEncoder
-    from sklearn.impute import SimpleImputer
-    from sklearn.compose import ColumnTransformer
+  ```python
+  from sklearn.pipeline import Pipeline
+  from sklearn.preprocessing import StandardScaler, OneHotEncoder
+  from sklearn.impute import SimpleImputer
+  from sklearn.compose import ColumnTransformer
 
-    CACHE = "./.cache" # Define a cache directory
+  CACHE = "./.cache" # Define a cache directory
 
-    numeric_transformer = Pipeline(steps=[
-        ('imputer', SimpleImputer(strategy='median')),
-        ('scaler', StandardScaler())
-    ])
+  numeric_transformer = Pipeline(steps=[
+      ('imputer', SimpleImputer(strategy='median')),
+      ('scaler', StandardScaler())
+  ])
 
-    preprocessor = ColumnTransformer(transformers=[
-        ('num', numeric_transformer, numeric_features)
-    ])
+  preprocessor = ColumnTransformer(transformers=[
+      ('num', numeric_transformer, numeric_features)
+  ])
 
-    # Use 'memory' to cache transformer outputs, speeding up GridSearch
-    model = Pipeline(steps=[
-        ('preprocessor', preprocessor),
-        ('classifier', RandomForestClassifier())
-    ], memory=CACHE)
-    ```
+  # Use 'memory' to cache transformer outputs, speeding up GridSearch
+  model = Pipeline(steps=[
+      ('preprocessor', preprocessor),
+      ('classifier', RandomForestClassifier())
+  ], memory=CACHE)
+  ```
 
 ### 5. Evaluation & Visualization
 
@@ -103,7 +103,7 @@ Go beyond accuracy/MSE.
 
 Facilitate the move from notebook to python package (`src/`).
 
-- **Function Refactoring**: Once a block of code is stable (e.g., a complex data cleaning step), refactor it into a function *within* the notebook. This makes moving it to a `.py` file trivial later.
+- **Function Refactoring**: Once a block of code is stable (e.g., a complex data cleaning step), refactor it into a function _within_ the notebook. This makes moving it to a `.py` file trivial later.
 - **Cell Tagging**: Use tags like `parameters` (for Papermill) or `export` to mark cells that should be part of the final documentation or automated pipeline.
 - **Clean State**: Ensure the notebook runs top-to-bottom (`Restart Kernel and Run All`) without errors before committing.
 
@@ -113,4 +113,4 @@ Facilitate the move from notebook to python package (`src/`).
 - [ ] **No Data Leakage**: Is `fit` called ONLY on `X_train`?
 - [ ] **Reproducibility**: Is `random_state` set for all stochastic operations?
 - [ ] **Resilience**: are paths defined relative to the project root?
-- [ ] **Clarity**: Does the notebook read like a report (Markdown cells explaining the *Why*)?
+- [ ] **Clarity**: Does the notebook read like a report (Markdown cells explaining the _Why_)?

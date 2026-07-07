@@ -132,9 +132,7 @@ class TimeSeriesSplitter(Splitter):
         targets: schemas.Targets,
         groups: Index | None = None,
     ) -> TrainTestSplits:
-        splitter = model_selection.TimeSeriesSplit(
-            n_splits=self.n_splits, test_size=self.test_size, gap=self.gap
-        )
+        splitter = model_selection.TimeSeriesSplit(n_splits=self.n_splits, test_size=self.test_size, gap=self.gap)
         yield from splitter.split(inputs)
 
     @T.override

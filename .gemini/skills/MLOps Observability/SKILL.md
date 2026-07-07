@@ -41,7 +41,7 @@ Watch for silent failures. For instance:
 
 1. **Validation**: Use `MLflow Evaluate` to gate models against quality thresholds.
 2. **Drift**: Use `evidently` to compare `reference` (training) vs `current` (production) data.
-    - Detect Data Drift (input distribution changes) and Concept Drift (relationship changes).
+   - Detect Data Drift (input distribution changes) and Concept Drift (relationship changes).
 3. **System**: Enable MLflow System Metrics (`log_system_metrics=True`) for CPU/GPU.
 
 ### 4. Alerting
@@ -58,7 +58,7 @@ Don't stare at dashboards. For instance:
 Trust but verify. For instance:
 
 1. **Global**: Use Feature Importance (e.g., Random Forest) to understand overall logic.
-2. **Local**: Use `SHAP` values to explain *individual* predictions.
+2. **Local**: Use `SHAP` values to explain _individual_ predictions.
 3. **Artifacts**: Save explanations (plots/tables) as MLflow artifacts.
 
 ### 6. Infrastructure & Costs
