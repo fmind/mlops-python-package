@@ -62,7 +62,7 @@ dev = [
   "pytest-mock>=3.14.0",
   "pytest-xdist>=3.6.1",
   "ruff>=0.15.0",
-  "ty>=0.0.56,<0.1", # pre-1.0: pin a compatible range until it stabilizes
+  "ty>=0.0.59,<0.1", # pre-1.0: pin a compatible range until it stabilizes
   "validate-pyproject>=0.25",
 ]
 notebook = ["ipykernel>=6.29.5", "nbformat>=5.10.4"]
