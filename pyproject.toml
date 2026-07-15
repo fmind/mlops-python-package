@@ -61,7 +61,7 @@ dev = [
   "pytest-cov>=7.1.0",
   "pytest-mock>=3.14.0",
   "pytest-xdist>=3.6.1",
-  "ruff>=0.15.0",
+  "ruff>=0.15.21",
   "ty>=0.0.56,<0.1", # pre-1.0: pin a compatible range until it stabilizes
   "validate-pyproject>=0.25",
 ]
