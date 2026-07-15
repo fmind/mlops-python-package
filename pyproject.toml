@@ -54,7 +54,7 @@ bikes = 'bikes.scripts:main'
 
 [dependency-groups]
 dev = [
-  "lefthook>=2.1.9",
+  "lefthook>=2.1.10",
   "pdoc>=16.0.0",
   "pip-audit>=2.9.0",
   "pytest>=9.1.1",
