@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import abc
 import contextlib as ctx
-import os
 import sys
 import typing as T
 
@@ -171,8 +170,11 @@ class MlflowService(Service):
         log_system_metrics: bool | None = True
 
     # server uri
-    tracking_uri: str = "./mlruns"
-    registry_uri: str = "./mlruns"
+    # SQLAlchemy backends are the supported store in MLflow 3: SQLite gives the local
+    # setup the same shape as a production database (Postgres, MySQL) with no server to
+    # run, and it is the only local store the model registry is actually designed for.
+    tracking_uri: str = "sqlite:///mlflow.db"
+    registry_uri: str = "sqlite:///mlflow.db"
     # experiment
     experiment_name: str = "bikes"
     # registry
@@ -189,10 +191,6 @@ class MlflowService(Service):
 
     @T.override
     def start(self) -> None:
-        # MLflow 3 puts the filesystem store (e.g., './mlruns') in maintenance mode and
-        # refuses it by default. Opt in for the simple local backend used in development.
-        # In production, prefer a database backend (e.g., 'sqlite:///mlflow.db').
-        os.environ.setdefault("MLFLOW_ALLOW_FILE_STORE", "true")
         # server uri
         mlflow.set_tracking_uri(uri=self.tracking_uri)
         mlflow.set_registry_uri(uri=self.registry_uri)

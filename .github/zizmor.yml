@@ -1,0 +1,10 @@
+# Copy to .github/zizmor.yml.
+# Actions are deliberately pinned to major-version tags (see the upgrade-tools
+# skill): tags track security patches within a major, at the cost of trusting
+# the tag. zizmor's default policy demands hash-pins; relax it to ref-pins so
+# the audit enforces the actual policy instead of fighting it.
+rules:
+  unpinned-uses:
+    config:
+      policies:
+        "*": ref-pin
