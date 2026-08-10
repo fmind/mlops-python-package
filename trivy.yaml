@@ -7,5 +7,12 @@ scan:
     - misconfig
     - secret
     - vuln
+  # Caches and virtualenvs are not source. `.cache` in particular is written by
+  # `check:vuln` (pip-audit) while this scan runs in parallel, and trivy aborts when a
+  # temporary file disappears mid-walk.
+  skip-dirs:
+    - .cache
+    - .venv
+    - .git
 vulnerability:
   ignore-unfixed: true
