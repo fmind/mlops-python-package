@@ -5,7 +5,8 @@ FROM python:3.14-slim AS build
 ENV UV_COMPILE_BYTECODE=1
 ENV UV_LINK_MODE=copy
 WORKDIR /app
-COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+# Pinned, not `:latest` — a floating tag is invisible to Dependabot's docker ecosystem.
+COPY --from=ghcr.io/astral-sh/uv:0.12.3 /uv /uvx /bin/
 RUN --mount=type=cache,target=/root/.cache/uv \
   --mount=type=bind,source=uv.lock,target=uv.lock \
   --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
@@ -17,9 +18,11 @@ RUN --mount=type=cache,target=/root/.cache/uv \
 FROM python:3.14-slim
 ENV PYTHONUNBUFFERED=1
 WORKDIR /app
-RUN groupadd -r app && useradd -r -g app -m app
-USER app
-COPY --from=build --chown=app:app /app/.venv /app/.venv
+# Fixed numeric uid/gid: stable file ownership across rebuilds and bind mounts, and
+# resolvable by a host that does not share this image's /etc/passwd.
+RUN groupadd -r -g 10001 app && useradd -r -u 10001 -g app -m app
+USER 10001:10001
+COPY --from=build --chown=10001:10001 /app/.venv /app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
 ENTRYPOINT ["bikes"]
 CMD ["--help"]

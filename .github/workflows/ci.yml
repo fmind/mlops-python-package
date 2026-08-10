@@ -10,17 +10,18 @@ concurrency:
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 jobs:
   checks: # name kept as "checks" to satisfy the repository's required-status-check ruleset
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - name: Checkout repository
         uses: actions/checkout@v7
+        with:
+          persist-credentials: false # no step pushes back to the repository
       - name: Install mise toolchain
         uses: jdx/mise-action@v4
-      - name: Format sources
-        run: mise run format
-      - name: Run checks
-        run: mise run check
-      - name: Run tests
-        run: mise run test
+        with:
+          cache: true
+      - name: Run canonical gate
+        run: mise run all
       - name: Verify no changes
-        run: git diff --exit-code
+        run: test -z "$(git status --porcelain)"

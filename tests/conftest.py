@@ -3,6 +3,7 @@
 # %% IMPORTS
 
 import os
+import shutil
 import typing as T
 
 import omegaconf
@@ -93,8 +94,8 @@ def extra_config() -> str:
                 "enable": false,
             },
             "mlflow_service": {
-                "tracking_uri": "${tmp_path:}/tracking/",
-                "registry_uri": "${tmp_path:}/registry/",
+                "tracking_uri": "sqlite:///${tmp_path:}/mlflow.db",
+                "registry_uri": "sqlite:///${tmp_path:}/mlflow.db",
             }
         }
     }
@@ -310,12 +311,34 @@ def alerts_service() -> T.Generator[services.AlertsService]:
     service.stop()
 
 
+@pytest.fixture(scope="session")
+def mlflow_db_template(tmp_path_factory: pytest.TempPathFactory) -> str:
+    """Return a migrated but empty MLflow database used as a template by every test.
+
+    Creating an MLflow SQLite store runs its Alembic migrations, which costs seconds.
+    Paying that once per session and copying the file per test keeps the isolation of a
+    fresh database at the cost of a file copy.
+    """
+    path = tmp_path_factory.mktemp("mlflow") / "template.db"
+    services.MlflowService(
+        tracking_uri=f"sqlite:///{path}",
+        registry_uri=f"sqlite:///{path}",
+        experiment_name="Experiment-Template",
+        registry_name="Registry-Template",
+    ).start()
+    return str(path)
+
+
 @pytest.fixture(scope="function", autouse=True)
-def mlflow_service(tmp_path: str) -> T.Generator[services.MlflowService]:
+def mlflow_service(tmp_path: str, mlflow_db_template: str) -> T.Generator[services.MlflowService]:
     """Return and start the mlflow service."""
+    # Each test gets its own SQLite file under tmp_path, so runs stay isolated the same
+    # way the old per-test directories were, with the store the package actually ships.
+    database = os.path.join(tmp_path, "mlflow.db")
+    shutil.copyfile(mlflow_db_template, database)
     service = services.MlflowService(
-        tracking_uri=f"{tmp_path}/tracking/",
-        registry_uri=f"{tmp_path}/registry/",
+        tracking_uri=f"sqlite:///{database}",
+        registry_uri=f"sqlite:///{database}",
         experiment_name="Experiment-Testing",
         registry_name="Registry-Testing",
     )

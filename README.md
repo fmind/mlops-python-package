@@ -39,6 +39,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
     - [Tasks: Mise](#tasks-mise)
   - [CI/CD](#cicd)
     - [Runner: GitHub Actions](#runner-github-actions)
+    - [Workflow Linting: actionlint + zizmor](#workflow-linting-actionlint--zizmor)
   - [CLI](#cli)
     - [Parser: Argparse](#parser-argparse)
     - [Logging: Loguru](#logging-loguru)
@@ -75,6 +76,7 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
     - [Format: Wheel](#format-wheel)
     - [Manager: uv](#manager-uv)
     - [Runtime: Docker](#runtime-docker)
+    - [Image Linting: hadolint](#image-linting-hadolint)
   - [Programming](#programming)
     - [Language: Python](#language-python)
     - [Version: Uv](#version-uv)
@@ -123,8 +125,8 @@ This section details the requirements, actions, and next steps to kickstart your
 ## Prerequisites
 
 - [Python>=3.14](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.14.html)
-- [uv>=0.9.0](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
-- [mise](https://mise.jdx.dev/): to run the canonical project tasks (`install`, `format`, `check`, `test`, `build`) shared by git hooks and CI
+- [uv>=0.12](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
+- [mise](https://mise.jdx.dev/): to run the canonical project tasks (`install`, `format`, `check`, `test`, `build`, and `all`) shared by git hooks and CI
 
 ## Installation
 
@@ -357,10 +359,22 @@ Execution of automated workflows on code push and releases.
   - Native on GitHub
   - Simple workflow syntax
   - Lots of configs if needed
+  - Runs one command, `mise run all`, so CI and local hooks cannot disagree
 - **Limitations**:
   - SaaS Service
 - **Alternatives**:
   - [GitLab](https://about.gitlab.com/): can be installed on-premise
+
+### Workflow Linting: [actionlint](https://github.com/rhysd/actionlint) + [zizmor](https://docs.zizmor.sh/)
+
+- **Motivations**:
+  - Workflows are code: `actionlint` checks their schema, expressions, and embedded shell
+  - `zizmor` audits them for security (template injection, credential persistence, cache poisoning)
+  - Both run offline inside `mise run check:actions`, so a broken workflow fails before it is pushed
+- **Limitations**:
+  - `zizmor` defaults to demanding SHA-pinned actions; `.github/zizmor.yml` relaxes that to the tag-pinning policy this project actually follows
+- **Alternatives**:
+  - Discovering the mistake from a red run on `main`
 
 ## CLI
 
@@ -681,7 +695,7 @@ Toolkit to handle machine learning models.
   - [Neptune.ai](https://neptune.ai/): SaaS solution
   - [Weights and Biases](https://wandb.ai/site): SaaS solution
 
-> **MLflow 3**: MLflow 3 deprecated the local filesystem store, so for local development this package opts in via the `MLFLOW_ALLOW_FILE_STORE` environment variable (see `.env`) and serves the `./mlruns` store with `mise run mlflow:serve`. Prefer a database backend (e.g., PostgreSQL) in production.
+> **MLflow 3**: MLflow 3 put the local filesystem store in maintenance mode, so this package tracks runs and registered models in a SQLite database (`sqlite:///mlflow.db`); artifact files still live on disk under `./mlruns`. Browse it with `mise run mlflow:serve`. SQLite is a real SQLAlchemy backend — the same store shape as a production PostgreSQL, the one the model registry is actually designed for, and a one-line change (`MLFLOW_TRACKING_URI`) away from it.
 
 ## Package
 
@@ -708,7 +722,7 @@ Define and build modern Python package.
   - Doesn't ship with C/C++ dependencies (e.g., CUDA)
     - i.e., use Docker containers for this case
 - **Alternatives**:
-  - [Source](https://docs.python.org/3/distutils/sourcedist.html): older format, less powerful
+  - [Source](https://packaging.python.org/en/latest/specifications/source-distribution-format/): older format, less powerful
   - [Conda](https://conda.io/projects/conda/en/latest/user-guide/install/index.html): slow and hard to manage
 
 ### Manager: [uv](https://docs.astral.sh/uv/)
@@ -735,6 +749,16 @@ Define and build modern Python package.
   - Some company might block Docker Desktop, you should use alternatives
 - **Alternatives**:
   - [Conda](https://docs.conda.io/en/latest/): slow and heavy resolver
+
+### Image Linting: [hadolint](https://github.com/hadolint/hadolint)
+
+- **Motivations**:
+  - Catches Dockerfile mistakes (unpinned bases, root users, unresolvable uids) before a build
+  - Runs offline in under a second inside `mise run check:dockerfile`
+- **Limitations**:
+  - Lints the recipe, not the built image; `trivy` covers the image contents
+- **Alternatives**:
+  - Reading the [Dockerfile best practices](https://docs.docker.com/build/building/best-practices/) page every time
 
 ## Programming
 
@@ -817,7 +841,7 @@ Select your programming environment.
   - Not as feature-rich as alternative solutions.
 - **Alternatives**:
   - [Databricks Lineage](https://docs.databricks.com/en/admin/system-tables/lineage.html): limited to Databricks.
-  - [OpenLineage and Marquez](https://marquezproject.github.io/): open-source and flexible.
+  - [OpenLineage and Marquez](https://marquezproject.ai/): open-source and flexible.
 
 ### Explainability: [SHAP](https://shap.readthedocs.io/en/latest/)
 
@@ -931,7 +955,7 @@ In practice, this mean you can implement software contracts with interface and s
 
 For instance, you can implement several jobs in `src/[package]/jobs/*.py` and swap them in your configuration.
 
-To learn more about the mechanism select for this package, you can check the documentation for [Pydantic Tagged Unions](https://docs.pydantic.dev/dev-v2/usage/types/unions/#discriminated-unions-aka-tagged-unions).
+To learn more about the mechanism select for this package, you can check the documentation for [Pydantic Tagged Unions](https://docs.pydantic.dev/latest/concepts/unions/#discriminated-unions).
 
 ### [IO Separation](https://en.wikibooks.org/wiki/Haskell/Understanding_monads/IO)
 
@@ -991,6 +1015,7 @@ Python provides the [typing module](https://docs.python.org/3/library/typing.htm
 @abc.abstractmethod
 def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "Model":
     """Fit the model on the given inputs and target."""
+
 
 @abc.abstractmethod
 def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
@@ -1058,7 +1083,6 @@ Polymorphism combined with SOLID Principles allows to easily swap your code comp
 
 ```python
 class Reader(abc.ABC, pdt.BaseModel):
-
     @abc.abstractmethod
     def read(self) -> pd.DataFrame:
         """Read a dataframe from a dataset."""

@@ -23,6 +23,7 @@
 
 # Project
 /docs/*
+/mlflow.db
 /mlruns/*
 /mlartifacts/*
 /outputs/*

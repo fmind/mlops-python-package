@@ -3,18 +3,26 @@
 
 [env]
 _.source = ".env"
-# MLflow 3 refuses the filesystem store by default; opt in for local development so the
-# `mlflow` CLI (project runner, server) works. Prefer a database backend in production.
-MLFLOW_ALLOW_FILE_STORE = "true"
 
 [settings.task]
 run_auto_install = false
 
 [tools]
-uv = "latest"
+actionlint = "latest"
 dprint = "latest"
+git-cliff = "latest"
 gitleaks = "latest"
+hadolint = "latest"
 trivy = "latest"
+uv = "latest"
+zizmor = "latest"
+
+# ALL
+
+[tasks.all]
+alias = "a"
+description = "Format, check, test, and build the project (the canonical gate)"
+run = ["mise run format", "mise run check", "mise run test", "mise run build"]
 
 # INSTALL
 
@@ -33,12 +41,18 @@ depends = ["install:python"]
 run = "uv run lefthook install"
 
 [tasks."install:rulesets"]
-description = "Install GitHub branch rulesets"
+description = "Install or update the GitHub branch ruleset (idempotent)"
+# POST creates a duplicate every time it runs, so look the ruleset up by name first and
+# PUT over the existing one. Re-running this task must be a no-op, not a second ruleset.
 run = """
-repo=$(gh repo view --json=name --jq=.name)
-owner=$(gh repo view --json=owner --jq=.owner.login)
-gh api --method POST -H "Accept: application/vnd.github+json" \
-  "/repos/$owner/$repo/rulesets" --input=.github/rulesets/main.json
+repo=$(gh repo view --json=nameWithOwner --jq=.nameWithOwner)
+name=$(jq -r .name .github/rulesets/main.json)
+id=$(gh api "/repos/$repo/rulesets" --jq ".[] | select(.name == \\"$name\\") | .id" | head -n1)
+if [ -n "$id" ]; then
+  gh api --method PUT "/repos/$repo/rulesets/$id" --input=.github/rulesets/main.json
+else
+  gh api --method POST "/repos/$repo/rulesets" --input=.github/rulesets/main.json
+fi
 """
 
 # FORMAT
@@ -62,13 +76,23 @@ run = "dprint fmt"
 alias = "c"
 description = "Run all static checks in parallel"
 depends = [
+  "check:actions",
+  "check:dockerfile",
   "check:format",
   "check:leaks",
   "check:lint",
+  "check:scan",
   "check:types",
   "check:vuln",
-  "check:scan",
 ]
+
+[tasks."check:actions"]
+description = "Lint and audit GitHub Actions workflows (actionlint + zizmor)"
+run = ["actionlint", "zizmor --offline .github/workflows/"]
+
+[tasks."check:dockerfile"]
+description = "Lint the container image definition (hadolint)"
+run = "hadolint Dockerfile"
 
 [tasks."check:format"]
 description = "Check formatting and config validity"
@@ -89,15 +113,18 @@ run = "uv run ty check"
 
 [tasks."check:vuln"]
 description = "Scan dependencies for vulnerabilities (pip-audit)"
-run = "uv run pip-audit"
+run = "uv run pip-audit --skip-editable --cache-dir .cache/pip-audit"
 
 [tasks."check:leaks"]
 description = "Audit codebase for leaked secrets (gitleaks)"
 run = 'gitleaks git --log-opts="--max-count=100" --verbose'
 
 [tasks."check:scan"]
-description = "Scan configuration files for misconfigurations (trivy)"
-run = "trivy config ."
+description = "Scan the checkout for misconfigurations, secrets, and licenses (trivy)"
+# `--config` is explicit on purpose: without it a `TRIVY_CONFIG` exported in the user's
+# shell silently wins over the policy committed here, and the repository's own rules
+# never run. `fs` (not `config`) is what actually enables every scanner in trivy.yaml.
+run = "trivy --config trivy.yaml fs ."
 
 # TEST
 
@@ -105,6 +132,12 @@ run = "trivy config ."
 alias = "t"
 description = "Run the test suite with coverage (pytest)"
 run = "uv run pytest"
+
+[tasks."test:parallel"]
+description = "Run the test suite across CPU cores, without the coverage gate (pytest-xdist)"
+# Fast local feedback only. pytest-cov and pytest-xdist deadlock on this suite, so the
+# coverage gate stays on the serial `test` task that hooks and CI run.
+run = "uv run pytest -n auto --no-cov"
 
 # BUILD
 
@@ -139,8 +172,11 @@ description = "Run the MLflow environment doctor"
 run = "uv run mlflow doctor"
 
 [tasks."mlflow:serve"]
-description = "Start a local MLflow tracking server"
-run = "uv run mlflow server --host=127.0.0.1 --port=5000 --backend-store-uri=./mlruns"
+description = "Start a local MLflow tracking server on the SQLite backend"
+# Same store the jobs write to: metadata in mlflow.db, artifact files under ./mlruns.
+# The server's artifact root is set explicitly so a served experiment and a directly
+# tracked one land in the same directory instead of MLflow's separate ./mlartifacts.
+run = "uv run mlflow server --host=127.0.0.1 --port=5000 --backend-store-uri=sqlite:///mlflow.db --artifacts-destination=./mlruns"
 
 # PROJECT (MLflow Projects)
 
@@ -189,5 +225,5 @@ description = "Remove caches and build artifacts"
 run = [
   "find . -type f -name '*.py[co]' -delete",
   "find . -type d -name __pycache__ -exec rm -rf {} +",
-  "rm -rf .pytest_cache .ruff_cache .ty_cache .coverage htmlcov dist docs mlruns/* outputs/*",
+  "rm -rf .cache .pytest_cache .ruff_cache .ty_cache .coverage htmlcov dist docs mlflow.db mlartifacts/* mlruns/* outputs/*",
 ]
