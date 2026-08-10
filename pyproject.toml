@@ -33,7 +33,7 @@ dependencies = [
   "pynvml>=13.0.1",
   "scikit-learn>=1.9.0",
   "setuptools>=83.0.0",
-  "shap>=0.46.0",
+  "shap>=0.52.0",
 ]
 
 # LINKS
