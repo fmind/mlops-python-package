@@ -1,6 +1,6 @@
 {
   "template": "https://github.com/fmind/cookiecutter-mlops-package",
-  "commit": "2ce51abb4333d594baee46ce590ead4e4cd76142",
+  "commit": "3afbbd1e0922d415456719e8e1b26d17ae2838d2",
   "checkout": null,
   "context": {
     "cookiecutter": {
@@ -8,12 +8,12 @@
       "name": "MLOps Python Package",
       "repository": "mlops-python-package",
       "package": "bikes",
-      "license": "MIT",
-      "version": "4.0.0",
+      "version": "6.0.0",
       "description": "Predict the number of bikes available",
       "python_version": "3.14",
-      "mlflow_version": "3.14.0",
-      "_template": "https://github.com/fmind/cookiecutter-mlops-package"
+      "mlflow_version": "3.15.1",
+      "_template": "https://github.com/fmind/cookiecutter-mlops-package",
+      "year": "2026"
     }
   },
   "directory": null
