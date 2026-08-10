@@ -2,12 +2,22 @@
 
 All notable changes to this project are documented in this file.
 
+## [6.0.0] - 2026-08-10
+
+### 🚀 Features
+
+- [**breaking**] Track MLflow in SQLite and harden the canonical gate (#129)
+
+### 🐛 Bug Fixes
+
+- _(check)_ Stop trivy from scanning caches and racing pip-audit (#132)
+
 ## [5.0.0] - 2026-07-07
 
 ### 🚀 Features
 
 - Add Agent Skills.
-- [**breaking**] Migrate to canonical stack (mise, lefthook, ty, dprint, git-cliff, uv_build), Python 3.14, MLflow 3
+- [**breaking**] Migrate to canonical stack — v5.0.0 (Python 3.14, MLflow 3) (#121)
 
 ### 📚 Documentation
 
