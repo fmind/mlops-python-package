@@ -191,5 +191,5 @@ skip_covered = true
 [build-system]
 # Keep the upper bound at least one minor ahead of the pinned `uv` tool: without it
 # `uv build` warns, and a future breaking `uv_build` would silently break the sdist.
-requires = ["uv_build>=0.9,<0.13"]
+requires = ["uv_build>=0.12.4,<0.13"]
 build-backend = "uv_build"
