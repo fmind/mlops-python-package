@@ -19,8 +19,8 @@ dependencies = [
   "mlflow>=3.14.0",
   # numba/numpy/pyarrow/shap are ABI-coupled: keep permissive floors so uv's universal
   # (all-platform) resolution stays satisfiable; the lockfile pins the latest tested versions.
-  "numba>=0.61.0",
-  "numpy>=2.1.3",
+  "numba>=0.67.0",
+  "numpy>=2.5.2",
   "omegaconf>=2.3.1",
   "pandas>=2.3.3", # MLflow 3.x pins pandas<3; pandas 3.0 is held back by MLflow compat
   "pandera>=0.32.1",
@@ -63,8 +63,8 @@ dev = [
   "pytest-xdist>=3.8.0",
   # Ruff 0.16 formats Python inside Markdown and rewrote the default rule set:
   # an older Ruff would disagree with this repository's formatting, so floor it.
-  "ruff>=0.16.2",
-  "ty>=0.0.69,<0.1", # pre-1.0: pin a compatible range until it stabilizes
+  "ruff>=0.16.3",
+  "ty>=0.0.71,<0.1", # pre-1.0: pin a compatible range until it stabilizes
   "validate-pyproject>=0.25",
 ]
 notebook = ["ipykernel>=6.29.5", "nbformat>=5.10.4"]
