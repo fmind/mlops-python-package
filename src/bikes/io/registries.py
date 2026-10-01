@@ -6,6 +6,7 @@ import abc
 import typing as T
 
 import mlflow
+import pandas as pd
 import pydantic as pdt
 from mlflow.pyfunc import PyFuncModel, PythonModel, PythonModelContext
 
@@ -124,20 +125,23 @@ class CustomSaver(Saver):
         def predict(
             self,
             context: PythonModelContext,  # noqa: ARG002  # required by mlflow PythonModel.predict
-            model_input: schemas.Inputs,
+            model_input: pd.DataFrame,
             params: dict[str, T.Any] | None = None,  # noqa: ARG002  # required by mlflow PythonModel.predict
         ) -> schemas.Outputs:
             """Generate predictions with a custom model for the given inputs.
 
             Args:
                 context (mlflow.PythonModelContext): mlflow context.
-                model_input (schemas.Inputs): inputs for the mlflow model.
+                model_input (pd.DataFrame): inputs to validate for the mlflow model.
                 params (dict[str, T.Any] | None): additional parameters.
 
             Returns:
                 schemas.Outputs: validated outputs of the project model.
             """
-            return self.model.predict(inputs=model_input)
+            # MLflow recognizes pandas annotations, but cannot infer a Pandera schema.
+            # Keep the typed, validated project inputs behind this boundary.
+            inputs = schemas.InputsSchema.check(data=model_input)
+            return self.model.predict(inputs=inputs)
 
     @T.override
     def save(

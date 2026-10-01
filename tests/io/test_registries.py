@@ -1,5 +1,12 @@
 # %% IMPORTS
 
+import runpy
+import warnings
+
+import pandas as pd
+import pandera.errors as pe
+import pytest
+
 from bikes.core import models, schemas
 from bikes.io import registries, services
 from bikes.utils import signers
@@ -43,6 +50,28 @@ def test_uri_for_model_alias_or_version() -> None:
 
 
 # %% SAVERS/LOADERS/REGISTERS
+
+
+def test_custom_saver_import_without_type_hint_warning() -> None:
+    # MLflow inspects predict when the adapter class is defined, before logging.
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        runpy.run_path(registries.__file__)
+    assert not any("Type hint used in the model" in str(warning.message) for warning in caught)
+
+
+def test_custom_saver_adapter_predict(model: models.Model, inputs: schemas.Inputs) -> None:
+    adapter = registries.CustomSaver.Adapter(model=model)
+    outputs = adapter.predict(context=None, model_input=pd.DataFrame(inputs))
+    pd.testing.assert_frame_equal(outputs, model.predict(inputs=inputs))
+
+
+def test_custom_saver_adapter_rejects_invalid_inputs(model: models.Model, inputs: schemas.Inputs) -> None:
+    adapter = registries.CustomSaver.Adapter(model=model)
+    invalid_inputs = pd.DataFrame(inputs).copy()
+    invalid_inputs["hr"] = 24
+    with pytest.raises(pe.SchemaError, match="less_than_or_equal_to"):
+        adapter.predict(context=None, model_input=invalid_inputs)
 
 
 def test_custom_pipeline(

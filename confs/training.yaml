@@ -6,3 +6,6 @@ job:
   targets:
     KIND: ParquetReader
     path: data/targets_train.parquet
+  model:
+    KIND: BaselineSklearnModel
+    max_depth: 7

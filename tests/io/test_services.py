@@ -59,6 +59,21 @@ def test_alerts_service__not_supported(mocker: pm.MockerFixture, capsys: pc.Capt
     assert "Notifications are not supported on this system." in capsys.readouterr().out
 
 
+def test_alerts_service__truncates_long_fields(mocker: pm.MockerFixture) -> None:
+    # given
+    service = services.AlertsService(enable=True, app_name="a" * 128)
+    notify = mocker.patch(target="plyer.notification.notify")
+    # when
+    service.notify(title="t" * 64, message="m" * 376)
+    # then
+    notify.assert_called_once_with(
+        title=f"{'t' * 62}\N{HORIZONTAL ELLIPSIS}",
+        message=f"{'m' * 254}\N{HORIZONTAL ELLIPSIS}",
+        app_name=f"{'a' * 126}\N{HORIZONTAL ELLIPSIS}",
+        timeout=None,
+    )
+
+
 def test_mlflow_service(mlflow_service: services.MlflowService) -> None:
     # given
     service = mlflow_service

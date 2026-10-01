@@ -101,6 +101,10 @@ class AlertsService(Service):
     app_name: str = "Bikes"
     timeout: int | None = None
 
+    _MAX_APP_NAME_LENGTH: T.ClassVar[int] = 127
+    _MAX_TITLE_LENGTH: T.ClassVar[int] = 63
+    _MAX_MESSAGE_LENGTH: T.ClassVar[int] = 255
+
     @T.override
     def start(self) -> None:
         pass
@@ -115,9 +119,9 @@ class AlertsService(Service):
         if self.enable:
             try:
                 notification.notify(
-                    title=title,
-                    message=message,
-                    app_name=self.app_name,
+                    title=self._truncate(title, self._MAX_TITLE_LENGTH),
+                    message=self._truncate(message, self._MAX_MESSAGE_LENGTH),
+                    app_name=self._truncate(self.app_name, self._MAX_APP_NAME_LENGTH),
                     timeout=self.timeout,
                 )
             except NotImplementedError:
@@ -125,6 +129,13 @@ class AlertsService(Service):
                 self._print(title=title, message=message)
         else:
             self._print(title=title, message=message)
+
+    @staticmethod
+    def _truncate(value: str, max_length: int) -> str:
+        """Truncate a notification field to a platform-safe length."""
+        if len(value) <= max_length:
+            return value
+        return f"{value[: max_length - 1]}\N{HORIZONTAL ELLIPSIS}"
 
     def _print(self, title: str, message: str) -> None:
         """Print a notification to the system.
