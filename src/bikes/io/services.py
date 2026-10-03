@@ -101,6 +101,11 @@ class AlertsService(Service):
     app_name: str = "Bikes"
     timeout: int | None = None
 
+    # Plyer's NOTIFYICONDATAW buffers reserve one UTF-16 unit for the terminator.
+    _MAX_APP_NAME_LENGTH: T.ClassVar[int] = 127
+    _MAX_TITLE_LENGTH: T.ClassVar[int] = 63
+    _MAX_MESSAGE_LENGTH: T.ClassVar[int] = 255
+
     @T.override
     def start(self) -> None:
         pass
@@ -113,11 +118,16 @@ class AlertsService(Service):
             message (str): message of the notification.
         """
         if self.enable:
+            notify_title, notify_message, app_name = title, message, self.app_name
+            if sys.platform == "win32":
+                notify_title = self._truncate(title, self._MAX_TITLE_LENGTH)
+                notify_message = self._truncate(message, self._MAX_MESSAGE_LENGTH)
+                app_name = self._truncate(app_name, self._MAX_APP_NAME_LENGTH)
             try:
                 notification.notify(
-                    title=title,
-                    message=message,
-                    app_name=self.app_name,
+                    title=notify_title,
+                    message=notify_message,
+                    app_name=app_name,
                     timeout=self.timeout,
                 )
             except NotImplementedError:
@@ -125,6 +135,15 @@ class AlertsService(Service):
                 self._print(title=title, message=message)
         else:
             self._print(title=title, message=message)
+
+    @staticmethod
+    def _truncate(value: str, max_length: int) -> str:
+        """Fit a Windows field in UTF-16 units without splitting a surrogate pair."""
+        encoded = value.encode("utf-16-le")
+        if len(encoded) <= max_length * 2:
+            return value
+        prefix = encoded[: (max_length - 1) * 2].decode("utf-16-le", errors="ignore")
+        return f"{prefix}\N{HORIZONTAL ELLIPSIS}"
 
     def _print(self, title: str, message: str) -> None:
         """Print a notification to the system.
