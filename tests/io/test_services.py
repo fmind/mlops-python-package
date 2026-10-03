@@ -59,19 +59,61 @@ def test_alerts_service__not_supported(mocker: pm.MockerFixture, capsys: pc.Capt
     assert "Notifications are not supported on this system." in capsys.readouterr().out
 
 
-def test_alerts_service__truncates_long_fields(mocker: pm.MockerFixture) -> None:
+@pytest.mark.parametrize(
+    ("title", "message", "app_name", "expected_title", "expected_message", "expected_app_name"),
+    [
+        ("test", "hello", "Bikes", "test", "hello", "Bikes"),
+        ("t" * 63, "m" * 255, "a" * 127, "t" * 63, "m" * 255, "a" * 127),
+        ("t" * 64, "m" * 376, "a" * 128, "t" * 62 + "…", "m" * 254 + "…", "a" * 126 + "…"),
+        ("😀" * 32, "😀" * 128, "😀" * 64, "😀" * 31 + "…", "😀" * 127 + "…", "😀" * 63 + "…"),
+        ("t" + "😀" * 32, "m" * 376, "a" * 128, "t" + "😀" * 30 + "…", "m" * 254 + "…", "a" * 126 + "…"),
+    ],
+)
+def test_alerts_service__windows_limits(
+    mocker: pm.MockerFixture,
+    title: str,
+    message: str,
+    app_name: str,
+    expected_title: str,
+    expected_message: str,
+    expected_app_name: str,
+) -> None:
     # given
-    service = services.AlertsService(enable=True, app_name="a" * 128)
+    mocker.patch("bikes.io.services.sys.platform", "win32")
+    service = services.AlertsService(enable=True, app_name=app_name)
     notify = mocker.patch(target="plyer.notification.notify")
     # when
-    service.notify(title="t" * 64, message="m" * 376)
+    service.notify(title=title, message=message)
     # then
     notify.assert_called_once_with(
-        title=f"{'t' * 62}\N{HORIZONTAL ELLIPSIS}",
-        message=f"{'m' * 254}\N{HORIZONTAL ELLIPSIS}",
-        app_name=f"{'a' * 126}\N{HORIZONTAL ELLIPSIS}",
+        title=expected_title,
+        message=expected_message,
+        app_name=expected_app_name,
         timeout=None,
     )
+    for field, limit in [(expected_title, 63), (expected_message, 255), (expected_app_name, 127)]:
+        assert len(field.encode("utf-16-le")) // 2 <= limit
+
+
+@pytest.mark.parametrize("platform", ["linux", "darwin"])
+def test_alerts_service__long_fields_on_other_platforms(platform: str, mocker: pm.MockerFixture) -> None:
+    mocker.patch("bikes.io.services.sys.platform", platform)
+    service = services.AlertsService(app_name="a" * 128)
+    notify = mocker.patch("plyer.notification.notify")
+    service.notify(title="t" * 64, message="m" * 376)
+    notify.assert_called_once_with(title="t" * 64, message="m" * 376, app_name="a" * 128, timeout=None)
+
+
+@pytest.mark.parametrize("enable", [True, False])
+def test_alerts_service__windows_fallback_keeps_long_fields(
+    enable: bool, mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]
+) -> None:
+    mocker.patch("bikes.io.services.sys.platform", "win32")
+    notify = mocker.patch("plyer.notification.notify", side_effect=NotImplementedError)
+    service = services.AlertsService(enable=enable, app_name="a" * 128)
+    service.notify(title="t" * 64, message="m" * 376)
+    assert f"[{'a' * 128}] {'t' * 64}: {'m' * 376}\n" in capsys.readouterr().out
+    assert notify.call_count == int(enable)
 
 
 def test_mlflow_service(mlflow_service: services.MlflowService) -> None:

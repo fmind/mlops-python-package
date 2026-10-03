@@ -116,6 +116,11 @@ def test_custom_pipeline(
     )
     # - output
     assert schemas.OutputsSchema.check(outputs) is not None, "Outputs should be valid!"
+    # The serialized PyFunc must retain Pandera constraints beyond MLflow's column types.
+    invalid_inputs = inputs.copy()
+    invalid_inputs.loc[:, "hr"] = 24
+    with pytest.raises(pe.SchemaError, match="less_than_or_equal_to"):
+        adapter.predict(inputs=invalid_inputs)
 
 
 def test_builtin_pipeline(

@@ -138,8 +138,8 @@ class CustomSaver(Saver):
             Returns:
                 schemas.Outputs: validated outputs of the project model.
             """
-            # MLflow recognizes pandas annotations, but cannot infer a Pandera schema.
-            # Keep the typed, validated project inputs behind this boundary.
+            # MLflow accepts pandas here and validates the logged signature;
+            # Pandera enforces the project's constraints before the typed model call.
             inputs = schemas.InputsSchema.check(data=model_input)
             return self.model.predict(inputs=inputs)
 
