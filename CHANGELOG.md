@@ -2,6 +2,13 @@
 
 All notable changes to this project are documented in this file.
 
+## [6.0.1] - 2026-10-03
+
+### 🐛 Bug Fixes
+
+- _(ci)_ Pin the security workflow runner to ubuntu-24.04 (#134)
+- _(io)_ Handle Windows alerts and validate MLflow inputs (#142)
+
 ## [6.0.0] - 2026-08-10
 
 ### 🚀 Features
