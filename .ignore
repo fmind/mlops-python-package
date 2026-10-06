@@ -1,0 +1,7 @@
+# https://github.com/BurntSushi/ripgrep/blob/master/GUIDE.md#automatic-filtering
+# Keep ripgrep/fd searches on source: tracked but low-value files (Git still tracks them).
+*.lock
+data/
+images/
+notebooks/*.ipynb
+tests/data/

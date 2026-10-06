@@ -1,10 +1,8 @@
+// https://dprint.dev/config/
 {
   "$schema": "https://dprint.dev/schemas/v0.json",
   "lineWidth": 120,
   "excludes": [
-    "**/*-lock.json",
-    "**/node_modules",
-    "**/references/**",
     ".git",
     ".venv"
   ],

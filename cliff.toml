@@ -1,3 +1,5 @@
+# https://git-cliff.org/docs/configuration
+
 [changelog]
 header = """
 # Changelog
