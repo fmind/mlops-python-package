@@ -6,6 +6,7 @@ import os
 import shutil
 import typing as T
 
+import mlflow
 import omegaconf
 import pytest
 from _pytest import logging as pl
@@ -320,12 +321,13 @@ def mlflow_db_template(tmp_path_factory: pytest.TempPathFactory) -> str:
     fresh database at the cost of a file copy.
     """
     path = tmp_path_factory.mktemp("mlflow") / "template.db"
-    services.MlflowService(
-        tracking_uri=f"sqlite:///{path}",
-        registry_uri=f"sqlite:///{path}",
-        experiment_name="Experiment-Template",
-        registry_name="Registry-Template",
-    ).start()
+    artifacts = tmp_path_factory.mktemp("mlruns").as_uri()
+    client = mlflow.MlflowClient(tracking_uri=f"sqlite:///{path}")
+    # A SQLite store puts artifacts under ./mlruns of the working directory unless the
+    # experiment says otherwise: pre-create the experiments the tests use (the fixture's
+    # and the jobs' default) so their artifacts never land in the repository.
+    for name in ("Experiment-Testing", services.MlflowService().experiment_name):
+        client.create_experiment(name=name, artifact_location=artifacts)
     return str(path)
 
 
