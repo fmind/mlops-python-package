@@ -23,7 +23,7 @@ jobs:
           fetch-depth: 0
           persist-credentials: false # scanners only read the checkout
       - name: Install mise system
-        uses: jdx/mise-action@v4
+        uses: jdx/mise-action@v5
       - name: Scan complete Git history
         run: gitleaks git --redact=100 --verbose
       - name: Scan full checkout
