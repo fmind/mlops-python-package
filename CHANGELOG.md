@@ -2,6 +2,60 @@
 
 All notable changes to this project are documented in this file.
 
+## [6.1.0] - 2026-10-06
+
+### 🚀 Features
+
+- _(io)_ Save custom models without pickle
+
+### 🐛 Bug Fixes
+
+- _(io)_ Pass flavor-specific options through BuiltinSaver
+- _(deps)_ Replace the deprecated pynvml shim with nvidia-ml-py
+- _(io)_ Pass autolog_log_models to MLflow autolog
+- _(core)_ Round predictions instead of truncating them
+- _(jobs)_ Accept only the custom loader in ExplanationsJob
+- _(jobs)_ Explain a promotion without registered versions
+- _(utils)_ Type TimeSeriesSplitter.test_size as an int
+- _(deps)_ Restore the shap 0.52 wheel for Linux
+- _(docker)_ Build on the base image interpreter and smoke-test it
+- _(mise)_ Redact leaks, repair the upgrade task, drop jq
+- _(compose)_ Bind the MLflow server to localhost and track its image
+- _(jobs)_ Skip the evaluator's SHAP step in EvaluationsJob
+- _(core)_ Stop training on features that add up to the target
+- _(io)_ Redact credentials from logged MLflow URIs
+- _(confs)_ Evaluate the champion on the test split
+- Surface non-MLflow warnings and pass an explicit lineage source
+- _(docker)_ Create the app user without the system-account flag
+- _(io)_ Keep plyer backend probe warnings out of alerts
+
+### ⚡ Performance
+
+- _(check)_ Skip MLflow artifacts in the trivy scan
+- _(jobs)_ Log a five-row input example with trained models
+
+### ♻️ Refactor
+
+- _(jobs)_ Evaluate with mlflow.models.evaluate
+
+### 📚 Documentation
+
+- Sync README and AGENTS.md with the package
+
+### 🧪 Testing
+
+- Keep MLflow test artifacts out of the repository
+- Mock plyer without loading its backend and fix assertions
+
+### ⚙️ Build & CI
+
+- Scan with the check:scan task and explain dirty trees
+
+### 🧹 Miscellaneous
+
+- _(mise)_ Drop stale short-name lock entries
+- Head configs with their docs and add a search ignore file
+
 ## [6.0.1] - 2026-10-03
 
 ### 🐛 Bug Fixes
