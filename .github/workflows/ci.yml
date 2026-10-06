@@ -1,3 +1,4 @@
+# https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax
 name: CI
 on:
   push:
@@ -24,4 +25,4 @@ jobs:
       - name: Run canonical gate
         run: mise run all
       - name: Verify no changes
-        run: test -z "$(git status --porcelain)"
+        run: test -z "$(git status --porcelain)" || { git status --porcelain; git diff; exit 1; }
