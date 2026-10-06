@@ -2,9 +2,9 @@
 
 services:
   mlflow:
-    image: ghcr.io/mlflow/mlflow:v3.15.1
+    image: ghcr.io/mlflow/mlflow:v3.16.1
     ports:
-      - 5000:5000
+      - 127.0.0.1:5000:5000 # the server has no authentication: keep it local
     volumes:
       - ./mlflow.db:/mlflow/mlflow.db
       - ./mlruns:/mlflow/mlruns
