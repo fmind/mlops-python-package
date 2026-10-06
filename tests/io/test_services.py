@@ -3,7 +3,6 @@
 import _pytest.capture as pc
 import _pytest.logging as pl
 import mlflow
-import plyer
 import pytest
 import pytest_mock as pm
 from mlflow.utils.autologging_utils import get_autologging_config
@@ -29,31 +28,23 @@ def test_logger_service(logger_service: services.LoggerService, logger_caplog: p
 def test_alerts_service(enable: bool, mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]) -> None:
     # given
     service = services.AlertsService(enable=enable)
-    mocker.patch(target="plyer.notification.notify")
+    # replace the module's plyer proxy outright: patching or inspecting it loads the OS backend
+    notify = mocker.patch.object(services, "notification", new=mocker.Mock()).notify
     # when
     service.notify(title="test", message="hello")
     # then
     if enable:
-        (
-            plyer.notification.notify.assert_called_once(),
-            "Notification method should be called!",
-        )
+        notify.assert_called_once()
         assert capsys.readouterr().out == "", "Notification should not be printed to stdout!"
     else:
-        (
-            plyer.notification.notify.assert_not_called(),
-            "Notification method should not be called!",
-        )
+        notify.assert_not_called()
         assert capsys.readouterr().out == "[Bikes] test: hello\n", "Notification should be printed to stdout!"
 
 
 def test_alerts_service__not_supported(mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]) -> None:
     # given
-    def notify_not_supported(*args, **kwargs):
-        raise NotImplementedError
-
     service = services.AlertsService(enable=True)
-    mocker.patch(target="plyer.notification.notify", new=notify_not_supported)
+    mocker.patch.object(services, "notification", new=mocker.Mock()).notify.side_effect = NotImplementedError
     # when
     service.notify(title="test", message="hello")
     # then
@@ -82,7 +73,7 @@ def test_alerts_service__windows_limits(
     # given
     mocker.patch("bikes.io.services.sys.platform", "win32")
     service = services.AlertsService(enable=True, app_name=app_name)
-    notify = mocker.patch(target="plyer.notification.notify")
+    notify = mocker.patch.object(services, "notification", new=mocker.Mock()).notify
     # when
     service.notify(title=title, message=message)
     # then
@@ -100,7 +91,7 @@ def test_alerts_service__windows_limits(
 def test_alerts_service__long_fields_on_other_platforms(platform: str, mocker: pm.MockerFixture) -> None:
     mocker.patch("bikes.io.services.sys.platform", platform)
     service = services.AlertsService(app_name="a" * 128)
-    notify = mocker.patch("plyer.notification.notify")
+    notify = mocker.patch.object(services, "notification", new=mocker.Mock()).notify
     service.notify(title="t" * 64, message="m" * 376)
     notify.assert_called_once_with(title="t" * 64, message="m" * 376, app_name="a" * 128, timeout=None)
 
@@ -110,7 +101,8 @@ def test_alerts_service__windows_fallback_keeps_long_fields(
     enable: bool, mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]
 ) -> None:
     mocker.patch("bikes.io.services.sys.platform", "win32")
-    notify = mocker.patch("plyer.notification.notify", side_effect=NotImplementedError)
+    notify = mocker.patch.object(services, "notification", new=mocker.Mock()).notify
+    notify.side_effect = NotImplementedError
     service = services.AlertsService(enable=enable, app_name="a" * 128)
     service.notify(title="t" * 64, message="m" * 376)
     assert f"[{'a' * 128}] {'t' * 64}: {'m' * 376}\n" in capsys.readouterr().out

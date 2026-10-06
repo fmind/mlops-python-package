@@ -64,7 +64,7 @@ def test_tuning_job(
     assert out["run"].data.tags.items() > run_config.tags.items(), "Run tags should be a subset of tags!"
     # - data
     assert out["inputs"].ndim == out["inputs_"].ndim == 2, "Inputs should be a dataframe!"
-    assert out["targets"].ndim == out["inputs_"].ndim == 2, "Targets should be a dataframe!"
+    assert out["targets"].ndim == out["targets_"].ndim == 2, "Targets should be a dataframe!"
     # - lineage
     assert out["inputs_lineage"].name == "inputs", "Inputs lineage name should be inputs!"
     assert out["inputs_lineage"].source.uri == inputs_reader.path, (

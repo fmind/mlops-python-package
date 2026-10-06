@@ -112,7 +112,7 @@ def test_training_job(
     )
     # - i and score
     assert out["i"] == len(job.metrics), "i should be the number of metrics computed!"
-    assert float("-inf") < out["score"] < float("+inf"), "Score should be between 0 and 1!"
+    assert float("-inf") < out["score"] < float("+inf"), "Score should be finite!"
     # - model signature
     assert out["model_signature"].inputs is not None, "Model signature inputs should not be None!"
     assert out["model_signature"].outputs is not None, "Model signature outputs should not be None!"
