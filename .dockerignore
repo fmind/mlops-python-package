@@ -1,3 +1,4 @@
+# https://docs.docker.com/build/concepts/context/#dockerignore-files
 .git
 .github
 .venv
@@ -10,6 +11,10 @@ __pycache__
 htmlcov
 dist
 docs
+.cache
+data
+mlartifacts
+mlflow.db
 mlruns
 outputs
 notebooks
