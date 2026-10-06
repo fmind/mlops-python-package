@@ -20,8 +20,8 @@
 	},
 	"extensions": {
 		"recommendations": [
+			"astral-sh.ty",
 			"charliermarsh.ruff",
-			"ms-python.mypy-type-checker",
 			"ms-python.python",
 			"ms-python.vscode-pylance",
 			"redhat.vscode-yaml",

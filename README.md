@@ -55,7 +55,6 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
   - [Configs](#configs)
     - [Format: YAML](#format-yaml)
     - [Parser: OmegaConf](#parser-omegaconf)
-    - [Reader: Cloudpathlib](#reader-cloudpathlib)
     - [Validator: Pydantic](#validator-pydantic)
     - [Formatter: dprint](#formatter-dprint)
   - [Data](#data)
@@ -143,6 +142,7 @@ $ git clone https://github.com/fmind/mlops-python-package
 
 ```bash
 cd mlops-python-package/
+mise trust && mise install
 mise run install
 ```
 
@@ -158,7 +158,7 @@ It's up to you to adapt the package code to the solution you target. Good luck c
 
 # Usage
 
-This section explains how configure the project code and execute it on your system.
+This section explains how to configure the project code and execute it on your system.
 
 ## Configuration
 
@@ -181,7 +181,7 @@ This config file instructs the program to start a `TrainingJob` with 2 parameter
 - `inputs`: dataset that contains the model inputs
 - `targets`: dataset that contains the model target
 
-You can find all the parameters of your program in the `src/[package]/jobs/*.py` files.
+You can find all the parameters of your program in the `src/bikes/jobs/*.py` files.
 
 You can also print the full schema supported by this package using `uv run bikes --schema`.
 
@@ -190,12 +190,12 @@ You can also print the full schema supported by this package using `uv run bikes
 The project code can be executed with uv during your development:
 
 ```bash
-uv run [package] confs/tuning.yaml
-uv run [package] confs/training.yaml
-uv run [package] confs/promotion.yaml
-uv run [package] confs/inference.yaml
-uv run [package] confs/evaluations.yaml
-uv run [package] confs/explanations.yaml
+uv run bikes confs/tuning.yaml
+uv run bikes confs/training.yaml
+uv run bikes confs/promotion.yaml
+uv run bikes confs/inference.yaml
+uv run bikes confs/evaluations.yaml
+uv run bikes confs/explanations.yaml
 ```
 
 In production, you can build, ship, and run the project as a Python package:
@@ -203,14 +203,14 @@ In production, you can build, ship, and run the project as a Python package:
 ```bash
 uv build
 uv publish # optional
-python -m pip install [package]
-[package] confs/inference.yaml
+python -m pip install dist/bikes-*.whl
+bikes confs/inference.yaml
 ```
 
 You can also install and use this package as a library for another AI/ML project:
 
 ```python
-from [package] import jobs
+from bikes import jobs
 
 job = jobs.TrainingJob(...)
 with job as runner:
@@ -247,43 +247,48 @@ $ mise tasks
 
 ```bash
 $ mise tasks
-install          # Install dependencies and git hooks
-install:python   # Sync Python dependencies (uv)
-install:hooks    # Install git hooks (lefthook)
-install:rulesets # Install GitHub branch rulesets
-format           # Format all sources and documents
-format:python    # Format Python sources and imports (ruff)
-format:dprint    # Format JSON, Markdown, TOML, YAML (dprint)
-check            # Run all static checks in parallel
-check:format     # Check formatting and config validity
-check:lint       # Lint Python sources (ruff)
-check:types      # Type-check Python sources (ty)
-check:vuln       # Scan dependencies for vulnerabilities (pip-audit)
-check:leaks      # Audit codebase for leaked secrets (gitleaks)
-check:scan       # Scan configuration files for misconfigurations (trivy)
-test             # Run the test suite with coverage (pytest)
-build            # Build the Python distribution (wheel + sdist)
-build:python     # Build Python distribution artifacts (uv)
-build:image      # Build the production OCI image (Docker)
-docs             # Generate the API documentation (pdoc)
-docs:serve       # Serve the API documentation (pdoc)
-mlflow:doctor    # Run the MLflow environment doctor
-mlflow:serve     # Start a local MLflow tracking server
-project          # Run every MLflow job in sequence
-project:run      # Run one MLflow job by config name (e.g. project:run training)
-docker:compose   # Start the local MLflow server with Docker Compose
-docker:run       # Run the latest built image
-coverage         # Open the HTML coverage report
-upgrade          # Upgrade dependencies to the latest compatible versions
-clean            # Remove caches and build artifacts
+all               Format, check, test, and build the project (the canonical gate)
+build             Build the Python distribution (wheel + sdist)
+build:image       Build the production OCI image (Docker)
+build:python      Build Python distribution artifacts (uv)
+check             Run all static checks in parallel
+check:actions     Lint and audit GitHub Actions workflows (actionlint + zizmor)
+check:dockerfile  Lint the container image definition (hadolint)
+check:format      Check formatting and config validity
+check:leaks       Audit codebase for leaked secrets (gitleaks)
+check:lint        Lint Python sources (ruff)
+check:scan        Scan the checkout for misconfigurations, secrets, and licenses (trivy)
+check:types       Type-check Python sources (ty)
+check:vuln        Scan dependencies for vulnerabilities (pip-audit)
+clean             Remove caches and build artifacts
+coverage          Open the HTML coverage report
+docker:compose    Start the local MLflow server with Docker Compose
+docker:run        Run the latest built image
+docs              Generate the API documentation (pdoc)
+docs:serve        Serve the API documentation (pdoc)
+format            Format all sources and documents
+format:dprint     Format JSON, Markdown, TOML, YAML (dprint)
+format:python     Format Python sources and imports (ruff)
+install           Install dependencies and git hooks
+install:hooks     Install git hooks (lefthook)
+install:python    Sync Python dependencies (uv)
+install:rulesets  Install or update the GitHub branch ruleset (idempotent)
+mlflow:doctor     Run the MLflow environment doctor
+mlflow:serve      Start a local MLflow tracking server on the SQLite backend
+project           Run every MLflow job in sequence
+project:run       Run one MLflow job by config name (e.g. `mise run project:run training`)
+test              Run the test suite with coverage (pytest)
+test:parallel     Run the test suite across CPU cores, without the coverage gate (pytest-xdist)
+upgrade           Upgrade dependencies to the latest compatible versions
 ```
 
 ## Workflows
 
-This package supports two GitHub Workflows in `.github/workflows`:
+This package supports three GitHub Workflows in `.github/workflows`:
 
-- `ci.yml`: run `format`, `check`, and `test` on each push and Pull Request
+- `ci.yml`: run `mise run all` (format, check, test, build) and a clean-tree check on each push to `main` and Pull Request
 - `cd.yml`: build and publish the docs (GitHub Pages) and the Docker image on code release.
+- `security.yml`: scan the full Git history and checkout with `gitleaks` and `trivy` every week
 
 You can use and extend these workflows to automate repetitive package management tasks.
 
@@ -331,7 +336,7 @@ Pre-defined actions to automate your project development.
 - **Motivations**:
   - Check your code locally before a commit
   - Avoid wasting resources on your CI/CD
-  - Fast, parallel hooks that delegate to `mise run` tasks
+  - Thin hooks that delegate to `mise run` tasks
 - **Limitations**:
   - Add overhead before your commit
 - **Alternatives**:
@@ -342,7 +347,7 @@ Pre-defined actions to automate your project development.
 - **Motivations**:
   - Automate project workflows
   - One task vocabulary shared by git hooks and CI
-  - Also manages the project toolchain (uv, dprint, gitleaks, trivy)
+  - Also manages the project toolchain (Python, uv, dprint, gitleaks, trivy, hadolint, actionlint, zizmor, git-cliff)
 - **Limitations**:
   - Not familiar to most developers
 - **Alternatives**:
@@ -414,10 +419,11 @@ Edition, validation, and versioning of your project source code.
   - Report code covered by tests
   - Identify code path to test
   - Show maturity to users
+  - Measured through [Pytest Cov](https://pytest-cov.readthedocs.io/en/latest/), with a 100% gate (`--cov-fail-under=100`)
 - **Limitations**:
   - None
 - **Alternatives**:
-- [Pytest Cov](https://pytest-cov.readthedocs.io/en/latest/) A Pytest plugin that uses `coverage.py` to measure code coverage.
+  - None
 
 ### Editor: [VS Code](https://code.visualstudio.com/)
 
@@ -476,7 +482,7 @@ Edition, validation, and versioning of your project source code.
 - **Limitations**:
   - Doesn't support parallel execution out of the box
 - **Alternatives**:
-  - [Unittest](https://docs.python.org/fr/3/library/unittest.html): more verbose, less fun
+  - [Unittest](https://docs.python.org/3/library/unittest.html): more verbose, less fun
 
 ### Typing: [ty](https://github.com/astral-sh/ty)
 
@@ -530,17 +536,6 @@ Manage the configs files of your project to change executions.
 - **Alternatives**:
   - [Hydra](https://hydra.cc/docs/intro/): powerful, but gets in your way
   - [DynaConf](https://www.dynaconf.com/): more suited for app development
-
-### Reader: [Cloudpathlib](https://cloudpathlib.drivendata.org/stable/)
-
-- **Motivations**:
-  - Read files from cloud storage
-  - Better integration with cloud platforms
-  - Support several platforms: AWS, GCP, and Azure
-- **Limitations**:
-  - Support of Python typing is not great at the moment
-- **Alternatives**:
-  - Cloud SDK (GCP, AWS, Azure, ...): vendor specific, overkill for this task
 
 ### Validator: [Pydantic](https://docs.pydantic.dev/latest/)
 
@@ -659,7 +654,7 @@ Toolkit to handle machine learning models.
 - **Alternatives**:
   - Implement your own: for custom metrics
 
-### Format: [Mlflow Model](https://mlflow.org/docs/latest/models.html)
+### Format: [Mlflow Model](https://mlflow.org/docs/latest/models/)
 
 - **Motivations**:
   - Standard ML format
@@ -671,7 +666,7 @@ Toolkit to handle machine learning models.
   - [Pickle](https://docs.python.org/3/library/pickle.html): work out of the box, but less suited for big array
   - [ONNX](https://onnx.ai/): great for deep learning, [no guaranteed compatibility for the rest](https://onnxruntime.ai/docs/reference/compatibility.html)
 
-### Registry: [Mlflow Registry](https://mlflow.org/docs/latest/model-registry.html)
+### Registry: [Mlflow Registry](https://mlflow.org/docs/latest/model-registry/)
 
 - **Motivations**:
   - Save and load models
@@ -680,10 +675,10 @@ Toolkit to handle machine learning models.
 - **Limitations**:
   - None
 - **Alternatives**:
-  - [Neptune.ai](https://neptune.ai/): SaaS solution
+  - [Comet](https://www.comet.com/): SaaS solution
   - [Weights and Biases](https://wandb.ai/site): SaaS solution
 
-### Tracking: [Mlflow Tracking](https://mlflow.org/docs/latest/tracking.html)
+### Tracking: [Mlflow Tracking](https://mlflow.org/docs/latest/tracking/)
 
 - **Motivations**:
   - Keep track of metrics and params
@@ -692,7 +687,7 @@ Toolkit to handle machine learning models.
 - **Limitations**:
   - None
 - **Alternatives**:
-  - [Neptune.ai](https://neptune.ai/): SaaS solution
+  - [Comet](https://www.comet.com/): SaaS solution
   - [Weights and Biases](https://wandb.ai/site): SaaS solution
 
 > **MLflow 3**: MLflow 3 put the local filesystem store in maintenance mode, so this package tracks runs and registered models in a SQLite database (`sqlite:///mlflow.db`); artifact files still live on disk under `./mlruns`. Browse it with `mise run mlflow:serve`. SQLite is a real SQLAlchemy backend — the same store shape as a production PostgreSQL, the one the model registry is actually designed for, and a one-line change (`MLFLOW_TRACKING_URI`) away from it.
@@ -703,10 +698,10 @@ Define and build modern Python package.
 
 ### Evolution: [Changelog](https://en.wikipedia.org/wiki/Changelog)
 
-- **Motivation**:
+- **Motivations**:
   - Communicate changes to user
   - Generated from [Conventional Commits](https://www.conventionalcommits.org/) with [git-cliff](https://git-cliff.org/)
-  - Standardized with [Keep a Changelog](https://keepachangelog.com/)
+  - Grouped by change type, as configured in `cliff.toml`
 - **Limitations**:
   - None
 - **Alternatives**:
@@ -735,7 +730,7 @@ Define and build modern Python package.
   - Cannot add dependencies beyond Python (e.g., CUDA)
     - i.e., use Docker container for this use case
 - **Alternatives**:
-  - [Setuptools](https://docs.python.org/3/distutils/setupscript.html): dynamic file is slower and more risky
+  - [Setuptools](https://setuptools.pypa.io/): dynamic file is slower and more risky
   - [Poetry](https://python-poetry.org/): previous solution of this package
   - Pdm, Hatch, PipEnv: <https://xkcd.com/1987/>
 
@@ -756,7 +751,7 @@ Define and build modern Python package.
   - Catches Dockerfile mistakes (unpinned bases, root users, unresolvable uids) before a build
   - Runs offline in under a second inside `mise run check:dockerfile`
 - **Limitations**:
-  - Lints the recipe, not the built image; `trivy` covers the image contents
+  - Lints the recipe, not the built image; `trivy` scans the checkout, and the built image is not scanned yet
 - **Alternatives**:
   - Reading the [Dockerfile best practices](https://docs.docker.com/build/building/best-practices/) page every time
 
@@ -782,15 +777,16 @@ Select your programming environment.
   - Switch between Python version
   - Allow to select the best version
   - Support global and local dispatch
+  - Pinned in `.python-version` (read by uv) and in the `mise.toml` toolchain
 - **Limitations**:
-  - Require some shell configurations
+  - Keep both pins in sync when you upgrade Python
 - **Alternatives**:
   - Manual installation: time consuming
   - [PyEnv](https://github.com/pyenv/pyenv): shell-based, require more setup
 
 ## Observability
 
-### Reproducibility: [Mlflow Project](https://mlflow.org/docs/latest/projects.html)
+### Reproducibility: [Mlflow Project](https://mlflow.org/docs/latest/projects/)
 
 - **Motivations**:
   - Share common project formats.
@@ -817,7 +813,7 @@ Select your programming environment.
   - **[Giskard](https://www.giskard.ai/)**: open-core and super complete.
   - **[Evidently](https://www.evidentlyai.com/)**: open-source with more metrics.
   - [Arize AI](https://arize.com/): more feature-rich but less flexible.
-  - [Graphana](https://grafana.com/): you must do everything yourself.
+  - [Grafana](https://grafana.com/): you must do everything yourself.
 
 ### Alerting: [Plyer](https://github.com/kivy/plyer)
 
@@ -831,7 +827,7 @@ Select your programming environment.
   - [Slack](https://slack.com/): for chat-oriented solutions.
   - [Datadog](https://www.datadoghq.com/): for infrastructure oriented solutions.
 
-### Lineage: [Mlflow Dataset](https://mlflow.org/docs/latest/tracking/data-api.html)
+### Lineage: [Mlflow Dataset](https://mlflow.org/docs/latest/tracking/data-api/)
 
 - **Motivations**:
   - Store information in Mlflow.
@@ -848,7 +844,7 @@ Select your programming environment.
 - **Motivations**:
   - Most popular toolkit.
   - Support various models (linear, model, ...).
-  - Integration with Mlflow through the [SHAP module](https://mlflow.org/docs/latest/python_api/mlflow.shap.html).
+  - Integration with Mlflow through the [SHAP module](https://mlflow.org/docs/latest/api_reference/python_api/mlflow.shap.html).
 - **Limitations**:
   - Super slow on large dataset.
   - Mlflow SHAP module is not mature enough.
@@ -889,7 +885,7 @@ targets:
   path: data/targets_train.parquet
 ```
 
-In this package, the implementation are described in `src/[package]/io/datasets.py` and selected by `KIND`.
+In this package, the implementation are described in `src/bikes/io/datasets.py` and selected by `KIND`.
 
 ### [Hyperparameter Optimization](https://en.wikipedia.org/wiki/Hyperparameter_optimization)
 
@@ -897,7 +893,7 @@ In this package, the implementation are described in `src/[package]/io/datasets.
 
 The simplest projects can use a `sklearn.model_selection.GridSearchCV` to scan the whole search space.
 
-This package provides a simple interface to this hyperparameter search facility in `src/[package]/utils/searchers.py`.
+This package provides a simple interface to this hyperparameter search facility in `src/bikes/utils/searchers.py`.
 
 For more complex project, we recommend to use more complex strategy (e.g., [Bayesian](https://en.wikipedia.org/wiki/Bayesian_optimization)) and software package (e.g., [Optuna](https://optuna.org/)).
 
@@ -911,7 +907,7 @@ For more complex project, we recommend to use more complex strategy (e.g., [Baye
 
 The sets should be exclusive, and the testing set should never be used as training inputs!
 
-This package provides a simple deterministic strategy implemented in `src/[package]/utils/splitters.py`.
+This package provides a simple deterministic strategy implemented in `src/bikes/utils/splitters.py`.
 
 ## [Design Patterns](https://en.wikipedia.org/wiki/Software_design_pattern)
 
@@ -931,7 +927,7 @@ In production, we recommend to use a scalable system such as [Airflow](https://a
 
 There are several approaches such as [Singleton](https://en.wikipedia.org/wiki/Singleton_pattern), [Global Variable](https://en.wikipedia.org/wiki/Global_variable), or [Component](https://github.com/stuartsierra/component).
 
-This package takes inspiration from [Clojure mount](https://github.com/tolitius/mount). It provides an implementation in `src/[package]/io/services.py`.
+This package takes inspiration from [Clojure mount](https://github.com/tolitius/mount). It provides an implementation in `src/bikes/io/services.py`.
 
 ### [Soft Coding](https://en.wikipedia.org/wiki/Softcoding)
 
@@ -953,7 +949,7 @@ This package seeks to expose as much parameter as possible to the users in confi
 
 In practice, this mean you can implement software contracts with interface and swap the implementation.
 
-For instance, you can implement several jobs in `src/[package]/jobs/*.py` and swap them in your configuration.
+For instance, you can implement several jobs in `src/bikes/jobs/*.py` and swap them in your configuration.
 
 To learn more about the mechanism select for this package, you can check the documentation for [Pydantic Tagged Unions](https://docs.pydantic.dev/latest/concepts/unions/#discriminated-unions).
 
@@ -963,7 +959,7 @@ To learn more about the mechanism select for this package, you can check the doc
 
 The external is messy and full of risks: missing files, permission issue, out of disk ...
 
-To isolate these risks, you can put all the related code in an `io` package and use interfaces
+To isolate these risks, you can put all the related code in an `io` package and use interfaces.
 
 ## [Python Powers](https://realpython.com/)
 
@@ -974,14 +970,14 @@ To isolate these risks, you can put all the related code in an `io` package and 
 Python provides contexts that can be used to extend a code block. For instance:
 
 ```python
-# in src/[package]/scripts.py
+# in src/bikes/scripts.py
 with job as runner:  # context
     runner.run()  # run in context
 ```
 
 This pattern has the same benefit as [Monad](https://en.wikipedia.org/wiki/Monad_(functional_programming)), a powerful programming pattern.
 
-The package uses `src/[package]/jobs/*.py` to handle exception and services.
+The package uses `src/bikes/jobs/*.py` to handle exception and services.
 
 ### [Python Package](https://packaging.python.org/en/latest/tutorials/packaging-projects/)
 
@@ -1011,9 +1007,9 @@ mise run build
 Python provides the [typing module](https://docs.python.org/3/library/typing.html) for adding type hints and [ty](https://github.com/astral-sh/ty) to checking them.
 
 ```python
-# in src/[package]/core/models.py
+# in src/bikes/core/models.py
 @abc.abstractmethod
-def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> "Model":
+def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> T.Self:
     """Fit the model on the given inputs and target."""
 
 
@@ -1033,7 +1029,7 @@ The package aims to type every functions and classes to facilitate the developer
 Pydantic allows to define classes that can validate your configs during the program startup.
 
 ```python
-# in src/[package]/utils/splitters.py
+# in src/bikes/utils/splitters.py
 class TrainTestSplitter(Splitter):
     shuffle: bool = False  # required (time sensitive)
     test_size: int | float = 24 * 30 * 2  # 2 months
@@ -1051,9 +1047,9 @@ The package combines both OmegaConf and Pydantic to parse YAML files and validat
 Pandera supports dataframe typing for Pandas and other library like PySpark:
 
 ```python
-# in src/package/schemas.py
+# in src/bikes/core/schemas.py
 class InputsSchema(Schema):
-    instant: papd.Index[papd.UInt32] = pa.Field(ge=0, check_name=True)
+    instant: papd.Index[papd.UInt32] = pa.Field(ge=0)
     dteday: papd.Series[papd.DateTime] = pa.Field()
     season: papd.Series[papd.UInt8] = pa.Field(isin=[1, 2, 3, 4])
     yr: papd.Series[papd.UInt8] = pa.Field(ge=0, le=1)
@@ -1073,7 +1069,7 @@ class InputsSchema(Schema):
 
 This code snippet defines the fields of the dataframe and some of its constraint.
 
-The package encourages to type every dataframe used in `src/[package]/core/schemas.py`.
+The package encourages to type every dataframe used in `src/bikes/core/schemas.py`.
 
 ### [Object Oriented](https://en.wikipedia.org/wiki/Object-oriented_programming)
 
@@ -1112,7 +1108,7 @@ Uv and this package leverage Semantic Versioning to let developers control the s
 
 Pytest can be extended with the [pytest-xdist plugin](https://pytest-xdist.readthedocs.io/en/stable/) for this purpose.
 
-This package enables Pytest in its automation tasks by default.
+This package runs it with `mise run test:parallel` (no coverage); the `test` gate stays serial because pytest-cov and pytest-xdist deadlock on this suite.
 
 ### [Test Fixtures](https://docs.pytest.org/en/latest/explanation/fixtures.html)
 
@@ -1140,13 +1136,13 @@ This package defines fixtures in `tests/conftest.py` to improve your testing exp
 }
 ```
 
-This package defines a workspace file that you can load from `[package].code-workspace`.
+This package defines a workspace file that you can load from `mlops-python-package.code-workspace`.
 
 ### [GitHub Copilot](https://github.com/features/copilot)
 
 **You can use GitHub Copilot to increase your coding productivity by 30%.**
 
-[GitHub Copilot](https://github.com/features/copilot) has been a huge productivity thanks to its smart completion.
+[GitHub Copilot](https://github.com/features/copilot) has been a huge productivity boost thanks to its smart completion.
 
 You should become familiar with the solution in less than a single coding session.
 
