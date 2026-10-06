@@ -47,7 +47,7 @@ Changelog = "https://github.com/fmind/mlops-python-package/blob/main/CHANGELOG.m
 # SCRIPTS
 
 [project.scripts]
-bikes = 'bikes.scripts:main'
+bikes = "bikes.scripts:main"
 
 # DEPENDENCIES
 

@@ -12,9 +12,9 @@
     "textWrap": "never"
   },
   "plugins": [
-    "https://plugins.dprint.dev/g-plane/pretty_yaml-v0.6.0.wasm",
-    "https://plugins.dprint.dev/json-0.23.0.wasm",
-    "https://plugins.dprint.dev/markdown-0.22.1.wasm",
-    "https://plugins.dprint.dev/toml-0.7.0.wasm"
+    "npm:dprint-plugin-yaml@0.6.0",
+    "npm:@dprint/json@0.25.1",
+    "npm:@dprint/markdown@0.25.0",
+    "npm:@dprint/toml@0.8.0"
   ]
 }
