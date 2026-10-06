@@ -81,7 +81,7 @@ class TrainTestSplitter(Splitter):
     KIND: T.Literal["TrainTestSplitter"] = "TrainTestSplitter"
 
     shuffle: bool = False  # required (time sensitive)
-    test_size: int | float = 24 * 30 * 2  # 2 months
+    test_size: int = 24 * 30 * 2  # 2 months
     random_state: int = 42
 
     @T.override
@@ -116,7 +116,7 @@ class TimeSeriesSplitter(Splitter):
     Parameters:
         gap (int): gap between splits.
         n_splits (int): number of split to generate.
-        test_size (int | float): number or ratio for the test dataset.
+        test_size (int): number of samples in each test split.
     """
 
     KIND: T.Literal["TimeSeriesSplitter"] = "TimeSeriesSplitter"
