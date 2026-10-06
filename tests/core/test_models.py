@@ -77,6 +77,8 @@ def test_baseline_sklearn_model(
     assert model.get_internal_model() is not None, "Internal model should be fitted!"
     # - outputs
     assert outputs.ndim == 2, "Outputs should be a dataframe!"
+    predictions = model.get_internal_model().predict(inputs_test).round()
+    assert (outputs["prediction"] == predictions).all(), "Outputs should be rounded, not truncated!"
     # - shap values
     assert len(shap_values.index) == len(inputs_test.index), "SHAP values should be the same length as inputs!"
     assert len(shap_values.columns) >= len(inputs_test.columns), "SHAP values should have more features than inputs!"
