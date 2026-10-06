@@ -6,6 +6,7 @@ import abc
 import typing as T
 
 import mlflow.data.pandas_dataset as lineage
+import mlflow.data.sources as sources
 import pandas as pd
 import pydantic as pdt
 
@@ -90,7 +91,9 @@ class ParquetReader(Reader):
         return lineage.from_pandas(
             df=data,
             name=name,
-            source=self.path,
+            # an explicit source: the path string matches two registered local sources,
+            # and MLflow warns on every lineage while picking one
+            source=sources.LocalArtifactDatasetSource(self.path),
             targets=targets,
             predictions=predictions,
         )

@@ -6,8 +6,8 @@
 
 import warnings
 
-# disable annoying mlflow warnings
-warnings.filterwarnings(action="ignore", category=UserWarning)
+# silence MLflow's advisory hints only: user warnings from other libraries stay visible
+warnings.filterwarnings(action="ignore", category=UserWarning, module="mlflow")
 
 # %% IMPORTS
 
