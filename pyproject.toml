@@ -33,6 +33,7 @@ dependencies = [
   "scikit-learn>=1.9.0",
   "setuptools>=83.0.0",
   "shap>=0.46.0",
+  "skops>=0.16.0", # safe (non-pickle) persistence of the scikit-learn models
 ]
 
 # LINKS

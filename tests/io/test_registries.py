@@ -1,11 +1,15 @@
 # %% IMPORTS
 
+import os
 import runpy
 import warnings
+from pathlib import Path
 
+import mlflow
 import pandas as pd
 import pandera.errors as pe
 import pytest
+from mlflow.pyfunc import PythonModelContext
 
 from bikes.core import models, schemas
 from bikes.io import registries, services
@@ -60,14 +64,34 @@ def test_custom_saver_import_without_type_hint_warning() -> None:
     assert not any("Type hint used in the model" in str(warning.message) for warning in caught)
 
 
-def test_custom_saver_adapter_predict(model: models.Model, inputs: schemas.Inputs) -> None:
-    adapter = registries.CustomSaver.Adapter(model=model)
+@pytest.fixture
+def adapter(model: models.Model, tmp_path: str) -> registries.CustomSaver.Adapter:
+    """Return an adapter loaded the way MLflow loads it: from params and a skops file."""
+    path = os.path.join(tmp_path, "model.skops")
+    model.save_internal_model(path=path)
+    adapter = registries.CustomSaver.Adapter()
+    adapter.load_context(context=PythonModelContext(artifacts={"model": path}, model_config=model.model_dump()))
+    return adapter
+
+
+def test_custom_saver_model_code() -> None:
+    # MLflow runs this file to rebuild the adapter: it must register one through set_model.
+    module = runpy.run_path(str(registries.CustomSaver.CODE))
+    assert isinstance(module["ADAPTER"], registries.CustomSaver.Adapter), "Model code should define the adapter!"
+
+
+def test_custom_saver_adapter_predict(
+    adapter: registries.CustomSaver.Adapter, model: models.Model, inputs: schemas.Inputs
+) -> None:
+    assert adapter.model is not model, "The adapter should rebuild its own model!"
+    assert adapter.model.get_params() == model.get_params(), "The rebuilt model should keep the params!"
     outputs = adapter.predict(context=None, model_input=pd.DataFrame(inputs))
     pd.testing.assert_frame_equal(outputs, model.predict(inputs=inputs))
 
 
-def test_custom_saver_adapter_rejects_invalid_inputs(model: models.Model, inputs: schemas.Inputs) -> None:
-    adapter = registries.CustomSaver.Adapter(model=model)
+def test_custom_saver_adapter_rejects_invalid_inputs(
+    adapter: registries.CustomSaver.Adapter, inputs: schemas.Inputs
+) -> None:
     invalid_inputs = pd.DataFrame(inputs).copy()
     invalid_inputs["hr"] = 24
     with pytest.raises(pe.SchemaError, match="less_than_or_equal_to"):
@@ -103,6 +127,10 @@ def test_custom_pipeline(
     assert info.name == path, "The logged model name should be the same!"
     assert info.signature == signature, "The model signature should be the same!"
     assert info.flavors.get("python_function"), "The model should have a pyfunc flavor!"
+    # - files: the adapter is code and the internal model is skops, nothing is pickled
+    files = {f.name for f in Path(mlflow.artifacts.download_artifacts(info.model_uri)).rglob("*")}
+    assert {"pyfunc_model.py", "model.skops"} <= files, "The model should be saved as code and skops!"
+    assert not any(file.endswith(".pkl") for file in files), "The model should not contain any pickle!"
     # - version
     assert version.name == name, "The model version name should be the same!"
     assert version.tags == tags, "The model version tags should be the same!"

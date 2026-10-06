@@ -8,6 +8,7 @@ import typing as T
 import pandas as pd
 import pydantic as pdt
 import shap
+import skops.io as sio
 from sklearn import compose, ensemble, pipeline, preprocessing
 from sklearn.base import BaseEstimator, RegressorMixin
 
@@ -123,6 +124,31 @@ class Model(abc.ABC, pdt.BaseModel, strict=True, frozen=False, extra="forbid"):
         """
         raise NotImplementedError
 
+    def save_internal_model(self, path: str) -> None:
+        """Save the fitted internal model to a file in a safe (non-pickle) format.
+
+        Args:
+            path (str): file path to write.
+
+        Raises:
+            NotImplementedError: method not implemented.
+        """
+        raise NotImplementedError
+
+    def load_internal_model(self, path: str) -> T.Self:
+        """Load the internal model from a file written by `save_internal_model`.
+
+        Args:
+            path (str): file path to read.
+
+        Raises:
+            NotImplementedError: method not implemented.
+
+        Returns:
+            T.Self: instance of the model.
+        """
+        raise NotImplementedError
+
 
 class BaselineSklearnModel(Model):
     """Simple baseline model based on scikit-learn.
@@ -134,6 +160,11 @@ class BaselineSklearnModel(Model):
     """
 
     KIND: T.Literal["BaselineSklearnModel"] = "BaselineSklearnModel"
+
+    # skops only reloads the types it knows are safe. Tree storage holds raw node indices
+    # that scikit-learn reads without bounds checks, so it is trusted explicitly here,
+    # for files this project writes, instead of trusting whatever a file declares.
+    TRUSTED_TYPES: T.ClassVar[list[str]] = ["sklearn.tree._tree.Tree"]
 
     # params
     max_depth: int = 20
@@ -227,6 +258,15 @@ class BaselineSklearnModel(Model):
         if model is None:
             raise ValueError("Model is not fitted yet!")
         return model
+
+    @T.override
+    def save_internal_model(self, path: str) -> None:
+        sio.dump(self.get_internal_model(), path)
+
+    @T.override
+    def load_internal_model(self, path: str) -> T.Self:
+        self._pipeline = sio.load(path, trusted=self.TRUSTED_TYPES)
+        return self
 
 
 ModelKind = BaselineSklearnModel

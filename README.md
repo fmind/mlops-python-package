@@ -660,6 +660,7 @@ Toolkit to handle machine learning models.
   - Standard ML format
   - Store model dependencies
   - Strong community ecosystem
+  - No pickle: the PyFunc adapter is logged as code ([models from code](https://mlflow.org/docs/latest/ml/model/models-from-code/)) and the fitted pipeline with [skops](https://skops.readthedocs.io/en/stable/), which only reloads trusted types
 - **Limitations**:
   - None
 - **Alternatives**:

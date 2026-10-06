@@ -3,7 +3,9 @@
 # %% IMPORTS
 
 import abc
+import tempfile
 import typing as T
+from pathlib import Path
 
 import mlflow
 import pandas as pd
@@ -103,24 +105,33 @@ class Saver(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 class CustomSaver(Saver):
     """Saver for project models using the Mlflow PyFunc module.
 
-    https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html
+    Nothing is pickled: the adapter is logged as code (MLflow "models from code"), the
+    model params as its `model_config`, and the fitted internal model as a skops file.
+
+    https://mlflow.org/docs/latest/ml/model/models-from-code/
     """
 
     KIND: T.Literal["CustomSaver"] = "CustomSaver"
 
+    # Code file that MLflow copies with the model and runs to rebuild the adapter.
+    CODE: T.ClassVar[Path] = Path(__file__).with_name("pyfunc_model.py")
+
     class Adapter(PythonModel):  # type: ignore[misc]
-        """Adapt a custom model to the Mlflow PyFunc flavor for saving operations.
+        """Adapt a custom model to the Mlflow PyFunc flavor.
 
         https://mlflow.org/docs/latest/python_api/mlflow.pyfunc.html?#mlflow.pyfunc.PythonModel
         """
 
-        def __init__(self, model: models.Model):
-            """Initialize the custom saver adapter.
+        model: models.Model
+
+        def load_context(self, context: PythonModelContext) -> None:
+            """Rebuild the project model from its params and its internal model file.
 
             Args:
-                model (models.Model): project model.
+                context (mlflow.PythonModelContext): mlflow context with config and artifacts.
             """
-            self.model = model
+            model = pdt.TypeAdapter(models.ModelKind).validate_python(context.model_config)
+            self.model = model.load_internal_model(path=context.artifacts["model"])
 
         def predict(
             self,
@@ -150,13 +161,17 @@ class CustomSaver(Saver):
         signature: signers.Signature,
         input_example: schemas.Inputs,
     ) -> Info:
-        adapter = CustomSaver.Adapter(model=model)
-        return mlflow.pyfunc.log_model(
-            python_model=adapter,
-            signature=signature,
-            name=self.path,
-            input_example=input_example,
-        )
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "model.skops"
+            model.save_internal_model(path=str(path))
+            return mlflow.pyfunc.log_model(
+                name=self.path,
+                python_model=str(self.CODE),
+                artifacts={"model": str(path)},
+                model_config=model.model_dump(),
+                signature=signature,
+                input_example=input_example,
+            )
 
 
 class BuiltinSaver(Saver):

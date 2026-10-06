@@ -36,6 +36,10 @@ def test_model(inputs_samples: schemas.Inputs) -> None:
         model.explain_samples(inputs=inputs_samples)
     with pytest.raises(NotImplementedError) as get_internal_model_error:
         model.get_internal_model()
+    with pytest.raises(NotImplementedError):
+        model.save_internal_model(path="model.skops")
+    with pytest.raises(NotImplementedError):
+        model.load_internal_model(path="model.skops")
     # then
     assert params_init == {
         "a": 10,
