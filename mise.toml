@@ -48,7 +48,7 @@ description = "Install or update the GitHub branch ruleset (idempotent)"
 # PUT over the existing one. Re-running this task must be a no-op, not a second ruleset.
 run = """
 repo=$(gh repo view --json=nameWithOwner --jq=.nameWithOwner)
-name=$(jq -r .name .github/rulesets/main.json)
+name=$(python -c 'import json; print(json.load(open(".github/rulesets/main.json"))["name"])')
 id=$(gh api "/repos/$repo/rulesets" --jq ".[] | select(.name == \\"$name\\") | .id" | head -n1)
 if [ -n "$id" ]; then
   gh api --method PUT "/repos/$repo/rulesets/$id" --input=.github/rulesets/main.json
@@ -119,7 +119,8 @@ run = "uv run pip-audit --skip-editable --cache-dir .cache/pip-audit"
 
 [tasks."check:leaks"]
 description = "Audit codebase for leaked secrets (gitleaks)"
-run = 'gitleaks git --log-opts="--max-count=100" --verbose'
+# Redact: CI logs are public, and a finding must not print the secret it found.
+run = 'gitleaks git --log-opts="--max-count=100" --redact=100 --verbose'
 
 [tasks."check:scan"]
 description = "Scan the checkout for misconfigurations, secrets, and licenses (trivy)"
@@ -161,10 +162,14 @@ run = "docker build --tag=bikes:latest ."
 [tasks.docs]
 alias = "d"
 description = "Generate the API documentation (pdoc)"
+# pdoc blocks subprocesses while importing, for untrusted code; this package's imports
+# call `uname -p` (platform), which would print a warning on every build.
+env = { PDOC_ALLOW_EXEC = "1" }
 run = "uv run pdoc --docformat=google --output-directory=docs src/bikes"
 
 [tasks."docs:serve"]
 description = "Serve the API documentation (pdoc)"
+env = { PDOC_ALLOW_EXEC = "1" }
 run = "uv run pdoc --docformat=google --port=8088 src/bikes"
 
 # MLFLOW
@@ -219,7 +224,8 @@ run = "uv run pytest --cov=src --cov-report=html && echo 'Report: htmlcov/index.
 [tasks.upgrade]
 alias = "u"
 description = "Upgrade dependencies to the latest compatible versions"
-run = "uv sync --upgrade"
+# UV_LOCKED=1 ([env]) forbids rewriting the lock, which is the point of this task.
+run = "UV_LOCKED=0 uv lock --upgrade && uv sync --all-groups"
 
 [tasks.clean]
 alias = "n"
