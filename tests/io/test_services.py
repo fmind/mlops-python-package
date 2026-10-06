@@ -145,3 +145,21 @@ def test_mlflow_service(mlflow_service: services.MlflowService) -> None:
     assert context.info.status == "RUNNING", "Context should be running!"
     # - finished
     assert finished.info.status == "FINISHED", "Finished should be finished!"
+
+
+@pytest.mark.parametrize(
+    ("uri", "expected"),
+    [
+        ("sqlite:///mlflow.db", "sqlite:///mlflow.db"),
+        ("http://localhost:5000", "http://localhost:5000"),
+        ("postgresql://user:p%40ss@db:5432/mlflow", "postgresql://user:***@db:5432/mlflow"),
+    ],
+)
+def test_redact_uri(uri: str, expected: str) -> None:
+    assert services.redact_uri(uri) == expected, "Only the password should be hidden!"
+
+
+def test_mlflow_service_repr_redacts_uris() -> None:
+    service = services.MlflowService(tracking_uri="postgresql://user:secret@db/mlflow")
+    assert "secret" not in repr(service), "The service repr should not leak credentials!"
+    assert "postgresql://user:***@db/mlflow" in repr(service), "The service repr should keep the redacted URI!"

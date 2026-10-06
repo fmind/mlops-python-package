@@ -60,7 +60,7 @@ class TrainingJob(base.Job):
         logger.info("With logger: {}", logger)
         # - mlflow
         client = self.mlflow_service.client()
-        logger.info("With client: {}", client.tracking_uri)
+        logger.info("With client: {}", services.redact_uri(client.tracking_uri))
         with self.mlflow_service.run_context(run_config=self.run_config) as run:
             logger.info("With run context: {}", run.info)
             # data

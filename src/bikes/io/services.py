@@ -8,12 +8,34 @@ import abc
 import contextlib as ctx
 import sys
 import typing as T
+import urllib.parse
 
 import loguru
 import mlflow
 import mlflow.tracking as mt
 import pydantic as pdt
 from plyer import notification
+
+# %% HELPERS
+
+
+def redact_uri(uri: str) -> str:
+    """Hide the password of a URI before it reaches the logs.
+
+    e.g., "postgresql://user:secret@host/db" becomes "postgresql://user:***@host/db".
+
+    Args:
+        uri (str): URI that may embed credentials.
+
+    Returns:
+        str: the same URI without its password.
+    """
+    parts = urllib.parse.urlsplit(uri)
+    if parts.password is None:
+        return uri
+    _, _, host = parts.netloc.rpartition("@")
+    return parts._replace(netloc=f"{parts.username}:***@{host}").geturl()
+
 
 # %% SERVICES
 
@@ -207,6 +229,12 @@ class MlflowService(Service):
     autolog_log_models: bool = False
     autolog_log_datasets: bool = False
     autolog_silent: bool = False
+
+    @T.override
+    def __repr_args__(self) -> T.Iterator[tuple[str | None, T.Any]]:
+        # jobs log their services: never print the credentials of a database URI
+        for key, value in super().__repr_args__():
+            yield key, redact_uri(value) if key is not None and key.endswith("_uri") else value
 
     @T.override
     def start(self) -> None:
