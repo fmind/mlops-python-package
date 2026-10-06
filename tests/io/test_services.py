@@ -6,6 +6,7 @@ import mlflow
 import plyer
 import pytest
 import pytest_mock as pm
+from mlflow.utils.autologging_utils import get_autologging_config
 
 from bikes.io import services
 
@@ -137,6 +138,10 @@ def test_mlflow_service(mlflow_service: services.MlflowService) -> None:
     assert service.tracking_uri == mlflow.get_tracking_uri(), "Tracking URI should be the same!"
     assert service.registry_uri == mlflow.get_registry_uri(), "Registry URI should be the same!"
     assert mlflow.get_experiment_by_name(service.experiment_name), "Experiment should be setup!"
+    # - autolog
+    assert get_autologging_config("sklearn", "log_models") is service.autolog_log_models, (
+        "Autolog should log models only when configured!"
+    )
     # - client
     assert service.tracking_uri == client.tracking_uri, "Tracking URI should be the same!"
     assert service.registry_uri == client._registry_uri, "Tracking URI should be the same!"
