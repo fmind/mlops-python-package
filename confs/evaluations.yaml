@@ -2,7 +2,7 @@ job:
   KIND: EvaluationsJob
   inputs:
     KIND: ParquetReader
-    path: data/inputs_train.parquet
+    path: data/inputs_test.parquet
   targets:
     KIND: ParquetReader
-    path: data/targets_train.parquet
+    path: data/targets_test.parquet
