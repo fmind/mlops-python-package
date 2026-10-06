@@ -134,7 +134,9 @@ def test_builtin_pipeline(
     name = "Builtin"
     flavor = "sklearn"
     tags = {"registry": "mlflow"}
-    saver = registries.BuiltinSaver(path=path, flavor=flavor)
+    # the fixture is a random forest built by this test, so its tree storage is trusted
+    kwargs = {"skops_trusted_types": ["sklearn.tree._tree.Tree"]}
+    saver = registries.BuiltinSaver(path=path, flavor=flavor, kwargs=kwargs)
     loader = registries.BuiltinLoader()
     register = registries.MlflowRegister(tags=tags)
     run_config = mlflow_service.RunConfig(name="Builtin-Run")

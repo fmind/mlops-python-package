@@ -166,11 +166,15 @@ class BuiltinSaver(Saver):
 
     Parameters:
         flavor (str): Mlflow flavor module to use for the serialization.
+        kwargs (dict[str, T.Any]): flavor-specific options for `log_model`.
+            e.g., sklearn saves with skops, which refuses to reload tree models
+            unless their types are trusted: `{"skops_trusted_types": [...]}`.
     """
 
     KIND: T.Literal["BuiltinSaver"] = "BuiltinSaver"
 
     flavor: str
+    kwargs: dict[str, T.Any] = {}
 
     @T.override
     def save(
@@ -186,6 +190,7 @@ class BuiltinSaver(Saver):
             name=self.path,
             signature=signature,
             input_example=input_example,
+            **self.kwargs,
         )
 
 
