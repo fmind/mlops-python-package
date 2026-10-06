@@ -1,5 +1,7 @@
 # %% IMPORTS
 
+import warnings
+
 import _pytest.capture as pc
 import _pytest.logging as pl
 import mlflow
@@ -39,6 +41,25 @@ def test_alerts_service(enable: bool, mocker: pm.MockerFixture, capsys: pc.Captu
     else:
         notify.assert_not_called()
         assert capsys.readouterr().out == "[Bikes] test: hello\n", "Notification should be printed to stdout!"
+
+
+def test_alerts_service__silences_backend_probe_warnings(
+    mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]
+) -> None:
+    # given
+    def notify(**_kwargs: str) -> None:
+        warnings.warn_explicit("notify-send not found.", UserWarning, "notification.py", 1, module="plyer.linux")
+        raise NotImplementedError
+
+    service = services.AlertsService(enable=True)
+    mocker.patch.object(services, "notification", new=mocker.Mock()).notify.side_effect = notify
+    # when
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        service.notify(title="test", message="hello")
+    # then
+    assert caught == [], "Backend probe warnings should not reach the user!"
+    assert "Notifications are not supported on this system." in capsys.readouterr().out
 
 
 def test_alerts_service__not_supported(mocker: pm.MockerFixture, capsys: pc.CaptureFixture[str]) -> None:

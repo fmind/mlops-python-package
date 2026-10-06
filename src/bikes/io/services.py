@@ -9,6 +9,7 @@ import contextlib as ctx
 import sys
 import typing as T
 import urllib.parse
+import warnings
 
 import loguru
 import mlflow
@@ -146,12 +147,16 @@ class AlertsService(Service):
                 notify_message = self._truncate(message, self._MAX_MESSAGE_LENGTH)
                 app_name = self._truncate(app_name, self._MAX_APP_NAME_LENGTH)
             try:
-                notification.notify(
-                    title=notify_title,
-                    message=notify_message,
-                    app_name=app_name,
-                    timeout=self.timeout,
-                )
+                # plyer warns while it probes for a backend (dbus, notify-send): the
+                # NotImplementedError fallback below already reports a missing one.
+                with warnings.catch_warnings():
+                    warnings.filterwarnings(action="ignore", category=UserWarning, module="plyer")
+                    notification.notify(
+                        title=notify_title,
+                        message=notify_message,
+                        app_name=app_name,
+                        timeout=self.timeout,
+                    )
             except NotImplementedError:
                 print("Notifications are not supported on this system.")  # noqa: T201  # user-facing fallback
                 self._print(title=title, message=message)
