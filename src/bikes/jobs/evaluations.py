@@ -27,6 +27,7 @@ class EvaluationsJob(base.Job):
         alias_or_version (str | int): alias or version for the  model.
         metrics (metrics_.MetricsKind): metric list to compute.
         evaluators (list[str]): list of evaluators to use.
+        evaluator_config (dict[str, dict[str, T.Any]]): options per evaluator name.
         thresholds (dict[str, metrics_.Threshold] | None): metric thresholds.
     """
 
@@ -46,6 +47,9 @@ class EvaluationsJob(base.Job):
     metrics: metrics_.MetricsKind = [metrics_.SklearnMetric()]
     # Evaluators
     evaluators: list[str] = ["default"]
+    # The ExplanationsJob owns explanations: the default evaluator's SHAP step cannot read
+    # the non-numeric inputs anyway and only logs a warning.
+    evaluator_config: dict[str, dict[str, T.Any]] = {"default": {"log_model_explainability": False}}
     # Thresholds
     thresholds: dict[str, metrics_.Threshold] = {"r2_score": metrics_.Threshold(threshold=0.5, greater_is_better=True)}
 
@@ -121,6 +125,7 @@ class EvaluationsJob(base.Job):
                 data=dataset,
                 model_type=self.model_type,
                 evaluators=self.evaluators,
+                evaluator_config=self.evaluator_config,
                 extra_metrics=extra_metrics,
             )
             logger.debug("- Evaluations metrics: {}", evaluations.metrics)
