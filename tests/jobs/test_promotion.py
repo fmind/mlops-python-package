@@ -65,3 +65,19 @@ def test_promotion_job(
     assert out["model_version"].aliases == [alias], "Model version aliases should contain the given alias!"
     # - alerting service
     assert "Promotion Job Finished" in capsys.readouterr().out, "Alerting service should be called!"
+
+
+def test_promotion_job__no_version(
+    mlflow_service: services.MlflowService,
+    alerts_service: services.AlertsService,
+    logger_service: services.LoggerService,
+) -> None:
+    # given
+    job = jobs.PromotionJob(
+        logger_service=logger_service,
+        alerts_service=alerts_service,
+        mlflow_service=mlflow_service,
+    )
+    # when
+    with job as runner, pytest.raises(ValueError, match="No version registered"):
+        runner.run()

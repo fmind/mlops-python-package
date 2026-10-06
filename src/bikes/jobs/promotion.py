@@ -36,9 +36,12 @@ class PromotionJob(base.Job):
         name = self.mlflow_service.registry_name
         # version
         if self.version is None:  # use the latest model version
-            version = client.search_model_versions(f"name='{name}'", max_results=1, order_by=["version_number DESC"])[
-                0
-            ].version
+            try:
+                version = client.search_model_versions(
+                    f"name='{name}'", max_results=1, order_by=["version_number DESC"]
+                )[0].version
+            except IndexError as error:
+                raise ValueError(f"No version registered for model: {name}") from error
         else:
             version = self.version
         logger.info("From version: {}", version)
