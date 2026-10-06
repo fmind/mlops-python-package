@@ -1,3 +1,5 @@
+# https://trivy.dev/latest/docs/references/configuration/config-file/
+
 severity:
   - HIGH
   - CRITICAL
@@ -7,12 +9,16 @@ scan:
     - misconfig
     - secret
     - vuln
-  # Caches and virtualenvs are not source. `.cache` in particular is written by
-  # `check:vuln` (pip-audit) while this scan runs in parallel, and trivy aborts when a
-  # temporary file disappears mid-walk.
+  # Caches, virtualenvs, and run artifacts are not source. `.cache` in particular is
+  # written by `check:vuln` (pip-audit) while this scan runs in parallel, and trivy
+  # aborts when a temporary file disappears mid-walk. MLflow artifacts only repeat the
+  # locked requirements, and walking them costs a minute per scan.
   skip-dirs:
     - .cache
     - .venv
     - .git
+    - mlartifacts
+    - mlruns
+    - outputs
 vulnerability:
   ignore-unfixed: true
