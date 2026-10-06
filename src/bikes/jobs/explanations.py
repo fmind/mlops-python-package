@@ -21,7 +21,7 @@ class ExplanationsJob(base.Job):
         models_explanations (datasets.WriterKind): writer for models explanation.
         samples_explanations (datasets.WriterKind): writer for samples explanation.
         alias_or_version (str | int): alias or version for the  model.
-        loader (registries.LoaderKind): registry loader for the model.
+        loader (registries.CustomLoader): registry loader for the model.
     """
 
     KIND: T.Literal["ExplanationsJob"] = "ExplanationsJob"
@@ -34,7 +34,8 @@ class ExplanationsJob(base.Job):
     # Model
     alias_or_version: str | int = "Champion"
     # Loader
-    loader: registries.LoaderKind = pdt.Field(registries.CustomLoader(), discriminator="KIND")
+    # only the project's custom models implement the explanation methods
+    loader: registries.CustomLoader = registries.CustomLoader()
 
     @T.override
     def run(self) -> base.Locals:
