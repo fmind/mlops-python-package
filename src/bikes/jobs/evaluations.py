@@ -117,7 +117,7 @@ class EvaluationsJob(base.Job):
             logger.debug("- Validation thresholds: {}", validation_thresholds)
             # evaluations
             logger.info("Compute evaluations: {}", self.model_type)
-            evaluations = mlflow.evaluate(
+            evaluations = mlflow.models.evaluate(
                 data=dataset,
                 model_type=self.model_type,
                 evaluators=self.evaluators,

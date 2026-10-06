@@ -33,7 +33,7 @@ def test_sklearn_metric(
     score = metric.score(targets=targets, outputs=outputs)
     scorer = metric.scorer(model=model, inputs=inputs, targets=targets)
     mlflow_metric = metric.to_mlflow()
-    mlflow_results = mlflow.evaluate(
+    mlflow_results = mlflow.models.evaluate(
         data=data,
         predictions=schemas.OutputsSchema.prediction,
         targets=schemas.TargetsSchema.cnt,
