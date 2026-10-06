@@ -8,3 +8,7 @@ job:
     KIND: ParquetReader
     path: "${tests_path:}/data/targets_sample.parquet"
     limit: 1500
+  # keep most of the 1500 sample rows for training (the default test split holds out 1440)
+  splitter:
+    KIND: TrainTestSplitter
+    test_size: 300

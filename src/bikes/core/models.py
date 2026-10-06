@@ -152,8 +152,7 @@ class BaselineSklearnModel(Model):
         "atemp",
         "hum",
         "windspeed",
-        "casual",
-        "registered",  # too correlated with target
+        # casual and registered are left out: they add up to the target (cnt = casual + registered)
     ]
     _categoricals: list[str] = [
         "season",
