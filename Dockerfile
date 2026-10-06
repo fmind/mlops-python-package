@@ -24,7 +24,7 @@ ENV PYTHONUNBUFFERED=1
 WORKDIR /app
 # Fixed numeric uid/gid: stable file ownership across rebuilds and bind mounts, and
 # resolvable by a host that does not share this image's /etc/passwd.
-RUN groupadd -r -g 10001 app && useradd -r -u 10001 -g app -m app
+RUN groupadd -g 10001 app && useradd -u 10001 -g app -m app
 USER 10001:10001
 COPY --from=build --chown=10001:10001 /app/.venv /app/.venv
 ENV PATH="/app/.venv/bin:$PATH"
