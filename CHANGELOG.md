@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+## [7.0.1] - 2026-10-12
+
+- Separate the Debian license inventory from the vulnerability, secret and misconfiguration image gate.
+
 ## [7.0.0] - 2026-10-12
 
 - **Breaking:** training and serving inputs exclude `casual` and `registered`. Retrain historical registered models before sending feature-only inputs.

@@ -1145,3 +1145,5 @@ This section provides resources for building packages for Python and AI/ML/MLOps
 `mise run clean` removes caches and build outputs while preserving MLflow databases, run artifacts, and predictions. Back up experiment state before any deliberate manual reset.
 
 Use `mise run mlflow:serve` to browse experiments created by local jobs: their artifact URIs contain host paths. Compose can serve metadata from the same SQLite file, but those host paths are not automatically available inside the container. For new HTTP-first experiments, configure clients to reach the server and choose server-accessible artifact storage.
+
+The release image gate checks vulnerabilities, secrets and misconfigurations. It records license classifications separately: the Debian base includes reciprocal licenses that require an inventory, rather than a blanket license prohibition.

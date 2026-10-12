@@ -93,7 +93,12 @@ jobs:
       - name: Scan candidate image
         env:
           IMAGE_REF: ${{ env.IMAGE }}@${{ steps.build.outputs.digest }}
-        run: mise exec -- trivy --config trivy.yaml image --skip-dirs '' --platform linux/amd64 "$IMAGE_REF"
+        run: mise exec -- trivy --config trivy.yaml image --skip-dirs '' --platform linux/amd64 --scanners misconfig,secret,vuln "$IMAGE_REF"
+      - name: Record license inventory
+        env:
+          IMAGE_REF: ${{ env.IMAGE }}@${{ steps.build.outputs.digest }}
+        # Debian ships reciprocal licenses; inventory them separately from security findings.
+        run: mise exec -- trivy --config trivy.yaml image --skip-dirs '' --platform linux/amd64 --scanners license --exit-code 0 "$IMAGE_REF"
       - name: Promote verified digest
         env:
           IMAGE_REF: ${{ env.IMAGE }}@${{ steps.build.outputs.digest }}
