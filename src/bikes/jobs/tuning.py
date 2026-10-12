@@ -100,6 +100,7 @@ class TuningJob(base.Job):
             logger.debug("- Results: {}", results.shape)
             logger.debug("- Best Score: {}", best_score)
             logger.debug("- Best Params: {}", best_params)
+            mlflow.log_dict(best_params, "selected_params.json")
             # notify
             self.alerts_service.notify(title="Tuning Job Finished", message=f"Best score: {best_score}")
         return locals()

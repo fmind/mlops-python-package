@@ -5,13 +5,14 @@
 from bikes.jobs.evaluations import EvaluationsJob
 from bikes.jobs.explanations import ExplanationsJob
 from bikes.jobs.inference import InferenceJob
+from bikes.jobs.pipeline import PipelineJob
 from bikes.jobs.promotion import PromotionJob
 from bikes.jobs.training import TrainingJob
 from bikes.jobs.tuning import TuningJob
 
 # %% TYPES
 
-JobKind = TuningJob | TrainingJob | PromotionJob | InferenceJob | EvaluationsJob | ExplanationsJob
+JobKind = TuningJob | TrainingJob | PromotionJob | InferenceJob | EvaluationsJob | ExplanationsJob | PipelineJob
 
 # %% EXPORTS
 
@@ -20,6 +21,7 @@ __all__ = [
     "ExplanationsJob",
     "InferenceJob",
     "JobKind",
+    "PipelineJob",
     "PromotionJob",
     "TrainingJob",
     "TuningJob",

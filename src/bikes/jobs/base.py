@@ -34,7 +34,7 @@ class Job(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
     logger_service: services.LoggerService = services.LoggerService()
     alerts_service: services.AlertsService = services.AlertsService()
-    mlflow_service: services.MlflowService = services.MlflowService()
+    mlflow_service: services.MlflowService = pdt.Field(default_factory=services.MlflowService)
 
     def __enter__(self) -> T.Self:
         """Enter the job context.

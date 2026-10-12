@@ -3,6 +3,8 @@
 import os
 
 import omegaconf as oc
+import pytest
+import pytest_mock
 
 from bikes.io import configs
 
@@ -75,3 +77,15 @@ def test_to_object() -> None:
     # then
     assert object_ == values, "Object should be the same!"
     assert isinstance(object_, dict), "Object should be a dict!"
+
+
+def test_merge_rejects_unsupported_config(mocker: pytest_mock.MockerFixture) -> None:
+    mocker.patch.object(oc.OmegaConf, "merge", return_value=oc.OmegaConf.create((1, 2)))
+    with pytest.raises(TypeError, match="Only mapping or list"):
+        configs.merge_configs([])
+
+
+def test_to_object_rejects_missing_required_values() -> None:
+    config = oc.OmegaConf.create({"required": oc.MISSING})
+    with pytest.raises(oc.errors.MissingMandatoryValue):
+        configs.to_object(config)

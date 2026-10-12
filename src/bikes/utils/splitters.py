@@ -81,7 +81,7 @@ class TrainTestSplitter(Splitter):
     KIND: T.Literal["TrainTestSplitter"] = "TrainTestSplitter"
 
     shuffle: bool = False  # required (time sensitive)
-    test_size: int = 24 * 30 * 2  # 2 months
+    test_size: int | float = 24 * 30 * 2  # 2 months
     random_state: int = 42
 
     @T.override
@@ -123,7 +123,7 @@ class TimeSeriesSplitter(Splitter):
 
     gap: int = 0
     n_splits: int = 4
-    test_size: int | float = 24 * 30 * 2  # 2 months
+    test_size: int = 24 * 30 * 2  # 2 months
 
     @T.override
     def split(

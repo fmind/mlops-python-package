@@ -360,7 +360,7 @@ def tests_path_resolver(tests_path: str) -> str:
         """Get tests path."""
         return tests_path
 
-    omegaconf.OmegaConf.register_new_resolver("tests_path", resolver, use_cache=True, replace=False)
+    omegaconf.OmegaConf.register_resolver("tests_path", resolver, use_cache=True, replace=False)
     return tests_path
 
 
@@ -370,10 +370,10 @@ def tmp_path_resolver(tmp_path: str) -> str:
 
     def resolver() -> str:
         """Get tmp data path."""
-        return tmp_path
+        return str(tmp_path)
 
-    omegaconf.OmegaConf.register_new_resolver("tmp_path", resolver, use_cache=False, replace=True)
-    return tmp_path
+    omegaconf.OmegaConf.register_resolver("tmp_path", resolver, use_cache=False, replace=True)
+    return str(tmp_path)
 
 
 # %% - Signatures

@@ -1,0 +1,42 @@
+# https://github.com/fmind/mlops-python-package#dag
+job:
+  KIND: PipelineJob
+  tuning:
+    inputs:
+      KIND: ParquetReader
+      path: data/inputs_train.parquet
+    targets:
+      KIND: ParquetReader
+      path: data/targets_train.parquet
+  training:
+    inputs:
+      KIND: ParquetReader
+      path: data/inputs_train.parquet
+    targets:
+      KIND: ParquetReader
+      path: data/targets_train.parquet
+  evaluations:
+    inputs:
+      KIND: ParquetReader
+      path: data/inputs_test.parquet
+    targets:
+      KIND: ParquetReader
+      path: data/targets_test.parquet
+  inference:
+    inputs:
+      KIND: ParquetReader
+      path: data/inputs_test.parquet
+    outputs:
+      KIND: ParquetWriter
+      path: outputs/outputs.parquet
+  explanations:
+    inputs_samples:
+      KIND: ParquetReader
+      path: data/inputs_test.parquet
+      limit: 100
+    models_explanations:
+      KIND: ParquetWriter
+      path: outputs/models_explanations.parquet
+    samples_explanations:
+      KIND: ParquetWriter
+      path: outputs/samples_explanations.parquet

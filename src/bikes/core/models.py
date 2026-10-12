@@ -192,6 +192,8 @@ class BaselineSklearnModel(Model):
 
     @T.override
     def fit(self, inputs: schemas.Inputs, targets: schemas.Targets) -> BaselineSklearnModel:
+        if not inputs.index.equals(targets.index):
+            raise ValueError("Input and target sample IDs must match in the same order.")
         # subcomponents
         categoricals_transformer = preprocessing.OneHotEncoder(sparse_output=False, handle_unknown="ignore")
         # components
@@ -249,6 +251,7 @@ class BaselineSklearnModel(Model):
         shap_values_ = pd.DataFrame(
             data=explainer.shap_values(X=transformed),
             columns=transformer.get_feature_names_out(),
+            index=inputs.index,
         )
         return schemas.SHAPValuesSchema.check(data=shap_values_)
 

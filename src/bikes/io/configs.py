@@ -49,7 +49,10 @@ def merge_configs(configs: T.Sequence[Config]) -> Config:
     Returns:
         Config: representation of the merged config objects.
     """
-    return oc.OmegaConf.merge(*configs)
+    merged = oc.OmegaConf.merge(*configs)
+    if not isinstance(merged, (oc.DictConfig, oc.ListConfig)):
+        raise TypeError("Only mapping or list configurations are supported.")
+    return merged
 
 
 # %% CONVERTERS
@@ -65,4 +68,4 @@ def to_object(config: Config, resolve: bool = True) -> object:
     Returns:
         object: conversion of the config to a python object.
     """
-    return oc.OmegaConf.to_container(config, resolve=resolve)
+    return oc.OmegaConf.to_container(config, resolve=resolve, throw_on_missing=True)

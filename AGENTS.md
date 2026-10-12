@@ -4,7 +4,7 @@ Context and rules for AI agents working in this repository. Humans should start 
 
 ## Project overview
 
-- **Name**: bikes — a production-shaped MLOps package that predicts the number of bikes available.
+- **Name**: bikes — a production-shaped MLOps package that predicts hourly bike rental demand.
 - **Description**: reference implementation for the [MLOps Coding Course](https://mlops-coding-course.fmind.dev), generated from [cookiecutter-mlops-package](https://github.com/fmind/cookiecutter-mlops-package).
 - **Language**: Python 3.14+ (`pyproject.toml`), managed with `uv`.
 - **Stack**: MLflow (tracking, registry, projects, evaluation), scikit-learn, pandas, Pydantic + Pandera validation, OmegaConf YAML configs, loguru.
@@ -21,7 +21,12 @@ All work goes through `mise` (see `mise.toml`); git hooks (`lefthook.yml`) and C
 - Test: `mise run test` — `pytest` with coverage (fails under 100%); `mise run test:parallel` is a faster, coverage-free local loop.
 - Build: `mise run build` — `uv build` (wheel + sdist); `mise run build:image` builds the Docker image.
 - Docs: `mise run docs` — `pdoc` API reference into `docs/`.
-- MLflow jobs: `mise run project` runs every job; `mise run project:run <name>` runs one (`confs/<name>.yaml`).
+- MLflow jobs: `mise run project` runs the connected `PipelineJob` (tune → train → evaluate → promote → infer → explain); `mise run project:run <name>` runs one (`confs/<name>.yaml`).
+
+## Pipeline invariants
+
+- Training uses the full tuning model configuration plus validated selected parameters. Evaluation, promotion and downstream consumers use the exact registered candidate version. Failed evaluation preserves the champion alias. Standalone promotion requires a positive explicit version.
+- Input datasets and signatures exclude `casual` and `registered`; raw counts remain in `data/hour.csv` for analysis. Retrain historical registered models to adopt the new serving signature.
 
 ## Definition of done
 
@@ -38,9 +43,9 @@ A change is complete only when, locally, `mise run format` is clean, `mise run c
 
 ## Repository layout
 
-- `src/bikes/` — package: `core/` (metrics, models, schemas), `io/` (configs, datasets, registries, services), `jobs/` (tuning, training, promotion, inference, evaluations, explanations), `utils/` (searchers, signers, splitters), plus `settings.py`, `scripts.py`, `__main__.py`.
+- `src/bikes/` — package: `core/` (metrics, models, schemas), `io/` (configs, datasets, registries, services), `jobs/` (pipeline, tuning, training, promotion, inference, evaluations, explanations), `utils/` (searchers, signers, splitters), plus `settings.py`, `scripts.py`, `__main__.py`.
 - `confs/` — one OmegaConf YAML per MLflow job; `tests/` — `pytest` suite mirroring `src/` with fixtures in `conftest.py`.
 - `data/` — bike sharing datasets (Parquet splits and source CSV); `notebooks/` — exploration notebooks (plotly comes from the `notebook` dependency group); `.env.example` — MLflow URIs to copy into `.env`, which `mise.toml` sources.
 - `pyproject.toml` — dependencies and `ruff`/`ty`/`pytest` config; `mise.toml`/`mise.lock` — tasks and pinned, locked tools; `lefthook.yml` — git hooks; `dprint.jsonc`/`trivy.yaml`/`cliff.toml` — formatter, scanner, changelog config.
-- `.github/` — `workflows/` (`ci.yml` runs `mise run all`, `cd.yml` publishes docs and the image, `security.yml` rescans the full history weekly), `dependabot.yml`, `zizmor.yml`, `rulesets/main.json`.
+- `.github/` — `workflows/` (`ci.yml` runs `mise run all`, `cd.yml` runs the gate before publishing docs and promotes a scanned image digest, `security.yml` rescans the full history weekly), `dependabot.yml`, `rulesets/main.json`.
 - `Dockerfile`/`docker-compose.yml`/`MLproject` — container image, local MLflow server, and MLflow Projects reproducible runs (`--env-manager=local` reuses the uv environment, so there is no `python_env.yaml`).

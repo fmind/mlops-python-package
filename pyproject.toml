@@ -5,8 +5,8 @@
 
 [project]
 name = "bikes"
-version = "6.1.0"
-description = "Predict the number of bikes available."
+version = "7.0.0"
+description = "Predict hourly bike rental demand."
 authors = [{ name = "Médéric HURIER", email = "github@fmind.dev" }]
 readme = "README.md"
 license = "MIT"
@@ -182,5 +182,5 @@ skip_covered = true
 [build-system]
 # Keep the upper bound at least one minor ahead of the pinned `uv` tool: without it
 # `uv build` warns, and a future breaking `uv_build` would silently break the sdist.
-requires = ["uv_build>=0.9,<0.13"]
+requires = ["uv_build>=0.13,<0.14"]
 build-backend = "uv_build"

@@ -6,9 +6,11 @@ import warnings
 from pathlib import Path
 
 import mlflow
+import numpy as np
 import pandas as pd
 import pandera.errors as pe
 import pytest
+import pytest_mock as pm
 from mlflow.pyfunc import PythonModelContext
 
 from bikes.core import models, schemas
@@ -126,6 +128,7 @@ def test_custom_pipeline(
     assert info.run_id == run.info.run_id, "The run id should be the same!"
     assert info.name == path, "The logged model name should be the same!"
     assert info.signature == signature, "The model signature should be the same!"
+    assert {"casual", "registered"}.isdisjoint(info.signature.inputs.input_names())
     assert info.flavors.get("python_function"), "The model should have a pyfunc flavor!"
     # - files: the adapter is code and the internal model is skops, nothing is pickled
     files = {f.name for f in Path(mlflow.artifacts.download_artifacts(info.model_uri)).rglob("*")}
@@ -144,11 +147,21 @@ def test_custom_pipeline(
     )
     # - output
     assert schemas.OutputsSchema.check(outputs) is not None, "Outputs should be valid!"
+
     # The serialized PyFunc must retain Pandera constraints beyond MLflow's column types.
     invalid_inputs = inputs.copy()
     invalid_inputs.loc[:, "hr"] = 24
     with pytest.raises(pe.SchemaError, match="less_than_or_equal_to"):
         adapter.predict(inputs=invalid_inputs)
+
+
+def test_builtin_adapter_rounds_counts(inputs: schemas.Inputs, mocker: pm.MockerFixture) -> None:
+    raw = np.full(len(inputs), 1.6)
+    model = mocker.Mock()
+    model.predict.return_value = raw
+    outputs = registries.BuiltinLoader.Adapter(model=model).predict(inputs=inputs)
+    assert (outputs["prediction"] == 2).all()
+    assert outputs.index.equals(inputs.index)
 
 
 def test_builtin_pipeline(
@@ -182,6 +195,7 @@ def test_builtin_pipeline(
     assert info.run_id == run.info.run_id, "The run id should be the same!"
     assert info.name == path, "The logged model name should be the same!"
     assert info.signature == signature, "The model signature should be the same!"
+    assert {"casual", "registered"}.isdisjoint(info.signature.inputs.input_names())
     assert info.flavors.get("python_function"), "The model should have a pyfunc flavor!"
     assert info.flavors.get(flavor), f"The model should have a built-in model flavor: {flavor}!"
     # - version

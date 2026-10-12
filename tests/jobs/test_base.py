@@ -1,7 +1,9 @@
 # %% IMPORTS
 
+import pytest
+
 from bikes.io import services
-from bikes.jobs import base
+from bikes.jobs import base, promotion
 
 # %% JOBS
 
@@ -34,3 +36,11 @@ def test_job(
     assert hasattr(job, "mlflow_service"), "Job should have an Mlflow service!"
     # - outputs
     assert set(out) == {"self", "a", "b"}, "Run should return local variables!"
+
+
+def test_default_service_reads_current_environment(monkeypatch: pytest.MonkeyPatch) -> None:
+    monkeypatch.setenv("MLFLOW_TRACKING_URI", "sqlite:///current.db")
+    monkeypatch.delenv("MLFLOW_REGISTRY_URI", raising=False)
+    job = promotion.PromotionJob(version=1)
+    assert job.mlflow_service.tracking_uri == "sqlite:///current.db"
+    assert job.mlflow_service.registry_uri == "sqlite:///current.db"

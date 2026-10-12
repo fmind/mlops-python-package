@@ -1,5 +1,8 @@
 # %% IMPORTS
 
+import pydantic
+import pytest
+
 from bikes.core import schemas
 from bikes.utils import splitters
 
@@ -43,3 +46,15 @@ def test_time_series_splitter(inputs: schemas.Inputs, targets: schemas.Targets) 
         assert train_index.max() < test_index.min(), "Train index should always be lower than test index!"
         assert not inputs.iloc[train_index].empty, "Train index should be a subset of the inputs!"
         assert not inputs.iloc[test_index].empty, "Test index should be a subset of the inputs!"
+
+
+def test_train_test_ratio(inputs: schemas.Inputs, targets: schemas.Targets) -> None:
+    splitter = splitters.TrainTestSplitter(test_size=0.2)
+    train_index, test_index = next(splitter.split(inputs=inputs, targets=targets))
+    assert len(test_index) == len(inputs) // 5
+    assert train_index.max() < test_index.min()
+
+
+def test_time_series_rejects_fractional_size() -> None:
+    with pytest.raises(pydantic.ValidationError, match="test_size"):
+        splitters.TimeSeriesSplitter(test_size=0.2)

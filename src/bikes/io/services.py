@@ -6,16 +6,26 @@ from __future__ import annotations
 
 import abc
 import contextlib as ctx
+import os
 import sys
 import typing as T
 import urllib.parse
 import warnings
+from typing import TYPE_CHECKING
 
 import loguru
 import mlflow
 import mlflow.tracking as mt
 import pydantic as pdt
 from plyer import notification
+
+if TYPE_CHECKING:
+    from loguru import Logger
+else:
+    Logger = type(loguru.logger)
+
+# Keep the platform notification proxy outside the documented service API.
+__all__ = ["AlertsService", "LoggerService", "MlflowService", "Service", "redact_uri"]
 
 # %% HELPERS
 
@@ -96,11 +106,11 @@ class LoggerService(Service):
         config["sink"] = sinks.get(config["sink"], config["sink"])
         loguru.logger.add(**config)
 
-    def logger(self) -> loguru.Logger:
+    def logger(self) -> Logger:
         """Return the main logger.
 
         Returns:
-            loguru.Logger: the main logger.
+            Logger: the main logger.
         """
         return loguru.logger
 
@@ -218,9 +228,12 @@ class MlflowService(Service):
     # server uri
     # SQLAlchemy backends are the supported store in MLflow 3: SQLite gives the local
     # setup the same shape as a production database (Postgres, MySQL) with no server to
-    # run, and it is the only local store the model registry is actually designed for.
-    tracking_uri: str = "sqlite:///mlflow.db"
-    registry_uri: str = "sqlite:///mlflow.db"
+    # run. The legacy file store is in maintenance mode and disabled by default.
+    # Explicit YAML wins; otherwise honor MLflow's environment at construction time.
+    tracking_uri: str = pdt.Field(default_factory=lambda: os.environ.get("MLFLOW_TRACKING_URI", "sqlite:///mlflow.db"))
+    registry_uri: str = pdt.Field(
+        default_factory=lambda data: os.environ.get("MLFLOW_REGISTRY_URI", data["tracking_uri"])
+    )
     # experiment
     experiment_name: str = "bikes"
     # registry

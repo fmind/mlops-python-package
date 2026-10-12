@@ -1,2 +1,3 @@
 job:
   KIND: PromotionJob
+  version: ${oc.decode:${oc.env:MODEL_VERSION}}

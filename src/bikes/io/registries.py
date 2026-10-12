@@ -214,6 +214,58 @@ SaverKind = CustomSaver | BuiltinSaver
 # %% LOADERS
 
 
+class PredictionAdapter(abc.ABC):
+    """Adapt any model for the project inference."""
+
+    @abc.abstractmethod
+    def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
+        """Generate predictions with the internal model for the given inputs.
+
+        Args:
+            inputs (schemas.Inputs): validated inputs for the project model.
+
+        Returns:
+            schemas.Outputs: validated outputs of the project model.
+        """
+
+
+class CustomPredictionAdapter(PredictionAdapter):
+    """Adapt a custom model for the project inference."""
+
+    def __init__(self, model: PyFuncModel) -> None:
+        """Initialize the adapter from an mlflow pyfunc model.
+
+        Args:
+            model (PyFuncModel): mlflow pyfunc model.
+        """
+        self.model = model
+
+    @T.override
+    def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
+        # model validation is already done in predict
+        outputs = self.model.predict(data=inputs)
+        return T.cast(schemas.Outputs, outputs)
+
+
+class BuiltinPredictionAdapter(PredictionAdapter):
+    """Adapt a builtin model for the project inference."""
+
+    def __init__(self, model: PyFuncModel) -> None:
+        """Initialize the adapter from an mlflow pyfunc model.
+
+        Args:
+            model (PyFuncModel): mlflow pyfunc model.
+        """
+        self.model = model
+
+    @T.override
+    def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
+        columns = list(schemas.OutputsSchema.to_schema().columns)
+        # Match the domain model's integer-count contract before schema coercion.
+        outputs = self.model.predict(data=inputs).round()
+        return schemas.Outputs(outputs, columns=columns, index=inputs.index)
+
+
 class Loader(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
     """Base class for loading models from registry.
 
@@ -223,29 +275,17 @@ class Loader(abc.ABC, pdt.BaseModel, strict=True, frozen=True, extra="forbid"):
 
     KIND: str
 
-    class Adapter(abc.ABC):
-        """Adapt any model for the project inference."""
-
-        @abc.abstractmethod
-        def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
-            """Generate predictions with the internal model for the given inputs.
-
-            Args:
-                inputs (schemas.Inputs): validated inputs for the project model.
-
-            Returns:
-                schemas.Outputs: validated outputs of the project model.
-            """
+    Adapter: T.ClassVar[type[PredictionAdapter]] = PredictionAdapter
 
     @abc.abstractmethod
-    def load(self, uri: str) -> Loader.Adapter:
+    def load(self, uri: str) -> PredictionAdapter:
         """Load a model from the model registry.
 
         Args:
             uri (str): URI of a model to load.
 
         Returns:
-            Loader.Adapter: model loaded.
+            PredictionAdapter: model loaded.
         """
 
 
@@ -257,25 +297,10 @@ class CustomLoader(Loader):
 
     KIND: T.Literal["CustomLoader"] = "CustomLoader"
 
-    class Adapter(Loader.Adapter):
-        """Adapt a custom model for the project inference."""
-
-        def __init__(self, model: PyFuncModel) -> None:
-            """Initialize the adapter from an mlflow pyfunc model.
-
-            Args:
-                model (PyFuncModel): mlflow pyfunc model.
-            """
-            self.model = model
-
-        @T.override
-        def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
-            # model validation is already done in predict
-            outputs = self.model.predict(data=inputs)
-            return T.cast(schemas.Outputs, outputs)
+    Adapter: T.ClassVar[type[CustomPredictionAdapter]] = CustomPredictionAdapter
 
     @T.override
-    def load(self, uri: str) -> CustomLoader.Adapter:
+    def load(self, uri: str) -> CustomPredictionAdapter:
         model = mlflow.pyfunc.load_model(model_uri=uri)
         return CustomLoader.Adapter(model=model)
 
@@ -290,25 +315,10 @@ class BuiltinLoader(Loader):
 
     KIND: T.Literal["BuiltinLoader"] = "BuiltinLoader"
 
-    class Adapter(Loader.Adapter):
-        """Adapt a builtin model for the project inference."""
-
-        def __init__(self, model: PyFuncModel) -> None:
-            """Initialize the adapter from an mlflow pyfunc model.
-
-            Args:
-                model (PyFuncModel): mlflow pyfunc model.
-            """
-            self.model = model
-
-        @T.override
-        def predict(self, inputs: schemas.Inputs) -> schemas.Outputs:
-            columns = list(schemas.OutputsSchema.to_schema().columns)
-            outputs = self.model.predict(data=inputs)  # unchecked data!
-            return schemas.Outputs(outputs, columns=columns, index=inputs.index)
+    Adapter: T.ClassVar[type[BuiltinPredictionAdapter]] = BuiltinPredictionAdapter
 
     @T.override
-    def load(self, uri: str) -> BuiltinLoader.Adapter:
+    def load(self, uri: str) -> BuiltinPredictionAdapter:
         model = mlflow.pyfunc.load_model(model_uri=uri)
         return BuiltinLoader.Adapter(model=model)
 

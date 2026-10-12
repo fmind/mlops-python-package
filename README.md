@@ -124,7 +124,7 @@ This section details the requirements, actions, and next steps to kickstart your
 ## Prerequisites
 
 - [Python>=3.14](https://www.python.org/downloads/): to benefit from [the latest features and performance improvements](https://docs.python.org/3/whatsnew/3.14.html)
-- [uv>=0.12](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
+- [uv>=0.13](https://docs.astral.sh/uv/): to initialize the project [virtual environment](https://docs.python.org/3/library/venv.html) and its dependencies
 - [mise](https://mise.jdx.dev/): to run the canonical project tasks (`install`, `format`, `check`, `test`, `build`, and `all`) shared by git hooks and CI
 
 ## Installation
@@ -156,6 +156,14 @@ For instance, you can use Databricks or AWS as your compute platform and model r
 
 It's up to you to adapt the package code to the solution you target. Good luck champ!
 
+## Reference data and evaluation
+
+The bundled data comes from the UCI Bike Sharing dataset (`data/hour.csv`; attribution is in `data/Readme.txt`). The target `cnt` is the number of rentals per hour. `casual` and `registered` add up to the target and remain only in the raw CSV for analysis. The processing notebook removes them from every input Parquet file, so training and serving share a feature-only `InputsSchema`. Existing registered models keep their original signatures: retrain and register a new version before serving count-free inputs. Keep chronological splits and use only the training period for tuning and diagnostic curves.
+
+The `PipelineJob` in `confs/pipeline.yaml` passes the full tuned model configuration and selected parameters into training, records the tuning run ID on the training run, and evaluates the exact registered candidate version on heldout data. It changes the `Champion` alias only after the thresholds pass. Inference and explanations then use that same version, even if another run registers a newer candidate.
+
+Targets and predictions remain unsigned counts in the domain schemas. Evaluation converts them to floating point at the metric boundary so negative residuals cannot wrap into large positive errors.
+
 # Usage
 
 This section explains how to configure the project code and execute it on your system.
@@ -185,17 +193,20 @@ You can find all the parameters of your program in the `src/bikes/jobs/*.py` fil
 
 You can also print the full schema supported by this package using `uv run bikes --schema`.
 
+MLflow URI precedence is explicit YAML configuration, then `MLFLOW_TRACKING_URI` / `MLFLOW_REGISTRY_URI`, then local SQLite. Without a registry override, the registry follows the effective tracking URI. Copy `.env.example` to `.env` when using `mise` tasks. For Docker Compose, use `mise run docker:compose`: it initializes the SQLite file before mounting it; direct Compose startup requires `mise run mlflow:db` first.
+
+Run notebooks with `notebooks/` as the working directory and the project's `.venv` as the kernel. Run training before `indicators.ipynb`, and the explanations job before `explain.ipynb`. The indicators notebook follows the MLflow URI environment variables and defaults to the project's SQLite database.
+
 ## Execution
 
 The project code can be executed with uv during your development:
 
 ```bash
-uv run bikes confs/tuning.yaml
+uv run bikes confs/pipeline.yaml
+# Standalone stages remain available. Evaluate the recorded candidate first.
 uv run bikes confs/training.yaml
-uv run bikes confs/promotion.yaml
-uv run bikes confs/inference.yaml
-uv run bikes confs/evaluations.yaml
-uv run bikes confs/explanations.yaml
+uv run bikes confs/evaluations.yaml --extras '{"job": {"alias_or_version": 1}}'
+MODEL_VERSION=1 uv run bikes confs/promotion.yaml
 ```
 
 In production, you can build, ship, and run the project as a Python package:
@@ -207,12 +218,17 @@ python -m pip install dist/bikes-*.whl
 bikes confs/inference.yaml
 ```
 
-You can also install and use this package as a library for another AI/ML project:
+You can also use this package as a library. This example expects the bundled Parquet inputs (regenerate them with `notebooks/processing.ipynb` when needed):
 
 ```python
 from bikes import jobs
 
-job = jobs.TrainingJob(...)
+from bikes.io import datasets
+
+job = jobs.TrainingJob(
+    inputs=datasets.ParquetReader(path="data/inputs_train.parquet"),
+    targets=datasets.ParquetReader(path="data/targets_train.parquet"),
+)
 with job as runner:
     runner.run()
 ```
@@ -243,51 +259,14 @@ $ mise run build
 $ mise tasks
 ```
 
-**Available tasks**:
-
-```bash
-$ mise tasks
-all               Format, check, test, and build the project (the canonical gate)
-build             Build the Python distribution (wheel + sdist)
-build:image       Build the production OCI image (Docker)
-build:python      Build Python distribution artifacts (uv)
-check             Run all static checks in parallel
-check:actions     Lint and audit GitHub Actions workflows (actionlint + zizmor)
-check:dockerfile  Lint the container image definition (hadolint)
-check:format      Check formatting and config validity
-check:leaks       Audit codebase for leaked secrets (gitleaks)
-check:lint        Lint Python sources (ruff)
-check:scan        Scan the checkout for misconfigurations, secrets, and licenses (trivy)
-check:types       Type-check Python sources (ty)
-check:vuln        Scan dependencies for vulnerabilities (pip-audit)
-clean             Remove caches and build artifacts
-coverage          Open the HTML coverage report
-docker:compose    Start the local MLflow server with Docker Compose
-docker:run        Run the latest built image
-docs              Generate the API documentation (pdoc)
-docs:serve        Serve the API documentation (pdoc)
-format            Format all sources and documents
-format:dprint     Format JSON, Markdown, TOML, YAML (dprint)
-format:python     Format Python sources and imports (ruff)
-install           Install dependencies and git hooks
-install:hooks     Install git hooks (lefthook)
-install:python    Sync Python dependencies (uv)
-install:rulesets  Install or update the GitHub branch ruleset (idempotent)
-mlflow:doctor     Run the MLflow environment doctor
-mlflow:serve      Start a local MLflow tracking server on the SQLite backend
-project           Run every MLflow job in sequence
-project:run       Run one MLflow job by config name (e.g. `mise run project:run training`)
-test              Run the test suite with coverage (pytest)
-test:parallel     Run the test suite across CPU cores, without the coverage gate (pytest-xdist)
-upgrade           Upgrade dependencies to the latest compatible versions
-```
+Use `mise tasks` for the current list. The task definitions live in [mise.toml](mise.toml).
 
 ## Workflows
 
 This package supports three GitHub Workflows in `.github/workflows`:
 
 - `ci.yml`: run `mise run all` (format, check, test, build) and a clean-tree check on each push to `main` and Pull Request
-- `cd.yml`: build and publish the docs (GitHub Pages) and the Docker image on code release.
+- `cd.yml`: run the complete release gate, publish API docs to GitHub Pages, and scan a candidate Docker image before assigning the release and `latest` tags to its immutable digest.
 - `security.yml`: scan the full Git history and checkout with `gitleaks` and `trivy` every week
 
 You can use and extend these workflows to automate repetitive package management tasks.
@@ -377,7 +356,7 @@ Execution of automated workflows on code push and releases.
   - `zizmor` audits them for security (template injection, credential persistence, cache poisoning)
   - Both run offline inside `mise run check:actions`, so a broken workflow fails before it is pushed
 - **Limitations**:
-  - `zizmor` defaults to demanding SHA-pinned actions; `.github/zizmor.yml` relaxes that to the tag-pinning policy this project actually follows
+  - Actions are pinned to full commit SHAs; version comments make updates reviewable under the default `zizmor` policy
 - **Alternatives**:
   - Discovering the mistake from a red run on `main`
 
@@ -691,7 +670,7 @@ Toolkit to handle machine learning models.
   - [Comet](https://www.comet.com/): SaaS solution
   - [Weights and Biases](https://wandb.ai/site): SaaS solution
 
-> **MLflow 3**: MLflow 3 put the local filesystem store in maintenance mode, so this package tracks runs and registered models in a SQLite database (`sqlite:///mlflow.db`); artifact files still live on disk under `./mlruns`. Browse it with `mise run mlflow:serve`. SQLite is a real SQLAlchemy backend — the same store shape as a production PostgreSQL, the one the model registry is actually designed for, and a one-line change (`MLFLOW_TRACKING_URI`) away from it.
+> **MLflow 3**: This package uses SQLite (`sqlite:///mlflow.db`) for tracking and registry metadata, with artifacts under `./mlruns`. The file-store backend is disabled by default in current MLflow releases. Browse local runs with `mise run mlflow:serve`. Moving to a shared service also requires artifact access, authentication, and database operations; changing the URI configures the client connection.
 
 ## Package
 
@@ -737,6 +716,8 @@ Define and build modern Python package.
 
 ### Runtime: [Docker](https://www.docker.com/resources/what-container/)
 
+The runtime image contains the installed package and locked dependencies. It omits pip and its bootstrap wheels; rebuild the image when dependencies change.
+
 - **Motivations**:
   - Create isolated runtime
   - Container is the de facto standard
@@ -752,7 +733,7 @@ Define and build modern Python package.
   - Catches Dockerfile mistakes (unpinned bases, root users, unresolvable uids) before a build
   - Runs offline in under a second inside `mise run check:dockerfile`
 - **Limitations**:
-  - Lints the recipe, not the built image; `trivy` scans the checkout, and the built image is not scanned yet
+  - Lints the recipe; `trivy` scans the checkout and the release workflow scans the built image before promoting its digest
 - **Alternatives**:
   - Reading the [Dockerfile best practices](https://docs.docker.com/build/building/best-practices/) page every time
 
@@ -918,7 +899,7 @@ This package provides a simple deterministic strategy implemented in `src/bikes/
 
 A DAG can express the dependencies between steps while keeping the individual step independent.
 
-This package provides a DAG example in the `project` task of `mise.toml`. The approach is based on [mise](https://mise.jdx.dev/) and is explained in the section on Automation above.
+The `project` task in `mise.toml` runs `PipelineJob` from `confs/pipeline.yaml`: tuning → training → holdout evaluation → promotion → inference → explanations. Stage failures propagate; a failed evaluation preserves the existing champion. Selected parameters are saved as `selected_params.json` in the tuning run. Standalone promotion requires a positive explicit version; it never selects the latest version implicitly.
 
 In production, we recommend to use a scalable system such as [Airflow](https://airflow.apache.org/), [Dagster](https://dagster.io/), [Prefect](https://www.prefect.io/), [Metaflow](https://metaflow.org/), or [ZenML](https://zenml.io/).
 
@@ -972,7 +953,7 @@ Python provides contexts that can be used to extend a code block. For instance:
 
 ```python
 # in src/bikes/scripts.py
-with job as runner:  # context
+with setting.job as runner:  # validated configuration
     runner.run()  # run in context
 ```
 
@@ -1047,26 +1028,16 @@ The package combines both OmegaConf and Pydantic to parse YAML files and validat
 
 Pandera supports dataframe typing for Pandas and other library like PySpark:
 
+Selected fields from [the complete schemas](src/bikes/core/schemas.py):
+
 ```python
-# in src/bikes/core/schemas.py
 class InputsSchema(Schema):
-    instant: papd.Index[papd.UInt32] = pa.Field(ge=0)
-    dteday: papd.Series[papd.DateTime] = pa.Field()
-    season: papd.Series[papd.UInt8] = pa.Field(isin=[1, 2, 3, 4])
-    yr: papd.Series[papd.UInt8] = pa.Field(ge=0, le=1)
-    mnth: papd.Series[papd.UInt8] = pa.Field(ge=1, le=12)
+    instant: papd.Index[papd.UInt32] = pa.Field(ge=0, unique=True)
     hr: papd.Series[papd.UInt8] = pa.Field(ge=0, le=23)
-    holiday: papd.Series[papd.Bool] = pa.Field()
-    weekday: papd.Series[papd.UInt8] = pa.Field(ge=0, le=6)
-    workingday: papd.Series[papd.Bool] = pa.Field()
-    weathersit: papd.Series[papd.UInt8] = pa.Field(ge=1, le=4)
     temp: papd.Series[papd.Float16] = pa.Field(ge=0, le=1)
-    atemp: papd.Series[papd.Float16] = pa.Field(ge=0, le=1)
-    hum: papd.Series[papd.Float16] = pa.Field(ge=0, le=1)
-    windspeed: papd.Series[papd.Float16] = pa.Field(ge=0, le=1)
-    casual: papd.Series[papd.UInt32] = pa.Field(ge=0)
-    registered: papd.Series[papd.UInt32] = pa.Field(ge=0)
 ```
+
+The shared schema parsers reject fractional or overflowing integer values and invalid booleans before coercion. This excerpt needs the module's imports and base schema.
 
 This code snippet defines the fields of the dataframe and some of its constraint.
 
@@ -1129,11 +1100,10 @@ This package defines fixtures in `tests/conftest.py` to improve your testing exp
 
 ```json
 {
- "settings": {
-  "editor.formatOnSave": true,
-  "python.defaultInterpreterPath": ".venv/bin/python",
-    ...
- },
+  "settings": {
+    "editor.formatOnSave": true,
+    "python.defaultInterpreterPath": "${workspaceFolder}/.venv/bin/python"
+  }
 }
 ```
 
@@ -1141,7 +1111,7 @@ This package defines a workspace file that you can load from `mlops-python-packa
 
 ### [GitHub Copilot](https://github.com/features/copilot)
 
-**You can use GitHub Copilot to increase your coding productivity by 30%.**
+- Editor assistance can reduce repetitive work; measure its value on your own tasks.
 
 [GitHub Copilot](https://github.com/features/copilot) has been a huge productivity boost thanks to its smart completion.
 
@@ -1151,9 +1121,9 @@ You should become familiar with the solution in less than a single coding sessio
 
 **You can use VIM keybindings to more efficiently navigate and modify your code.**
 
-Learning VIM is one of the best investment for a career in IT. It can make you 30% more productive.
+- Editor assistance can reduce repetitive work; measure its value on your own tasks.
 
-Compared to GitHub Copilot, VIM can take much more time to master. You can expect a ROI in less than a month.
+Compared to GitHub Copilot, VIM can take much more time to master. Measure whether the navigation gains repay the learning time for your work.
 
 # Resources
 
@@ -1171,3 +1141,7 @@ This section provides resources for building packages for Python and AI/ML/MLOps
 
 - <https://github.com/josephmisiti/awesome-machine-learning>
 - <https://github.com/visenger/awesome-mlops>
+
+`mise run clean` removes caches and build outputs while preserving MLflow databases, run artifacts, and predictions. Back up experiment state before any deliberate manual reset.
+
+Use `mise run mlflow:serve` to browse experiments created by local jobs: their artifact URIs contain host paths. Compose can serve metadata from the same SQLite file, but those host paths are not automatically available inside the container. For new HTTP-first experiments, configure clients to reach the server and choose server-accessible artifact storage.

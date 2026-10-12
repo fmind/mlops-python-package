@@ -84,10 +84,15 @@ def test_baseline_sklearn_model(
     predictions = model.get_internal_model().predict(inputs_test).round()
     assert (outputs["prediction"] == predictions).all(), "Outputs should be rounded, not truncated!"
     # - shap values
-    assert len(shap_values.index) == len(inputs_test.index), "SHAP values should be the same length as inputs!"
+    assert shap_values.index.equals(inputs_test.index), "SHAP values should retain input sample identities!"
     assert len(shap_values.columns) >= len(inputs_test.columns), "SHAP values should have more features than inputs!"
     # - feature importances
     assert feature_importances["importance"].sum() == 1.0, "Feature importances should add up to 1.0!"
     assert len(feature_importances["feature"]) >= len(inputs_train.columns), (
         "Feature importances should have more features than inputs!"
     )
+
+
+def test_fit_rejects_misaligned_targets(inputs: schemas.Inputs, targets: schemas.Targets) -> None:
+    with pytest.raises(ValueError, match="sample IDs"):
+        models.BaselineSklearnModel().fit(inputs=inputs, targets=targets.iloc[::-1])

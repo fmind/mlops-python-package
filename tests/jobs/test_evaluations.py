@@ -138,6 +138,17 @@ def test_evaluations_job(
         "Evaluations should have the same number of examples as the inputs!"
     )
     assert job.metrics[0].name in out["evaluations"].metrics, "Metric should be logged in Mlflow!"
+    expected_max_error = (
+        (
+            out["targets"][schemas.TargetsSchema.cnt].astype("float64")
+            - out["outputs"][schemas.OutputsSchema.prediction].astype("float64")
+        )
+        .abs()
+        .max()
+    )
+    assert out["evaluations"].metrics["max_error"] == expected_max_error
+    assert str(out["targets"][schemas.TargetsSchema.cnt].dtype) == "uint32"
+    assert str(out["outputs"][schemas.OutputsSchema.prediction].dtype) == "uint32"
     # - mlflow tracking
     experiment = mlflow_service.client().get_experiment_by_name(name=mlflow_service.experiment_name)
     assert experiment is not None, "Mlflow Experiment should exist!"

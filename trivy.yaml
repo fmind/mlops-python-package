@@ -1,3 +1,5 @@
+# https://trivy.dev/docs/latest/references/configuration/config-file/
+exit-code: 1
 # https://trivy.dev/latest/docs/references/configuration/config-file/
 
 severity:

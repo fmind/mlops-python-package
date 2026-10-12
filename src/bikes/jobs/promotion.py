@@ -4,6 +4,8 @@
 
 import typing as T
 
+import pydantic as pdt
+
 from bikes.jobs import base
 
 # %% JOBS
@@ -16,13 +18,13 @@ class PromotionJob(base.Job):
 
     Parameters:
         alias (str): the mlflow alias to transition the registered model version.
-        version (int | None): the model version to transition (use None for latest).
+        version (int): positive, explicit model version to transition.
     """
 
     KIND: T.Literal["PromotionJob"] = "PromotionJob"
 
     alias: str = "Champion"
-    version: int | None = None
+    version: int = pdt.Field(..., gt=0)
 
     @T.override
     def run(self) -> base.Locals:
@@ -35,15 +37,7 @@ class PromotionJob(base.Job):
         logger.info("With client: {}", client)
         name = self.mlflow_service.registry_name
         # version
-        if self.version is None:  # use the latest model version
-            try:
-                version = client.search_model_versions(
-                    f"name='{name}'", max_results=1, order_by=["version_number DESC"]
-                )[0].version
-            except IndexError as error:
-                raise ValueError(f"No version registered for model: {name}") from error
-        else:
-            version = self.version
+        version = self.version
         logger.info("From version: {}", version)
         # alias
         logger.info("To alias: {}", self.alias)

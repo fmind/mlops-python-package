@@ -103,7 +103,10 @@ class EvaluationsJob(base.Job):
             logger.debug("- Outputs shape: {}", outputs.shape)
             # dataset
             logger.info("Create dataset: inputs & targets & outputs")
-            dataset_ = pd.concat([inputs, targets, outputs], axis="columns")
+            # Preserve domain counts while preventing unsigned residuals in MLflow metrics.
+            dataset_ = pd.concat([inputs, targets, outputs], axis="columns").astype(
+                {schemas.TargetsSchema.cnt: "float64", schemas.OutputsSchema.prediction: "float64"},
+            )
             dataset = mlflow.data.from_pandas(  # type: ignore[attr-defined]
                 df=dataset_,
                 name="evaluation",

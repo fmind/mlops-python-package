@@ -107,10 +107,13 @@ class SklearnMetric(Metric):
 
     @T.override
     def score(self, targets: schemas.Targets, outputs: schemas.Outputs) -> float:
+        if not targets.index.equals(outputs.index):
+            raise ValueError("Target and output sample IDs must match in the same order.")
         metric = getattr(sklearn_metrics, self.name)
         sign = 1 if self.greater_is_better else -1
-        y_true = targets[schemas.TargetsSchema.cnt]
-        y_pred = outputs[schemas.OutputsSchema.prediction]
+        # Count schemas use uint32; subtracting them can wrap before a metric takes abs.
+        y_true = targets[schemas.TargetsSchema.cnt].astype("float64")
+        y_pred = outputs[schemas.OutputsSchema.prediction].astype("float64")
         score = metric(y_pred=y_pred, y_true=y_true) * sign
         return float(score)
 

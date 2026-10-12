@@ -1,1 +1,1 @@
-"""Predict the number of bikes available."""
+"""Predict hourly bike rental demand."""

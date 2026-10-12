@@ -184,3 +184,34 @@ def test_mlflow_service_repr_redacts_uris() -> None:
     service = services.MlflowService(tracking_uri="postgresql://user:secret@db/mlflow")
     assert "secret" not in repr(service), "The service repr should not leak credentials!"
     assert "postgresql://user:***@db/mlflow" in repr(service), "The service repr should keep the redacted URI!"
+
+
+@pytest.mark.parametrize(
+    ("tracking_env", "registry_env", "explicit", "expected"),
+    [
+        (None, None, {}, ("sqlite:///mlflow.db", "sqlite:///mlflow.db")),
+        ("http://localhost:5000", None, {}, ("http://localhost:5000", "http://localhost:5000")),
+        ("http://localhost:5000", "http://localhost:5001", {}, ("http://localhost:5000", "http://localhost:5001")),
+        (
+            "http://localhost:5000",
+            "http://localhost:5001",
+            {"tracking_uri": "sqlite:///explicit.db", "registry_uri": "sqlite:///registry.db"},
+            ("sqlite:///explicit.db", "sqlite:///registry.db"),
+        ),
+        (None, None, {"tracking_uri": "sqlite:///explicit.db"}, ("sqlite:///explicit.db", "sqlite:///explicit.db")),
+    ],
+)
+def test_mlflow_uri_precedence(
+    monkeypatch: pytest.MonkeyPatch,
+    tracking_env: str | None,
+    registry_env: str | None,
+    explicit: dict[str, str],
+    expected: tuple[str, str],
+) -> None:
+    for name, value in [("MLFLOW_TRACKING_URI", tracking_env), ("MLFLOW_REGISTRY_URI", registry_env)]:
+        if value is None:
+            monkeypatch.delenv(name, raising=False)
+        else:
+            monkeypatch.setenv(name, value)
+    service = services.MlflowService(**explicit)
+    assert (service.tracking_uri, service.registry_uri) == expected

@@ -9,14 +9,15 @@ _.source = ".env"
 run_auto_install = false
 
 [tools]
+# Python 3.14 is the tested ML stack; qualify the scientific dependencies before a minor upgrade.
 python = "3.14.8"
 "aqua:rhysd/actionlint" = "1.7.12"
-"aqua:dprint/dprint" = "0.60.1"
+"aqua:dprint/dprint" = "0.63.0"
 "aqua:orhun/git-cliff" = "2.14.2"
 "aqua:gitleaks/gitleaks" = "8.30.1"
 "aqua:hadolint/hadolint" = "2.15.1"
 "aqua:aquasecurity/trivy" = "0.75.0"
-"aqua:astral-sh/uv" = "0.12.23"
+"aqua:astral-sh/uv" = "0.13.0"
 "aqua:zizmorcore/zizmor" = "1.30.1"
 
 # ALL
@@ -49,7 +50,7 @@ description = "Install or update the GitHub branch ruleset (idempotent)"
 run = """
 repo=$(gh repo view --json=nameWithOwner --jq=.nameWithOwner)
 name=$(python -c 'import json; print(json.load(open(".github/rulesets/main.json"))["name"])')
-id=$(gh api "/repos/$repo/rulesets" --jq ".[] | select(.name == \\"$name\\") | .id" | head -n1)
+id=$(gh api "/repos/$repo/rulesets" --jq "[.[] | select(.name == \\"$name\\")] | first | .id // empty") || exit "$?"
 if [ -n "$id" ]; then
   gh api --method PUT "/repos/$repo/rulesets/$id" --input=.github/rulesets/main.json
 else
@@ -188,15 +189,8 @@ run = "uv run mlflow server --host=127.0.0.1 --port=5000 --backend-store-uri=sql
 # PROJECT (MLflow Projects)
 
 [tasks.project]
-description = "Run every MLflow job in sequence"
-run = [
-  "mise run project:run tuning",
-  "mise run project:run training",
-  "mise run project:run promotion",
-  "mise run project:run inference",
-  "mise run project:run evaluations",
-  "mise run project:run explanations",
-]
+description = "Tune, train, evaluate and promote one candidate, then infer and explain"
+run = "uv run bikes confs/pipeline.yaml"
 
 [tasks."project:run"]
 description = "Run one MLflow job by config name (e.g. `mise run project:run training`)"
@@ -206,8 +200,13 @@ run = 'uv run mlflow run --env-manager=local --experiment-name=bikes --run-name=
 
 # DOCKER
 
+[tasks."mlflow:db"]
+description = "Initialize or migrate the local MLflow SQLite database"
+run = "uv run mlflow db upgrade sqlite:///mlflow.db"
+
 [tasks."docker:compose"]
 description = "Start the local MLflow server with Docker Compose"
+depends = ["mlflow:db"]
 run = "docker compose up"
 
 [tasks."docker:run"]
@@ -233,5 +232,5 @@ description = "Remove caches and build artifacts"
 run = [
   "find . -type f -name '*.py[co]' -delete",
   "find . -type d -name __pycache__ -exec rm -rf {} +",
-  "rm -rf .cache .pytest_cache .ruff_cache .ty_cache .coverage htmlcov dist docs mlflow.db mlartifacts/* mlruns/* outputs/*",
+  "rm -rf .cache .pytest_cache .ruff_cache .ty_cache .coverage htmlcov dist docs",
 ]

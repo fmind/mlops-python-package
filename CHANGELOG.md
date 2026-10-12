@@ -2,6 +2,14 @@
 
 All notable changes to this project are documented in this file.
 
+## [7.0.0] - 2026-10-12
+
+- **Breaking:** training and serving inputs exclude `casual` and `registered`. Retrain historical registered models before sending feature-only inputs.
+- **Breaking:** standalone promotion requires a positive explicit model version; it no longer selects the latest version implicitly.
+- Connect tuning, training, heldout evaluation, promotion, inference and explanations through one exact candidate version. Failed evaluation preserves the champion.
+- Validate strict schemas, row alignment and selected parameters; compute unsigned-target metrics safely.
+- Update locked tools and dependencies, documentation and notebooks. Gate documentation publication and scan immutable images before promoting release tags.
+
 ## [6.1.0] - 2026-10-06
 
 ### 🚀 Features

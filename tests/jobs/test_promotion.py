@@ -2,6 +2,7 @@
 
 import _pytest.capture as pc
 import mlflow
+import pydantic as pdt
 import pytest
 
 from bikes import jobs
@@ -13,7 +14,6 @@ from bikes.io import registries, services
 @pytest.mark.parametrize(
     "version",
     [
-        None,  # latest version
         1,  # specific version
         pytest.param(
             2,
@@ -25,7 +25,7 @@ from bikes.io import registries, services
     ],
 )
 def test_promotion_job(
-    version: int | None,
+    version: int,
     mlflow_service: services.MlflowService,
     alerts_service: services.AlertsService,
     logger_service: services.LoggerService,
@@ -67,17 +67,9 @@ def test_promotion_job(
     assert "Promotion Job Finished" in capsys.readouterr().out, "Alerting service should be called!"
 
 
-def test_promotion_job__no_version(
-    mlflow_service: services.MlflowService,
-    alerts_service: services.AlertsService,
-    logger_service: services.LoggerService,
-) -> None:
-    # given
-    job = jobs.PromotionJob(
-        logger_service=logger_service,
-        alerts_service=alerts_service,
-        mlflow_service=mlflow_service,
-    )
-    # when
-    with job as runner, pytest.raises(ValueError, match="No version registered"):
-        runner.run()
+@pytest.mark.parametrize("version", [None, 0, -1, "1"])
+def test_promotion_requires_positive_explicit_version(version: object) -> None:
+    with pytest.raises(pdt.ValidationError):
+        jobs.PromotionJob.model_validate({"version": version})
+    with pytest.raises(pdt.ValidationError):
+        jobs.PromotionJob.model_validate({})
