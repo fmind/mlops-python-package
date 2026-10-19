@@ -302,11 +302,12 @@ Pre-defined actions to automate your project development.
 ### Dependabot: [Dependabot](https://docs.github.com/en/code-security/getting-started/dependabot-quickstart-guide)
 
 - **Motivations**:
-  - Avoid security issues
-  - Avoid breaking changes
-  - Update your dependencies
+  - Fix vulnerable dependencies with a ready pull request
+  - Group the fixes into one pull request per ecosystem
+  - Skip the noise of routine version bumps (version updates are off)
 - **Limitations**:
   - Can break your code
+  - Covers only ecosystems with security advisories (not Docker images)
 - **Alternatives**:
   - Do It Yourself (DIY)
 

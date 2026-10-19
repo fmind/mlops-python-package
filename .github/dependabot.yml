@@ -1,45 +1,28 @@
-# https://docs.github.com/en/code-security/dependabot/working-with-dependabot/dependabot-options-reference
-# Minor and patch updates arrive grouped, one pull request per ecosystem; majors stay
-# separate so a breaking bump is always reviewed on its own.
+# Docs: https://docs.github.com/en/code-security/reference/supply-chain-security/dependabot-options-reference
+# Security updates only: `open-pull-requests-limit: 0` disables version updates, while
+# Dependabot still opens one grouped fix PR per ecosystem when an alert has a patched
+# release. `schedule` is required by the schema; it only paces the disabled version updates.
 version: 2
 updates:
-  - package-ecosystem: "uv"
-    directory: "/"
+  - package-ecosystem: uv
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: weekly
+    open-pull-requests-limit: 0
     commit-message:
-      prefix: "chore(deps)"
+      prefix: "fix(deps)"
     groups:
-      python:
+      python-security:
+        applies-to: security-updates
         patterns: ["*"]
-        update-types: ["minor", "patch"]
-  - package-ecosystem: "github-actions"
-    directory: "/"
+  - package-ecosystem: github-actions
+    directory: /
     schedule:
-      interval: "weekly"
-      day: "monday"
+      interval: weekly
+    open-pull-requests-limit: 0
     commit-message:
-      prefix: "chore(deps)"
+      prefix: "fix(deps)"
     groups:
-      actions:
+      actions-security:
+        applies-to: security-updates
         patterns: ["*"]
-        update-types: ["minor", "patch"]
-  - package-ecosystem: "docker-compose"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    commit-message:
-      prefix: "chore(deps)"
-  - package-ecosystem: "docker"
-    directory: "/"
-    schedule:
-      interval: "weekly"
-      day: "monday"
-    commit-message:
-      prefix: "chore(deps)"
-    groups:
-      docker:
-        patterns: ["*"]
-        update-types: ["minor", "patch"]
