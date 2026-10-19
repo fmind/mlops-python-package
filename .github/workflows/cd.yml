@@ -15,7 +15,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Install mise toolchain
-        uses: jdx/mise-action@08ae2a091c038e1e05ec6f5115dc5c69d5a2a6b8 # v5.1.2
+        uses: jdx/mise-action@9b200bcecbfd6303e69a4a261b2e09e3757440a7 # v5.2.0
         with:
           cache: false
       - name: Run release gate
@@ -39,7 +39,7 @@ jobs:
         with:
           persist-credentials: false # no step pushes back to the repository
       - name: Install mise toolchain
-        uses: jdx/mise-action@08ae2a091c038e1e05ec6f5115dc5c69d5a2a6b8 # v5.1.2
+        uses: jdx/mise-action@9b200bcecbfd6303e69a4a261b2e09e3757440a7 # v5.2.0
         with:
           cache: false # a poisoned tool cache must never reach published artifacts
       - name: Build API documentation
@@ -66,7 +66,7 @@ jobs:
         with:
           persist-credentials: false # the registry login below carries its own token
       - name: Install mise toolchain
-        uses: jdx/mise-action@08ae2a091c038e1e05ec6f5115dc5c69d5a2a6b8 # v5.1.2
+        uses: jdx/mise-action@9b200bcecbfd6303e69a4a261b2e09e3757440a7 # v5.2.0
         with:
           cache: false
       - name: Set lower-case image path
