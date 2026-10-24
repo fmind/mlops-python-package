@@ -5,7 +5,7 @@
 
 [project]
 name = "bikes"
-version = "7.0.1"
+version = "7.0.2"
 description = "Predict hourly bike rental demand."
 authors = [{ name = "Médéric HURIER", email = "github@fmind.dev" }]
 readme = "README.md"

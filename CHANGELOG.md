@@ -2,6 +2,10 @@
 
 All notable changes to this project are documented in this file.
 
+## [7.0.2] - 2026-10-24
+
+- Rebuild the published image with the patched dependencies: Pillow 13.0.0, certifi 2026.10.23, GitPython 3.2.1, filelock, MLflow 3.17.2 and setuptools fix critical and high advisories, among them GitPython code execution through submodule paths, an MLflow file-store path traversal and emSign roots with compromised intermediate keys.
+
 ## [7.0.1] - 2026-10-12
 
 - Separate the Debian license inventory from the vulnerability, secret and misconfiguration image gate.
