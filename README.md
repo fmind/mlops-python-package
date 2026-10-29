@@ -11,9 +11,9 @@ You can use this package as part of your MLOps toolkit or platform (e.g., Model 
 **Related Resources**:
 
 - **[LLMOps Coding Package (Example)](https://github.com/callmesora/llmops-python-package/)**: Example with best practices and tools to support your LLMOps projects.
-- **[MLOps Coding Course (Learning)](https://github.com/MLOps-Courses/mlops-coding-course)**: Learn how to create, develop, and maintain a state-of-the-art MLOps code base.
+- **[MLOps Coding Course (Learning)](https://github.com/fmind/mlops-coding-course)**: Learn how to create, develop, and maintain a state-of-the-art MLOps code base.
 - **[Cookiecutter MLOps Package (Template)](https://github.com/fmind/cookiecutter-mlops-package)**: Start building and deploying Python packages and Docker images for MLOps tasks.
-- **[Agent Skills (Resource)](https://github.com/MLOps-Courses/mlops-coding-skills)**: Enhance your AI Agents with standardized skills for MLOps and coding.
+- **[Agent Skills (Resource)](https://github.com/fmind/mlops-coding-skills)**: Enhance your AI Agents with standardized skills for MLOps and coding.
 
 ![](images/mlopsmindmap.png)
 

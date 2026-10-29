@@ -8,7 +8,7 @@ Context and rules for AI agents working in this repository. Humans should start 
 - **Description**: reference implementation for the [MLOps Coding Course](https://mlops-coding-course.fmind.dev), generated from [cookiecutter-mlops-package](https://github.com/fmind/cookiecutter-mlops-package).
 - **Language**: Python 3.14+ (`pyproject.toml`), managed with `uv`.
 - **Stack**: MLflow (tracking, registry, projects, evaluation), scikit-learn, pandas, Pydantic + Pandera validation, OmegaConf YAML configs, loguru.
-- **Skills**: the reusable practices behind this package are published as Agent Skills in [mlops-coding-skills](https://github.com/MLOps-Courses/mlops-coding-skills). Install them from there rather than vendoring a copy here — a copy drifts, and this repository already lost a month to proving it.
+- **Skills**: the reusable practices behind this package are published as Agent Skills in [mlops-coding-skills](https://github.com/fmind/mlops-coding-skills). Install them from there rather than vendoring a copy here — a copy drifts, and this repository already lost a month to proving it.
 
 ## Setup & core commands
 
